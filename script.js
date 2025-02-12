@@ -97,17 +97,14 @@ window.addEventListener('scroll', function() {
 
 function initProgressBars() {
     const progressBars = document.querySelectorAll('.progress');
-    
     progressBars.forEach(bar => {
-        const targetWidth = bar.getAttribute('data-width');
-        // Сначала устанавливаем ширину в 0
-        bar.style.width = '0%';
-        
-        // Используем setTimeout, чтобы дать браузеру время отрисовать начальное состояние
+        const width = bar.style.width;
+        bar.style.setProperty('--progress-width', width);
+        bar.style.width = '0';
+        // Запускаем анимацию через небольшую задержку
         setTimeout(() => {
-            // Устанавливаем конечную ширину
-            bar.style.width = targetWidth + '%';
-        }, 100);
+            bar.style.width = width;
+        }, 300);
     });
 }
 
@@ -157,37 +154,4 @@ if ('ontouchstart' in window) {
 const supportsBackdropFilter = CSS.supports('backdrop-filter', 'blur(5px)');
 if (!supportsBackdropFilter) {
     document.body.classList.add('no-backdrop-filter');
-}
-
-// Функция для проверки, находится ли элемент в поле зрения
-function isInViewport(element) {
-    const rect = element.getBoundingClientRect();
-    return (
-        rect.top >= 0 &&
-        rect.left >= 0 &&
-        rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
-        rect.right <= (window.innerWidth || document.documentElement.clientWidth)
-    );
-}
-
-// Обработчик прокрутки для анимации прогресс-баров
-function handleProgressBarsOnScroll() {
-    const statsBar = document.querySelector('.stats-bar');
-    if (statsBar && isInViewport(statsBar)) {
-        initProgressBars();
-        // Удаляем обработчик после первой анимации
-        window.removeEventListener('scroll', handleProgressBarsOnScroll);
-    }
-}
-
-// Добавляем обработчики событий
-document.addEventListener('DOMContentLoaded', () => {
-    // Запускаем анимацию при загрузке, если прогресс-бары видны
-    const statsBar = document.querySelector('.stats-bar');
-    if (statsBar && isInViewport(statsBar)) {
-        initProgressBars();
-    } else {
-        // Если не видны, добавляем обработчик прокрутки
-        window.addEventListener('scroll', handleProgressBarsOnScroll);
-    }
-}); 
+} 
