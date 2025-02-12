@@ -1010,14 +1010,12 @@ h1 {
     50% { box-shadow: 0 0 20px var(--accent-color); }
 }
 
-/* Обновляем стили для всех заголовков */
+/* Общие стили для всех основных заголовков */
 .game-title,
-.portfolio-content h3,
-.contact-details h3,
-.project-title,
+.about-section h2,
 .portfolio-section h2,
 .contact-section h2,
-.skill-item h3 {
+.portfolio-content h3 {
     font-family: 'Press Start 2P', cursive;
     color: var(--neon-red);
     text-shadow: 
@@ -1038,91 +1036,89 @@ h1 {
     padding: 15px 25px;
     border-radius: 10px;
     display: inline-block;
-    margin-bottom: 20px;
+    margin-bottom: 30px;
     position: relative;
     z-index: 2;
-    animation: headerPulse 2s infinite;
 }
 
-/* Обновляем стили для skill-item */
-.skill-item {
-    background: var(--card-bg);
-    padding: 30px;
-    border-radius: 15px;
+/* Специфичные размеры для разных заголовков */
+.game-title {
+    font-size: 2.5rem;
+}
+
+.about-section h2,
+.portfolio-section h2,
+.contact-section h2 {
+    font-size: 2rem;
     text-align: center;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-    transition: transform 0.3s ease;
+    width: auto;
+    margin: 0 auto 40px;
 }
 
-.skill-item h3 {
-    font-size: 1.4rem;
-    margin-bottom: 15px;
-    padding: 10px 15px;
+.portfolio-content h3 {
+    font-size: 1.5rem;
+    background: rgba(0, 0, 0, 0.8);
 }
 
-.skill-item p {
-    color: #fff;
-    font-size: 1.1rem;
-    margin-top: 10px;
+/* Анимация пульсации для заголовков */
+@keyframes headerPulse {
+    0%, 100% {
+        text-shadow: 
+            -2px -2px 0 #fff,
+             2px -2px 0 #fff,
+            -2px  2px 0 #fff,
+             2px  2px 0 #fff,
+            -3px -3px 0 #000,
+             3px -3px 0 #000,
+            -3px  3px 0 #000,
+             3px  3px 0 #000,
+            0 0 10px var(--neon-red),
+            0 0 20px var(--neon-red);
+    }
+    50% {
+        text-shadow: 
+            -2px -2px 0 #fff,
+             2px -2px 0 #fff,
+            -2px  2px 0 #fff,
+             2px  2px 0 #fff,
+            -3px -3px 0 #000,
+             3px -3px 0 #000,
+            -3px  3px 0 #000,
+             3px  3px 0 #000,
+            0 0 15px var(--neon-red),
+            0 0 25px var(--neon-red),
+            0 0 35px var(--neon-red);
+    }
+}
+
+/* Применяем анимацию ко всем заголовкам */
+.game-title,
+.about-section h2,
+.portfolio-section h2,
+.contact-section h2,
+.portfolio-content h3 {
+    animation: headerPulse 2s infinite;
 }
 
 /* Медиа-запрос для мобильных устройств */
 @media screen and (max-width: 768px) {
-    .skill-item h3 {
+    .game-title {
+        font-size: 1.8rem;
+        padding: 10px 15px;
+    }
+
+    .about-section h2,
+    .portfolio-section h2,
+    .contact-section h2 {
+        font-size: 1.5rem;
+        padding: 10px 15px;
+    }
+
+    .portfolio-content h3 {
         font-size: 1.2rem;
         padding: 8px 12px;
     }
-    
-    .skill-item p {
-        font-size: 0.9rem;
-    }
 }
-
-/* Добавьте стили для анимаций */
-.fade-in {
-    opacity: 0;
-    transform: translateY(30px);
-    transition: opacity 0.6s ease, transform 0.6s ease;
-}
-
-.fade-in.visible {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-.slide-in-left {
-    opacity: 0;
-    transform: translateX(-50px);
-    transition: opacity 0.6s ease, transform 0.6s ease;
-}
-
-.slide-in-right {
-    opacity: 0;
-    transform: translateX(50px);
-    transition: opacity 0.6s ease, transform 0.6s ease;
-}
-
-.slide-in-left.visible,
-.slide-in-right.visible {
-    opacity: 1;
-    transform: translateX(0);
-}
-
-/* Добавьте задержку для элементов в сетке */
-.skills-grid .skill-item {
-    opacity: 0;
-    transform: translateY(20px);
-    transition: opacity 0.5s ease, transform 0.5s ease;
-}
-
-.skills-grid .skill-item.visible {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-.skills-grid .skill-item:nth-child(1) { transition-delay: 0.1s; }
-.skills-grid .skill-item:nth-child(2) { transition-delay: 0.2s; }
-.skills-grid .skill-item:nth-child(3) { transition-delay: 0.3s; }
 
 /* Добавляем поддержку для разных браузеров */
 .profile-image,
