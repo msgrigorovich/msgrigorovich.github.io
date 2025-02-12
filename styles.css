@@ -193,7 +193,7 @@ h1 {
 }
 
 .about-text {
-    margin-bottom: 50px;
+    margin-bottom: 30px;
 }
 
 .about-text h2 {
@@ -238,12 +238,8 @@ h1 {
     height: 100%;
     background: linear-gradient(90deg, var(--deep-red), var(--light-red));
     width: 0;
-    animation: loadProgress 1.5s ease-out forwards;
-}
-
-@keyframes loadProgress {
-    from { width: 0; }
-    to { width: var(--progress-width); }
+    transition: width 1.5s ease-out;
+    position: relative;
 }
 
 /* Добавим анимацию свечения */
@@ -273,13 +269,15 @@ h1 {
     display: flex;
     justify-content: center;
     gap: 40px;
-    margin-top: 60px;
+    margin: 80px 0 40px;
     padding: 20px;
+    position: relative;
+    z-index: 1;
 }
 
 .circle-button {
-    width: 120px;
-    height: 120px;
+    width: 130px;
+    height: 130px;
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -293,9 +291,8 @@ h1 {
     background: var(--card-bg);
     border: 2px solid;
     flex-direction: column;
-    gap: 10px;
-    margin: 20px;
-    padding: 15px;
+    gap: 15px;
+    padding: 20px;
 }
 
 .circle-button:hover {
@@ -303,7 +300,13 @@ h1 {
 }
 
 .circle-button i {
-    font-size: 24px;
+    font-size: 28px;
+    margin-bottom: 5px;
+}
+
+.circle-button span {
+    font-size: 0.9rem;
+    text-align: center;
 }
 
 .circle-button::before {
@@ -355,17 +358,23 @@ h1 {
     }
 
     .action-buttons {
-        flex-direction: column;
-        align-items: center;
+        margin: 40px 0 20px;
         gap: 20px;
-        padding: 10px;
     }
 
     .circle-button {
-        width: 100px;
-        height: 100px;
-        margin: 10px;
-        padding: 10px;
+        width: 110px;
+        height: 110px;
+        padding: 15px;
+        gap: 10px;
+    }
+
+    .circle-button i {
+        font-size: 24px;
+    }
+
+    .circle-button span {
+        font-size: 0.8rem;
     }
 }
 
@@ -488,16 +497,42 @@ h1 {
 }
 
 .social-link {
-    padding: 12px 24px;
-    background: var(--text-color);
-    color: white;
+    padding: 15px 30px;
+    border-radius: 30px;
     text-decoration: none;
-    border-radius: 5px;
-    transition: opacity 0.3s;
+    color: white;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 180px;
 }
 
 .social-link:hover {
-    opacity: 0.8;
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+.linkedin {
+    background: #0077B5;
+}
+
+.linkedin:hover {
+    background: #0066a1;
+}
+
+.github {
+    background: #333;
+}
+
+.github:hover {
+    background: #2b2b2b;
+}
+
+.social-link i {
+    margin-right: 10px;
+    font-size: 1.2em;
 }
 
 /* Адаптивность для внутренних страниц */
@@ -833,19 +868,37 @@ h1 {
     text-decoration: none;
     color: white;
     font-weight: 500;
-    transition: transform 0.3s ease;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 180px;
 }
 
 .social-link:hover {
     transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
 }
 
 .linkedin {
     background: #0077B5;
 }
 
+.linkedin:hover {
+    background: #0066a1;
+}
+
 .github {
     background: #333;
+}
+
+.github:hover {
+    background: #2b2b2b;
+}
+
+.social-link i {
+    margin-right: 10px;
+    font-size: 1.2em;
 }
 
 /* Responsive Design */
@@ -957,175 +1010,113 @@ h1 {
     50% { box-shadow: 0 0 20px var(--accent-color); }
 }
 
-/* Стили для заголовка */
-.game-title {
+/* Общие стили для всех основных заголовков */
+.game-title,
+.about-section h2,
+.portfolio-section h2,
+.contact-section h2,
+.portfolio-content h3 {
     font-family: 'Press Start 2P', cursive;
-    color: var(--deep-red);
+    color: var(--neon-red);
     text-shadow: 
-        -2px -2px 0 #fff,  
+        /* Белая обводка */
+        -2px -2px 0 #fff,
          2px -2px 0 #fff,
         -2px  2px 0 #fff,
          2px  2px 0 #fff,
-        0 0 10px var(--deep-red),
-        0 0 20px var(--deep-red);
-    animation: textPulse 2s ease-in-out infinite;
-    margin-bottom: 20px;
+        /* Черная обводка */
+        -3px -3px 0 #000,
+         3px -3px 0 #000,
+        -3px  3px 0 #000,
+         3px  3px 0 #000,
+        /* Неоновое свечение */
+        0 0 10px var(--neon-red),
+        0 0 20px var(--neon-red);
+    background: rgba(0, 0, 0, 0.7);
+    padding: 15px 25px;
+    border-radius: 10px;
+    display: inline-block;
+    margin-bottom: 30px;
+    position: relative;
+    z-index: 2;
+}
+
+/* Специфичные размеры для разных заголовков */
+.game-title {
     font-size: 2.5rem;
 }
 
-@keyframes textPulse {
+.about-section h2,
+.portfolio-section h2,
+.contact-section h2 {
+    font-size: 2rem;
+    text-align: center;
+    width: auto;
+    margin: 0 auto 40px;
+}
+
+.portfolio-content h3 {
+    font-size: 1.5rem;
+    background: rgba(0, 0, 0, 0.8);
+}
+
+/* Анимация пульсации для заголовков */
+@keyframes headerPulse {
     0%, 100% {
         text-shadow: 
-            0 0 10px var(--deep-red),
-            0 0 20px var(--deep-red),
-            0 0 30px var(--deep-red);
+            -2px -2px 0 #fff,
+             2px -2px 0 #fff,
+            -2px  2px 0 #fff,
+             2px  2px 0 #fff,
+            -3px -3px 0 #000,
+             3px -3px 0 #000,
+            -3px  3px 0 #000,
+             3px  3px 0 #000,
+            0 0 10px var(--neon-red),
+            0 0 20px var(--neon-red);
     }
     50% {
         text-shadow: 
-            0 0 15px var(--deep-red),
-            0 0 25px var(--deep-red),
-            0 0 35px var(--light-red),
-            0 0 45px var(--deep-red);
+            -2px -2px 0 #fff,
+             2px -2px 0 #fff,
+            -2px  2px 0 #fff,
+             2px  2px 0 #fff,
+            -3px -3px 0 #000,
+             3px -3px 0 #000,
+            -3px  3px 0 #000,
+             3px  3px 0 #000,
+            0 0 15px var(--neon-red),
+            0 0 25px var(--neon-red),
+            0 0 35px var(--neon-red);
     }
 }
 
-/* Стили для текста "Character Info" */
-.about-text h2 {
-    font-family: 'Press Start 2P', cursive;
-    color: var(--secondary-color);
-    text-shadow: 0 0 10px var(--secondary-color);
-    margin-bottom: 20px;
-    font-size: 1.5rem;
+/* Применяем анимацию ко всем заголовкам */
+.game-title,
+.about-section h2,
+.portfolio-section h2,
+.contact-section h2,
+.portfolio-content h3 {
+    animation: headerPulse 2s infinite;
 }
 
-/* Стили для описательного текста */
-.about-text p {
-    color: #fff;
-    font-size: 1.1rem;
-    max-width: 600px;
-    margin: 0 auto;
-    line-height: 1.8;
-    text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
-    background: rgba(0, 0, 0, 0.2);
-    padding: 20px;
-    border-radius: 10px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(5px);
-}
-
-/* Добавим подсветку для статов */
-.progress-bar {
-    border: 2px solid var(--neon-red);
-    box-shadow: 0 0 10px var(--neon-red);
-}
-
-.progress {
-    position: relative;
-    overflow: hidden;
-}
-
-.progress::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: linear-gradient(
-        90deg,
-        transparent,
-        rgba(255, 255, 255, 0.3),
-        transparent
-    );
-    animation: progressShine 2s linear infinite;
-}
-
-@keyframes progressShine {
-    from { transform: translateX(-100%); }
-    to { transform: translateX(100%); }
-}
-
-/* Оптимизация для мобильных устройств */
+/* Медиа-запрос для мобильных устройств */
 @media screen and (max-width: 768px) {
-    /* Уменьшаем размеры для мобильных */
-    .game-text {
-        font-size: 1rem;
-    }
-
-    .game-subtitle {
-        font-size: 0.7rem;
-    }
-
     .game-title {
         font-size: 1.8rem;
-    }
-
-    /* Адаптивное меню */
-    .nav-content {
-        flex-direction: column;
-        gap: 10px;
-    }
-
-    .nav-right {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 15px;
-    }
-
-    /* Уменьшаем отступы */
-    .main-content {
-        padding-top: 100px;
-        padding: 100px 15px 30px;
-    }
-
-    /* Адаптируем кнопки */
-    .action-buttons {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 10px;
-    }
-
-    .circle-button {
-        width: 100px;
-        height: 100px;
-        margin: 10px;
-        padding: 10px;
-    }
-
-    /* Адаптируем секции */
-    .about-section,
-    .portfolio-section,
-    .contact-section {
-        padding: 40px 15px;
-    }
-
-    /* Уменьшаем размеры текста */
-    .about-text p {
-        font-size: 0.9rem;
-        padding: 15px;
-    }
-
-    .stat-label {
-        font-size: 0.7rem;
-    }
-
-    /* Оптимизируем сетку навыков */
-    .skills-grid {
-        grid-template-columns: 1fr;
-        gap: 15px;
-    }
-
-    /* Адаптируем контакты */
-    .contact-info {
-        grid-template-columns: 1fr;
+        padding: 10px 15px;
     }
 
     .about-section h2,
     .portfolio-section h2,
     .contact-section h2 {
-        font-size: 1.8rem;
-        margin-bottom: 40px;
+        font-size: 1.5rem;
+        padding: 10px 15px;
+    }
+
+    .portfolio-content h3 {
+        font-size: 1.2rem;
+        padding: 8px 12px;
     }
 }
 
