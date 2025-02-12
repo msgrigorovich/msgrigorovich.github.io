@@ -574,9 +574,34 @@ h1 {
 }
 
 .skill-item h3 {
-    font-size: 1.2rem;
-    margin-bottom: 10px;
-    color: var(--text-color);
+    font-family: 'Press Start 2P', cursive;
+    color: var(--neon-red);
+    text-shadow: 
+        /* Белая обводка */
+        -2px -2px 0 #fff,
+         2px -2px 0 #fff,
+        -2px  2px 0 #fff,
+         2px  2px 0 #fff,
+        /* Черная обводка */
+        -3px -3px 0 #000,
+         3px -3px 0 #000,
+        -3px  3px 0 #000,
+         3px  3px 0 #000,
+        /* Неоновое свечение */
+        0 0 10px var(--neon-red),
+        0 0 20px var(--neon-red);
+    font-size: 1.4rem;
+    margin-bottom: 15px;
+    padding: 10px 15px;
+    background: rgba(0, 0, 0, 0.7);
+    border-radius: 10px;
+    display: inline-block;
+    animation: headerPulse 2s infinite;
+}
+
+/* Добавим анимацию пульсации */
+.skill-item h3 {
+    animation: headerPulse 2s infinite;
 }
 
 .skill-item p {
@@ -1201,5 +1226,84 @@ h1 {
     .circle-button {
         width: 80px;
         height: 80px;
+    }
+}
+
+/* Добавим анимацию пульсации */
+.skill-item h3 {
+    animation: headerPulse 2s infinite;
+}
+
+@keyframes headerPulse {
+    0% {
+        text-shadow: 0 0 10px var(--neon-red), 0 0 20px var(--neon-red), 0 0 30px var(--neon-red);
+    }
+    50% {
+        text-shadow: 0 0 15px var(--neon-red), 0 0 25px var(--neon-red), 0 0 35px var(--neon-red);
+    }
+    100% {
+        text-shadow: 0 0 10px var(--neon-red), 0 0 20px var(--neon-red), 0 0 30px var(--neon-red);
+    }
+}
+
+/* Общие стили для всех заголовков */
+.skill-item h3,
+.timeline-item h3,
+.portfolio-content h3,
+.contact-details h3 {
+    font-family: 'Press Start 2P', cursive;
+    color: var(--neon-red);
+    text-shadow: 
+        /* Белая обводка */
+        -2px -2px 0 #fff,
+         2px -2px 0 #fff,
+        -2px  2px 0 #fff,
+         2px  2px 0 #fff,
+        /* Черная обводка */
+        -3px -3px 0 #000,
+         3px -3px 0 #000,
+        -3px  3px 0 #000,
+         3px  3px 0 #000,
+        /* Неоновое свечение */
+        0 0 10px var(--neon-red),
+        0 0 20px var(--neon-red);
+    font-size: 1.4rem;
+    margin-bottom: 15px;
+    padding: 10px 15px;
+    background: rgba(0, 0, 0, 0.7);
+    border-radius: 10px;
+    display: inline-block;
+    animation: headerPulse 2s infinite;
+}
+
+/* Специфичные размеры для разных типов заголовков */
+.timeline-item h3 {
+    font-size: 1.6rem;
+}
+
+.portfolio-content h3 {
+    font-size: 1.8rem;
+}
+
+.contact-details h3 {
+    font-size: 1.3rem;
+    padding: 8px 12px;
+}
+
+/* Медиа-запрос для мобильных устройств */
+@media screen and (max-width: 768px) {
+    .skill-item h3,
+    .timeline-item h3 {
+        font-size: 1.2rem;
+        padding: 8px 12px;
+    }
+
+    .portfolio-content h3 {
+        font-size: 1.4rem;
+    }
+
+    .contact-details h3 {
+        font-size: 1.1rem;
+        padding: 6px 10px;
     }
 } 
