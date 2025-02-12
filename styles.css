@@ -237,8 +237,8 @@ h1 {
 .progress {
     height: 100%;
     background: linear-gradient(90deg, var(--deep-red), var(--light-red));
-    animation: loadProgress 1.5s ease-out forwards;
     width: 0;
+    animation: loadProgress 1.5s ease-out forwards;
 }
 
 @keyframes loadProgress {
@@ -246,12 +246,35 @@ h1 {
     to { width: var(--progress-width); }
 }
 
+/* Добавим анимацию свечения */
+.progress::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.3),
+        transparent
+    );
+    animation: progressShine 2s linear infinite;
+}
+
+@keyframes progressShine {
+    from { transform: translateX(-100%); }
+    to { transform: translateX(100%); }
+}
+
 /* Action Buttons */
 .action-buttons {
     display: flex;
     justify-content: center;
-    gap: 30px;
-    margin-top: 40px;
+    gap: 40px;
+    margin-top: 60px;
+    padding: 20px;
 }
 
 .circle-button {
@@ -271,6 +294,8 @@ h1 {
     border: 2px solid;
     flex-direction: column;
     gap: 10px;
+    margin: 20px;
+    padding: 15px;
 }
 
 .circle-button:hover {
@@ -333,11 +358,14 @@ h1 {
         flex-direction: column;
         align-items: center;
         gap: 20px;
+        padding: 10px;
     }
 
     .circle-button {
         width: 100px;
         height: 100px;
+        margin: 10px;
+        padding: 10px;
     }
 }
 
@@ -489,8 +517,13 @@ h1 {
 
 /* About Section */
 .about-section {
-    padding: 60px 0;
-    background-color: #f8f9fa;
+    padding: 80px 0;
+    position: relative;
+    background: linear-gradient(
+        to bottom,
+        var(--dark-bg) 0%,
+        rgba(26, 26, 26, 0.9) 100%
+    );
 }
 
 .about-section .container {
@@ -500,10 +533,18 @@ h1 {
 }
 
 .about-section h2 {
+    font-family: 'Press Start 2P', cursive;
     font-size: 2.5rem;
     text-align: center;
     margin-bottom: 60px;
-    color: var(--text-color);
+    color: var(--neon-red);
+    text-shadow: 
+        -2px -2px 0 #fff,  
+         2px -2px 0 #fff,
+        -2px  2px 0 #fff,
+         2px  2px 0 #fff,
+        0 0 10px var(--neon-red),
+        0 0 20px var(--neon-red);
 }
 
 .about-content {
@@ -633,15 +674,28 @@ h1 {
 
 /* Portfolio Section */
 .portfolio-section {
-    padding: 60px 0;
-    background-color: white;
+    padding: 80px 0;
+    position: relative;
+    background: linear-gradient(
+        to bottom,
+        var(--dark-bg) 0%,
+        rgba(26, 26, 26, 0.9) 100%
+    );
 }
 
 .portfolio-section h2 {
+    font-family: 'Press Start 2P', cursive;
     font-size: 2.5rem;
     text-align: center;
     margin-bottom: 60px;
-    color: var(--text-color);
+    color: var(--neon-red);
+    text-shadow: 
+        -2px -2px 0 #fff,  
+         2px -2px 0 #fff,
+        -2px  2px 0 #fff,
+         2px  2px 0 #fff,
+        0 0 10px var(--neon-red),
+        0 0 20px var(--neon-red);
 }
 
 .portfolio-grid {
@@ -707,15 +761,28 @@ h1 {
 
 /* Contact Section */
 .contact-section {
-    padding: 60px 0;
-    background-color: #f8f9fa;
+    padding: 80px 0;
+    position: relative;
+    background: linear-gradient(
+        to bottom,
+        var(--dark-bg) 0%,
+        rgba(26, 26, 26, 0.9) 100%
+    );
 }
 
 .contact-section h2 {
+    font-family: 'Press Start 2P', cursive;
     font-size: 2.5rem;
     text-align: center;
     margin-bottom: 60px;
-    color: var(--text-color);
+    color: var(--neon-red);
+    text-shadow: 
+        -2px -2px 0 #fff,  
+         2px -2px 0 #fff,
+        -2px  2px 0 #fff,
+         2px  2px 0 #fff,
+        0 0 10px var(--neon-red),
+        0 0 20px var(--neon-red);
 }
 
 .contact-content {
@@ -1020,9 +1087,10 @@ h1 {
     }
 
     .circle-button {
-        width: 90px;
-        height: 90px;
-        font-size: 0.8rem;
+        width: 100px;
+        height: 100px;
+        margin: 10px;
+        padding: 10px;
     }
 
     /* Адаптируем секции */
@@ -1051,6 +1119,13 @@ h1 {
     /* Адаптируем контакты */
     .contact-info {
         grid-template-columns: 1fr;
+    }
+
+    .about-section h2,
+    .portfolio-section h2,
+    .contact-section h2 {
+        font-size: 1.8rem;
+        margin-bottom: 40px;
     }
 }
 
