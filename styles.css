@@ -14,10 +14,14 @@
     --light-red: #ff616f;
 }
 
+/* Кроссбраузерные стили */
 * {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent; /* убираем подсветку при тапе на мобильных */
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
 }
 
 body {
@@ -77,10 +81,12 @@ nav {
 
 .nav-right a {
     text-decoration: none;
-    color: var(--text-color);
+    color: var(--neon-red);
     font-weight: 500;
     position: relative;
     padding: 5px 0;
+    text-shadow: 0 0 10px var(--neon-red);
+    transition: color 0.3s, text-shadow 0.3s;
 }
 
 .nav-right a::after {
@@ -90,8 +96,16 @@ nav {
     height: 2px;
     bottom: 0;
     left: 0;
-    background-color: var(--text-color);
+    background-color: var(--neon-red);
     transition: width 0.3s ease;
+    box-shadow: 0 0 10px var(--neon-red);
+}
+
+.nav-right a:hover {
+    color: var(--light-red);
+    text-shadow: 
+        0 0 10px var(--neon-red),
+        0 0 20px var(--neon-red);
 }
 
 .nav-right a:hover::after {
@@ -113,6 +127,8 @@ nav {
     right: -15px;
     opacity: 0;
     transition: transform 0.3s, opacity 0.3s;
+    color: var(--neon-red);
+    text-shadow: 0 0 10px var(--neon-red);
 }
 
 .menu-item:hover .hover-effect {
@@ -122,8 +138,8 @@ nav {
 
 /* Main Content */
 .main-content {
-    padding-top: 80px;
-    min-height: 100vh;
+    padding-top: 60px;
+    min-height: 80vh;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -135,9 +151,9 @@ nav {
 }
 
 .profile-image {
-    width: 400px;
-    height: 400px;
-    margin: 0 auto 40px;
+    width: 300px;
+    height: 300px;
+    margin: 0 auto 20px;
     border-radius: 50%;
     overflow: hidden;
     box-shadow: 0 5px 15px rgba(0,0,0,0.2);
@@ -181,15 +197,14 @@ h1 {
 }
 
 .about-text h2 {
-    font-size: 1.8rem;
-    margin-bottom: 20px;
+    font-size: 1.2rem;
+    margin-bottom: 15px;
 }
 
 .about-text p {
-    font-size: 1.1rem;
-    max-width: 600px;
-    margin: 0 auto;
-    color: #666;
+    font-size: 1rem;
+    padding: 15px;
+    margin-bottom: 15px;
 }
 
 .stats-bar {
@@ -197,21 +212,21 @@ h1 {
 }
 
 .stat {
-    margin-bottom: 15px;
+    margin-bottom: 10px;
 }
 
 .stat-label {
     display: block;
-    margin-bottom: 5px;
+    margin-bottom: 3px;
     color: var(--neon-red);
     font-family: 'Press Start 2P', cursive;
-    font-size: 0.9rem;
+    font-size: 0.8rem;
     letter-spacing: 1px;
     text-shadow: 0 0 5px var(--neon-red);
 }
 
 .progress-bar {
-    height: 20px;
+    height: 15px;
     background: rgba(255, 255, 255, 0.1);
     border: 2px solid var(--neon-red);
     border-radius: 10px;
@@ -222,7 +237,13 @@ h1 {
 .progress {
     height: 100%;
     background: linear-gradient(90deg, var(--deep-red), var(--light-red));
-    animation: glow 2s ease-in-out infinite;
+    animation: loadProgress 1.5s ease-out forwards;
+    width: 0;
+}
+
+@keyframes loadProgress {
+    from { width: 0; }
+    to { width: var(--progress-width); }
 }
 
 /* Action Buttons */
@@ -347,7 +368,7 @@ h1 {
 .skills-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 30px;
+    gap: 20px;
     margin-bottom: 40px;
 }
 
@@ -468,7 +489,7 @@ h1 {
 
 /* About Section */
 .about-section {
-    padding: 100px 0;
+    padding: 60px 0;
     background-color: #f8f9fa;
 }
 
@@ -494,8 +515,8 @@ h1 {
 .skills-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 30px;
-    margin-bottom: 80px;
+    gap: 20px;
+    margin-bottom: 40px;
 }
 
 .skill-item {
@@ -512,8 +533,8 @@ h1 {
 }
 
 .skill-item h3 {
-    font-size: 1.4rem;
-    margin-bottom: 15px;
+    font-size: 1.2rem;
+    margin-bottom: 10px;
     color: var(--text-color);
 }
 
@@ -612,7 +633,7 @@ h1 {
 
 /* Portfolio Section */
 .portfolio-section {
-    padding: 100px 0;
+    padding: 60px 0;
     background-color: white;
 }
 
@@ -686,7 +707,7 @@ h1 {
 
 /* Contact Section */
 .contact-section {
-    padding: 100px 0;
+    padding: 60px 0;
     background-color: #f8f9fa;
 }
 
@@ -874,12 +895,15 @@ h1 {
     font-family: 'Press Start 2P', cursive;
     color: var(--deep-red);
     text-shadow: 
+        -2px -2px 0 #fff,  
+         2px -2px 0 #fff,
+        -2px  2px 0 #fff,
+         2px  2px 0 #fff,
         0 0 10px var(--deep-red),
-        0 0 20px var(--deep-red),
-        0 0 30px var(--deep-red);
+        0 0 20px var(--deep-red);
     animation: textPulse 2s ease-in-out infinite;
-    margin-bottom: 30px;
-    font-size: 3rem;
+    margin-bottom: 20px;
+    font-size: 2.5rem;
 }
 
 @keyframes textPulse {
@@ -952,4 +976,155 @@ h1 {
 @keyframes progressShine {
     from { transform: translateX(-100%); }
     to { transform: translateX(100%); }
+}
+
+/* Оптимизация для мобильных устройств */
+@media screen and (max-width: 768px) {
+    /* Уменьшаем размеры для мобильных */
+    .game-text {
+        font-size: 1rem;
+    }
+
+    .game-subtitle {
+        font-size: 0.7rem;
+    }
+
+    .game-title {
+        font-size: 1.8rem;
+    }
+
+    /* Адаптивное меню */
+    .nav-content {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .nav-right {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 15px;
+    }
+
+    /* Уменьшаем отступы */
+    .main-content {
+        padding-top: 100px;
+        padding: 100px 15px 30px;
+    }
+
+    /* Адаптируем кнопки */
+    .action-buttons {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+    }
+
+    .circle-button {
+        width: 90px;
+        height: 90px;
+        font-size: 0.8rem;
+    }
+
+    /* Адаптируем секции */
+    .about-section,
+    .portfolio-section,
+    .contact-section {
+        padding: 40px 15px;
+    }
+
+    /* Уменьшаем размеры текста */
+    .about-text p {
+        font-size: 0.9rem;
+        padding: 15px;
+    }
+
+    .stat-label {
+        font-size: 0.7rem;
+    }
+
+    /* Оптимизируем сетку навыков */
+    .skills-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+
+    /* Адаптируем контакты */
+    .contact-info {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Добавляем поддержку для разных браузеров */
+.profile-image,
+.skill-item,
+.portfolio-card,
+.contact-item {
+    -webkit-transform: translateZ(0);
+    -moz-transform: translateZ(0);
+    -ms-transform: translateZ(0);
+    transform: translateZ(0);
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+}
+
+/* Оптимизация анимаций */
+@supports (-webkit-backdrop-filter: none) or (backdrop-filter: none) {
+    .about-text p {
+        -webkit-backdrop-filter: blur(5px);
+        backdrop-filter: blur(5px);
+    }
+}
+
+/* Фолбэк для браузеров без поддержки backdrop-filter */
+@supports not ((-webkit-backdrop-filter: none) or (backdrop-filter: none)) {
+    .about-text p {
+        background: rgba(0, 0, 0, 0.8);
+    }
+}
+
+/* Оптимизация для устройств с высоким DPI */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+    .profile-image img {
+        -webkit-transform: translateZ(0);
+        transform: translateZ(0);
+    }
+}
+
+/* Оптимизация для Safari */
+@supports (-webkit-touch-callout: none) {
+    .main-content {
+        min-height: -webkit-fill-available;
+    }
+}
+
+/* Оптимизация для Firefox */
+@-moz-document url-prefix() {
+    .progress-bar {
+        background: rgba(255, 255, 255, 0.15);
+    }
+}
+
+/* Добавляем поддержку темной темы */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --text-color: #ffffff;
+        --background-color: #121212;
+    }
+}
+
+/* Оптимизация для устройств с маленьким экраном */
+@media screen and (max-width: 360px) {
+    .game-title {
+        font-size: 1.5rem;
+    }
+
+    .profile-image {
+        width: 250px;
+        height: 250px;
+    }
+
+    .circle-button {
+        width: 80px;
+        height: 80px;
+    }
 } 

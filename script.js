@@ -43,6 +43,12 @@ function animateOnScroll() {
             element.classList.remove('visible'); // Удаляем класс, когда элемент не виден
         }
     });
+
+    // Анимация прогресс-баров при скролле
+    const statsBar = document.querySelector('.stats-bar');
+    if (statsBar && isElementInViewport(statsBar)) {
+        initProgressBars();
+    }
 }
 
 // Добавляем классы для анимации к элементам
@@ -75,6 +81,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Запускаем первичную проверку видимости элементов
     animateOnScroll();
+    initProgressBars();
 });
 
 // Добавляем обработчик прокрутки с небольшой оптимизацией
@@ -86,4 +93,65 @@ window.addEventListener('scroll', function() {
     scrollTimeout = window.requestAnimationFrame(function() {
         animateOnScroll();
     });
-}); 
+});
+
+function initProgressBars() {
+    const progressBars = document.querySelectorAll('.progress');
+    progressBars.forEach(bar => {
+        const width = bar.style.width;
+        bar.style.setProperty('--progress-width', width);
+        bar.style.width = '0';
+        // Запускаем анимацию через небольшую задержку
+        setTimeout(() => {
+            bar.style.width = width;
+        }, 300);
+    });
+}
+
+// Добавим определение браузера для специфичных оптимизаций
+const browser = {
+    isChrome: !!window.chrome,
+    isSafari: /^((?!chrome|android).)*safari/i.test(navigator.userAgent),
+    isFirefox: typeof InstallTrigger !== 'undefined',
+    isEdge: /Edge/.test(navigator.userAgent)
+};
+
+// Оптимизация прокрутки для iOS
+if (/iPad|iPhone|iPod/.test(navigator.userAgent)) {
+    window.addEventListener('touchmove', function() {
+        requestAnimationFrame(function() {
+            animateOnScroll();
+        });
+    }, { passive: true });
+}
+
+// Оптимизация производительности
+function debounce(func, wait) {
+    let timeout;
+    return function executedFunction(...args) {
+        const later = () => {
+            clearTimeout(timeout);
+            func(...args);
+        };
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+    };
+}
+
+// Применяем debounce к обработчику прокрутки
+const debouncedScroll = debounce(function() {
+    animateOnScroll();
+}, 16);
+
+window.addEventListener('scroll', debouncedScroll);
+
+// Оптимизация для мобильных устройств
+if ('ontouchstart' in window) {
+    document.body.classList.add('touch-device');
+}
+
+// Проверка поддержки функций
+const supportsBackdropFilter = CSS.supports('backdrop-filter', 'blur(5px)');
+if (!supportsBackdropFilter) {
+    document.body.classList.add('no-backdrop-filter');
+} 
