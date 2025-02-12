@@ -1072,85 +1072,118 @@ h1 {
 
 /* Оптимизация для мобильных устройств */
 @media screen and (max-width: 768px) {
-    /* Уменьшаем размеры для мобильных */
+    /* Навигация */
+    .nav-content {
+        flex-direction: column;
+        align-items: center;
+        padding: 10px;
+    }
+
     .game-text {
-        font-size: 1rem;
+        font-size: 1.2rem;
+        text-align: center;
     }
 
     .game-subtitle {
         font-size: 0.7rem;
-    }
-
-    .game-title {
-        font-size: 1.8rem;
-    }
-
-    /* Адаптивное меню */
-    .nav-content {
-        flex-direction: column;
-        gap: 10px;
+        text-align: center;
     }
 
     .nav-right {
         display: flex;
-        flex-wrap: wrap;
         justify-content: center;
         gap: 15px;
+        margin-top: 10px;
+        width: 100%;
     }
 
-    /* Уменьшаем отступы */
+    .nav-right a {
+        font-size: 0.8rem;
+    }
+
+    /* Основной контент */
     .main-content {
-        padding-top: 100px;
-        padding: 100px 15px 30px;
+        padding-top: 120px;
     }
 
-    /* Адаптируем кнопки */
-    .action-buttons {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 10px;
+    /* Профиль */
+    .profile-image {
+        width: 180px;
+        height: 180px;
+        margin: 0 auto 20px;
+        border: 3px solid var(--accent-color);
     }
 
-    .circle-button {
-        width: 100px;
-        height: 100px;
-        margin: 10px;
-        padding: 10px;
+    /* Заголовки */
+    .game-title {
+        font-size: 1.3rem;
+        padding: 8px;
+        margin: 10px auto;
+        max-width: 90%;
     }
 
-    /* Адаптируем секции */
-    .about-section,
-    .portfolio-section,
-    .contact-section {
-        padding: 40px 15px;
+    /* Character Info */
+    .about-text h2 {
+        font-size: 1.1rem;
+        color: #ff69b4; /* Розовый цвет как на скриншоте */
+        margin: 15px 0;
     }
 
-    /* Уменьшаем размеры текста */
     .about-text p {
-        font-size: 0.9rem;
-        padding: 15px;
+        font-size: 0.8rem;
+        padding: 10px;
+        margin: 10px auto;
+        max-width: 90%;
+        background: rgba(0, 0, 0, 0.7);
+        border-radius: 8px;
+    }
+
+    /* Прогресс бары */
+    .stats-bar {
+        margin: 20px auto;
+        max-width: 90%;
     }
 
     .stat-label {
         font-size: 0.7rem;
+        margin-bottom: 5px;
     }
 
-    /* Оптимизируем сетку навыков */
-    .skills-grid {
-        grid-template-columns: 1fr;
+    .progress-bar {
+        height: 10px;
+        margin-bottom: 15px;
+    }
+
+    /* Кнопки действий */
+    .action-buttons {
+        margin-top: 30px;
         gap: 15px;
     }
 
-    /* Адаптируем контакты */
-    .contact-info {
-        grid-template-columns: 1fr;
+    .circle-button {
+        width: 70px;
+        height: 70px;
+        font-size: 0.7rem;
     }
 
-    .about-section h2,
-    .portfolio-section h2,
-    .contact-section h2 {
-        font-size: 1.8rem;
-        margin-bottom: 40px;
+    .circle-button i {
+        font-size: 1.2rem;
+    }
+}
+
+/* Дополнительная оптимизация для очень маленьких экранов */
+@media screen and (max-width: 360px) {
+    .game-text {
+        font-size: 1rem;
+    }
+
+    .nav-right a {
+        font-size: 0.7rem;
+    }
+
+    .profile-image {
+        width: 150px;
+        height: 150px;
     }
 }
 
@@ -1209,40 +1242,6 @@ h1 {
     :root {
         --text-color: #ffffff;
         --background-color: #121212;
-    }
-}
-
-/* Оптимизация для устройств с маленьким экраном */
-@media screen and (max-width: 360px) {
-    .game-title {
-        font-size: 1.5rem;
-    }
-
-    .profile-image {
-        width: 250px;
-        height: 250px;
-    }
-
-    .circle-button {
-        width: 80px;
-        height: 80px;
-    }
-}
-
-/* Добавим анимацию пульсации */
-.skill-item h3 {
-    animation: headerPulse 2s infinite;
-}
-
-@keyframes headerPulse {
-    0% {
-        text-shadow: 0 0 10px var(--neon-red), 0 0 20px var(--neon-red), 0 0 30px var(--neon-red);
-    }
-    50% {
-        text-shadow: 0 0 15px var(--neon-red), 0 0 25px var(--neon-red), 0 0 35px var(--neon-red);
-    }
-    100% {
-        text-shadow: 0 0 10px var(--neon-red), 0 0 20px var(--neon-red), 0 0 30px var(--neon-red);
     }
 }
 
