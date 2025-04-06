@@ -208,4 +208,13 @@ color: #000;
 
 .github-icon {
   height: 25px;
+  transform: translateY(-1px);
+}
+
+.footer-grid > div:not(.social):not(.copy) {
+  transition: transform 0.2s ease;
+}
+
+.footer-grid > div:not(.social):not(.copy):hover {
+  transform: scale(1.03);
 }
