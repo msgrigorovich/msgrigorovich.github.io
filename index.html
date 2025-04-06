@@ -70,5 +70,15 @@
     </div>
   </div>
 </footer>
+
+<script>
+  setInterval(() => {
+    const el = document.querySelector('.typing-text');
+    el.style.animation = 'none';
+    void el.offsetWidth;
+    el.style.animation = 'typing 1.5s steps(13, end) forwards, blink 0.7s step-end infinite';
+  }, 3000);
+</script>
+
 </body>
 </html>

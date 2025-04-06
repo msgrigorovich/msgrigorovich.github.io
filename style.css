@@ -240,7 +240,7 @@ footer {
   overflow: hidden;
   border-right: 3px solid #111;
   width: 0;
-  animation: typing 5s steps(13, end) infinite, blink 0.7s step-end infinite;
+  animation: typing 1.5s steps(13, end) forwards, blink 0.7s step-end infinite;
   display: inline-block;
   margin-bottom: 2rem;
 }
