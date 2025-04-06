@@ -208,7 +208,7 @@ color: #000;
 
 .github-icon {
   height: 25px;
-  transform: translateY(-1px);
+  transform: translateY(-3px);
 }
 
 .footer-grid > div:not(.social):not(.copy) {
