@@ -240,15 +240,15 @@ footer {
   overflow: hidden;
   border-right: 3px solid #111;
   width: 0;
-  animation: typing 5s linear infinite, blink 0.7s step-end infinite;
+  animation: typing 4s linear infinite, blink 0.7s step-end infinite;
   display: inline-block;
   margin-bottom: 2rem;
 }
 
 @keyframes typing {
   0% { width: 0ch; }
-  30% { width: 13ch; }
-  70% { width: 13ch; }
+  37.5% { width: 13ch; }
+  62.5% { width: 13ch; }
   100% { width: 0ch; }
 }
 
