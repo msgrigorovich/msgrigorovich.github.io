@@ -245,14 +245,15 @@ footer {
   overflow: hidden;
   border-right: 3px solid #111;
   width: 0;
-  animation: typing 1.5s steps(13, end) infinite alternate, blink 0.7s step-end infinite;
+  animation: typing 3s steps(13, end) infinite, blink 0.7s step-end infinite;
   display: inline-block;
   margin-bottom: 2rem;
 }
 
 @keyframes typing {
-  from { width: 0; }
-  to { width: 13ch; }
+  0% { width: 0 }
+  50% { width: 13ch }
+  100% { width: 0 }
 }
 
 @keyframes blink {
