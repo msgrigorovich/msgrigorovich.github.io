@@ -1,178 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Diana Grigorovich - Game QA Engineer</title>
-    
-    <!-- Favicon -->
-    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
-    <link rel="apple-touch-icon" type="image/svg+xml" href="assets/favicon.svg">
-    <link rel="shortcut icon" type="image/svg+xml" href="assets/favicon.svg">
-    
-    <!-- CSS файлы -->
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Diana Grigorovich</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-    <!-- Добавим пиксельный фон и игровые элементы -->
-    <div class="pixel-overlay"></div>
-
+  <header>
+    <div class="logo">
+      <span class="dot"></span>
+      <strong>Diana Grigorovich</strong>
+    </div>
     <nav>
-        <div class="nav-content">
-            <div class="logo">
-                <span class="game-text">Diana Grigorovich</span>
-                <span class="game-subtitle">LVL 99 QA Engineer</span>
-            </div>
-            <div class="nav-right">
-                <a href="#home" class="menu-item">Home <span class="hover-effect">→</span></a>
-                <a href="#about" class="menu-item">Stats <span class="hover-effect">→</span></a>
-                <a href="#portfolio" class="menu-item">Quests <span class="hover-effect">→</span></a>
-                <a href="#contact" class="menu-item">Guild <span class="hover-effect">→</span></a>
-            </div>
-        </div>
+      <a href="#">Resume</a>
+      <a href="#">Projects</a>
+      <span class="divider">|</span>
+      <a href="#">Contact</a>
     </nav>
+  </header>
 
-    <main id="home" class="main-content">
-        <div class="profile-section">
-            <div class="profile-image">
-                <div class="profile-frame"></div>
-                <img src="assets/profile.jpg" alt="Diana Grigorovich">
-            </div>
-            <h1 class="game-title">Game QA Engineer</h1>
-            <div class="about-text">
-                <h2>Character Info</h2>
-                <p>Specialized in debugging game worlds and ensuring epic player experiences.</p>
-                <div class="stats-bar">
-                    <div class="stat">
-                        <span class="stat-label">Bug Hunting</span>
-                        <div class="progress-bar">
-                            <div class="progress" style="--progress-width: 95%"></div>
-                        </div>
-                    </div>
-                    <div class="stat">
-                        <span class="stat-label">Test Coverage</span>
-                        <div class="progress-bar">
-                            <div class="progress" style="--progress-width: 90%"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="action-buttons">
-                <a href="#about" class="circle-button resume">
-                    <i class="fas fa-scroll"></i>
-                    <span>Stats</span>
-                </a>
-                <a href="#portfolio" class="circle-button projects">
-                    <i class="fas fa-gamepad"></i>
-                    <span>Quests</span>
-                </a>
-                <a href="#contact" class="circle-button contact">
-                    <i class="fas fa-envelope"></i>
-                    <span>Guild</span>
-                </a>
-            </div>
-        </div>
-    </main>
-
-    <section id="about" class="about-section">
-        <div class="container">
-            <h2>About Me</h2>
-            <div class="about-content">
-                <div class="skills-grid">
-                    <div class="skill-item">
-                        <h3>Testing</h3>
-                        <p>Manual & Automated</p>
-                    </div>
-                    <div class="skill-item">
-                        <h3>Tools</h3>
-                        <p>JIRA, TestRail, Unity</p>
-                    </div>
-                    <div class="skill-item">
-                        <h3>Platforms</h3>
-                        <p>PC, Mobile, Consoles</p>
-                    </div>
-                </div>
-                
-                <div class="experience-timeline">
-                    <div class="timeline-item">
-                        <h3>Game QA Engineer</h3>
-                        <p class="company">Company Name</p>
-                        <p class="period">2021 - Present</p>
-                        <ul class="responsibilities">
-                            <li>Game testing and quality assurance</li>
-                            <li>Bug reporting and verification</li>
-                            <li>Test case development</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
+  <main>
+    <h1>Hello</h1>
+    <section class="about">
+      <h2>A Bit About Me</h2>
+      <p>
+        I am a QA Engineer in game development and am happy to share my achievements in my work from time to time. Despite the fact that I often strive to focus specifically on the QA direction, I do not like to set boundaries and try to achieve something in related areas, such as development, art and analytics. I hope you will be interested in reading some of my work.
+      </p>
     </section>
-
-    <section id="portfolio" class="portfolio-section">
-        <div class="container">
-            <h2>Portfolio</h2>
-            <div class="portfolio-grid">
-                <div class="portfolio-card">
-                    <img src="https://via.placeholder.com/400x300" alt="Project 1">
-                    <div class="portfolio-content">
-                        <h3>Game Project 1</h3>
-                        <p>QA Testing & Quality Assurance</p>
-                        <ul class="project-details">
-                            <li>Functional Testing</li>
-                            <li>Bug Tracking</li>
-                            <li>Performance Testing</li>
-                        </ul>
-                    </div>
-                </div>
-                <!-- Добавьте больше проектов при необходимости -->
-            </div>
-        </div>
+    <section class="buttons">
+      <a href="#" class="circle resume">Resume</a>
+      <a href="#" class="circle projects">Projects</a>
+      <a href="#" class="circle contact">Contact</a>
     </section>
+  </main>
 
-    <section id="contact" class="contact-section">
-        <div class="container">
-            <h2>Let's Connect</h2>
-            <div class="contact-content">
-                <div class="contact-info">
-                    <div class="contact-item">
-                        <i class="fas fa-envelope"></i>
-                        <div class="contact-details">
-                            <h3>Email</h3>
-                            <p>me@dianagrigorovich.com</p>
-                        </div>
-                    </div>
-                    <div class="contact-item">
-                        <i class="fas fa-phone"></i>
-                        <div class="contact-details">
-                            <h3>Phone</h3>
-                            <p>+995 (511) 458-375</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="social-links">
-                    <a href="https://www.linkedin.com/in/diana-grigorovich-8b3680247/?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app" class="social-link linkedin" target="_blank" rel="noopener noreferrer">
-                        <i class="fab fa-linkedin"></i>
-                        LinkedIn
-                    </a>
-                    <a href="https://github.com/msgrigorovich" class="social-link github" target="_blank" rel="noopener noreferrer">
-                        <i class="fab fa-github"></i>
-                        GitHub
-                    </a>
-                </div>
-            </div>
-        </div>
-    </section>
+  <footer>
+    <div class="contact">
+      <p><strong>Phone</strong><br />+ 995 511-458-375</p>
+      <p><strong>Email</strong><br />me@dianagrigorovich.com</p>
+    </div>
+    <div class="social">
+      <p><strong>Follow Me</strong></p>
+      <a href="#">in</a>
+      <a href="#">🐦</a>
+    </div>
+    <div class="copy">© 2025 By Diana Grigorovich</div>
+  </footer>
 
-    <footer>
-        <div class="container">
-            <p>Copyright © 2025 Diana Grigorovich - All Rights Reserved.</p>
-        </div>
-    </footer>
-
-    <!-- JavaScript -->
-    <script src="script.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
