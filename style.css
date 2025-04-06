@@ -61,7 +61,7 @@ header {
 main {
   text-align: center;
   flex: 1;
-  padding: 4rem 2rem;
+  padding: 4rem 2rem 1rem;
 }
 
 main h1 {
@@ -128,7 +128,7 @@ main h1 {
   align-items: flex-start;
   gap: 2rem;
   margin-top: 2rem;
-  margin-bottom: 0.2rem;
+  margin-bottom: 0rem;
   flex-wrap: wrap;
 }
 
@@ -149,14 +149,14 @@ main h1 {
 
 .signature-symbol {
   max-width: 160px;
-  transform: translateY(-16px);
+  transform: translateY(-18px);
 }
 
 footer {
 background: #f2f2f2;
 padding: 3rem 2rem 2rem;
 border-top: 1px solid #ccc;
-margin-top: 4rem;
+margin-top: 2rem;
 }
 
 .footer-grid {
@@ -191,7 +191,7 @@ color: #000;
 }
 
 .social-icon {
-  height: 30px;
+  height: 20px;
   width: auto;
   object-fit: contain;
   margin: 0 0.3rem;
