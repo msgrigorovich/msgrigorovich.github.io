@@ -1,145 +1,148 @@
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-  
-  body {
-    font-family: 'Segoe UI', sans-serif;
-    background: #f2f2f2;
-    color: #111;
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-  }
-  
-  header {
-    display: flex;
-    justify-content: space-between;
-    padding: 1.5rem 2rem;
-    align-items: center;
-  }
-  
-  .logo {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-  }
-  
-  .logo .dot {
-    width: 12px;
-    height: 12px;
-    background-color: #f5b400;
-    border-radius: 50%;
-  }
-  
-  nav {
-    display: flex;
-    gap: 1rem;
-    align-items: center;
-  }
-  
-  nav .divider {
-    color: #999;
-  }
-  
-  main {
-    text-align: center;
-    flex: 1;
-    padding: 4rem 2rem;
-  }
-  
-  main h1 {
-    font-size: 4rem;
-    margin-bottom: 2rem;
-  }
-  
-  .about {
-    max-width: 500px;
-    margin: 0 auto 3rem;
-  }
-  
-  .about h2 {
-    font-size: 1.2rem;
-    margin-bottom: 0.5rem;
-  }
-  
-  .about p {
-    line-height: 1.6;
-    color: #444;
-  }
-  
-  .buttons {
-    display: flex;
-    justify-content: center;
-    gap: 2rem;
-    margin-top: 2rem;
-  }
-  
-  .circle {
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-decoration: none;
-    color: #111;
-    font-weight: bold;
-    font-size: 1rem;
-    transition: transform 0.2s;
-  }
-  
-  .circle:hover {
-    transform: scale(1.05);
-  }
-  
-  .resume {
-    background-color: #f5b400;
-  }
-  
-  .projects {
-    background-color: #f2543b;
-    color: white;
-  }
-  
-  .contact {
-    background-color: #89dce3;
-  }
-  
-  footer {
-    background: #f2f2f2;
-    padding: 2rem;
-    border-top: 1px solid #ccc;
-  }
-  
-  .footer-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 2rem;
-    align-items: flex-start;
-    text-align: center;
-  }
-  
-  .footer-grid p {
-    margin-bottom: 0.5rem;
-  }
-  
-  .footer-grid .icons {
-    margin-top: 0.5rem;
-  }
-  
-  .footer-grid .icons a {
-    margin: 0 0.3rem;
-    text-decoration: none;
-    font-size: 1.2rem;
-    color: #000;
-  }
-  
-  .copy {
-    margin-top: 2rem;
-    text-align: right;
-    font-size: 0.9rem;
-    color: #666;
-  }  
-  
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background: #f2f2f2;
+  color: #111;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  padding: 1.5rem 2rem;
+  align-items: center;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.logo .dot {
+  width: 12px;
+  height: 12px;
+  background-color: #f5b400;
+  border-radius: 50%;
+}
+
+nav {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+nav .divider {
+  color: #999;
+}
+
+main {
+  text-align: center;
+  flex: 1;
+  padding: 4rem 2rem;
+}
+
+main h1 {
+  font-size: 4rem;
+  margin-bottom: 2rem;
+}
+
+.about {
+  max-width: 500px;
+  margin: 0 auto 3rem;
+}
+
+.about h2 {
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+}
+
+.about p {
+  line-height: 1.6;
+  color: #444;
+}
+
+.buttons {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.circle {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
+  color: #111;
+  font-weight: bold;
+  font-size: 1rem;
+  transition: transform 0.2s;
+}
+
+.circle:hover {
+  transform: scale(1.05);
+}
+
+.resume {
+  background-color: #f5b400;
+}
+
+.projects {
+  background-color: #f2543b;
+  color: white;
+}
+
+.contact {
+  background-color: #89dce3;
+}
+
+footer {
+background: #f2f2f2;
+padding: 3rem 2rem 2rem; /* ⬅️ добавили нижний отступ */
+border-top: 1px solid #ccc; /* ⬅️ разделительная черта */
+margin-top: 4rem; /* ⬅️ отступ от описания */
+}
+
+.footer-grid {
+display: grid;
+grid-template-columns: repeat(4, 1fr);
+align-items: center;
+text-align: center;
+gap: 2rem;
+}
+
+.footer-grid > div {
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+}
+
+.footer-grid p {
+margin-bottom: 0.5rem;
+}
+
+.footer-grid .icons a {
+margin: 0 0.3rem;
+text-decoration: none;
+font-size: 1.2rem;
+color: #000;
+}
+
+.copy {
+font-size: 0.9rem;
+color: #666;
+}
+: #666;
+}
