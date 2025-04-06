@@ -216,7 +216,7 @@ footer {
   transform: translateY(-5px) scale(1.1);
 }
 
-/* Hover-animation fir Phone and Email blocks */
+/* Hover-animation for Phone and Email blocks */
 .footer-grid > div:not(.social):not(.copy) {
   transition: transform 0.2s ease;
 }
@@ -235,4 +235,26 @@ footer {
 
 .footer-grid a:hover {
   transform: scale(1.03);
+}
+
+
+.typing-text {
+  font-family: 'Source Code Pro', monospace;
+  font-size: 3rem;
+  white-space: nowrap;
+  overflow: hidden;
+  border-right: 3px solid #111;
+  width: 0;
+  animation: typing 1.5s steps(13, end) infinite alternate, blink 0.7s step-end infinite;
+  display: inline-block;
+  margin-bottom: 2rem;
+}
+
+@keyframes typing {
+  from { width: 0; }
+  to { width: 13ch; }
+}
+
+@keyframes blink {
+  50% { border-color: transparent; }
 }
