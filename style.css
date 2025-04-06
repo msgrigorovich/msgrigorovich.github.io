@@ -1,6 +1,3 @@
-
-/* Оригинальный CSS + исправления */
-
 * {
   margin: 0;
   padding: 0;
@@ -211,7 +208,7 @@ footer {
 
 .github-icon {
   height: 25px;
-  transform: translateY(-5px);
+  transform: translateY(-3px);
   transition: transform 0.2s ease;
 }
 
@@ -219,7 +216,7 @@ footer {
   transform: translateY(-5px) scale(1.1);
 }
 
-/* Hover-анимация для Phone и Email блоков */
+/* Hover-animation fir Phone and Email blocks */
 .footer-grid > div:not(.social):not(.copy) {
   transition: transform 0.2s ease;
 }
@@ -228,7 +225,7 @@ footer {
   transform: scale(1.03);
 }
 
-/* Стили для ссылок внутри футера */
+/* Styles for links in footer */
 .footer-grid a {
   display: inline-block;
   text-decoration: none;
