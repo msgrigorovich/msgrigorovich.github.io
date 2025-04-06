@@ -208,7 +208,7 @@ footer {
 
 .github-icon {
   height: 25px;
-  transform: translateY(-3px);
+  transform: translateY(-2px);
   transition: transform 0.2s ease;
 }
 
