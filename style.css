@@ -149,6 +149,7 @@ main h1 {
 
 .signature-symbol {
   max-width: 160px;
+  transform: translateY(-8px);
 }
 
 footer {
