@@ -6,7 +6,7 @@
 
 body {
   font-family: 'Montserrat', sans-serif;
-  background: #faf7ef; /* ← вот он */
+  background: #faf7ef;
   color: #111;
   display: flex;
   flex-direction: column;
@@ -188,4 +188,15 @@ color: #000;
 .copy {
   font-size: 0.9rem;
   color: #666;
+}
+.social-icon {
+  height: 20px;
+  width: 20px;
+  object-fit: contain;
+  margin: 0 0.3rem;
+  transition: transform 0.2s ease;
+}
+
+.social-icon:hover {
+  transform: scale(1.1);
 }
