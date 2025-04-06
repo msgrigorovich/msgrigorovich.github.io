@@ -149,7 +149,7 @@ main h1 {
 
 .signature-symbol {
   max-width: 160px;
-  transform: translateY(-12px);
+  transform: translateY(-16px);
 }
 
 footer {
@@ -191,7 +191,7 @@ color: #000;
 }
 
 .social-icon {
-  height: 20px;
+  height: 30px;
   width: auto;
   object-fit: contain;
   margin: 0 0.3rem;
