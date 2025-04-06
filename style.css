@@ -221,7 +221,7 @@ color: #000;
 
 .footer-grid a {
   text-decoration: none;
-  color: #111;
+  color: inherit;
   transition: transform 0.2s ease;
 }
 
