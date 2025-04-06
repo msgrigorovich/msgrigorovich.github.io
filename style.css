@@ -143,13 +143,17 @@ main h1 {
   transform: scale(1.03);
 }
 
+.signature-symbol:hover {
+  transform: translateY(-18px) scale(1.03);
+}
+
 .signature-name {
   max-width: 250px;
 }
 
 .signature-symbol {
-  max-width: 160px;
   transform: translateY(-18px);
+  transition: transform 0.2s ease;
 }
 
 footer {
@@ -191,7 +195,7 @@ color: #000;
 }
 
 .social-icon {
-  height: 20px;
+  height: 30px;
   width: auto;
   object-fit: contain;
   margin: 0 0.3rem;
@@ -200,4 +204,8 @@ color: #000;
 
 .social-icon:hover {
   transform: scale(1.1);
+}
+
+.github-icon {
+  height: 25px;
 }
