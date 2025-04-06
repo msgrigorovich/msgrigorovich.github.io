@@ -128,7 +128,7 @@ main h1 {
   align-items: flex-start;
   gap: 2rem;
   margin-top: 2rem;
-  margin-bottom: 4rem;
+  margin-bottom: 1.5rem; /* ⬅️ было 4rem — стало меньше */
   flex-wrap: wrap;
 }
 
