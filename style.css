@@ -260,3 +260,99 @@ main h1.typing-text {
   font-size: 3rem;
   margin-bottom: 2rem;
 }
+
+.terminal-container {
+  text-align: left;
+  font-family: 'Source Code Pro', monospace;
+  font-size: 3rem;
+  position: relative;
+  height: 4rem;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-end;
+  padding-left: 1rem;
+}
+
+.typing-text {
+  border-right: 3px solid #111;
+  white-space: nowrap;
+  overflow: hidden;
+  display: inline-block;
+}
+
+.animate-typing {
+  animation: typing 1.5s steps(13, end) forwards, blink 0.7s step-end infinite;
+}
+
+.animate-move-up {
+  animation: move-up 1s forwards;
+}
+
+.animate-fade {
+  animation: fade-out 1s forwards;
+}
+
+@keyframes typing {
+  from { width: 0ch; }
+  to { width: 13ch; }
+}
+
+@keyframes blink {
+  50% { border-color: transparent; }
+}
+
+@keyframes move-up {
+  to { transform: translateY(-50%); }
+}
+
+@keyframes fade-out {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+.terminal-container {
+  text-align: left;
+  font-family: 'Source Code Pro', monospace;
+  font-size: 3rem;
+  position: relative;
+  height: 6rem;
+  overflow: hidden;
+  padding-left: 1rem;
+}
+
+.typing-text {
+  white-space: nowrap;
+  display: inline-block;
+  width: 0;
+  opacity: 1;
+  position: absolute;
+  left: 1rem;
+  bottom: 1rem;
+  border-right: 3px solid #111;
+}
+
+.animate-typing {
+  animation: typing 1.5s steps(14, end) forwards, blink 0.7s step-end infinite;
+}
+
+.faded-line {
+  opacity: 1;
+  transform: translateY(0);
+  transition: transform 1s ease, opacity 1s ease;
+}
+
+.animate-fade-up {
+  transform: translateY(-50%);
+  opacity: 0;
+}
+
+@keyframes typing {
+  from { width: 0ch; }
+  to { width: 14ch; } /* 13 символов + cursor */
+}
+
+@keyframes blink {
+  50% { border-color: transparent; }
+}

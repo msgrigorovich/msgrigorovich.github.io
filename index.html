@@ -15,70 +15,67 @@
       <strong>Diana Grigorovich</strong>
     </div>
     <nav class="top-nav">
-        <a href="#">Resume</a>
-        <span class="divider"></span>
-        <a href="#">Projects</a>
-        <span class="divider"></span>
-        <a href="#">Contact</a>
-      </nav>           
+      <a href="#">Resume</a>
+      <span class="divider"></span>
+      <a href="#">Projects</a>
+      <span class="divider"></span>
+      <a href="#">Contact</a>
+    </nav>
   </header>
 
   <main>
-    <h1 class="typing-text">Hello, World!</h1>
+    <div class="terminal-container">
+      <div class="typing-text">Hello, World!</div>
+    </div>
+
     <section class="about">
       <h2>A Bit About Me</h2>
       <p>
         I am a QA Engineer in game development and am happy to share my achievements in my work from time to time. Despite the fact that I often strive to focus specifically on the QA direction, I do not like to set boundaries and try to achieve something in related areas, such as development, art and analytics. I hope you will be interested in reading some of my work.
       </p>
     </section>
+
     <section class="buttons">
       <a href="#" class="circle resume">Resume</a>
       <a href="#" class="circle projects">Projects</a>
       <a href="#" class="circle contact">Contact</a>
     </section>
+
     <section class="signature-block">
-        <img src="diana-name.jpg" alt="Diana Grigorovich handwritten name" class="signature signature-name">
-        <img src="diana-signature.jpg" alt="Diana Grigorovich signature" class="signature signature-symbol">
+      <img src="diana-name.jpg" alt="Diana Grigorovich handwritten name" class="signature signature-name">
+      <img src="diana-signature.jpg" alt="Diana Grigorovich symbol signature" class="signature signature-symbol">
     </section>
   </main>
 
   <footer>
-  <div class="footer-grid">
-    <div>
+    <div class="footer-grid">
+      <div>
         <p><strong>Phone</strong><br />
-            <a href="tel:+995511458375">+ 995 511-458-375</a>
-          </p>
-    </div>
-    <div>
+          <a href="tel:+995511458375">+ 995 511-458-375</a>
+        </p>
+      </div>
+      <div>
         <p><strong>Email</strong><br />
-            <a href="mailto:me@dianagrigorovich.com">me@dianagrigorovich.com</a>
-          </p>          
+          <a href="mailto:me@dianagrigorovich.com">me@dianagrigorovich.com</a>
+        </p>
+      </div>
+      <div class="social">
+        <p><strong>Follow Me</strong></p>
+        <div class="icons">
+          <a href="https://www.linkedin.com/in/diana-grigorovich-8b3680247/" target="_blank">
+            <img src="linkedin_icon.png" alt="LinkedIn" class="social-icon">
+          </a>
+          <a href="https://github.com/msgrigorovich" target="_blank">
+            <img src="github_icon.png" alt="GitHub" class="social-icon github-icon">
+          </a>
+        </div>
+      </div>
+      <div class="copy">
+        &copy; 2025 By Diana Grigorovich
+      </div>
     </div>
-    <div class="social">
-      <p><strong>Follow Me</strong></p>
-      <div class="icons">
-        <a href="https://www.linkedin.com/in/diana-grigorovich-8b3680247/" target="_blank">
-          <img src="linkedin_icon.png" alt="LinkedIn" class="social-icon">
-        </a>
-        <a href="https://github.com/msgrigorovich" target="_blank">
-          <img src="github_icon.png" alt="GitHub" class="social-icon github-icon">
-        </a>
-      </div>      
-    </div>
-    <div class="copy">
-      © 2025 By Diana Grigorovich
-    </div>
-  </div>
-</footer>
+  </footer>
 
-<script>
-  setInterval(() => {
-    const el = document.querySelector('.typing-text');
-    el.style.animation = 'none';
-    void el.offsetWidth;
-    el.style.animation = 'typing 1.5s steps(13, end) forwards, blink 0.7s step-end infinite';
-  }, 3000);
-</script>
-
+  <script src="script.js"></script>
 </body>
 </html>
