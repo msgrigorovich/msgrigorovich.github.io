@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -15,7 +16,7 @@
       <strong>Diana Grigorovich</strong>
     </div>
     <nav class="top-nav">
-        <a href="#">Resume</a>
+        <a href="resume.html">Resume</a>
         <span class="divider"></span>
         <a href="#">Projects</a>
         <span class="divider"></span>
@@ -24,7 +25,7 @@
   </header>
 
   <main>
-    <h1 class="typing-text">Hello, World!</h1>
+    <h1 class="typing-text"></h1>
     <section class="about">
       <h2>A Bit About Me</h2>
       <p>
@@ -32,7 +33,7 @@
       </p>
     </section>
     <section class="buttons">
-      <a href="#" class="circle resume">Resume</a>
+      <a href="resume.html" class="circle resume">Resume</a>
       <a href="#" class="circle projects">Projects</a>
       <a href="#" class="circle contact">Contact</a>
     </section>
@@ -71,14 +72,7 @@
   </div>
 </footer>
 
-<script>
-  setInterval(() => {
-    const el = document.querySelector('.typing-text');
-    el.style.animation = 'none';
-    void el.offsetWidth;
-    el.style.animation = 'typing 1.5s steps(13, end) forwards, blink 0.7s step-end infinite';
-  }, 3000);
-</script>
+<script src="script.js"></script>
 
 </body>
 </html>
