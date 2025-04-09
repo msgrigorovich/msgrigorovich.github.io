@@ -69,6 +69,8 @@ main {
   border-right: 3px solid #111;
   display: inline-block;
   margin-bottom: 2rem;
+  height: 3.6rem;
+  line-height: 1.2;
 }
 
 .about {
@@ -206,6 +208,6 @@ footer {
 
 .github-icon {
   height: 25px;
-  transform: translateY(-2px);
+  transform: translateY(-4px);
   transition: transform 0.2s ease;
 }
