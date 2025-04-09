@@ -100,8 +100,8 @@ main {
 }
 
 .circle {
-  width: 100px;
-  height: 100px;
+  width: 75px;
+  height: 75px;
   border-radius: 50%;
   display: flex;
   justify-content: center;
@@ -109,7 +109,7 @@ main {
   text-decoration: none;
   color: #111;
   font-weight: bold;
-  font-size: 1rem;
+  font-size: 0.75rem;
   transition: transform 0.2s;
 }
 
