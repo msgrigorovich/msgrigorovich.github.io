@@ -1,4 +1,10 @@
 
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 body {
   font-family: 'Montserrat', sans-serif;
   background: #faf7ef;
@@ -6,8 +12,6 @@ body {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  margin: 0;
-  padding: 0;
 }
 
 header {
@@ -51,29 +55,20 @@ header {
   opacity: 0.3;
 }
 
-.circle {
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-decoration: none;
-  color: #111;
-  font-weight: bold;
-  font-size: 1rem;
-  transition: transform 0.2s;
+main {
+  text-align: center;
+  flex: 1;
+  padding: 4rem 2rem 1rem;
 }
 
-.circle.resume {
-  background-color: #f5b400;
-}
-
-.buttons {
-  display: flex;
-  justify-content: center;
-  gap: 2rem;
-  margin-top: 2rem;
+.typing-text {
+  font-family: 'Source Code Pro', monospace;
+  font-size: 3rem;
+  white-space: nowrap;
+  overflow: hidden;
+  border-right: 3px solid #111;
+  display: inline-block;
+  margin-bottom: 2rem;
 }
 
 .about {
@@ -89,6 +84,44 @@ header {
 .about p {
   line-height: 1.6;
   color: #444;
+}
+
+.buttons {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.circle {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
+  color: #111;
+  font-weight: bold;
+  font-size: 1rem;
+  transition: transform 0.2s;
+}
+
+.circle:hover {
+  transform: scale(1.05);
+}
+
+.resume {
+  background-color: #f5b400;
+}
+
+.projects {
+  background-color: #f2543b;
+  color: white;
+}
+
+.contact {
+  background-color: #89dce3;
 }
 
 .signature-block {
@@ -108,8 +141,21 @@ header {
   transition: transform 0.2s ease;
 }
 
+.signature:hover {
+  transform: scale(1.03);
+}
+
+.signature-symbol:hover {
+  transform: translateY(-18px) scale(1.03);
+}
+
 .signature-name {
   max-width: 250px;
+}
+
+.signature-symbol {
+  transform: translateY(-18px);
+  transition: transform 0.2s ease;
 }
 
 footer {
@@ -145,6 +191,11 @@ footer {
   color: #000;
 }
 
+.copy {
+  font-size: 0.9rem;
+  color: #666;
+}
+
 .social-icon {
   height: 30px;
   width: auto;
@@ -156,4 +207,5 @@ footer {
 .github-icon {
   height: 25px;
   transform: translateY(-2px);
+  transition: transform 0.2s ease;
 }
