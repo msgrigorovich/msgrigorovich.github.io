@@ -34,7 +34,7 @@ const logo = document.querySelector('.logo');
 if (logo) {
   logo.addEventListener('click', function (e) {
     const current = window.location.pathname;
-    if (current.endsWith('index.html') || current === '/' || current === '/index.html') {
+    if (current.endsWith('/') || current === '/' || current === '/') {
       e.preventDefault();
     }
   });
@@ -48,7 +48,7 @@ document.querySelectorAll('a').forEach(link => {
 
   const linkPath = new URL(href, window.location.origin).pathname;
 
-  if (linkPath === current || (linkPath.endsWith('/index.html') && current === '/')) {
+  if (linkPath === current || (linkPath.endsWith('/') && current === '/')) {
     link.addEventListener('click', e => e.preventDefault());
   }
 });
