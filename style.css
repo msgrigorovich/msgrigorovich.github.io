@@ -48,6 +48,10 @@ header {
   transition: transform 0.2s ease;
 }
 
+.top-nav a:hover {
+  transform: scale(1.05);
+}
+
 .top-nav .divider {
   width: 1px;
   height: 1rem;
