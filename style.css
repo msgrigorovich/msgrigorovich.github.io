@@ -135,6 +135,18 @@ main {
   font-size: 0.75rem;
 }
 
+.projects-page .circle {
+  width: 75px;
+  height: 75px;
+  font-size: 0.75rem;
+}
+
+.contact-page .circle {
+  width: 75px;
+  height: 75px;
+  font-size: 0.75rem;
+}
+
 .circle:hover {
   transform: scale(1.05);
 }
