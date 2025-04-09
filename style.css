@@ -1,4 +1,3 @@
-
 * {
   margin: 0;
   padding: 0;
@@ -129,22 +128,41 @@ main {
   transition: transform 0.2s;
 }
 
+.resume-page {
+  background-color: #f5b400;
+}
+
+.projects-page {
+  background-color: #f2543b;
+}
+
+.contact-page {
+  background-color: #89dce3;
+}
+
 .resume-page .circle {
   width: 75px;
   height: 75px;
   font-size: 0.75rem;
+  background-color: transparent;
+  border: 4px solid white;
 }
 
 .projects-page .circle {
   width: 75px;
   height: 75px;
   font-size: 0.75rem;
+  background-color: transparent;
+  border: 4px solid white;
+  color: black;
 }
 
 .contact-page .circle {
   width: 75px;
   height: 75px;
   font-size: 0.75rem;
+  background-color: transparent;
+  border: 4px solid white;
 }
 
 .circle:hover {
