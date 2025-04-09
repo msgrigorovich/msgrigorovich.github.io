@@ -27,6 +27,16 @@ header {
   gap: 0.5rem;
   cursor: pointer;
   transition: transform 0.2s ease;
+  text-decoration: none;
+  color: inherit;
+}
+
+.logo:link,
+.logo:visited,
+.logo:hover,
+.logo:active {
+  text-decoration: none;
+  color: inherit;
 }
 
 .logo:hover {

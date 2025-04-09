@@ -28,3 +28,29 @@ function typeEffect() {
 }
 
 typeEffect();
+
+const logo = document.querySelector('.logo');
+
+if (logo) {
+  logo.addEventListener('click', function (e) {
+    const current = window.location.pathname;
+    if (current.endsWith('index.html') || current === '/' || current === '/index.html') {
+      e.preventDefault();
+    }
+  });
+}
+
+document.querySelectorAll('a').forEach(link => {
+  const href = link.getAttribute('href');
+  const current = window.location.pathname;
+
+  if (!href || href.startsWith('http')) return;
+
+  const linkPath = new URL(href, window.location.origin).pathname;
+
+  if (linkPath === current || (linkPath.endsWith('/index.html') && current === '/')) {
+    link.addEventListener('click', e => e.preventDefault());
+  }
+});
+
+
