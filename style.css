@@ -25,12 +25,18 @@ header {
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.logo:hover {
+  transform: translateY(-2px);
 }
 
 .logo .dot {
   width: 12px;
   height: 12px;
-  background-color: #f5b400;
+  background-color: #32CD32;
   border-radius: 50%;
 }
 
