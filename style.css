@@ -129,6 +129,12 @@ main {
   transition: transform 0.2s;
 }
 
+.resume-page .circle {
+  width: 75px;
+  height: 75px;
+  font-size: 0.75rem;
+}
+
 .circle:hover {
   transform: scale(1.05);
 }
