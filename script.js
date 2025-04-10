@@ -50,26 +50,33 @@ document.querySelectorAll('a').forEach(link => {
 
   if (linkPath === current || (linkPath.endsWith('/') && current === '/')) {
     link.addEventListener('click', e => e.preventDefault());
+    return;
+  }
+
+  // 🔽 Переместим анимацию сюда
+  if (href === 'resume.html' && link.classList.contains('resume')) {
+    const resumeBtn = document.querySelector('.circle.resume');
+    const finalResume = document.getElementById('finalResume');
+    if (resumeBtn && finalResume) {
+      link.addEventListener('click', e => {
+        e.preventDefault();
+
+        resumeBtn.classList.add('zooming');
+        setTimeout(() => {
+          document.body.style.backgroundColor = '#b3dcfd';
+          resumeBtn.classList.add('pop');
+        }, 1000);
+
+        setTimeout(() => {
+          finalResume.classList.add('resume-text-visible');
+        }, 1800);
+
+        setTimeout(() => {
+          window.location.href = href;
+        }, 2800);
+      });
+    }
   }
 });
 
-const resumeBtn = document.querySelector('.circle.resume');
-    const finalResume = document.getElementById('finalResume');
-    if (resumeBtn && finalResume && href === 'resume.html') {
-      e.preventDefault();
-      resumeBtn.classList.add('zooming');
-
-      setTimeout(() => {
-        document.body.style.backgroundColor = '#b3dcfd';
-        resumeBtn.classList.add('pop');
-      }, 1000);
-
-      setTimeout(() => {
-        finalResume.classList.add('resume-text-visible');
-      }, 1800);
-
-      setTimeout(() => {
-        window.location.href = href;
-      }, 2800);
-    }
 
