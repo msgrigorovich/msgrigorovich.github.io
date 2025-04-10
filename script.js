@@ -40,48 +40,32 @@ if (logo) {
   });
 }
 
-document.querySelectorAll('a').forEach(link => {
+document.querySelectorAll('a.circle.resume').forEach(link => {
   const href = link.getAttribute('href');
-  const current = window.location.pathname;
+  if (href !== 'resume.html') return;
 
-  if (!href || href.startsWith('http')) return;
+  const resumeBtn = document.querySelector('.circle.resume');
+  const finalResume = document.getElementById('finalResume');
+  if (!resumeBtn || !finalResume) return;
 
-  const linkPath = new URL(href, window.location.origin).pathname;
-
-  if (linkPath === current || (linkPath.endsWith('/') && current === '/')) {
-    link.addEventListener('click', e => e.preventDefault());
-    return;
-  }
-
-  if (href === 'resume.html' && link.classList.contains('resume')) {
-    const resumeBtn = document.querySelector('.circle.resume');
-    const finalResume = document.getElementById('finalResume');
-    if (resumeBtn && finalResume) {
-      link.addEventListener('click', e => {
-        e.preventDefault();
-
-        resumeBtn.classList.add('zooming');
-        setTimeout(() => {
-          document.body.style.backgroundColor = '#b3dcfd';
-          resumeBtn.classList.add('pop');
-        }, 1000);
-
-        setTimeout(() => {
-          finalResume.classList.add('resume-text-visible');
-        }, 1800);
-
-        setTimeout(() => {
-          window.location.href = href;
-        }, 2800);
-      });
-    }
-    return;
-  }
-
-  // Стандартный переход
   link.addEventListener('click', e => {
-    window.location.href = href;
+    e.preventDefault();
+
+    resumeBtn.classList.add('zooming');
+    setTimeout(() => {
+      document.body.style.backgroundColor = '#b3dcfd';
+      resumeBtn.classList.add('pop');
+    }, 1000);
+
+    setTimeout(() => {
+      finalResume.classList.add('resume-text-visible');
+    }, 1800);
+
+    setTimeout(() => {
+      window.location.href = href;
+    }, 2800);
   });
 });
+
 
 
