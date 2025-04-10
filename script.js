@@ -53,7 +53,6 @@ document.querySelectorAll('a').forEach(link => {
     return;
   }
 
-  // 🔽 Переместим анимацию сюда
   if (href === 'resume.html' && link.classList.contains('resume')) {
     const resumeBtn = document.querySelector('.circle.resume');
     const finalResume = document.getElementById('finalResume');
@@ -76,7 +75,13 @@ document.querySelectorAll('a').forEach(link => {
         }, 2800);
       });
     }
+    return;
   }
+
+  // Стандартный переход
+  link.addEventListener('click', e => {
+    window.location.href = href;
+  });
 });
 
 
