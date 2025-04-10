@@ -285,3 +285,52 @@ footer {
   transform: translateY(-4px);
   transition: transform 0.2s ease;
 }
+
+.resume-text-final {
+  position: absolute;
+  left: 50%;
+  top: 115px;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  border: 2px solid white;
+  font-weight: bold;
+  font-size: 0.9rem;
+  color: #111;
+  background-color: transparent;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  transition: opacity 0.7s ease;
+}
+
+.resume-text-visible {
+  opacity: 1;
+}
+
+.circle.zooming {
+  position: absolute;
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) scale(1.5) !important;
+  box-shadow: 0 0 40px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+}
+
+.circle.pop {
+  animation: popBurst 0.7s forwards;
+}
+
+@keyframes popBurst {
+  0% {
+    transform: translate(-50%, -50%) scale(1.5);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(3);
+    opacity: 0;
+  }
+}
+

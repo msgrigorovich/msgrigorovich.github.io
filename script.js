@@ -53,4 +53,23 @@ document.querySelectorAll('a').forEach(link => {
   }
 });
 
+const resumeBtn = document.querySelector('.circle.resume');
+    const finalResume = document.getElementById('finalResume');
+    if (resumeBtn && finalResume && href === 'resume.html') {
+      e.preventDefault();
+      resumeBtn.classList.add('zooming');
+
+      setTimeout(() => {
+        document.body.style.backgroundColor = '#b3dcfd';
+        resumeBtn.classList.add('pop');
+      }, 1000);
+
+      setTimeout(() => {
+        finalResume.classList.add('resume-text-visible');
+      }, 1800);
+
+      setTimeout(() => {
+        window.location.href = href;
+      }, 2800);
+    }
 
