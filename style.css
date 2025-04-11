@@ -404,7 +404,7 @@ footer {
 .best_regards {
   display: block;
   margin: 0 auto;
-  max-width: 280px;
+  max-width: 300px;
   height: auto;
-  margin-top: 0.5rem;
+  margin-top: 1rem;
 }
