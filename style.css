@@ -325,19 +325,18 @@ footer {
   transition: transform 0.2s ease;
 }
 
-
 .contact-layout {
   display: flex;
   flex-wrap: wrap;
   gap: 3rem;
   justify-content: center;
   align-items: flex-start;
-  margin-top: -5rem;
+  margin-top: -7rem;
   margin-bottom: 1rem;
 }
 
 .contact-text {
-  max-width: 300px;
+  max-width: 400px;
   text-align: center;
   margin-top: -3rem;
 }
