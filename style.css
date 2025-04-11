@@ -398,13 +398,13 @@ footer {
 }
 
 .contact-form button:hover {
-  background: #e4d3b0;
+  background: #e1bf7b;
 }
 
 .best_regards {
   display: block;
   margin: 0 auto;
-  max-width: 250px;
+  max-width: 260px;
   height: auto;
-  margin-top: -0.5rem;
+  margin-top: 0rem;
 }
