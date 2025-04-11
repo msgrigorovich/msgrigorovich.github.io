@@ -165,6 +165,50 @@ main {
   border: 4px solid white;
 }
 
+.contact-page main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  flex: 1;
+  padding: 6rem 2rem 3rem;
+}
+
+.contact-page .circle.contact {
+  margin-top: -8.5rem;
+  margin-bottom: 3rem;
+}
+
+.contact-info {
+  background: white;
+  border-radius: 20px;
+  padding: 2rem 3rem;
+  max-width: 500px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+  text-align: left;
+  margin-bottom: 4rem;
+}
+
+.contact-info h2 {
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+}
+
+.contact-info p {
+  margin-bottom: 0.5rem;
+  color: #444;
+}
+
+.contact-info a {
+  color: #111;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.contact-info a:hover {
+  text-decoration: underline;
+}
+
 .circle:hover {
   transform: scale(1.05);
 }
