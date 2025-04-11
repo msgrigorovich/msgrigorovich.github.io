@@ -129,15 +129,15 @@ main {
 }
 
 .resume-page {
-  background-color: #b3dcfd;
+  background-color: #b8d3e9;
 }
 
 .projects-page {
-  background-color: #ea8879;
+  background-color: #fcb7ac;
 }
 
 .contact-page {
-  background-color: #b0b6b8;
+  background-color: #c6f6c8;
 }
 
 .resume-page .circle {
@@ -170,16 +170,16 @@ main {
 }
 
 .resume {
-  background-color: #b3dcfd;
+  background-color: #b8d3e9;
 }
 
 .projects {
-  background-color: #ea8879;
+  background-color: #fcb7ac;
   color: white;
 }
 
 .contact {
-  background-color: #b0b6b8;
+  background-color: #c6f6c8;
 }
 
 .signature-block {
