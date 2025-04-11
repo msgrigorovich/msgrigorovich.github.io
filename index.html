@@ -10,21 +10,21 @@
 </head>
 <body>
   <header>
-    <div class="logo">
+    <a href="/" class="logo">
       <span class="dot"></span>
       <strong>Diana Grigorovich</strong>
-    </div>
+    </a>
     <nav class="top-nav">
-        <a href="#">Resume</a>
+        <a href="resume.html">Resume</a>
         <span class="divider"></span>
-        <a href="#">Projects</a>
+        <a href="projects.html">Projects</a>
         <span class="divider"></span>
-        <a href="#">Contact</a>
+        <a href="contact.html">Contact</a>
       </nav>           
   </header>
 
   <main>
-    <h1 class="typing-text">Hello, World!</h1>
+    <h1 class="typing-text"></h1>
     <section class="about">
       <h2>A Bit About Me</h2>
       <p>
@@ -32,15 +32,17 @@
       </p>
     </section>
     <section class="buttons">
-      <a href="#" class="circle resume">Resume</a>
-      <a href="#" class="circle projects">Projects</a>
-      <a href="#" class="circle contact">Contact</a>
+      <a href="resume.html" class="circle resume" id="resumeBtn">Resume</a>
+      <a href="projects.html" class="circle projects">Projects</a>
+      <a href="contact.html" class="circle contact">Contact</a>
     </section>
     <section class="signature-block">
         <img src="diana-name.jpg" alt="Diana Grigorovich handwritten name" class="signature signature-name">
         <img src="diana-signature.jpg" alt="Diana Grigorovich signature" class="signature signature-symbol">
     </section>
   </main>
+
+  <div class="resume-text-final" id="finalResume">Resume</div>
 
   <footer>
   <div class="footer-grid">
@@ -71,14 +73,7 @@
   </div>
 </footer>
 
-<script>
-  setInterval(() => {
-    const el = document.querySelector('.typing-text');
-    el.style.animation = 'none';
-    void el.offsetWidth;
-    el.style.animation = 'typing 1.5s steps(13, end) forwards, blink 0.7s step-end infinite';
-  }, 3000);
-</script>
+<script src="script.js"></script>
 
 </body>
 </html>
