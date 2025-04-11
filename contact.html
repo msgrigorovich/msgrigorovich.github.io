@@ -22,17 +22,22 @@
     </nav>
   </header>
 
-  <main>
-    <a href="contact" class="circle contact">Contact</a>
-
-    <div class="contact-info">
-      <h2>Let's Get In Touch</h2>
-      <p><strong>Phone:</strong> <a href="tel:+995511458375">+995 511-458-375</a></p>
-      <p><strong>Email:</strong> <a href="mailto:me@dianagrigorovich.com">me@dianagrigorovich.com</a></p>
-      <p><strong>LinkedIn:</strong> <a href="https://www.linkedin.com/in/diana-grigorovich-8b3680247/" target="_blank">linkedin.com/in/diana-grigorovich</a></p>
-      <p><strong>GitHub:</strong> <a href="https://github.com/msgrigorovich" target="_blank">github.com/msgrigorovich</a></p>
+  <main class="contact-layout">
+    <div class="contact-text">
+      <h2>Contact</h2>
+      <p>I will be happy to hear from you</p>
     </div>
 
+    <form class="contact-form" action="mailto:me@dianagrigorovich.com" method="post" enctype="text/plain">
+      <div class="form-row">
+        <input type="text" name="first_name" placeholder="First Name" required />
+        <input type="text" name="last_name" placeholder="Last Name" required />
+      </div>
+      <input type="email" name="email" placeholder="Email" required />
+      <input type="text" name="subject" placeholder="Subject" />
+      <textarea name="message" placeholder="Message" rows="5" required></textarea>
+      <button type="submit">Send</button>
+    </form>
   </main>
 
   <footer>
