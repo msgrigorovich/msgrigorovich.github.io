@@ -338,14 +338,14 @@ footer {
   gap: 3rem;
   justify-content: center;
   align-items: flex-start;
-  margin-top: 0rem;
-  margin-bottom: 1.5rem;
+  margin-top: -0.5rem;
+  margin-bottom: 1rem;
 }
 
 .contact-text {
   max-width: 300px;
-  text-align: left;
-  margin-top: -1.5rem;
+  text-align: center;
+  margin-top: -2rem;
 }
 
 .contact-text h2 {
