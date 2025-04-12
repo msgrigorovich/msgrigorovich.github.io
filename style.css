@@ -401,3 +401,44 @@ footer {
   height: auto;
   margin-top: 1rem;
 }
+
+.cursor-dot,
+.cursor-outline {
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  border-radius: 50%;
+  z-index: 10000;
+  transform: translate(-50%, -50%);
+  will-change: transform;
+}
+
+.cursor-dot {
+  width: 8px;
+  height: 8px;
+  background-color: rgba(50, 205, 50, 1);
+  mix-blend-mode: difference;
+}
+
+.cursor-outline {
+  width: 35px;
+  height: 35px;
+  background-color: rgba(50, 205, 50, 0.2);
+  filter: blur(8px);
+  mix-blend-mode: lighten;
+  transition: background-color 0.2s ease;
+}
+
+.cursor-trail {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 9999;
+  mix-blend-mode: lighten;
+  filter: blur(12px);
+}
+
