@@ -440,12 +440,13 @@ footer {
 }
 
 .progress-section {
+  position: absolute;
+  top: 30%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 3rem;
-  animation: fadeIn 1s ease-out;
-  margin-top: -10rem;
 }
 
 .progress-label {
@@ -501,11 +502,8 @@ footer {
 }
 
 .progress-center-wrapper {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-grow: 1;
-  height: 50vh;
+  position: relative;
+  height: 60vh;
 }
 
 .retro-font {
