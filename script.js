@@ -179,19 +179,34 @@ function animateProgressBar() {
   const totalDays = Math.floor((endDate - startDate) / (1000 * 60 * 60 * 24));
   const passedDays = Math.floor((today - startDate) / (1000 * 60 * 60 * 24));
   const percent = Math.min((passedDays / totalDays) * 100, 100);
-  const rounded = percent.toFixed(2);
-
-  percentText.textContent = `${rounded}% complete`;
+  const rounded = parseFloat(percent.toFixed(2));
 
   const totalSegments = 40;
   const filledSegments = Math.round((percent / 100) * totalSegments);
 
+  // Сегментная анимация
   for (let i = 0; i < filledSegments; i++) {
     const segment = document.createElement('div');
     segment.classList.add('progress-segment');
     segment.style.animationDelay = `${i * 0.05}s`;
     container.appendChild(segment);
   }
+
+  let currentPercent = 0;
+  const duration = filledSegments * 50;
+  const stepTime = 10;
+  const totalSteps = duration / stepTime;
+  const increment = rounded / totalSteps;
+
+  const counter = setInterval(() => {
+    currentPercent += increment;
+    if (currentPercent >= rounded) {
+      percentText.textContent = `${rounded.toFixed(2)}% COMPLETE`;
+      clearInterval(counter);
+    } else {
+      percentText.textContent = `${currentPercent.toFixed(2)}% COMPLETE`;
+    }
+  }, stepTime);
 }
 
 window.addEventListener('DOMContentLoaded', animateProgressBar);
