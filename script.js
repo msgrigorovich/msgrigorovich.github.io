@@ -167,3 +167,23 @@ function drawTrail() {
 
 drawTrail();
 
+function animateProgressBar() {
+  const fill = document.querySelector('.progress-bar-fill');
+  const percentText = document.querySelector('.progress-percentage');
+
+  if (!fill || !percentText) return;
+
+  const startDate = new Date('2021-09-15');
+  const endDate = new Date('2025-12-01');
+  const today = new Date();
+
+  const total = Math.floor((endDate - startDate) / (1000 * 60 * 60 * 24));
+  const passed = Math.floor((today - startDate) / (1000 * 60 * 60 * 24));
+  const progress = Math.min((passed / total) * 100, 100);
+  const rounded = progress.toFixed(2);
+
+  fill.style.width = `${rounded}%`;
+  percentText.textContent = `${rounded}% complete`;
+}
+
+window.addEventListener('DOMContentLoaded', animateProgressBar);
