@@ -113,6 +113,12 @@
         return value;
       };
   
+      console.log("🧪 Sent:", {
+        org: sanitize(ipdata.connection?.org),
+        isp: sanitize(ipdata.connection?.isp),
+        is_me: isMe
+      });
+      
       fetch("https://script.google.com/macros/s/AKfycbxTP5h06kKleZrbuAGIvBIMYhaFSfuWZUpurZnpfcuxDAOZAdnMMdRNUvrKFbfTGseVTg/exec", {
         method: "POST",
         body: JSON.stringify({
