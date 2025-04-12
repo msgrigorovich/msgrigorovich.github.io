@@ -210,3 +210,36 @@ function animateProgressBar() {
 }
 
 window.addEventListener('DOMContentLoaded', animateProgressBar);
+
+document.addEventListener('DOMContentLoaded', () => {
+  const form = document.getElementById('contactForm');
+  const successMessage = document.getElementById('formSuccess');
+
+  if (form) {
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const formData = new FormData(form);
+      const data = Object.fromEntries(formData.entries());
+
+      try {
+        const response = await fetch('https://formspree.io/f/mkgjybaz', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(data)
+        });
+
+        if (response.ok) {
+          form.reset();
+          successMessage.style.display = 'block';
+        } else {
+          alert('Something went wrong. Please try again later.');
+        }
+      } catch (error) {
+        alert('Error: ' + error.message);
+      }
+    });
+  }
+});
