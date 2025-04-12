@@ -118,12 +118,11 @@
         body: JSON.stringify({
           ip: sanitize(ipdata.ip),
           country: sanitize(ipdata.country),
-          region: sanitize(ipdata.region),
           city: sanitize(ipdata.city),
-          isp: sanitize(ipdata.connection?.isp),
-          org: sanitize(ipdata.connection?.org),
           page: customPage,
           ua: navigator.userAgent,
+          org: sanitize(ipdata.connection?.org),
+          isp: sanitize(ipdata.connection?.isp),
           is_me: isMe
         })
       }).then(() => console.log(`✅ Analytics sent for "${customPage}", is_me: ${isMe}`));
