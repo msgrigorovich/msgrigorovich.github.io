@@ -167,22 +167,31 @@ function drawTrail() {
 drawTrail();
 
 function animateProgressBar() {
-  const fill = document.querySelector('.progress-bar-fill');
+  const container = document.querySelector('.progress-bar-fill');
   const percentText = document.querySelector('.progress-percentage');
 
-  if (!fill || !percentText) return;
+  if (!container || !percentText) return;
 
-  const startDate = new Date('2021-09-15'); // date of my rist day in game development
-  const endDate = new Date('2025-12-01'); // date of my first step in relocation to the capitol of game development
+  const startDate = new Date('2021-09-15');
+  const endDate = new Date('2025-12-01');
   const today = new Date();
 
-  const total = Math.floor((endDate - startDate) / (1000 * 60 * 60 * 24));
-  const passed = Math.floor((today - startDate) / (1000 * 60 * 60 * 24));
-  const progress = Math.min((passed / total) * 100, 100);
-  const rounded = progress.toFixed(2);
+  const totalDays = Math.floor((endDate - startDate) / (1000 * 60 * 60 * 24));
+  const passedDays = Math.floor((today - startDate) / (1000 * 60 * 60 * 24));
+  const percent = Math.min((passedDays / totalDays) * 100, 100);
+  const rounded = percent.toFixed(2);
 
-  fill.style.width = `${rounded}%`;
   percentText.textContent = `${rounded}% complete`;
+
+  const totalSegments = 40;
+  const filledSegments = Math.round((percent / 100) * totalSegments);
+
+  for (let i = 0; i < filledSegments; i++) {
+    const segment = document.createElement('div');
+    segment.classList.add('progress-segment');
+    segment.style.animationDelay = `${i * 0.05}s`;
+    container.appendChild(segment);
+  }
 }
 
 window.addEventListener('DOMContentLoaded', animateProgressBar);
