@@ -234,6 +234,9 @@ document.addEventListener('DOMContentLoaded', () => {
         if (response.ok) {
           form.reset();
           successMessage.style.display = 'block';
+          setTimeout(() => {
+            successMessage.style.opacity = 1;
+          }, 100);
         } else {
           alert('Something went wrong. Please try again later.');
         }
