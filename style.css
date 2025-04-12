@@ -445,6 +445,7 @@ footer {
   align-items: center;
   margin-top: 3rem;
   animation: fadeIn 1s ease-out;
+  margin-top: -5rem;
 }
 
 .progress-label {
@@ -489,4 +490,3 @@ footer {
   flex-grow: 1;
   height: 50vh;
 }
-

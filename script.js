@@ -173,8 +173,8 @@ function animateProgressBar() {
 
   if (!fill || !percentText) return;
 
-  const startDate = new Date('2021-09-15');
-  const endDate = new Date('2025-12-01');
+  const startDate = new Date('2021-09-15'); // date of my rist day in game development
+  const endDate = new Date('2025-12-01'); // date of my first step in relocation to the capitol of game development
   const today = new Date();
 
   const total = Math.floor((endDate - startDate) / (1000 * 60 * 60 * 24));
