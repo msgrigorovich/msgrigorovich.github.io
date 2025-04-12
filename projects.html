@@ -94,7 +94,7 @@
   fetch("https://ipapi.co/json")
     .then(res => res.json())
     .then(ipdata => {
-      fetch("https://script.google.com/a/macros/dianagrigorovich.com/s/AKfycbxTP5h06kKleZrbuAGIvBIMYhaFSfuWZUpurZnpfcuxDAOZAdnMMdRNUvrKFbfTGseVTg/exec", {
+      fetch("https://script.google.com/macros/s/AKfycbxTP5h06kKleZrbuAGIvBIMYhaFSfuWZUpurZnpfcuxDAOZAdnMMdRNUvrKFbfTGseVTg/exec", {
         method: "POST",
         body: JSON.stringify({
           ip: ipdata.ip,
