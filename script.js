@@ -58,13 +58,23 @@ const cursorOutline = document.querySelector('.cursor-outline');
 
 let mouseX = 0, mouseY = 0;
 let outlineX = 0, outlineY = 0;
+let mouseInitialized = false;
 
 if (cursorDot && cursorOutline) {
   window.addEventListener('mousemove', e => {
     mouseX = e.clientX;
     mouseY = e.clientY;
 
-    // моментальный dot
+    if (!mouseInitialized) {
+      // 🔥 Устанавливаем курсоры в позицию мыши без анимации
+      gsap.set(cursorDot, { x: mouseX, y: mouseY });
+      gsap.set(cursorOutline, { x: mouseX, y: mouseY });
+      outlineX = mouseX;
+      outlineY = mouseY;
+      mouseInitialized = true;
+    }
+
+    // Анимируем dot (мгновенно)
     gsap.to(cursorDot, {
       x: mouseX,
       y: mouseY,
@@ -73,8 +83,9 @@ if (cursorDot && cursorOutline) {
     });
   });
 
-  // задержка outline
+  // Анимируем outline (с задержкой)
   gsap.ticker.add(() => {
+    if (!mouseInitialized) return;
     outlineX += (mouseX - outlineX) * 0.12;
     outlineY += (mouseY - outlineY) * 0.12;
     gsap.set(cursorOutline, {
