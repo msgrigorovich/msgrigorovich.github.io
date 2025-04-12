@@ -445,7 +445,7 @@ footer {
   align-items: center;
   margin-top: 3rem;
   animation: fadeIn 1s ease-out;
-  margin-top: -9rem;
+  margin-top: -10rem;
 }
 
 .progress-label {
@@ -458,7 +458,7 @@ footer {
 .progress-bar-container {
   width: 320px;
   height: 24px;
-  background-color: #e0e0e0;
+  background-color: #f2f2f2;
   border: 2px solid #333;
   display: flex;
   align-items: center;
@@ -483,7 +483,7 @@ footer {
 .progress-segment {
   width: 6px;
   height: 100%;
-  background-color: #9cf19c;
+  background-color: #67c067;
   flex-shrink: 0;
   animation: segmentFadeIn 0.3s ease-in-out forwards;
   opacity: 0;
