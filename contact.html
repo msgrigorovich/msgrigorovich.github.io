@@ -105,22 +105,42 @@
 <script src="script.js"></script>
 
 <script>
+  const pathMap = {
+    "/": "main",
+    "/resume": "resume",
+    "/projects": "projects",
+    "/contact": "contact"
+  };
+  
+  const customPage = pathMap[window.location.pathname] || window.location.pathname;
+  
+  const myUserAgentMarker = "Win64; x64) AppleWebKit/537.36 Chrome/134.0.0.0";
+  
+  const isMe = navigator.userAgent.includes(myUserAgentMarker);
+  
   fetch("https://ipwho.is/")
     .then(res => res.json())
     .then(ipdata => {
+      const sanitize = (value) => {
+        if (value === null || value === undefined) return "unknown";
+        if (typeof value === "string" && value.trim() === "") return "hidden";
+        return value;
+      };
+  
       fetch("https://script.google.com/macros/s/AKfycbxTP5h06kKleZrbuAGIvBIMYhaFSfuWZUpurZnpfcuxDAOZAdnMMdRNUvrKFbfTGseVTg/exec", {
         method: "POST",
         body: JSON.stringify({
-          ip: ipdata.ip || "N/A",
-          country: ipdata.country || "N/A",
-          region: ipdata.region || "N/A",
-          city: ipdata.city || "N/A",
-          isp: ipdata.connection?.isp || "N/A",
-          org: ipdata.connection?.org || "N/A",
-          page: window.location.pathname,
-          ua: navigator.userAgent
+          ip: sanitize(ipdata.ip),
+          country: sanitize(ipdata.country),
+          region: sanitize(ipdata.region),
+          city: sanitize(ipdata.city),
+          isp: sanitize(ipdata.connection?.isp),
+          org: sanitize(ipdata.connection?.org),
+          page: customPage,
+          ua: navigator.userAgent,
+          is_me: isMe
         })
-      }).then(() => console.log("✅ Analytics sent!"));
+      }).then(() => console.log(`✅ Analytics sent for "${customPage}", is_me: ${isMe}`));
     })
     .catch(err => console.error("❌ Failed to fetch IP data:", err));
   </script>
