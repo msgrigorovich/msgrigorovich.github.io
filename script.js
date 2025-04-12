@@ -115,18 +115,41 @@ window.addEventListener('resize', () => {
 let trail = [];
 
 window.addEventListener('mousemove', (e) => {
-  trail.push({ x: e.clientX, y: e.clientY, alpha: 1 });
+  const target = document.elementFromPoint(e.clientX, e.clientY);
+  let color = '0,0,0'; // по умолчанию — чёрный
+
+  if (target) {
+    if (target.classList.contains('circle')) {
+      const bg = window.getComputedStyle(target).backgroundColor;
+      const match = bg.match(/\d+,\s*\d+,\s*\d+/);
+      if (match) color = match[0];
+    } else if (
+      ['P', 'A', 'SPAN', 'H1', 'H2', 'STRONG'].includes(target.tagName) ||
+      (target.classList && (
+        target.classList.contains('logo') ||
+        target.classList.contains('copy')
+      )) ||
+      target.closest('.logo') ||
+      target.closest('.footer-grid') ||
+      target.closest('footer')
+    ) {
+      color = '255,255,255'; // белый трейл
+    }
+  }
+
+  trail.push({ x: e.clientX, y: e.clientY, alpha: 1, color });
 });
 
 function drawTrail() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   trail.forEach((p, i) => {
     ctx.beginPath();
-    ctx.arc(p.x, p.y, 20, 0, Math.PI * 2);
-    ctx.fillStyle = `rgba(50,205,50,${p.alpha})`;
+    ctx.arc(p.x, p.y, 40, 0, Math.PI * 2); // больше радиус
+    ctx.fillStyle = `rgba(${p.color || '0,0,0'},${p.alpha})`;
     ctx.fill();
     p.alpha -= 0.02;
   });
+  
   trail = trail.filter(p => p.alpha > 0);
   requestAnimationFrame(drawTrail);
 }

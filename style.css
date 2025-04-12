@@ -415,19 +415,16 @@ footer {
 }
 
 .cursor-dot {
-  width: 8px;
-  height: 8px;
-  background-color: rgba(50, 205, 50, 1);
-  mix-blend-mode: difference;
+  width: 12px;
+  height: 12px;
+  background-color: #111;
 }
 
 .cursor-outline {
-  width: 35px;
-  height: 35px;
-  background-color: rgba(50, 205, 50, 0.2);
-  filter: blur(8px);
-  mix-blend-mode: lighten;
-  transition: background-color 0.2s ease;
+  width: 36px;
+  height: 36px;
+  border: 2px solid #111;
+  background-color: transparent;
 }
 
 .cursor-trail {
@@ -438,7 +435,9 @@ footer {
   height: 100vh;
   pointer-events: none;
   z-index: 9999;
-  mix-blend-mode: lighten;
-  filter: blur(12px);
+  mix-blend-mode: screen; /* было lighten — screen даёт ярче белый */
+  filter: blur(40px); /* усилили ещё */
 }
+
+
 
