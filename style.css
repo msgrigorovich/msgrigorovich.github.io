@@ -435,8 +435,8 @@ footer {
   height: 100vh;
   pointer-events: none;
   z-index: 9999;
-  mix-blend-mode: screen; /* было lighten — screen даёт ярче белый */
-  filter: blur(40px); /* усилили ещё */
+  mix-blend-mode: screen;
+  filter: blur(40px);
 }
 
 .progress-section {
@@ -445,7 +445,7 @@ footer {
   align-items: center;
   margin-top: 3rem;
   animation: fadeIn 1s ease-out;
-  margin-top: -5rem;
+  margin-top: -8rem;
 }
 
 .progress-label {
@@ -466,7 +466,7 @@ footer {
 
 .progress-bar-fill {
   height: 100%;
-  background-color: #32CD32; /* зелёный лаймовый */
+  background-color: #9cf19c;
   width: 0%;
   border-radius: 10px;
   transition: width 3s ease;

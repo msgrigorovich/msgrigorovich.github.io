@@ -66,7 +66,7 @@ if (cursorDot && cursorOutline) {
     mouseY = e.clientY;
 
     if (!mouseInitialized) {
-      // 🔥 Устанавливаем курсоры в позицию мыши без анимации
+
       gsap.set(cursorDot, { x: mouseX, y: mouseY });
       gsap.set(cursorOutline, { x: mouseX, y: mouseY });
       outlineX = mouseX;
@@ -74,7 +74,7 @@ if (cursorDot && cursorOutline) {
       mouseInitialized = true;
     }
 
-    // Анимируем dot (мгновенно)
+   
     gsap.to(cursorDot, {
       x: mouseX,
       y: mouseY,
@@ -83,7 +83,6 @@ if (cursorDot && cursorOutline) {
     });
   });
 
-  // Анимируем outline (с задержкой)
   gsap.ticker.add(() => {
     if (!mouseInitialized) return;
     outlineX += (mouseX - outlineX) * 0.12;
@@ -127,7 +126,7 @@ let trail = [];
 
 window.addEventListener('mousemove', (e) => {
   const target = document.elementFromPoint(e.clientX, e.clientY);
-  let color = '0,0,0'; // по умолчанию — чёрный
+  let color = '0,0,0';
 
   if (target) {
     if (target.classList.contains('circle')) {
@@ -144,7 +143,7 @@ window.addEventListener('mousemove', (e) => {
       target.closest('.footer-grid') ||
       target.closest('footer')
     ) {
-      color = '255,255,255'; // белый трейл
+      color = '255,255,255';
     }
   }
 
@@ -155,7 +154,7 @@ function drawTrail() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   trail.forEach((p, i) => {
     ctx.beginPath();
-    ctx.arc(p.x, p.y, 40, 0, Math.PI * 2); // больше радиус
+    ctx.arc(p.x, p.y, 40, 0, Math.PI * 2);
     ctx.fillStyle = `rgba(${p.color || '0,0,0'},${p.alpha})`;
     ctx.fill();
     p.alpha -= 0.02;
