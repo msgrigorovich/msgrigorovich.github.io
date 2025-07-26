@@ -522,7 +522,7 @@ footer {
   top: 100%;
   left: 50%;
   transform: translateX(-50%);
-  width: fit-content; /* чтобы занимала только свою ширину */
+  width: fit-content;
   margin-top: 2em;
   font-size: 0.7em;
   font-weight: normal;

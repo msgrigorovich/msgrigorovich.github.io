@@ -184,7 +184,7 @@ function animateProgressBar() {
   const totalSegments = 40;
   const filledSegments = Math.round((percent / 100) * totalSegments);
 
-  // Сегментная анимация
+  // Segment Animation
   for (let i = 0; i < filledSegments; i++) {
     const segment = document.createElement('div');
     segment.classList.add('progress-segment');
