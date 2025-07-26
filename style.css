@@ -512,3 +512,25 @@ footer {
   text-transform: uppercase;
   letter-spacing: 1px;
 }
+
+.progress-section {
+  position: relative;
+}
+
+.progress-days-left {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: fit-content; /* чтобы занимала только свою ширину */
+  margin-top: 2em;
+  font-size: 0.7em;
+  font-weight: normal;
+  line-height: 1.7;
+  text-align: center;
+  opacity: 0;
+  transition: opacity 1s cubic-bezier(0.4,0,0.2,1);
+  pointer-events: none;
+}
+
+

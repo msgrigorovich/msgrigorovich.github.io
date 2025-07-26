@@ -206,18 +206,6 @@ function animateProgressBar() {
   if (!daysLeftMsg) {
     daysLeftMsg = document.createElement('div');
     daysLeftMsg.className = 'progress-days-left';
-    // Отступ вниз примерно на 2 строки
-    daysLeftMsg.style.marginTop = '2.5em';
-    // Шрифт в 2 раза меньше, обычный (не bold)
-    daysLeftMsg.style.fontSize = '0.7em';
-    daysLeftMsg.style.fontWeight = 'normal';
-    // Больше междустрочного интервала
-    daysLeftMsg.style.lineHeight = '1.7';
-    // Центрирование текста
-    daysLeftMsg.style.textAlign = 'center';
-    // Анимация появления (fade-in)
-    daysLeftMsg.style.opacity = '0';
-    daysLeftMsg.style.transition = 'opacity 1s cubic-bezier(0.4,0,0.2,1)';
     percentText.parentNode.insertBefore(daysLeftMsg, percentText.nextSibling);
   }
   daysLeftMsg.textContent = '';
@@ -229,7 +217,7 @@ function animateProgressBar() {
       clearInterval(counter);
       // Show days left message
       daysLeftMsg.textContent = `I am very grateful for the presence of this page, however it is in the waiting stage of my projects. There is an end date for this development and it is ${daysLeft} days away. I believe that you will return to this page.`;
-      // Анимация появления
+      // Fade-in
       setTimeout(() => {
         daysLeftMsg.style.opacity = '1';
       }, 100);
@@ -238,6 +226,7 @@ function animateProgressBar() {
     }
   }, stepTime);
 }
+
 
 window.addEventListener('DOMContentLoaded', animateProgressBar);
 
