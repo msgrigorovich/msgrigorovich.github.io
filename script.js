@@ -55,10 +55,13 @@ document.querySelectorAll('a').forEach(link => {
 
 const cursorDot = document.querySelector('.cursor-dot');
 const cursorOutline = document.querySelector('.cursor-outline');
+const cursorOutlineInner = document.querySelector('.cursor-outline-inner');
+
 
 let mouseX = 0, mouseY = 0;
 let outlineX = 0, outlineY = 0;
 let mouseInitialized = false;
+let isHoveringClickable = false;
 
 if (cursorDot && cursorOutline) {
   window.addEventListener('mousemove', e => {
@@ -85,8 +88,9 @@ if (cursorDot && cursorOutline) {
 
   gsap.ticker.add(() => {
     if (!mouseInitialized) return;
-    outlineX += (mouseX - outlineX) * 0.12;
-    outlineY += (mouseY - outlineY) * 0.12;
+    const speed = isHoveringClickable ? 0.18 : 0.12; // более плавное приближение при ховере
+    outlineX += (mouseX - outlineX) * speed;
+    outlineY += (mouseY - outlineY) * speed;
     gsap.set(cursorOutline, {
       x: outlineX,
       y: outlineY
@@ -95,14 +99,51 @@ if (cursorDot && cursorOutline) {
 }
 
 document.querySelectorAll('a, .circle').forEach(el => {
-  el.addEventListener('mouseenter', () => {
+el.addEventListener('mouseenter', () => {
+    isHoveringClickable = true;
+
+    const dotRect = cursorDot.getBoundingClientRect();
+
+    mouseX = dotRect.left + dotRect.width / 2;
+    mouseY = dotRect.top + dotRect.height / 2;
+
+    const elementColor = window.getComputedStyle(el).backgroundColor;
+
+    const darkerElementColor = darkenColor(elementColor, 0.5); // на 50% темнее
+
+    gsap.to(cursorDot, {
+      backgroundColor: '#ff5e5e',
+      duration: 0.2,
+      ease: 'power2.out'
+    });
+
+    gsap.to(cursorOutlineInner, {
+      backgroundColor: colorWithAlpha(darkerElementColor, 0.25),
+      duration: 0.2,
+      ease: 'power2.out'
+    });
+
     gsap.to(cursorOutline, {
-      scale: 1.6,
+      scale: 2.0, // теперь увеличивается сильнее
       duration: 0.3,
       ease: 'power2.out'
     });
   });
+
   el.addEventListener('mouseleave', () => {
+    isHoveringClickable = false;
+    gsap.to(cursorDot, {
+      backgroundColor: '#ff5e5e',
+      duration: 0.2,
+      ease: 'power2.out'
+    });
+
+    gsap.to(cursorOutlineInner, {
+      backgroundColor: 'rgba(255, 94, 94, 0.25)',
+      duration: 0.2,
+      ease: 'power2.out'
+    });
+
     gsap.to(cursorOutline, {
       scale: 1,
       duration: 0.3,
@@ -110,6 +151,60 @@ document.querySelectorAll('a, .circle').forEach(el => {
     });
   });
 });
+
+// Функция затемнения цвета
+function darkenColor(rgb, amount) {
+  const nums = rgb.match(/\d+/g).map(Number);
+  const factor = 1 - amount;
+  const r = Math.max(Math.round(nums[0] * factor), 0);
+  const g = Math.max(Math.round(nums[1] * factor), 0);
+  const b = Math.max(Math.round(nums[2] * factor), 0);
+  return `rgb(${r}, ${g}, ${b})`;
+}
+
+function colorWithAlpha(rgb, alpha) {
+  const nums = rgb.match(/\d+/g).map(Number);
+  return `rgba(${nums[0]}, ${nums[1]}, ${nums[2]}, ${alpha})`;
+}
+
+
+// Функция смешивания с приоритетом базового цвета курсора
+function mixColors(color1, color2, weight) {
+  const c1 = color1.match(/\d+/g).map(Number);
+  const c2 = color2.match(/\d+/g).map(Number);
+  const w = weight || 0.5;
+  const r = Math.round(c1[0] * w + c2[0] * (1 - w));
+  const g = Math.round(c1[1] * w + c2[1] * (1 - w));
+  const b = Math.round(c1[2] * w + c2[2] * (1 - w));
+  return `rgb(${r}, ${g}, ${b})`;
+}
+
+function colorWithAlpha(rgb, alpha) {
+  const nums = rgb.match(/\d+/g).map(Number);
+  return `rgba(${nums[0]}, ${nums[1]}, ${nums[2]}, ${alpha})`;
+}
+
+
+// Функция смешивания цветов
+function mixColors(color1, color2, weight) {
+  const c1 = color1.match(/\d+/g).map(Number);
+  const c2 = color2.match(/\d+/g).map(Number);
+  const w = weight || 0.5;
+  const r = Math.round(c1[0] * w + c2[0] * (1 - w));
+  const g = Math.round(c1[1] * w + c2[1] * (1 - w));
+  const b = Math.round(c1[2] * w + c2[2] * (1 - w));
+  return `rgb(${r}, ${g}, ${b})`;
+}
+
+// Добавляем альфу к rgb
+function colorWithAlpha(rgb, alpha) {
+  const nums = rgb.match(/\d+/g).map(Number);
+  return `rgba(${nums[0]}, ${nums[1]}, ${nums[2]}, ${alpha})`;
+}
+
+
+
+
 
 const canvas = document.querySelector('.cursor-trail');
 const ctx = canvas.getContext('2d');
@@ -265,3 +360,13 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 });
+
+function darkenColor(rgb, amount) {
+  const nums = rgb.match(/\d+/g).map(Number);
+  const factor = 1 - amount;
+  const r = Math.max(Math.round(nums[0] * factor), 0);
+  const g = Math.max(Math.round(nums[1] * factor), 0);
+  const b = Math.max(Math.round(nums[2] * factor), 0);
+  return `rgb(${r}, ${g}, ${b})`;
+}
+

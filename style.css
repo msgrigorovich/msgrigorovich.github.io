@@ -417,15 +417,37 @@ footer {
 .cursor-dot {
   width: 12px;
   height: 12px;
-  background-color: #111;
+  background-color: #ff5e5e; /* новый цвет маленькой окружности */
 }
 
 .cursor-outline {
   width: 36px;
   height: 36px;
-  border: 2px solid #111;
-  background-color: transparent;
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  border-radius: 50%;
+  z-index: 10000;
+  transform: translate(-50%, -50%);
+  will-change: transform;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
+
+
+.cursor-outline-inner {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background-color: rgba(255, 94, 94, 0.25);
+  border: none;
+  mix-blend-mode: difference;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+
 
 .cursor-trail {
   position: fixed;
