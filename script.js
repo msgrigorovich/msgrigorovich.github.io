@@ -88,7 +88,7 @@ if (cursorDot && cursorOutline) {
 
   gsap.ticker.add(() => {
     if (!mouseInitialized) return;
-    const speed = isHoveringClickable ? 0.18 : 0.12; // более плавное приближение при ховере
+    const speed = isHoveringClickable ? 0.18 : 0.12;
     outlineX += (mouseX - outlineX) * speed;
     outlineY += (mouseY - outlineY) * speed;
     gsap.set(cursorOutline, {
@@ -109,7 +109,7 @@ el.addEventListener('mouseenter', () => {
 
     const elementColor = window.getComputedStyle(el).backgroundColor;
 
-    const darkerElementColor = darkenColor(elementColor, 0.5); // на 50% темнее
+    const darkerElementColor = darkenColor(elementColor, 0.5);
 
     gsap.to(cursorDot, {
       backgroundColor: '#ff5e5e',
@@ -124,7 +124,7 @@ el.addEventListener('mouseenter', () => {
     });
 
     gsap.to(cursorOutline, {
-      scale: 2.0, // теперь увеличивается сильнее
+      scale: 2.0,
       duration: 0.3,
       ease: 'power2.out'
     });
@@ -152,7 +152,7 @@ el.addEventListener('mouseenter', () => {
   });
 });
 
-// Функция затемнения цвета
+// function of blackout color
 function darkenColor(rgb, amount) {
   const nums = rgb.match(/\d+/g).map(Number);
   const factor = 1 - amount;
@@ -168,7 +168,7 @@ function colorWithAlpha(rgb, alpha) {
 }
 
 
-// Функция смешивания с приоритетом базового цвета курсора
+// function of blending with cursor base color priority
 function mixColors(color1, color2, weight) {
   const c1 = color1.match(/\d+/g).map(Number);
   const c2 = color2.match(/\d+/g).map(Number);
@@ -185,7 +185,7 @@ function colorWithAlpha(rgb, alpha) {
 }
 
 
-// Функция смешивания цветов
+// Color mixing function
 function mixColors(color1, color2, weight) {
   const c1 = color1.match(/\d+/g).map(Number);
   const c2 = color2.match(/\d+/g).map(Number);
@@ -196,7 +196,7 @@ function mixColors(color1, color2, weight) {
   return `rgb(${r}, ${g}, ${b})`;
 }
 
-// Добавляем альфу к rgb
+// Add alpha to rgb
 function colorWithAlpha(rgb, alpha) {
   const nums = rgb.match(/\d+/g).map(Number);
   return `rgba(${nums[0]}, ${nums[1]}, ${nums[2]}, ${alpha})`;
