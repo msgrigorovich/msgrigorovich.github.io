@@ -120,15 +120,24 @@ function runIntro() {
   const naturalRect = block.getBoundingClientRect();
   const centerLeft = (window.innerWidth - naturalRect.width) / 2;
   const centerTop = (window.innerHeight - naturalRect.height) / 2;
-  const introScale = 1.2;
+  const viewportMargin = 24;
+  const maxScaleForViewport = (window.innerWidth - viewportMargin * 2) / naturalRect.width;
+  const introScale = Math.min(1.2, Math.max(1, maxScaleForViewport));
+  const dx = centerLeft - naturalRect.left;
+  const dy = centerTop - naturalRect.top;
 
+  // Position is fixed at the true final (natural) spot from the very start and never
+  // changes; the centered/enlarged look during writing is done purely via `transform`
+  // (translate + scale), which the browser can animate on the compositor without
+  // recomputing layout every frame. Animating `left`/`top` directly was prone to jank
+  // that showed up as the signature "snapping" the last bit of the way at the end.
   block.style.position = 'fixed';
   block.style.margin = '0';
   block.style.width = `${naturalRect.width}px`;
-  block.style.left = `${centerLeft}px`;
-  block.style.top = `${centerTop}px`;
+  block.style.left = `${naturalRect.left}px`;
+  block.style.top = `${naturalRect.top}px`;
   block.style.zIndex = '10';
-  block.style.transform = `scale(${introScale})`;
+  block.style.transform = `translate(${dx}px, ${dy}px) scale(${introScale})`;
 
   animateSignature().then(() => {
     setTimeout(() => {
@@ -146,8 +155,8 @@ function runIntro() {
       try {
         const anim = block.animate(
           [
-            { left: `${centerLeft}px`, top: `${centerTop}px`, transform: `scale(${introScale})` },
-            { left: `${naturalRect.left}px`, top: `${naturalRect.top}px`, transform: 'scale(1)' }
+            { transform: `translate(${dx}px, ${dy}px) scale(${introScale})` },
+            { transform: 'translate(0px, 0px) scale(1)' }
           ],
           { duration: 700, easing: 'ease-in-out', fill: 'forwards' }
         );
