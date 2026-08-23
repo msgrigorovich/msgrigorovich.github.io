@@ -155,7 +155,7 @@ function runIntro() {
       } catch (e) {
         finish();
       }
-    }, 1000);
+    }, 500);
   });
 }
 
