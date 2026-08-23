@@ -3,6 +3,8 @@ const el = document.querySelector('.typing-text');
 const text = "Hello, World!";
 let index = 0;
 let typingForward = true;
+let firstTypeDone = false;
+let onFirstTypeComplete = null;
 
 function typeEffect() {
   if (!el) return;
@@ -13,6 +15,10 @@ function typeEffect() {
       setTimeout(typeEffect, 100);
     } else {
       typingForward = false;
+      if (!firstTypeDone) {
+        firstTypeDone = true;
+        if (onFirstTypeComplete) onFirstTypeComplete();
+      }
       setTimeout(typeEffect, 2000);
     }
   } else {
@@ -27,7 +33,133 @@ function typeEffect() {
   }
 }
 
-typeEffect();
+function animateSignature() {
+  const svg = document.querySelector('.name-signature');
+  if (!svg) return Promise.resolve();
+
+  const paths = Array.from(svg.querySelectorAll('.signature-path'));
+  if (!paths.length) return Promise.resolve();
+
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  const SVG_NS = 'http://www.w3.org/2000/svg';
+  let defs = svg.querySelector('defs');
+  if (!defs) {
+    defs = document.createElementNS(SVG_NS, 'defs');
+    svg.insertBefore(defs, svg.firstChild);
+  }
+
+  const duration = 400;
+  const stagger = 160;
+  const maskStrokeWidth = 18;
+
+  const ordered = paths
+    .map(p => ({ p, bbox: p.getBBox(), d: p.getAttribute('d') }))
+    .sort((a, b) => a.bbox.x - b.bbox.x);
+
+  const finished = [];
+
+  ordered.forEach(({ p, d }, i) => {
+    const maskId = `sig-mask-${i}`;
+    const mask = document.createElementNS(SVG_NS, 'mask');
+    mask.setAttribute('id', maskId);
+    mask.setAttribute('maskUnits', 'userSpaceOnUse');
+
+    const tracePath = document.createElementNS(SVG_NS, 'path');
+    tracePath.setAttribute('d', d);
+    tracePath.setAttribute('fill', 'none');
+    tracePath.setAttribute('stroke', '#fff');
+    tracePath.setAttribute('stroke-width', maskStrokeWidth);
+    tracePath.setAttribute('stroke-linecap', 'round');
+    tracePath.setAttribute('stroke-linejoin', 'round');
+    mask.appendChild(tracePath);
+    defs.appendChild(mask);
+    p.setAttribute('mask', `url(#${maskId})`);
+
+    if (prefersReducedMotion) return;
+
+    const len = tracePath.getTotalLength();
+    tracePath.style.strokeDasharray = len;
+    tracePath.style.strokeDashoffset = len;
+
+    try {
+      const anim = tracePath.animate(
+        [{ strokeDashoffset: len }, { strokeDashoffset: 0 }],
+        { duration, delay: i * stagger, easing: 'ease-out', fill: 'forwards' }
+      );
+      finished.push(anim.finished);
+    } catch (e) {
+      tracePath.style.strokeDashoffset = '0';
+    }
+  });
+
+  return Promise.all(finished).catch(() => {});
+}
+
+function revealRestOfPage() {
+  document.querySelectorAll('.fade-in-content').forEach(section => {
+    section.classList.add('visible');
+  });
+}
+
+function startTyping() {
+  if (el) el.classList.add('typing-active');
+  onFirstTypeComplete = revealRestOfPage;
+  typeEffect();
+}
+
+function runIntro() {
+  const block = document.querySelector('.signature-block');
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if (!block || prefersReducedMotion) {
+    animateSignature().then(startTyping);
+    return;
+  }
+
+  const naturalRect = block.getBoundingClientRect();
+  const centerLeft = (window.innerWidth - naturalRect.width) / 2;
+  const centerTop = (window.innerHeight - naturalRect.height) / 2;
+  const introScale = 1.2;
+
+  block.style.position = 'fixed';
+  block.style.margin = '0';
+  block.style.width = `${naturalRect.width}px`;
+  block.style.left = `${centerLeft}px`;
+  block.style.top = `${centerTop}px`;
+  block.style.zIndex = '10';
+  block.style.transform = `scale(${introScale})`;
+
+  animateSignature().then(() => {
+    setTimeout(() => {
+      const finish = () => {
+        block.style.position = '';
+        block.style.margin = '';
+        block.style.width = '';
+        block.style.left = '';
+        block.style.top = '';
+        block.style.zIndex = '';
+        block.style.transform = '';
+        startTyping();
+      };
+
+      try {
+        const anim = block.animate(
+          [
+            { left: `${centerLeft}px`, top: `${centerTop}px`, transform: `scale(${introScale})` },
+            { left: `${naturalRect.left}px`, top: `${naturalRect.top}px`, transform: 'scale(1)' }
+          ],
+          { duration: 700, easing: 'ease-in-out', fill: 'forwards' }
+        );
+        anim.finished.then(finish).catch(finish);
+      } catch (e) {
+        finish();
+      }
+    }, 1000);
+  });
+}
+
+runIntro();
 
 const logo = document.querySelector('.logo');
 
