@@ -268,7 +268,7 @@ function animateProgressBar() {
   if (!container || !percentText) return;
 
   const startDate = new Date('2021-09-15');
-  const endDate = new Date('2025-12-01');
+  const endDate = new Date('2027-12-01');
   const today = new Date();
 
   const totalDays = Math.floor((endDate - startDate) / (1000 * 60 * 60 * 24));
