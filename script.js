@@ -120,8 +120,15 @@ function runIntro() {
   const naturalRect = block.getBoundingClientRect();
   const centerLeft = (window.innerWidth - naturalRect.width) / 2;
   const centerTop = (window.innerHeight - naturalRect.height) / 2;
+
+  // The safety clamp is based on the actual visible signature graphic, not
+  // `.signature-block`'s own box (which stretches to fill its container and is
+  // mostly invisible empty space around the centered svg) - otherwise the clamp
+  // kicked in even on wide desktop screens and killed the enlargement almost entirely.
+  const svg = block.querySelector('.name-signature');
+  const svgWidth = svg ? svg.getBoundingClientRect().width : naturalRect.width;
   const viewportMargin = 24;
-  const maxScaleForViewport = (window.innerWidth - viewportMargin * 2) / naturalRect.width;
+  const maxScaleForViewport = (window.innerWidth - viewportMargin * 2) / svgWidth;
   const introScale = Math.min(1.2, Math.max(1, maxScaleForViewport));
   const dx = centerLeft - naturalRect.left;
   const dy = centerTop - naturalRect.top;
