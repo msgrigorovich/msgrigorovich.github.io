@@ -465,10 +465,144 @@ function selectResumeTab(tabName) {
   }
 }
 
+// Mouse wheels send coarse, fixed deltas and keep the original one-click / one-step
+// behaviour. High-resolution trackpads get a continuous, iOS-style picker motion
+// which follows the gesture and snaps to the closest item after momentum ends.
+function createHybridWheelHandler({
+  getIndex,
+  getCount,
+  getList,
+  onStep,
+  onLiveSelect,
+  onSelect,
+  pixelsPerStep,
+  fallbackStep,
+  selectedScale,
+  nearScale,
+  restingScale,
+  nearOpacity,
+  restingOpacity
+}) {
+  let mode = null;
+  let position = 0;
+  let liveIndex = 0;
+  let settleTimer;
+  let finishTimer;
+
+  const resetItems = list => {
+    Array.from(list.children).forEach(item => {
+      item.style.opacity = '';
+      item.style.transform = '';
+      item.style.transition = '';
+    });
+  };
+
+  const renderTrackpadPosition = (list, step, animate = false) => {
+    list.style.transition = animate
+      ? 'transform 0.24s cubic-bezier(0.22, 1, 0.36, 1)'
+      : 'none';
+    list.style.transform = `translateY(-${position * step}px)`;
+
+    Array.from(list.children).forEach((item, index) => {
+      const distance = Math.abs(index - position);
+      const firstStage = Math.min(distance, 1);
+      const secondStage = Math.max(0, Math.min(distance - 1, 1));
+      const scale = selectedScale
+        + (nearScale - selectedScale) * firstStage
+        + (restingScale - nearScale) * secondStage;
+      const opacity = 1
+        + (nearOpacity - 1) * firstStage
+        + (restingOpacity - nearOpacity) * secondStage;
+      item.style.transition = animate
+        ? 'opacity 0.24s ease, transform 0.24s ease'
+        : 'none';
+      item.style.transform = `scale(${scale})`;
+      item.style.opacity = opacity;
+    });
+  };
+
+  return event => {
+    const list = getList();
+    if (!list) return;
+
+    clearTimeout(settleTimer);
+    clearTimeout(finishTimer);
+
+    // A wheel normally reports line deltas or large fixed pixel deltas. A trackpad
+    // starts a gesture with small pixel deltas and then supplies momentum events.
+    if (!mode) {
+      mode = event.deltaMode === 0 && Math.abs(event.deltaY) < 50 ? 'trackpad' : 'wheel';
+      position = getIndex();
+      liveIndex = getIndex();
+    }
+
+    if (mode === 'wheel') {
+      onStep(event.deltaY > 0 ? 1 : -1);
+      mode = null;
+      return;
+    }
+
+    const items = list.children;
+    const step = items.length > 1 ? items[1].offsetTop - items[0].offsetTop : fallbackStep;
+    position = Math.max(0, Math.min(getCount() - 1, position + event.deltaY / pixelsPerStep));
+    renderTrackpadPosition(list, step);
+
+    const nextLiveIndex = Math.round(position);
+    if (nextLiveIndex !== liveIndex) {
+      liveIndex = nextLiveIndex;
+      onLiveSelect(liveIndex);
+    }
+
+    settleTimer = setTimeout(() => {
+      const settledIndex = Math.round(position);
+      position = settledIndex;
+      renderTrackpadPosition(list, step, true);
+
+      finishTimer = setTimeout(() => {
+        mode = null;
+        onSelect(settledIndex);
+        const currentList = getList();
+        if (currentList) {
+          currentList.style.transition = '';
+          resetItems(currentList);
+        }
+      }, 140);
+    }, 55);
+  };
+}
+
+function selectResumeYearDuringWheel(index) {
+  closeResumeModal();
+  resumeYearIndex = Math.max(0, Math.min(resumeExperience.length - 1, index));
+  Array.from(resumeYearList.children).forEach((year, yearIndex) => {
+    year.classList.toggle('selected', yearIndex === resumeYearIndex);
+    year.classList.toggle('near', Math.abs(yearIndex - resumeYearIndex) === 1);
+    year.setAttribute('aria-current', yearIndex === resumeYearIndex ? 'true' : 'false');
+  });
+  renderActiveResumeCard();
+  renderResumeProjects();
+}
+
+const handleResumeYearWheel = createHybridWheelHandler({
+  getIndex: () => resumeYearIndex,
+  getCount: () => resumeExperience.length,
+  getList: () => resumeYearList,
+  onStep: changeResumeYear,
+  onLiveSelect: selectResumeYearDuringWheel,
+  onSelect: selectResumeYear,
+  pixelsPerStep: 85,
+  fallbackStep: 56,
+  selectedScale: 1.18,
+  nearScale: 0.93,
+  restingScale: 0.82,
+  nearOpacity: 0.5,
+  restingOpacity: 0.22
+});
+
 resumeYearWheel.addEventListener('wheel', event => {
   if (!['experience', 'skills'].includes(activeResumeTab)) return;
   event.preventDefault();
-  changeResumeYear(event.deltaY > 0 ? 1 : -1);
+  handleResumeYearWheel(event);
 }, { passive: false });
 
 resumeYearWheel.addEventListener('keydown', event => {
@@ -498,12 +632,41 @@ resumeProjectRail.addEventListener('click', event => {
   if (!projectItem || projectItem.matches('a')) return;
   selectResumeProject(Number(projectItem.dataset.projectIndex));
 });
+
+function selectResumeProjectDuringWheel(index) {
+  const projects = resumeExperience[resumeYearIndex].projects || [];
+  const selectedIndex = Math.max(0, Math.min(projects.length - 1, index));
+  resumeProjectIndexes.set(resumeYearIndex, selectedIndex);
+  resumeProjectRail.querySelectorAll('[data-project-index]').forEach((project, projectIndex) => {
+    project.classList.toggle('selected', projectIndex === selectedIndex);
+    project.classList.toggle('near', Math.abs(projectIndex - selectedIndex) === 1);
+  });
+}
+
+const handleResumeProjectWheel = createHybridWheelHandler({
+  getIndex: () => resumeProjectIndexes.get(resumeYearIndex) || 0,
+  getCount: () => (resumeExperience[resumeYearIndex].projects || []).length,
+  getList: () => resumeProjectRail.querySelector('.resume-project-list'),
+  onStep: direction => {
+    const current = resumeProjectIndexes.get(resumeYearIndex) || 0;
+    selectResumeProject(current + direction);
+  },
+  onLiveSelect: selectResumeProjectDuringWheel,
+  onSelect: selectResumeProject,
+  pixelsPerStep: 105,
+  fallbackStep: 72,
+  selectedScale: 1,
+  nearScale: 0.9,
+  restingScale: 0.78,
+  nearOpacity: 0.62,
+  restingOpacity: 0.34
+});
+
 resumeProjectRail.addEventListener('wheel', event => {
   if (event.target.closest('.resume-series-games')) return;
   const projects = resumeExperience[resumeYearIndex].projects || [];
   if (projects.length <= 3 || activeResumeTab !== 'experience') return;
   event.preventDefault();
-  const current = resumeProjectIndexes.get(resumeYearIndex) || 0;
-  selectResumeProject(current + (event.deltaY > 0 ? 1 : -1));
+  handleResumeProjectWheel(event);
 }, { passive: false });
 selectResumeTab('experience');
