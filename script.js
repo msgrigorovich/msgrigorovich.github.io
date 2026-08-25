@@ -6,30 +6,32 @@ let typingForward = true;
 let firstTypeDone = false;
 let onFirstTypeComplete = null;
 let skipIntroAnimations = false;
+let typingActive = false;
+let typingTimer = null;
 
 function typeEffect() {
-  if (!el || skipIntroAnimations) return;
+  if (!el || !typingActive) return;
   if (typingForward) {
     if (index <= text.length) {
       el.textContent = text.substring(0, index);
       index++;
-      setTimeout(typeEffect, 100);
+      typingTimer = setTimeout(typeEffect, 100);
     } else {
       typingForward = false;
       if (!firstTypeDone) {
         firstTypeDone = true;
         if (onFirstTypeComplete) onFirstTypeComplete();
       }
-      setTimeout(typeEffect, 2000);
+      typingTimer = setTimeout(typeEffect, 2000);
     }
   } else {
     if (index >= 0) {
       el.textContent = text.substring(0, index);
       index--;
-      setTimeout(typeEffect, 50);
+      typingTimer = setTimeout(typeEffect, 50);
     } else {
       typingForward = true;
-      setTimeout(typeEffect, 500);
+      typingTimer = setTimeout(typeEffect, 500);
     }
   }
 }
@@ -104,7 +106,8 @@ function revealRestOfPage() {
 }
 
 function startTyping() {
-  if (skipIntroAnimations) return;
+  if (skipIntroAnimations || typingActive) return;
+  typingActive = true;
   if (el) el.classList.add('typing-active');
   onFirstTypeComplete = revealRestOfPage;
   typeEffect();
@@ -188,8 +191,15 @@ function showMainPageImmediately() {
   // The typing heading starts empty and the remaining sections start hidden in CSS.
   // Put everything directly into its final state when returning from an inner page.
   skipIntroAnimations = true;
+  typingActive = false;
+  clearTimeout(typingTimer);
+  typingTimer = null;
+  index = 0;
+  typingForward = true;
+  firstTypeDone = true;
+  onFirstTypeComplete = null;
   if (el) {
-    el.textContent = text;
+    el.textContent = '';
     el.classList.add('typing-active');
   }
 
@@ -211,6 +221,8 @@ function showMainPageImmediately() {
   });
 
   revealRestOfPage();
+  typingActive = true;
+  typeEffect();
 }
 
 const shouldSkipMainIntro =
@@ -592,4 +604,3 @@ function darkenColor(rgb, amount) {
   const b = Math.max(Math.round(nums[2] * factor), 0);
   return `rgb(${r}, ${g}, ${b})`;
 }
-
