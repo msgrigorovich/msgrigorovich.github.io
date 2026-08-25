@@ -4,9 +4,9 @@ const resumeExperience = [
     eyebrow: 'Strikerz Inc. · Tbilisi',
     title: 'Senior QA Engineer',
     role: 'Core Gameplay Team · Quality & Systems Validation',
-    links: [
-      { label: 'Company', url: 'https://www.strikerz.inc/' },
-      { label: 'UFL', url: 'https://uflgame.com/' }
+    projects: [
+      { label: 'Strikerz Inc.', icon: 'S', image: 'strikerz-logo.png', monochrome: true, url: 'https://www.strikerz.inc/' },
+      { label: 'UFL', icon: 'UFL', image: 'ufl-logo.png', monochrome: true, url: 'https://uflgame.com/' }
     ],
     text: 'Systemic validation of Core Gameplay mechanics with a focus on movement, interaction, and consistency across features.',
     responsibilities: [
@@ -16,16 +16,16 @@ const resumeExperience = [
       'Functional validation of locomotion system, including animation blending, state transitions, and edge-case movement scenarios in Core Gameplay;',
       'Design and development of test automation systems for Core Gameplay mechanics to improve validation consistency and reduce regression risk;',
       'Cross-disciplinary collaboration with teams such as:',
-      'Motion Team;',
-      'AI Team;',
-      'Telemetry & Data Quality Team*;',
+      { text: 'Motion Team;', type: 'subitem' },
+      { text: 'AI Team;', type: 'subitem' },
+      { text: 'Telemetry & Data Quality Team*;', type: 'subitem' },
       'Creation of QA documentation and structured bug reporting focused on reproducibility and gameplay impact.'
     ],
     achievements: [
       'Rapid onboarding into the Core Gameplay team, independently mastering Unreal Engine 5 and Blueprint-based testing in a high-pressure post-release environment;',
       'Implemented a cross-team, data-driven QA analysis process between Core Gameplay and Telemetry & Data Quality teams, enabling deeper gameplay validation based on metrics and numbers rather than subjective opinions;',
       'Designed and implemented test automation systems for Core Gameplay mechanics, improving test coverage and reducing long-term maintenance risks.',
-      '*Telemetry & Data Quality Team - a team that deals with orders for the implementation of analytical events, and also takes direct part in working with the results of their analysis.'
+      { text: '*Telemetry & Data Quality Team - a team that deals with orders for the implementation of analytical events, and also takes direct part in working with the results of their analysis.', type: 'footnote' }
     ],
     chips: ['Unreal Engine 5', 'Test Automation', 'Blueprint'],
     skills: ['Unreal Engine 5', 'Test Automation', 'Blueprint']
@@ -35,9 +35,9 @@ const resumeExperience = [
     eyebrow: 'Strikerz Inc. · Tbilisi',
     title: 'Senior QA Engineer',
     role: 'Quality Control Team · Cross-Platform & Feature Validation',
-    links: [
-      { label: 'Company', url: 'https://www.strikerz.inc/' },
-      { label: 'UFL', url: 'https://uflgame.com/' }
+    projects: [
+      { label: 'Strikerz Inc.', icon: 'S', image: 'strikerz-logo.png', monochrome: true, url: 'https://www.strikerz.inc/' },
+      { label: 'UFL', icon: 'UFL', image: 'ufl-logo.png', monochrome: true, url: 'https://uflgame.com/' }
     ],
     text: 'Console product quality during pre-production and release, with cross-team coordination and feature-level ownership.',
     responsibilities: [
@@ -45,20 +45,20 @@ const resumeExperience = [
       'Acceptance testing on pre-production environments;',
       'TRC (Technical Requirements Checklist) validation for PlayStation Retail Kits;',
       'Cross-team collaboration with multiple teams, including:',
-      'Meta Gameplay Team (UI/UX);',
-      'Core Gameplay Team;',
-      'AI Team;',
-      'Backend Integration Team;',
-      'Network Team;',
-      'Art and DevArt Teams;',
-      'Sound Team;',
-      'Localization Team, etc.',
+      { text: 'Meta Gameplay Team (UI/UX);', type: 'subitem' },
+      { text: 'Core Gameplay Team;', type: 'subitem' },
+      { text: 'AI Team;', type: 'subitem' },
+      { text: 'Backend Integration Team;', type: 'subitem' },
+      { text: 'Network Team;', type: 'subitem' },
+      { text: 'Art and DevArt Teams;', type: 'subitem' },
+      { text: 'Sound Team;', type: 'subitem' },
+      { text: 'Localization Team, etc.', type: 'subitem' },
       'Preparation of QA documentation and detailed bug reports to support efficient issue resolution.'
     ],
     achievements: [
       'Successfully completed the probationary period ahead of schedule;',
       'Acted as a KeyQA* specialist for one of the most important pre-release features, coordinating cross-team testing and quality validation for ambassador-related content involving football players such as Cristiano Ronaldo, Paulo Dybala, and Kevin De Bruyne.',
-      '*KeyQA - position is an internal company term that reflects a key engineer from the QA department who organizes, controls, and improves the processes of cross-team testing of a feature. Someone like a feature owner, based on the principles and goals of QA engineering.'
+      { text: '*KeyQA - position is an internal company term that reflects a key engineer from the QA department who organizes, controls, and improves the processes of cross-team testing of a feature. Someone like a feature owner, based on the principles and goals of QA engineering.', type: 'footnote' }
     ],
     chips: ['Play Station 5', 'xBox Series X', 'xBox Series S', 'Console DevKits', 'Console TestKits'],
     skills: ['Play Station 5', 'xBox Series X', 'xBox Series S', 'Console DevKits', 'Console TestKits', 'TestRail', 'Jira', 'Confluence']
@@ -68,6 +68,13 @@ const resumeExperience = [
     eyebrow: 'Beresnev Games · Prague',
     title: 'Senior QA Engineer',
     role: 'QA Process Ownership · Mobile Game Development',
+    projects: [
+      { label: 'Beresnev Games', image: 'beresnev-icon.ico', url: 'https://beresnev.games/' },
+      { label: 'Pixelwoods · Google Play', image: 'pixelwoods-icon.png', store: 'google-play', url: 'https://play.google.com/store/apps/details?id=com.beresnevgames.pixelgallery&hl=en_US' },
+      { label: 'Pixelwoods · App Store', image: 'pixelwoods-icon.png', store: 'app-store', url: 'https://apps.apple.com/us/app/pixelwoods-coloring-by-pixel/id1541658506' },
+      { label: 'Flippy Knife · Google Play', image: 'flippy-knife-icon.png', store: 'google-play', url: 'https://play.google.com/store/apps/details?id=com.BeresnevGames.Knife&hl=en_US' },
+      { label: 'Flippy Knife · App Store', image: 'flippy-knife-icon.png', store: 'app-store', url: 'https://apps.apple.com/us/app/flippy-knife-throw-spin-hit/id1208359453' }
+    ],
     text: 'Primary QA specialist responsible for product quality from feature design through release and post-release support.',
     responsibilities: [
       'QA management;',
@@ -97,6 +104,10 @@ const resumeExperience = [
     eyebrow: 'DominiGames · Voronezh region',
     title: 'Senior QA Engineer',
     role: 'QA Leadership & Process Ownership · Mobile Games',
+    projects: Array.from({ length: 8 }, (_, index) => ({
+      label: `Project ${String(index + 1).padStart(2, '0')}`,
+      icon: `D${index + 1}`
+    })),
     text: 'Combined hands-on testing with team leadership, mentoring, interviews, and structured QA processes across studio projects.',
     responsibilities: [
       'Functional/non-Functional testing (android/iOS/kindle fire amazon);',
@@ -129,6 +140,10 @@ const resumeExperience = [
     eyebrow: 'DominiGames · Voronezh',
     title: 'Middle QA Engineer',
     role: 'QA Process Development & Test Design · Mobile Games',
+    projects: Array.from({ length: 8 }, (_, index) => ({
+      label: `Project ${String(index + 1).padStart(2, '0')}`,
+      icon: `D${index + 1}`
+    })),
     text: 'Expanded from test execution into test design, documentation, and automation foundations in production game development.',
     responsibilities: [
       'Functional/non-Functional testing (android/iOS/kindle fire amazon);',
@@ -148,6 +163,10 @@ const resumeExperience = [
     eyebrow: 'DominiGames · Voronezh',
     title: 'Junior QA Engineer',
     role: 'Entry-Level QA · Mobile Game Production',
+    projects: Array.from({ length: 8 }, (_, index) => ({
+      label: `Project ${String(index + 1).padStart(2, '0')}`,
+      icon: `D${index + 1}`
+    })),
     text: 'First commercial game development role, focused on quality validation within active production environments.',
     responsibilities: [
       'Functional/non-Functional testing (android/iOS/kindle fire amazon);',
@@ -182,22 +201,18 @@ const resumeModalEyebrow = document.getElementById('resumeModalEyebrow');
 const resumeModalTitle = document.getElementById('resumeModalTitle');
 const resumeModalRole = document.getElementById('resumeModalRole');
 const resumeModalContent = document.getElementById('resumeModalContent');
+const resumeProjectRail = document.getElementById('resumeProjectRail');
 let resumeYearIndex = 0;
 let activeResumeTab = 'experience';
+const resumeProjectIndexes = new Map();
 
 function resumeCardMarkup(item) {
   const hiddenSkillsCount = item.skills ? Math.max(item.skills.length - item.chips.length, 0) : 0;
-  const links = item.links?.length ? `
-    <div class="resume-external-links">
-      ${item.links.map(link => `<a href="${link.url}" target="_blank" rel="noopener noreferrer">${link.label}<span aria-hidden="true">↗</span></a>`).join('')}
-    </div>
-  ` : '';
 
   return `
     <p class="resume-eyebrow">${item.eyebrow}</p>
     <h1>${item.title}</h1>
     <h2>${item.role}</h2>
-    ${links}
     <p class="resume-description">${item.text}</p>
     <div class="resume-chips">
       ${item.chips.map(chip => `<span class="resume-chip">${chip}</span>`).join('')}
@@ -224,6 +239,50 @@ function renderActiveResumeCard() {
     : resumeCardMarkup(item);
 }
 
+function renderResumeProjects() {
+  const item = resumeExperience[resumeYearIndex];
+  const projects = item.projects || [];
+  const isScrollable = projects.length > 3;
+  const selectedIndex = Math.min(resumeProjectIndexes.get(resumeYearIndex) || 0, Math.max(projects.length - 1, 0));
+
+  resumeProjectRail.classList.toggle('hidden', activeResumeTab !== 'experience' || !projects.length);
+  resumeProjectRail.classList.toggle('scrollable', isScrollable);
+  if (activeResumeTab !== 'experience' || !projects.length) {
+    resumeProjectRail.innerHTML = '';
+    return;
+  }
+
+  resumeProjectRail.innerHTML = `
+    <p class="resume-project-label">Games</p>
+    <div class="resume-project-window">
+      <div class="resume-project-list" style="--project-index: ${selectedIndex}">
+        ${projects.map((project, index) => {
+          const icon = project.image
+            ? `<img class="resume-project-image${project.monochrome ? ' monochrome' : ''}" src="${project.image}" alt="">`
+            : `<span class="resume-project-icon">${project.icon}</span>`;
+          const storeIcons = {
+            'google-play': `<svg viewBox="0 0 18 18" role="img" aria-label="Google Play"><path fill="#00d4ff" d="M2.5 1.6 10.8 9l-8.3 7.4a1.7 1.7 0 0 1-.3-1V2.6c0-.4.1-.7.3-1Z"/><path fill="#00e676" d="m2.5 1.6 10.4 5.9L10.8 9 2.5 1.6Z"/><path fill="#ffea00" d="m10.8 9 2.1 1.5-10.4 5.9L10.8 9Z"/><path fill="#ff3d5a" d="m12.9 7.5 2.2 1.2c.6.3.6.9 0 1.2l-2.2.6L10.8 9l2.1-1.5Z"/></svg>`,
+            'app-store': `<svg viewBox="0 0 18 18" role="img" aria-label="App Store"><rect width="18" height="18" rx="4" fill="#087ff5"/><path d="M5 12.8 9.2 5.5m3.8 7.3L8.8 5.5M4.2 10.9h9.6" fill="none" stroke="#fff" stroke-width="1.75" stroke-linecap="round"/></svg>`
+          };
+          const store = project.store ? `<span class="resume-project-store" aria-hidden="true">${storeIcons[project.store]}</span>` : '';
+          const content = `${icon}${store}<span class="resume-project-name">${project.label}</span>`;
+          const classes = `resume-project-item${index === selectedIndex ? ' selected' : Math.abs(index - selectedIndex) === 1 ? ' near' : ''}`;
+          return project.url
+            ? `<a class="${classes}" href="${project.url}" target="_blank" rel="noopener noreferrer" data-project-index="${index}" aria-label="Open ${project.label}">${content}</a>`
+            : `<button class="${classes}" type="button" data-project-index="${index}" aria-label="Select ${project.label}">${content}</button>`;
+        }).join('')}
+      </div>
+    </div>
+    ${isScrollable ? '<p class="resume-project-hint">scroll</p>' : ''}
+  `;
+}
+
+function selectResumeProject(index) {
+  const projects = resumeExperience[resumeYearIndex].projects || [];
+  resumeProjectIndexes.set(resumeYearIndex, Math.max(0, Math.min(projects.length - 1, index)));
+  renderResumeProjects();
+}
+
 function openResumeModal() {
   const item = resumeExperience[resumeYearIndex];
   if (!item.responsibilities) return;
@@ -234,14 +293,22 @@ function openResumeModal() {
   resumeModalContent.innerHTML = `
     <section>
       <h3>Responsibilities</h3>
-      <ul>${item.responsibilities.map(point => `<li>${point}</li>`).join('')}</ul>
+      ${resumeDetailListMarkup(item.responsibilities)}
     </section>
     <section>
       <h3>Achievements</h3>
-      <ul>${item.achievements.map(point => `<li>${point}</li>`).join('')}</ul>
+      ${resumeDetailListMarkup(item.achievements)}
     </section>
   `;
   resumeModal.showModal();
+}
+
+function resumeDetailListMarkup(points) {
+  return `<ul>${points.map(point => {
+    const detail = typeof point === 'string' ? { text: point } : point;
+    const className = detail.type ? ` class="resume-detail-${detail.type}"` : '';
+    return `<li${className}>${detail.text}</li>`;
+  }).join('')}</ul>`;
 }
 
 function closeResumeModal() {
@@ -268,6 +335,7 @@ function selectResumeYear(index) {
   resumeYearIndex = Math.max(0, Math.min(resumeExperience.length - 1, index));
   renderResumeYears();
   renderActiveResumeCard();
+  renderResumeProjects();
 }
 
 function changeResumeYear(direction) {
@@ -284,6 +352,7 @@ function selectResumeTab(tabName) {
     selectResumeYear(resumeYearIndex);
   } else {
     resumeCard.innerHTML = resumeCardMarkup(resumeSections[tabName]);
+    renderResumeProjects();
   }
 }
 
@@ -311,4 +380,16 @@ resumeModalClose.addEventListener('click', closeResumeModal);
 resumeModal.addEventListener('click', event => {
   if (event.target === resumeModal) closeResumeModal();
 });
+resumeProjectRail.addEventListener('click', event => {
+  const projectItem = event.target.closest('[data-project-index]');
+  if (!projectItem || projectItem.matches('a')) return;
+  selectResumeProject(Number(projectItem.dataset.projectIndex));
+});
+resumeProjectRail.addEventListener('wheel', event => {
+  const projects = resumeExperience[resumeYearIndex].projects || [];
+  if (projects.length <= 3 || activeResumeTab !== 'experience') return;
+  event.preventDefault();
+  const current = resumeProjectIndexes.get(resumeYearIndex) || 0;
+  selectResumeProject(current + (event.deltaY > 0 ? 1 : -1));
+}, { passive: false });
 selectResumeTab('experience');

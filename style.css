@@ -184,12 +184,176 @@ main {
 
 .resume-explorer {
   display: grid;
-  grid-template-columns: 13.75rem minmax(0, 1fr);
+  grid-template-columns: 15rem minmax(0, 1fr) 7rem;
   align-items: center;
   gap: clamp(2rem, 6vw, 5rem);
   min-height: 27rem;
   width: min(1120px, 100%);
   text-align: left;
+}
+
+.resume-project-rail {
+  align-self: center;
+  width: 7rem;
+  text-align: center;
+}
+
+.resume-project-rail.hidden {
+  visibility: hidden;
+}
+
+.resume-project-label,
+.resume-project-hint {
+  margin: 0;
+  font-family: 'Source Code Pro', monospace;
+  font-size: 0.58rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  opacity: 0.48;
+}
+
+.resume-project-label {
+  margin-bottom: 0.6rem;
+}
+
+.resume-project-hint {
+  margin-top: 0.6rem;
+}
+
+.resume-project-window {
+  position: relative;
+}
+
+.resume-project-rail.scrollable .resume-project-window {
+  width: 17rem;
+  height: 18rem;
+  margin-left: -10rem;
+  overflow: hidden;
+  padding: 7rem 0;
+  mask-image: linear-gradient(to bottom, transparent 0, #000 18%, #000 82%, transparent 100%);
+}
+
+.resume-project-list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.65rem;
+  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.resume-project-rail.scrollable .resume-project-list {
+  align-items: flex-end;
+  padding-right: 1.575rem;
+  transform: translateY(calc(var(--project-index) * -4.5rem));
+}
+
+.resume-project-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  width: 3.85rem;
+  height: 3.85rem;
+  border: 1px solid rgba(17, 17, 17, 0.25);
+  border-radius: 1.15rem;
+  padding: 0;
+  background: rgba(255, 255, 255, 0.16);
+  color: #111;
+  cursor: pointer;
+  text-decoration: none;
+  opacity: 0.34;
+  transform: scale(0.78);
+  transition: opacity 0.25s ease, transform 0.25s ease, background-color 0.2s ease, color 0.2s ease;
+}
+
+.resume-project-item.near {
+  opacity: 0.62;
+  transform: scale(0.9);
+}
+
+.resume-project-item.selected,
+.resume-project-rail:not(.scrollable) .resume-project-item {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.resume-project-item:hover {
+  background: #111;
+  color: white;
+  opacity: 1;
+}
+
+.resume-project-icon {
+  font-family: 'Source Code Pro', monospace;
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+.resume-project-image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+  object-fit: contain;
+}
+
+.resume-project-image.monochrome {
+  width: 76%;
+  height: auto;
+  max-height: 58%;
+  filter: brightness(0);
+  transition: filter 0.2s ease;
+}
+
+.resume-project-item:hover .resume-project-image.monochrome,
+.resume-project-item:focus-visible .resume-project-image.monochrome {
+  filter: brightness(0) invert(1);
+}
+
+.resume-project-store {
+  position: absolute;
+  right: -0.22rem;
+  bottom: -0.22rem;
+  display: grid;
+  place-items: center;
+  min-width: 1.25rem;
+  height: 1.25rem;
+  border: 1px solid rgba(17, 17, 17, 0.28);
+  border-radius: 999px;
+  padding: 0.15rem;
+  background: #edf4f8;
+  color: #111;
+  overflow: hidden;
+}
+
+.resume-project-store svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.resume-project-name {
+  position: absolute;
+  right: calc(100% + 0.55rem);
+  top: 50%;
+  width: max-content;
+  max-width: 10rem;
+  transform: translateY(-50%) translateX(0.3rem);
+  border-radius: 0.45rem;
+  padding: 0.35rem 0.5rem;
+  background: #111;
+  color: white;
+  font-size: 0.62rem;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.resume-project-item:hover .resume-project-name,
+.resume-project-item:focus-visible .resume-project-name {
+  opacity: 1;
+  transform: translateY(-50%) translateX(0);
 }
 
 .resume-year-wheel {
@@ -223,6 +387,7 @@ main {
   cursor: pointer;
   font-family: 'Source Code Pro', monospace;
   font-size: 0.85rem;
+  white-space: nowrap;
   opacity: 0.22;
   transform: scale(0.82);
   transition: opacity 0.3s ease, transform 0.3s ease;
@@ -285,35 +450,6 @@ main {
   max-width: 40rem;
   font-size: 0.8rem;
   line-height: 1.55;
-}
-
-.resume-external-links {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  margin: 0 0 0.9rem;
-}
-
-.resume-external-links a {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.35rem;
-  border: 1px solid rgba(17, 17, 17, 0.3);
-  border-radius: 999px;
-  padding: 0.4rem 0.65rem;
-  background: rgba(255, 255, 255, 0.13);
-  color: #111;
-  text-decoration: none;
-  font-family: 'Montserrat', sans-serif;
-  font-size: 0.67rem;
-  font-weight: 600;
-  transition: background-color 0.2s ease, color 0.2s ease, gap 0.2s ease;
-}
-
-.resume-external-links a:hover {
-  gap: 0.55rem;
-  background: #111;
-  color: white;
 }
 
 .resume-details-grid {
@@ -468,6 +604,26 @@ main {
   margin-bottom: 0.7rem;
   font-size: 0.8rem;
   line-height: 1.5;
+}
+
+.resume-modal-content .resume-detail-subitem {
+  margin-left: 1.35rem;
+  font-size: 0.76rem;
+}
+
+.resume-modal-content .resume-detail-subitem::marker {
+  font-size: 0.7em;
+}
+
+.resume-modal-content .resume-detail-footnote {
+  margin-top: 1rem;
+  margin-left: -1.15rem;
+  padding-top: 0.7rem;
+  border-top: 1px solid rgba(17, 17, 17, 0.14);
+  color: rgba(17, 17, 17, 0.7);
+  font-size: 0.72rem;
+  line-height: 1.45;
+  list-style: none;
 }
 
 .resume-chip,
@@ -1041,6 +1197,36 @@ footer {
     grid-template-columns: 1fr;
     gap: 1.5rem;
     min-height: 0;
+  }
+
+  .resume-project-rail {
+    width: 100%;
+  }
+
+  .resume-project-rail.scrollable .resume-project-window {
+    width: 100%;
+    height: auto;
+    margin-left: 0;
+    overflow-x: auto;
+    padding: 0.5rem 0;
+    mask-image: none;
+  }
+
+  .resume-project-list,
+  .resume-project-rail.scrollable .resume-project-list {
+    flex-direction: row;
+    justify-content: center;
+    transform: none;
+  }
+
+  .resume-project-rail.scrollable .resume-project-list {
+    align-items: center;
+    justify-content: flex-start;
+    padding-right: 0;
+  }
+
+  .resume-project-hint {
+    display: none;
   }
 
   .resume-year-wheel {
