@@ -888,6 +888,7 @@ main {
 }
 
 .signature-block {
+  position: relative;
   display: flex;
   justify-content: center;
   align-items: flex-start;
@@ -895,6 +896,50 @@ main {
   margin-top: 2rem;
   margin-bottom: 0rem;
   flex-wrap: wrap;
+}
+
+.signature-ink-clone {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: min(90%, 380px);
+  height: auto;
+  transform: translateX(-50%);
+  opacity: 0;
+  pointer-events: none;
+  filter: blur(4px) contrast(1.22);
+  -webkit-mask-image: radial-gradient(
+    circle 42px at var(--signature-ink-x, 50%) var(--signature-ink-y, 50%),
+    #000 0 42%,
+    transparent 100%
+  );
+  mask-image: radial-gradient(
+    circle 42px at var(--signature-ink-x, 50%) var(--signature-ink-y, 50%),
+    #000 0 42%,
+    transparent 100%
+  );
+  transition: filter 0.75s ease, opacity 0.32s ease;
+}
+
+.signature-ink-clone .signature-path {
+  fill: var(--signature-ink-color, #1a1a1a);
+}
+
+.signature-ink-active .signature-ink-clone {
+  opacity: 0.72;
+}
+
+.signature-ink-recovering .signature-ink-clone {
+  opacity: 0;
+  filter: blur(0) contrast(1);
+  transition-duration: 2s;
+  transition-timing-function: cubic-bezier(0.45, 0, 0.55, 1);
+}
+
+@media (min-width: 601px) and (max-height: 850px) {
+  .signature-ink-clone {
+    width: min(90%, 310px);
+  }
 }
 
 .signature {
@@ -1130,6 +1175,52 @@ footer {
   z-index: 9999;
   mix-blend-mode: screen;
   filter: blur(40px);
+}
+
+body[data-cursor-effect="ink"] .cursor-trail {
+  mix-blend-mode: multiply;
+  filter: blur(8px);
+}
+
+body[data-cursor-effect="ink"] .cursor-outline-inner {
+  background: rgba(255, 94, 94, 0.1);
+  border: 1px solid rgba(255, 94, 94, 0.24);
+}
+
+body[data-cursor-effect="lens"] .cursor-trail {
+  display: none;
+}
+
+body[data-cursor-effect="lens"] .cursor-outline {
+  width: 42px;
+  height: 42px;
+}
+
+body[data-cursor-effect="lens"] .cursor-outline-inner {
+  border: 1px solid rgba(17, 17, 17, 0.32);
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(2px) saturate(1.15);
+  -webkit-backdrop-filter: blur(2px) saturate(1.15);
+}
+
+body[data-cursor-effect="pixel"] .cursor-trail {
+  image-rendering: pixelated;
+  mix-blend-mode: multiply;
+  filter: none;
+}
+
+body[data-cursor-effect="pixel"] .cursor-outline-inner {
+  border: 1px solid rgba(120, 0, 255, 0.38);
+  border-radius: 7px;
+  background: rgba(120, 0, 255, 0.08);
+}
+
+body[data-cursor-effect="pixel"] .cursor-dot {
+  background-color: #7800ff;
+}
+
+body[data-cursor-effect="pixel"] .cursor-outline {
+  border-radius: 7px;
 }
 
 .progress-section {

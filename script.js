@@ -8,6 +8,7 @@ let onFirstTypeComplete = null;
 let skipIntroAnimations = false;
 let typingActive = false;
 let typingTimer = null;
+let signatureInkEnabled = false;
 
 function typeEffect() {
   if (!el || !typingActive) return;
@@ -107,6 +108,7 @@ function revealRestOfPage() {
 
 function startTyping() {
   if (skipIntroAnimations || typingActive) return;
+  signatureInkEnabled = true;
   typingActive = true;
   if (el) el.classList.add('typing-active');
   onFirstTypeComplete = revealRestOfPage;
@@ -221,6 +223,7 @@ function showMainPageImmediately() {
   });
 
   revealRestOfPage();
+  signatureInkEnabled = true;
   typingActive = true;
   typeEffect();
 }
@@ -253,6 +256,7 @@ const logo = document.querySelector('.logo');
 
 if (logo) {
   logo.addEventListener('click', function (e) {
+    sessionStorage.removeItem('pixel-cursor-color');
     const current = window.location.pathname;
     if (isMainPath(current)) {
       e.preventDefault();
@@ -291,6 +295,121 @@ document.querySelectorAll('a').forEach(link => {
 const cursorDot = document.querySelector('.cursor-dot');
 const cursorOutline = document.querySelector('.cursor-outline');
 const cursorOutlineInner = document.querySelector('.cursor-outline-inner');
+
+const CURSOR_EFFECTS = ['ink', 'lens', 'pixel'];
+const requestedCursorEffect = new URLSearchParams(window.location.search).get('cursor');
+if (CURSOR_EFFECTS.includes(requestedCursorEffect)) {
+  sessionStorage.setItem('cursor-effect', requestedCursorEffect);
+}
+const cursorEffect = CURSOR_EFFECTS.includes(requestedCursorEffect)
+  ? requestedCursorEffect
+  : sessionStorage.getItem('cursor-effect') || 'ink';
+document.body.dataset.cursorEffect = cursorEffect;
+
+const navigationEntry = performance.getEntriesByType('navigation')[0];
+if (navigationEntry?.type === 'reload') {
+  sessionStorage.removeItem('pixel-cursor-color');
+}
+let pixelCursorColor = sessionStorage.getItem('pixel-cursor-color') || '120,0,255';
+
+if (cursorEffect === 'pixel') {
+  cursorDot.style.backgroundColor = `rgb(${pixelCursorColor})`;
+  cursorOutlineInner.style.backgroundColor = `rgba(${pixelCursorColor}, 0.08)`;
+  cursorOutlineInner.style.borderColor = `rgb(${pixelCursorColor})`;
+}
+
+function interactionColorFor(element) {
+  const styles = window.getComputedStyle(element);
+  const background = styles.backgroundColor;
+  const backgroundParts = background.match(/[\d.]+/g)?.map(Number) || [];
+  const backgroundAlpha = backgroundParts.length > 3 ? backgroundParts[3] : 1;
+  const hasVisibleBackground = backgroundParts.length >= 3 && backgroundAlpha > 0.18;
+  const sourceParts = hasVisibleBackground
+    ? backgroundParts
+    : styles.color.match(/[\d.]+/g)?.map(Number) || [120, 0, 255];
+  const contrastFactor = hasVisibleBackground ? 0.78 : 1;
+
+  return sourceParts
+    .slice(0, 3)
+    .map(channel => Math.round(channel * contrastFactor))
+    .join(',');
+}
+
+function setupSignatureInkInteraction() {
+  const signature = document.querySelector('.name-signature');
+  const signatureBlock = document.querySelector('.signature-block');
+  if (!signature || !signatureBlock || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  signature.classList.add('signature-ink-original');
+
+  let inactivityTimer;
+  let recoveryTimer;
+  let lastPoint = null;
+  let lastColor = '';
+  const inkLayers = new Map();
+
+  const getInkLayer = color => {
+    if (inkLayers.has(color)) return inkLayers.get(color);
+
+    const element = signature.cloneNode(true);
+    element.classList.add('signature-ink-clone');
+    element.classList.remove('name-signature');
+    element.setAttribute('aria-hidden', 'true');
+    element.querySelector('defs')?.remove();
+    element.querySelectorAll('[mask]').forEach(path => path.removeAttribute('mask'));
+    element.style.setProperty('--signature-ink-color', `rgb(${color})`);
+    signatureBlock.appendChild(element);
+
+    const layer = { element, points: [] };
+    inkLayers.set(color, layer);
+    return layer;
+  };
+
+  signature.addEventListener('mousemove', event => {
+    if (!signatureInkEnabled) return;
+
+    const rect = signature.getBoundingClientRect();
+    const x = event.clientX - rect.left;
+    const y = event.clientY - rect.top;
+    const cursorChannels = pixelCursorColor.split(',').map(Number);
+    const inkChannels = [26, 26, 26];
+    const mixedInkColor = inkChannels
+      .map((channel, index) => Math.round((channel + cursorChannels[index]) / 2))
+      .join(',');
+
+    const layer = getInkLayer(mixedInkColor);
+    if (lastColor !== mixedInkColor || !lastPoint || Math.hypot(x - lastPoint.x, y - lastPoint.y) >= 8) {
+      layer.points.push({ x, y });
+      lastPoint = { x, y };
+      lastColor = mixedInkColor;
+    }
+
+    const inkMask = layer.points.map(point => (
+      `radial-gradient(circle 54px at ${point.x}px ${point.y}px, `
+      + '#000 0 42%, rgba(0, 0, 0, 0.76) 68%, transparent 100%)'
+    )).join(',');
+
+    clearTimeout(inactivityTimer);
+    clearTimeout(recoveryTimer);
+    signatureBlock.classList.remove('signature-ink-recovering');
+    signatureBlock.classList.add('signature-ink-active');
+    layer.element.style.webkitMaskImage = inkMask;
+    layer.element.style.maskImage = inkMask;
+
+    inactivityTimer = setTimeout(() => {
+      signatureBlock.classList.add('signature-ink-recovering');
+      recoveryTimer = setTimeout(() => {
+        signatureBlock.classList.remove('signature-ink-active', 'signature-ink-recovering');
+        inkLayers.forEach(layerToRemove => layerToRemove.element.remove());
+        inkLayers.clear();
+        lastPoint = null;
+        lastColor = '';
+      }, 2050);
+    }, 2000);
+  });
+}
+
+setupSignatureInkInteraction();
 
 
 let mouseX = 0, mouseY = 0;
@@ -337,6 +456,11 @@ document.querySelectorAll('a, .circle, button').forEach(el => {
 el.addEventListener('mouseenter', () => {
     isHoveringClickable = true;
 
+    if (cursorEffect === 'pixel') {
+      pixelCursorColor = interactionColorFor(el);
+      sessionStorage.setItem('pixel-cursor-color', pixelCursorColor);
+    }
+
     const dotRect = cursorDot.getBoundingClientRect();
 
     mouseX = dotRect.left + dotRect.width / 2;
@@ -347,19 +471,33 @@ el.addEventListener('mouseenter', () => {
     const darkerElementColor = darkenColor(elementColor, 0.5);
 
     gsap.to(cursorDot, {
-      backgroundColor: '#ff5e5e',
+      backgroundColor: cursorEffect === 'pixel'
+        ? `rgb(${pixelCursorColor})`
+        : '#ff5e5e',
       duration: 0.2,
       ease: 'power2.out'
     });
 
     gsap.to(cursorOutlineInner, {
-      backgroundColor: colorWithAlpha(darkerElementColor, 0.25),
+      backgroundColor: cursorEffect === 'lens'
+        ? 'rgba(255, 255, 255, 0.22)'
+        : cursorEffect === 'pixel'
+          ? `rgba(${pixelCursorColor}, 0.2)`
+        : colorWithAlpha(darkerElementColor, cursorEffect === 'ink' ? 0.12 : 0.2),
       duration: 0.2,
       ease: 'power2.out'
     });
 
+    if (cursorEffect === 'pixel') {
+      gsap.to(cursorOutlineInner, {
+        borderColor: `rgb(${pixelCursorColor})`,
+        duration: 0.2,
+        ease: 'power2.out'
+      });
+    }
+
     gsap.to(cursorOutline, {
-      scale: 2.0,
+      scale: cursorEffect === 'lens' ? 1.55 : 1.8,
       duration: 0.3,
       ease: 'power2.out'
     });
@@ -368,13 +506,19 @@ el.addEventListener('mouseenter', () => {
   el.addEventListener('mouseleave', () => {
     isHoveringClickable = false;
     gsap.to(cursorDot, {
-      backgroundColor: '#ff5e5e',
+      backgroundColor: cursorEffect === 'pixel'
+        ? `rgb(${pixelCursorColor})`
+        : '#ff5e5e',
       duration: 0.2,
       ease: 'power2.out'
     });
 
     gsap.to(cursorOutlineInner, {
-      backgroundColor: 'rgba(255, 94, 94, 0.25)',
+      backgroundColor: cursorEffect === 'lens'
+        ? 'rgba(255, 255, 255, 0.12)'
+        : cursorEffect === 'ink'
+          ? 'rgba(255, 94, 94, 0.1)'
+          : `rgba(${pixelCursorColor}, 0.08)`,
       duration: 0.2,
       ease: 'power2.out'
     });
@@ -456,41 +600,59 @@ let trail = [];
 
 window.addEventListener('mousemove', (e) => {
   const target = document.elementFromPoint(e.clientX, e.clientY);
-  let color = '0,0,0';
+  if (cursorEffect === 'lens') return;
 
-  if (target) {
-    if (target.classList.contains('circle')) {
-      const bg = window.getComputedStyle(target).backgroundColor;
-      const match = bg.match(/\d+,\s*\d+,\s*\d+/);
-      if (match) color = match[0];
-    } else if (
-      ['P', 'A', 'SPAN', 'H1', 'H2', 'STRONG'].includes(target.tagName) ||
-      (target.classList && (
-        target.classList.contains('logo') ||
-        target.classList.contains('copy')
-      )) ||
-      target.closest('.logo') ||
-      target.closest('.footer-grid') ||
-      target.closest('footer')
-    ) {
-      color = '255,255,255';
-    }
+  const isContent = target?.closest(
+    'a, button, p, h1, h2, h3, span, strong, input, textarea, label, .resume-card, .contact-form'
+  );
+
+  // The ink version belongs to the empty paper-like background and stays away
+  // from content. The pixel version intentionally remains visible everywhere.
+  if (cursorEffect === 'ink' && isContent) return;
+
+  trail.push({
+    x: e.clientX,
+    y: e.clientY,
+    alpha: cursorEffect === 'ink' ? 0.2 : 0.72,
+    color: cursorEffect === 'ink' ? '24,24,24' : pixelCursorColor,
+    createdAt: performance.now(),
+    lifetime: 280,
+    fadeDuration: 180
+  });
+
+  if (cursorEffect === 'pixel' && trail.length > 2000) {
+    trail.splice(0, trail.length - 2000);
   }
-
-  trail.push({ x: e.clientX, y: e.clientY, alpha: 1, color });
 });
 
-function drawTrail() {
+function drawTrail(now = performance.now()) {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-  trail.forEach((p, i) => {
-    ctx.beginPath();
-    ctx.arc(p.x, p.y, 40, 0, Math.PI * 2);
-    ctx.fillStyle = `rgba(${p.color || '0,0,0'},${p.alpha})`;
-    ctx.fill();
-    p.alpha -= 0.02;
+  trail.forEach(p => {
+    if (cursorEffect === 'pixel') {
+      const age = now - p.createdAt;
+      const fadeStart = p.lifetime - p.fadeDuration;
+      const fadeProgress = Math.max(0, (age - fadeStart) / p.fadeDuration);
+      const visibleAlpha = p.alpha * (1 - Math.min(fadeProgress, 1));
+      const size = 7;
+      ctx.fillStyle = `rgba(${p.color},${visibleAlpha})`;
+      ctx.fillRect(
+        Math.round(p.x / size) * size,
+        Math.round(p.y / size) * size,
+        size,
+        size
+      );
+    } else {
+      ctx.fillStyle = `rgba(${p.color || '0,0,0'},${p.alpha})`;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, 12, 0, Math.PI * 2);
+      ctx.fill();
+      p.alpha -= 0.035;
+    }
   });
-  
-  trail = trail.filter(p => p.alpha > 0);
+
+  trail = cursorEffect === 'pixel'
+    ? trail.filter(p => now - p.createdAt < p.lifetime)
+    : trail.filter(p => p.alpha > 0);
   requestAnimationFrame(drawTrail);
 }
 
