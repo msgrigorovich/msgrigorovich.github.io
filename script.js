@@ -52,8 +52,8 @@ function animateSignature() {
     svg.insertBefore(defs, svg.firstChild);
   }
 
-  const duration = 400;
-  const stagger = 160;
+  const duration = 250;
+  const stagger = 100;
   const maskStrokeWidth = 18;
 
   const ordered = paths
@@ -176,7 +176,7 @@ function runIntro() {
       } catch (e) {
         finish();
       }
-    }, 500);
+    }, 150);
   });
 }
 
