@@ -4,6 +4,10 @@ const resumeExperience = [
     eyebrow: 'Strikerz Inc. · Tbilisi',
     title: 'Senior QA Engineer',
     role: 'Core Gameplay Team · Quality & Systems Validation',
+    links: [
+      { label: 'Company', url: 'https://www.strikerz.inc/' },
+      { label: 'UFL', url: 'https://uflgame.com/' }
+    ],
     text: 'Systemic validation of Core Gameplay mechanics with a focus on movement, interaction, and consistency across features.',
     responsibilities: [
       'Constant improvement and validation of Core Gameplay mechanics, ensuring integrity across multiple systems;',
@@ -31,6 +35,10 @@ const resumeExperience = [
     eyebrow: 'Strikerz Inc. · Tbilisi',
     title: 'Senior QA Engineer',
     role: 'Quality Control Team · Cross-Platform & Feature Validation',
+    links: [
+      { label: 'Company', url: 'https://www.strikerz.inc/' },
+      { label: 'UFL', url: 'https://uflgame.com/' }
+    ],
     text: 'Console product quality during pre-production and release, with cross-team coordination and feature-level ownership.',
     responsibilities: [
       'Daily regression testing on DevKits and TestKits (PS5, Xbox Series X|S);',
@@ -179,11 +187,17 @@ let activeResumeTab = 'experience';
 
 function resumeCardMarkup(item) {
   const hiddenSkillsCount = item.skills ? Math.max(item.skills.length - item.chips.length, 0) : 0;
+  const links = item.links?.length ? `
+    <div class="resume-external-links">
+      ${item.links.map(link => `<a href="${link.url}" target="_blank" rel="noopener noreferrer">${link.label}<span aria-hidden="true">↗</span></a>`).join('')}
+    </div>
+  ` : '';
 
   return `
     <p class="resume-eyebrow">${item.eyebrow}</p>
     <h1>${item.title}</h1>
     <h2>${item.role}</h2>
+    ${links}
     <p class="resume-description">${item.text}</p>
     <div class="resume-chips">
       ${item.chips.map(chip => `<span class="resume-chip">${chip}</span>`).join('')}
