@@ -1236,7 +1236,7 @@ footer {
 .cursor-dot {
   width: 12px;
   height: 12px;
-  background-color: #ff5e5e; /* новый цвет маленькой окружности */
+  background-color: #7800ff;
 }
 
 .cursor-outline {
@@ -1259,10 +1259,9 @@ footer {
 .cursor-outline-inner {
   width: 100%;
   height: 100%;
-  border-radius: 50%;
-  background-color: rgba(255, 94, 94, 0.25);
-  border: none;
-  mix-blend-mode: difference;
+  border-radius: 7px;
+  background: rgba(120, 0, 255, 0.08);
+  border: 1px solid rgba(120, 0, 255, 0.38);
   transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
@@ -1276,53 +1275,12 @@ footer {
   height: 100vh;
   pointer-events: none;
   z-index: 9999;
-  mix-blend-mode: screen;
-  filter: blur(40px);
-}
-
-body[data-cursor-effect="ink"] .cursor-trail {
-  mix-blend-mode: multiply;
-  filter: blur(8px);
-}
-
-body[data-cursor-effect="ink"] .cursor-outline-inner {
-  background: rgba(255, 94, 94, 0.1);
-  border: 1px solid rgba(255, 94, 94, 0.24);
-}
-
-body[data-cursor-effect="lens"] .cursor-trail {
-  display: none;
-}
-
-body[data-cursor-effect="lens"] .cursor-outline {
-  width: 42px;
-  height: 42px;
-}
-
-body[data-cursor-effect="lens"] .cursor-outline-inner {
-  border: 1px solid rgba(17, 17, 17, 0.32);
-  background: rgba(255, 255, 255, 0.12);
-  backdrop-filter: blur(2px) saturate(1.15);
-  -webkit-backdrop-filter: blur(2px) saturate(1.15);
-}
-
-body[data-cursor-effect="pixel"] .cursor-trail {
   image-rendering: pixelated;
   mix-blend-mode: multiply;
   filter: none;
 }
 
-body[data-cursor-effect="pixel"] .cursor-outline-inner {
-  border: 1px solid rgba(120, 0, 255, 0.38);
-  border-radius: 7px;
-  background: rgba(120, 0, 255, 0.08);
-}
-
-body[data-cursor-effect="pixel"] .cursor-dot {
-  background-color: #7800ff;
-}
-
-body[data-cursor-effect="pixel"] .cursor-outline {
+.cursor-outline {
   border-radius: 7px;
 }
 

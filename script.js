@@ -378,15 +378,7 @@ const cursorDot = document.querySelector('.cursor-dot');
 const cursorOutline = document.querySelector('.cursor-outline');
 const cursorOutlineInner = document.querySelector('.cursor-outline-inner');
 
-const CURSOR_EFFECTS = ['ink', 'lens', 'pixel'];
-const requestedCursorEffect = new URLSearchParams(window.location.search).get('cursor');
-if (CURSOR_EFFECTS.includes(requestedCursorEffect)) {
-  sessionStorage.setItem('cursor-effect', requestedCursorEffect);
-}
-const cursorEffect = CURSOR_EFFECTS.includes(requestedCursorEffect)
-  ? requestedCursorEffect
-  : sessionStorage.getItem('cursor-effect') || 'ink';
-document.body.dataset.cursorEffect = cursorEffect;
+sessionStorage.removeItem('cursor-effect');
 
 const navigationEntry = performance.getEntriesByType('navigation')[0];
 if (navigationEntry?.type === 'reload') {
@@ -394,11 +386,9 @@ if (navigationEntry?.type === 'reload') {
 }
 let pixelCursorColor = sessionStorage.getItem('pixel-cursor-color') || '120,0,255';
 
-if (cursorEffect === 'pixel') {
-  cursorDot.style.backgroundColor = `rgb(${pixelCursorColor})`;
-  cursorOutlineInner.style.backgroundColor = `rgba(${pixelCursorColor}, 0.08)`;
-  cursorOutlineInner.style.borderColor = `rgb(${pixelCursorColor})`;
-}
+cursorDot.style.backgroundColor = `rgb(${pixelCursorColor})`;
+cursorOutlineInner.style.backgroundColor = `rgba(${pixelCursorColor}, 0.08)`;
+cursorOutlineInner.style.borderColor = `rgb(${pixelCursorColor})`;
 
 function interactionColorFor(element) {
   const styles = window.getComputedStyle(element);
@@ -538,48 +528,34 @@ document.querySelectorAll('a, .circle, button').forEach(el => {
 el.addEventListener('mouseenter', () => {
     isHoveringClickable = true;
 
-    if (cursorEffect === 'pixel') {
-      pixelCursorColor = interactionColorFor(el);
-      sessionStorage.setItem('pixel-cursor-color', pixelCursorColor);
-    }
+    pixelCursorColor = interactionColorFor(el);
+    sessionStorage.setItem('pixel-cursor-color', pixelCursorColor);
 
     const dotRect = cursorDot.getBoundingClientRect();
 
     mouseX = dotRect.left + dotRect.width / 2;
     mouseY = dotRect.top + dotRect.height / 2;
 
-    const elementColor = window.getComputedStyle(el).backgroundColor;
-
-    const darkerElementColor = darkenColor(elementColor, 0.5);
-
     gsap.to(cursorDot, {
-      backgroundColor: cursorEffect === 'pixel'
-        ? `rgb(${pixelCursorColor})`
-        : '#ff5e5e',
+      backgroundColor: `rgb(${pixelCursorColor})`,
       duration: 0.2,
       ease: 'power2.out'
     });
 
     gsap.to(cursorOutlineInner, {
-      backgroundColor: cursorEffect === 'lens'
-        ? 'rgba(255, 255, 255, 0.22)'
-        : cursorEffect === 'pixel'
-          ? `rgba(${pixelCursorColor}, 0.2)`
-        : colorWithAlpha(darkerElementColor, cursorEffect === 'ink' ? 0.12 : 0.2),
+      backgroundColor: `rgba(${pixelCursorColor}, 0.2)`,
       duration: 0.2,
       ease: 'power2.out'
     });
 
-    if (cursorEffect === 'pixel') {
-      gsap.to(cursorOutlineInner, {
-        borderColor: `rgb(${pixelCursorColor})`,
-        duration: 0.2,
-        ease: 'power2.out'
-      });
-    }
+    gsap.to(cursorOutlineInner, {
+      borderColor: `rgb(${pixelCursorColor})`,
+      duration: 0.2,
+      ease: 'power2.out'
+    });
 
     gsap.to(cursorOutline, {
-      scale: cursorEffect === 'lens' ? 1.55 : 1.8,
+      scale: 1.8,
       duration: 0.3,
       ease: 'power2.out'
     });
@@ -588,19 +564,13 @@ el.addEventListener('mouseenter', () => {
   el.addEventListener('mouseleave', () => {
     isHoveringClickable = false;
     gsap.to(cursorDot, {
-      backgroundColor: cursorEffect === 'pixel'
-        ? `rgb(${pixelCursorColor})`
-        : '#ff5e5e',
+      backgroundColor: `rgb(${pixelCursorColor})`,
       duration: 0.2,
       ease: 'power2.out'
     });
 
     gsap.to(cursorOutlineInner, {
-      backgroundColor: cursorEffect === 'lens'
-        ? 'rgba(255, 255, 255, 0.12)'
-        : cursorEffect === 'ink'
-          ? 'rgba(255, 94, 94, 0.1)'
-          : `rgba(${pixelCursorColor}, 0.08)`,
+      backgroundColor: `rgba(${pixelCursorColor}, 0.08)`,
       duration: 0.2,
       ease: 'power2.out'
     });
@@ -612,60 +582,6 @@ el.addEventListener('mouseenter', () => {
     });
   });
 });
-
-// function of blackout color
-function darkenColor(rgb, amount) {
-  const nums = rgb.match(/\d+/g).map(Number);
-  const factor = 1 - amount;
-  const r = Math.max(Math.round(nums[0] * factor), 0);
-  const g = Math.max(Math.round(nums[1] * factor), 0);
-  const b = Math.max(Math.round(nums[2] * factor), 0);
-  return `rgb(${r}, ${g}, ${b})`;
-}
-
-function colorWithAlpha(rgb, alpha) {
-  const nums = rgb.match(/\d+/g).map(Number);
-  return `rgba(${nums[0]}, ${nums[1]}, ${nums[2]}, ${alpha})`;
-}
-
-
-// function of blending with cursor base color priority
-function mixColors(color1, color2, weight) {
-  const c1 = color1.match(/\d+/g).map(Number);
-  const c2 = color2.match(/\d+/g).map(Number);
-  const w = weight || 0.5;
-  const r = Math.round(c1[0] * w + c2[0] * (1 - w));
-  const g = Math.round(c1[1] * w + c2[1] * (1 - w));
-  const b = Math.round(c1[2] * w + c2[2] * (1 - w));
-  return `rgb(${r}, ${g}, ${b})`;
-}
-
-function colorWithAlpha(rgb, alpha) {
-  const nums = rgb.match(/\d+/g).map(Number);
-  return `rgba(${nums[0]}, ${nums[1]}, ${nums[2]}, ${alpha})`;
-}
-
-
-// Color mixing function
-function mixColors(color1, color2, weight) {
-  const c1 = color1.match(/\d+/g).map(Number);
-  const c2 = color2.match(/\d+/g).map(Number);
-  const w = weight || 0.5;
-  const r = Math.round(c1[0] * w + c2[0] * (1 - w));
-  const g = Math.round(c1[1] * w + c2[1] * (1 - w));
-  const b = Math.round(c1[2] * w + c2[2] * (1 - w));
-  return `rgb(${r}, ${g}, ${b})`;
-}
-
-// Add alpha to rgb
-function colorWithAlpha(rgb, alpha) {
-  const nums = rgb.match(/\d+/g).map(Number);
-  return `rgba(${nums[0]}, ${nums[1]}, ${nums[2]}, ${alpha})`;
-}
-
-
-
-
 
 const canvas = document.querySelector('.cursor-trail');
 const ctx = canvas.getContext('2d');
@@ -681,28 +597,17 @@ window.addEventListener('resize', () => {
 let trail = [];
 
 window.addEventListener('mousemove', (e) => {
-  const target = document.elementFromPoint(e.clientX, e.clientY);
-  if (cursorEffect === 'lens') return;
-
-  const isContent = target?.closest(
-    'a, button, p, h1, h2, h3, span, strong, input, textarea, label, .resume-card, .contact-form'
-  );
-
-  // The ink version belongs to the empty paper-like background and stays away
-  // from content. The pixel version intentionally remains visible everywhere.
-  if (cursorEffect === 'ink' && isContent) return;
-
   trail.push({
     x: e.clientX,
     y: e.clientY,
-    alpha: cursorEffect === 'ink' ? 0.2 : 0.72,
-    color: cursorEffect === 'ink' ? '24,24,24' : pixelCursorColor,
+    alpha: 0.72,
+    color: pixelCursorColor,
     createdAt: performance.now(),
     lifetime: 280,
     fadeDuration: 180
   });
 
-  if (cursorEffect === 'pixel' && trail.length > 2000) {
+  if (trail.length > 2000) {
     trail.splice(0, trail.length - 2000);
   }
 });
@@ -710,31 +615,21 @@ window.addEventListener('mousemove', (e) => {
 function drawTrail(now = performance.now()) {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   trail.forEach(p => {
-    if (cursorEffect === 'pixel') {
-      const age = now - p.createdAt;
-      const fadeStart = p.lifetime - p.fadeDuration;
-      const fadeProgress = Math.max(0, (age - fadeStart) / p.fadeDuration);
-      const visibleAlpha = p.alpha * (1 - Math.min(fadeProgress, 1));
-      const size = 7;
-      ctx.fillStyle = `rgba(${p.color},${visibleAlpha})`;
-      ctx.fillRect(
-        Math.round(p.x / size) * size,
-        Math.round(p.y / size) * size,
-        size,
-        size
-      );
-    } else {
-      ctx.fillStyle = `rgba(${p.color || '0,0,0'},${p.alpha})`;
-      ctx.beginPath();
-      ctx.arc(p.x, p.y, 12, 0, Math.PI * 2);
-      ctx.fill();
-      p.alpha -= 0.035;
-    }
+    const age = now - p.createdAt;
+    const fadeStart = p.lifetime - p.fadeDuration;
+    const fadeProgress = Math.max(0, (age - fadeStart) / p.fadeDuration);
+    const visibleAlpha = p.alpha * (1 - Math.min(fadeProgress, 1));
+    const size = 7;
+    ctx.fillStyle = `rgba(${p.color},${visibleAlpha})`;
+    ctx.fillRect(
+      Math.round(p.x / size) * size,
+      Math.round(p.y / size) * size,
+      size,
+      size
+    );
   });
 
-  trail = cursorEffect === 'pixel'
-    ? trail.filter(p => now - p.createdAt < p.lifetime)
-    : trail.filter(p => p.alpha > 0);
+  trail = trail.filter(p => now - p.createdAt < p.lifetime);
   requestAnimationFrame(drawTrail);
 }
 
@@ -839,12 +734,3 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 });
-
-function darkenColor(rgb, amount) {
-  const nums = rgb.match(/\d+/g).map(Number);
-  const factor = 1 - amount;
-  const r = Math.max(Math.round(nums[0] * factor), 0);
-  const g = Math.max(Math.round(nums[1] * factor), 0);
-  const b = Math.max(Math.round(nums[2] * factor), 0);
-  return `rgb(${r}, ${g}, ${b})`;
-}
