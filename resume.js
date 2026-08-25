@@ -1,3 +1,90 @@
+const dominiSeriesProjects = [
+  { label: 'DominiGames', image: 'https://dominigames.com/_nuxt/img/logo.65e3f99.svg', contained: true, url: 'https://dominigames.com/' },
+  {
+    label: 'Secret City', image: 'https://api.dominigames.com/img/c9eef9fd-f8c0-43a5-82ba-f416b0451b84/sc1.jpg?q=80&fit=max&crop=1536%2C1536%2C0%2C0&w=320&fm=webp',
+    games: [
+      ['London Calling', 'https://apps.apple.com/us/app/secret-city-london-calling/id1449950524', 'https://play.google.com/store/apps/details?id=com.dominigames.sc1', 'https://www.amazon.com/gp/product/B07N41R4LM'],
+      ['The Sunken Kingdom', 'https://apps.apple.com/us/app/secret-city-sunken-kingdom/id1470936794', 'https://play.google.com/store/apps/details?id=com.dominigames.sc2', 'https://www.amazon.com/gp/product/B07TY1Q8JM'],
+      ['The Human Threat', 'https://apps.apple.com/us/app/secret-city-the-human-threat/id1492069458', 'https://play.google.com/store/apps/details?id=com.dominigames.sc3', 'https://www.amazon.com/gp/product/B08427H95M'],
+      ['The Chalk of Fate', 'https://apps.apple.com/us/app/secret-city-chalk-of-fate/id1517023285', 'https://play.google.com/store/apps/details?id=com.dominigames.sc4', 'https://www.amazon.com/gp/product/B08B61KT3H'],
+      ['Mysterious Collection', '', 'https://dominigames.onelink.me/q9JO/ua0o5o95', ''],
+      ['Sacred Fire', 'https://apps.apple.com/us/app/secret-city-sacred-fire/id1575232097', 'https://play.google.com/store/apps/details?id=com.dominigames.sc6', 'https://www.amazon.com/gp/product/B098R1ZRBL']
+    ]
+  },
+  {
+    label: 'Mystery Tales', image: 'https://api.dominigames.com/img/112f7cb5-a074-43fe-9057-5848fcab76f4/mt4.jpg?q=80&fit=max&crop=1536%2C1536%2C0%2C0&w=320&fm=webp',
+    games: [
+      ['Her Own Eyes', '', 'https://play.google.com/store/apps/details?id=com.dominigames.mysterytales', 'https://www.amazon.com/gp/product/B07NZ6D1D1'],
+      ['Eye of the Fire', '', 'https://play.google.com/store/apps/details?id=com.dominigames.mt5', 'https://www.amazon.com/gp/product/B07PPQGYY3'],
+      ['The Hangman Returns', '', 'https://play.google.com/store/apps/details?id=com.dominigames.mt6', 'https://www.amazon.com/gp/product/B07QPMRPP7'],
+      ['The House of Others', '', 'https://play.google.com/store/apps/details?id=com.dominigames.mt7', 'https://www.amazon.com/gp/product/B081LDBYW4'],
+      ['Dangerous Desires', '', 'https://play.google.com/store/apps/details?id=com.dominigames.mt8', 'https://www.amazon.com/gp/product/B081K1T8G6'],
+      ['The Other Side', '', 'https://play.google.com/store/apps/details?id=com.dominigames.mt9', 'https://www.amazon.com/gp/product/B083M34KLB'],
+      ['The Reel Horror', 'https://apps.apple.com/us/app/mystery-tales-the-reel-horror/id1455952703', 'https://play.google.com/store/apps/details?id=com.dominigames.mt10', 'https://www.amazon.com/gp/product/B086T1DYTG'],
+      ["Dealer's Choices", 'https://apps.apple.com/us/app/mystery-tales-dealers-choice/id1481569040', 'https://play.google.com/store/apps/details?id=com.dominigames.mt11', 'https://www.amazon.com/gp/product/B08CRK2WCZ'],
+      ['Art and Souls', 'https://apps.apple.com/us/app/mystery-tales-art-and-souls/id1503568676', 'https://play.google.com/store/apps/details?id=com.dominigames.mt12', 'https://www.amazon.com/gp/product/B08JNGPMMF'],
+      ['Til Death', 'https://apps.apple.com/us/app/mystery-tales-til-death/id1524245100', 'https://play.google.com/store/apps/details?id=com.dominigames.mt13', 'https://www.amazon.com/gp/product/B08PFGL1MK'],
+      ['Master of Puppets', 'https://apps.apple.com/us/app/mystery-tales-master/id1564112150', 'https://dominigames.onelink.me/vI29/23ah7ps6', '']
+    ]
+  },
+  {
+    label: 'Fairy Godmother Stories', image: 'https://api.dominigames.com/img/0f2f1ab6-91eb-4ba7-bc2d-2f59b5a24cac/fg1.jpg?q=80&fit=max&crop=1536%2C1536%2C0%2C0&w=320&fm=webp',
+    games: [
+      ['Cinderella', 'https://apps.apple.com/us/app/fairy-godmother-cinderella/id1507170351', 'https://play.google.com/store/apps/details?id=com.dominigames.fg1', 'https://www.amazon.com/gp/product/B089DN96HC'],
+      ['Dark Deal', 'https://apps.apple.com/us/app/fairy-godmother-dark-deal/id1529464814', 'https://play.google.com/store/apps/details?id=com.dominigames.fg2', 'https://www.amazon.com/gp/product/B08SVMS9GS'],
+      ['Little Red Riding Hood', 'https://apps.apple.com/us/app/fairy-godmother-red-hood/id1540954629', 'https://play.google.com/store/apps/details?id=com.dominigames.fg3', 'https://www.amazon.com/gp/product/B08X1W7QDD'],
+      ['Puss in Boots', 'https://apps.apple.com/us/app/fairy-godmother-puss-in-boots/id1578867906', 'https://play.google.com/store/apps/details?id=com.dominigames.fg4', 'https://www.amazon.com/gp/product/B09CZ4JXDB'],
+      ['Miraculous Dream in Taleville', '', 'https://dominigames.onelink.me/PDoT/v1vpivsf', '']
+    ]
+  },
+  {
+    label: 'Twin Mind', image: 'https://api.dominigames.com/img/ca6f12fa-0dac-46d3-991e-4e8569af3770/tm1-350x440.jpg?q=80&fit=max&crop=350%2C350%2C0%2C0&w=320&fm=webp',
+    games: [
+      ['Murderous Jealousy', 'https://apps.apple.com/us/app/twin-mind-jealousy/id1560304407', 'https://play.google.com/store/apps/details?id=com.dominigames.tm1', 'https://www.amazon.com/Hidden-Objects-Murderous-Jealousy-Collectors/dp/B0BD7ZY7HH/'],
+      ['Power of Love', 'https://apps.apple.com/us/app/twin-mind-power-of-love/id1588054017', 'https://play.google.com/store/apps/details?id=com.dominigames.tm2', 'https://www.amazon.com/Hidden-Objects-Twin-Power-Collectors/dp/B0B97PCDR1/'],
+      ['Ghost Hunter', 'https://apps.apple.com/us/app/twin-mind-ghost/id1616684046', 'https://play.google.com/store/apps/details?id=com.dominigames.tm3', 'https://www.amazon.com/Hidden-Objects-Ghost-Hunter-Collectors/dp/B0B2RY2XSH/'],
+      ["Nobody's Here", 'https://apps.apple.com/us/app/twin-mind-nobodys-here/id6444770203', 'https://play.google.com/store/apps/details?id=com.dominigames.tm4', 'https://www.amazon.com/gp/product/B0BNN7T46K']
+    ]
+  },
+  {
+    label: 'Magic City', image: 'https://api.dominigames.com/img/ca6f12fa-0dac-46d3-991e-4e8569af3770/mc1-350x440.jpg?q=80&fit=max&crop=350%2C350%2C0%2C14&w=320&fm=webp',
+    games: [
+      ['Detective Wings of Revenge', 'https://apps.apple.com/us/app/magic-city-detective-revenge/id1606698189', 'https://play.google.com/store/apps/details?id=com.dominigames.mc1', 'https://www.amazon.com/Hidden-Objects-Detective-Revenge-Collectors/dp/B0B94NSL6N/'],
+      ['Secret Desire', 'https://apps.apple.com/us/app/magic-%D1%81ity-detective-secret/id1628277001', 'https://play.google.com/store/apps/details?id=com.dominigames.mc2', 'https://www.amazon.com/Hidden-Objects-Detective-Secret-Collectors/dp/B0B5VJ4W1X/']
+    ]
+  },
+  {
+    label: 'Royal Romances', image: 'https://api.dominigames.com/img/f9ad1ffb-e457-4ef6-a269-3336eea6379f/-games-350-440-cut.jpg?q=80&fit=max&crop=348%2C440%2C0%2C0&w=320&fm=webp',
+    games: [
+      ['Battle of the Woods', 'https://apps.apple.com/us/app/royal-romances-battle/id6463634983', 'https://play.google.com/store/apps/details?id=com.dominigames.rr1full', 'https://www.amazon.com/gp/product/B0CGSFML6K']
+    ]
+  },
+  {
+    label: 'Hidden Expedition', image: 'https://api.dominigames.com/img/efbca7ef-6ec9-46a5-95cf-9506a2ae87e4/he19.jpg?q=80&fit=max&crop=1536%2C1536%2C0%2C0&w=320&fm=webp',
+    games: [
+      ['The Price of Paradise', 'https://apps.apple.com/us/app/hidden-expedition-paradise/id1531061347', 'https://play.google.com/store/apps/details?id=com.dominigames.he19.ext', 'https://www.amazon.com/gp/product/B08RK336T4'],
+      ['Reign of Flames', 'https://apps.apple.com/us/app/hidden-expedition-reign/id1549490791', 'https://play.google.com/store/apps/details?id=com.dominigames.he20', 'https://www.amazon.com/gp/product/B08WLZZ8GN'],
+      ["A King's Line", 'https://apps.apple.com/us/app/hidden-expedition-kings-line/id1580732535', 'https://play.google.com/store/apps/details?id=com.dominigames.he21', 'https://www.amazon.com/gp/product/B09DGK4TH7']
+    ]
+  },
+  {
+    label: 'The Christmas Spirit', image: 'https://play-lh.googleusercontent.com/jBSg9deFPA-INSsy3Z1RKwsGuXpwImRdOUJyo0zcTMowILE5JuZmT3XceH_CVv6fFPwIpLDDgfNtGLy7HqdA=s160-rw',
+    games: [
+      ['Trouble in Oz', '', 'https://play.google.com/store/apps/details?id=com.dominigames.ch1.free2play', ''],
+      ["Mother Goose's Untold Tales", '', 'https://play.google.com/store/apps/details?id=com.dominigames.ch2.free2play', ''],
+      ['Grimm Tales', '', 'https://play.google.com/store/apps/details?id=com.dominigames.ch3.free2play', ''],
+      ['Journey Before Christmas', '', 'https://play.google.com/store/apps/details?id=com.dominigames.ch4.free2play', ''],
+      ['Golden Ticket', '', 'https://play.google.com/store/apps/details?id=com.dominigames.ch5.free2play', '']
+    ]
+  }
+].map(project => ({
+  ...project,
+  games: project.games?.map(([title, appStore, googlePlay, amazon]) => ({
+    title,
+    stores: { 'app-store': appStore, 'google-play': googlePlay, amazon }
+  }))
+}));
+
 const resumeExperience = [
   {
     period: 'Jan 2025 — Present',
@@ -104,10 +191,7 @@ const resumeExperience = [
     eyebrow: 'DominiGames · Voronezh region',
     title: 'Senior QA Engineer',
     role: 'QA Leadership & Process Ownership · Mobile Games',
-    projects: Array.from({ length: 8 }, (_, index) => ({
-      label: `Project ${String(index + 1).padStart(2, '0')}`,
-      icon: `D${index + 1}`
-    })),
+    projects: dominiSeriesProjects,
     text: 'Combined hands-on testing with team leadership, mentoring, interviews, and structured QA processes across studio projects.',
     responsibilities: [
       'Functional/non-Functional testing (android/iOS/kindle fire amazon);',
@@ -140,10 +224,7 @@ const resumeExperience = [
     eyebrow: 'DominiGames · Voronezh',
     title: 'Middle QA Engineer',
     role: 'QA Process Development & Test Design · Mobile Games',
-    projects: Array.from({ length: 8 }, (_, index) => ({
-      label: `Project ${String(index + 1).padStart(2, '0')}`,
-      icon: `D${index + 1}`
-    })),
+    projects: dominiSeriesProjects,
     text: 'Expanded from test execution into test design, documentation, and automation foundations in production game development.',
     responsibilities: [
       'Functional/non-Functional testing (android/iOS/kindle fire amazon);',
@@ -163,10 +244,7 @@ const resumeExperience = [
     eyebrow: 'DominiGames · Voronezh',
     title: 'Junior QA Engineer',
     role: 'Entry-Level QA · Mobile Game Production',
-    projects: Array.from({ length: 8 }, (_, index) => ({
-      label: `Project ${String(index + 1).padStart(2, '0')}`,
-      icon: `D${index + 1}`
-    })),
+    projects: dominiSeriesProjects,
     text: 'First commercial game development role, focused on quality validation within active production environments.',
     responsibilities: [
       'Functional/non-Functional testing (android/iOS/kindle fire amazon);',
@@ -206,6 +284,12 @@ let resumeYearIndex = 0;
 let activeResumeTab = 'experience';
 const resumeProjectIndexes = new Map();
 
+const resumeStoreIcons = {
+  'google-play': `<svg viewBox="0 0 18 18" role="img" aria-label="Google Play"><path fill="#00d4ff" d="M2.5 1.6 10.8 9l-8.3 7.4a1.7 1.7 0 0 1-.3-1V2.6c0-.4.1-.7.3-1Z"/><path fill="#00e676" d="m2.5 1.6 10.4 5.9L10.8 9 2.5 1.6Z"/><path fill="#ffea00" d="m10.8 9 2.1 1.5-10.4 5.9L10.8 9Z"/><path fill="#ff3d5a" d="m12.9 7.5 2.2 1.2c.6.3.6.9 0 1.2l-2.2.6L10.8 9l2.1-1.5Z"/></svg>`,
+  'app-store': `<svg viewBox="0 0 18 18" role="img" aria-label="App Store"><rect width="18" height="18" rx="4" fill="#087ff5"/><path d="M5 12.8 9.2 5.5m3.8 7.3L8.8 5.5M4.2 10.9h9.6" fill="none" stroke="#fff" stroke-width="1.75" stroke-linecap="round"/></svg>`,
+  amazon: `<svg viewBox="0 0 18 18" role="img" aria-label="Amazon"><rect width="18" height="18" rx="4" fill="#111"/><path d="M5.2 10.6c2.5 1.6 5.2 1.7 7.7.3" fill="none" stroke="#ffb000" stroke-width="1.35" stroke-linecap="round"/><path d="m11.9 10.7 1.3.1-.7 1" fill="none" stroke="#ffb000" stroke-width="1" stroke-linecap="round"/><path d="M9.7 5.1c1.9 0 2.5.8 2.5 2.3v3h-1.5l-.2-.7c-.5.6-1.1.9-1.9.9-1.2 0-2-.7-2-1.8 0-1.5 1.3-2.1 3.8-2.1v-.2c0-.6-.3-.8-1-.8-.7 0-1.4.2-2 .5L7 5.5c.8-.3 1.7-.4 2.7-.4Zm.7 2.7c-1.4 0-2 .3-2 .9 0 .4.3.7.8.7.5 0 .9-.2 1.2-.6v-1Z" fill="#fff"/></svg>`
+};
+
 function resumeCardMarkup(item) {
   const hiddenSkillsCount = item.skills ? Math.max(item.skills.length - item.chips.length, 0) : 0;
 
@@ -244,6 +328,7 @@ function renderResumeProjects() {
   const projects = item.projects || [];
   const isScrollable = projects.length > 3;
   const selectedIndex = Math.min(resumeProjectIndexes.get(resumeYearIndex) || 0, Math.max(projects.length - 1, 0));
+  const selectedProject = projects[selectedIndex];
 
   resumeProjectRail.classList.toggle('hidden', activeResumeTab !== 'experience' || !projects.length);
   resumeProjectRail.classList.toggle('scrollable', isScrollable);
@@ -258,13 +343,9 @@ function renderResumeProjects() {
       <div class="resume-project-list" style="--project-index: ${selectedIndex}">
         ${projects.map((project, index) => {
           const icon = project.image
-            ? `<img class="resume-project-image${project.monochrome ? ' monochrome' : ''}" src="${project.image}" alt="">`
+            ? `<img class="resume-project-image${project.monochrome ? ' monochrome' : ''}${project.contained ? ' contained' : ''}" src="${project.image}" alt="">`
             : `<span class="resume-project-icon">${project.icon}</span>`;
-          const storeIcons = {
-            'google-play': `<svg viewBox="0 0 18 18" role="img" aria-label="Google Play"><path fill="#00d4ff" d="M2.5 1.6 10.8 9l-8.3 7.4a1.7 1.7 0 0 1-.3-1V2.6c0-.4.1-.7.3-1Z"/><path fill="#00e676" d="m2.5 1.6 10.4 5.9L10.8 9 2.5 1.6Z"/><path fill="#ffea00" d="m10.8 9 2.1 1.5-10.4 5.9L10.8 9Z"/><path fill="#ff3d5a" d="m12.9 7.5 2.2 1.2c.6.3.6.9 0 1.2l-2.2.6L10.8 9l2.1-1.5Z"/></svg>`,
-            'app-store': `<svg viewBox="0 0 18 18" role="img" aria-label="App Store"><rect width="18" height="18" rx="4" fill="#087ff5"/><path d="M5 12.8 9.2 5.5m3.8 7.3L8.8 5.5M4.2 10.9h9.6" fill="none" stroke="#fff" stroke-width="1.75" stroke-linecap="round"/></svg>`
-          };
-          const store = project.store ? `<span class="resume-project-store" aria-hidden="true">${storeIcons[project.store]}</span>` : '';
+          const store = project.store ? `<span class="resume-project-store" aria-hidden="true">${resumeStoreIcons[project.store]}</span>` : '';
           const content = `${icon}${store}<span class="resume-project-name">${project.label}</span>`;
           const classes = `resume-project-item${index === selectedIndex ? ' selected' : Math.abs(index - selectedIndex) === 1 ? ' near' : ''}`;
           return project.url
@@ -274,6 +355,34 @@ function renderResumeProjects() {
       </div>
     </div>
     ${isScrollable ? '<p class="resume-project-hint">scroll</p>' : ''}
+    ${selectedProject?.games ? resumeSeriesPanelMarkup(selectedProject) : ''}
+  `;
+}
+
+function resumeSeriesPanelMarkup(series) {
+  return `
+    <section class="resume-series-panel" aria-label="${series.label} games">
+      <header class="resume-series-header">
+        <div>
+          <p>Series</p>
+          <h3>${series.label}</h3>
+        </div>
+        <button type="button" data-project-close aria-label="Close ${series.label} games">×</button>
+      </header>
+      <div class="resume-series-games">
+        ${series.games.map((game, index) => `
+          <article class="resume-series-game">
+            <span class="resume-series-number">${String(index + 1).padStart(2, '0')}</span>
+            <span class="resume-series-title">${game.title}</span>
+            <span class="resume-series-stores">
+              ${Object.entries(game.stores).filter(([, url]) => url).map(([store, url]) => `
+                <a href="${url}" target="_blank" rel="noopener noreferrer" aria-label="Open ${game.title} in ${store.replace('-', ' ')}">${resumeStoreIcons[store]}</a>
+              `).join('')}
+            </span>
+          </article>
+        `).join('')}
+      </div>
+    </section>
   `;
 }
 
@@ -381,11 +490,16 @@ resumeModal.addEventListener('click', event => {
   if (event.target === resumeModal) closeResumeModal();
 });
 resumeProjectRail.addEventListener('click', event => {
+  if (event.target.closest('[data-project-close]')) {
+    selectResumeProject(0);
+    return;
+  }
   const projectItem = event.target.closest('[data-project-index]');
   if (!projectItem || projectItem.matches('a')) return;
   selectResumeProject(Number(projectItem.dataset.projectIndex));
 });
 resumeProjectRail.addEventListener('wheel', event => {
+  if (event.target.closest('.resume-series-games')) return;
   const projects = resumeExperience[resumeYearIndex].projects || [];
   if (projects.length <= 3 || activeResumeTab !== 'experience') return;
   event.preventDefault();
