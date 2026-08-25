@@ -188,7 +188,7 @@ const resumeExperience = [
   },
   {
     period: 'Mar 2022 — Sep 2022',
-    eyebrow: 'DominiGames · Voronezh region',
+    eyebrow: 'DominiGames · Voronezh',
     title: 'Senior QA Engineer',
     role: 'QA Leadership & Process Ownership · Mobile Games',
     projects: dominiSeriesProjects,
