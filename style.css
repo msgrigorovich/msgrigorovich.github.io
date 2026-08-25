@@ -930,7 +930,7 @@ footer {
 
 .footer-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   align-items: center;
   text-align: center;
   gap: 2rem;
@@ -941,6 +941,11 @@ footer {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+
+/* Keep an older cached page shell from restoring the removed phone column. */
+.footer-grid > div:has(a[href^="tel:"]) {
+  display: none;
 }
 
 .footer-grid p {
@@ -1402,4 +1407,3 @@ footer {
     padding: 1.25rem;
   }
 }
-

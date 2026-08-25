@@ -688,6 +688,14 @@ resumeProjectRail.addEventListener('click', event => {
   selectResumeProject(Number(projectItem.dataset.projectIndex));
 });
 
+document.addEventListener('click', event => {
+  const seriesPanel = resumeProjectRail.querySelector('.resume-series-panel');
+  if (!seriesPanel) return;
+  if (event.target.closest('.resume-series-panel')) return;
+  if (event.target.closest('[data-project-index]')) return;
+  selectResumeProject(0);
+});
+
 function selectResumeProjectDuringWheel(index) {
   const projects = resumeExperience[resumeYearIndex].projects || [];
   const selectedIndex = Math.max(0, Math.min(projects.length - 1, index));
