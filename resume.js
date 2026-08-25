@@ -54,7 +54,7 @@ const dominiSeriesProjects = [
     ]
   },
   {
-    label: 'Royal Romances', image: 'https://api.dominigames.com/img/f9ad1ffb-e457-4ef6-a269-3336eea6379f/-games-350-440-cut.jpg?q=80&fit=max&crop=348%2C440%2C0%2C0&w=320&fm=webp',
+    label: 'Royal Romances', image: 'https://api.dominigames.com/img/f9ad1ffb-e457-4ef6-a269-3336eea6379f/-games-350-440-cut.jpg?q=80&fit=max&crop=348%2C440%2C0%2C0&w=320&fm=webp', cover: true,
     games: [
       ['Battle of the Woods', 'https://apps.apple.com/us/app/royal-romances-battle/id6463634983', 'https://play.google.com/store/apps/details?id=com.dominigames.rr1full', 'https://www.amazon.com/gp/product/B0CGSFML6K']
     ]
@@ -343,7 +343,7 @@ function renderResumeProjects() {
       <div class="resume-project-list" style="--project-index: ${selectedIndex}">
         ${projects.map((project, index) => {
           const icon = project.image
-            ? `<img class="resume-project-image${project.monochrome ? ' monochrome' : ''}${project.contained ? ' contained' : ''}" src="${project.image}" alt="">`
+            ? `<img class="resume-project-image${project.monochrome ? ' monochrome' : ''}${project.contained ? ' contained' : ''}${project.cover ? ' cover' : ''}" src="${project.image}" alt="">`
             : `<span class="resume-project-icon">${project.icon}</span>`;
           const store = project.store ? `<span class="resume-project-store" aria-hidden="true">${resumeStoreIcons[project.store]}</span>` : '';
           const content = `${icon}${store}<span class="resume-project-name">${project.label}</span>`;
@@ -439,9 +439,21 @@ function renderResumeYears() {
   resumeYearList.style.transform = `translateY(-${resumeYearIndex * 3.5}rem)`;
 }
 
+function closeResumeSeriesPanelForYear(yearIndex) {
+  const projects = resumeExperience[yearIndex]?.projects || [];
+  const selectedIndex = resumeProjectIndexes.get(yearIndex) || 0;
+  if (projects[selectedIndex]?.games) {
+    resumeProjectIndexes.set(yearIndex, 0);
+  }
+}
+
 function selectResumeYear(index) {
   closeResumeModal();
-  resumeYearIndex = Math.max(0, Math.min(resumeExperience.length - 1, index));
+  const nextIndex = Math.max(0, Math.min(resumeExperience.length - 1, index));
+  if (nextIndex !== resumeYearIndex) {
+    closeResumeSeriesPanelForYear(resumeYearIndex);
+  }
+  resumeYearIndex = nextIndex;
   renderResumeYears();
   renderActiveResumeCard();
   renderResumeProjects();
@@ -573,7 +585,11 @@ function createHybridWheelHandler({
 
 function selectResumeYearDuringWheel(index) {
   closeResumeModal();
-  resumeYearIndex = Math.max(0, Math.min(resumeExperience.length - 1, index));
+  const nextIndex = Math.max(0, Math.min(resumeExperience.length - 1, index));
+  if (nextIndex !== resumeYearIndex) {
+    closeResumeSeriesPanelForYear(resumeYearIndex);
+  }
+  resumeYearIndex = nextIndex;
   Array.from(resumeYearList.children).forEach((year, yearIndex) => {
     year.classList.toggle('selected', yearIndex === resumeYearIndex);
     year.classList.toggle('near', Math.abs(yearIndex - resumeYearIndex) === 1);
