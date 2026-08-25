@@ -5,9 +5,10 @@ let index = 0;
 let typingForward = true;
 let firstTypeDone = false;
 let onFirstTypeComplete = null;
+let skipIntroAnimations = false;
 
 function typeEffect() {
-  if (!el) return;
+  if (!el || skipIntroAnimations) return;
   if (typingForward) {
     if (index <= text.length) {
       el.textContent = text.substring(0, index);
@@ -103,6 +104,7 @@ function revealRestOfPage() {
 }
 
 function startTyping() {
+  if (skipIntroAnimations) return;
   if (el) el.classList.add('typing-active');
   onFirstTypeComplete = revealRestOfPage;
   typeEffect();
@@ -175,15 +177,76 @@ function runIntro() {
   });
 }
 
-runIntro();
+const MAIN_PATHS = ['/', '/index.html'];
+const SKIP_MAIN_INTRO_KEY = 'skip-main-intro-once';
+
+function isMainPath(pathname) {
+  return MAIN_PATHS.includes(pathname);
+}
+
+function showMainPageImmediately() {
+  // The typing heading starts empty and the remaining sections start hidden in CSS.
+  // Put everything directly into its final state when returning from an inner page.
+  skipIntroAnimations = true;
+  if (el) {
+    el.textContent = text;
+    el.classList.add('typing-active');
+  }
+
+  const signatureBlock = document.querySelector('.signature-block');
+  if (signatureBlock) {
+    signatureBlock.getAnimations().forEach(animation => animation.cancel());
+    signatureBlock.style.position = '';
+    signatureBlock.style.margin = '';
+    signatureBlock.style.width = '';
+    signatureBlock.style.left = '';
+    signatureBlock.style.top = '';
+    signatureBlock.style.zIndex = '';
+    signatureBlock.style.transform = '';
+  }
+
+  document.querySelectorAll('.name-signature mask path').forEach(path => {
+    path.getAnimations().forEach(animation => animation.cancel());
+    path.style.strokeDashoffset = '0';
+  });
+
+  revealRestOfPage();
+}
+
+const shouldSkipMainIntro =
+  isMainPath(window.location.pathname) &&
+  sessionStorage.getItem(SKIP_MAIN_INTRO_KEY) === 'true';
+
+if (shouldSkipMainIntro) {
+  sessionStorage.removeItem(SKIP_MAIN_INTRO_KEY);
+  showMainPageImmediately();
+} else {
+  runIntro();
+}
+
+// When the browser restores the main page from its back/forward cache, the script
+// is not executed again. Consume the same flag on `pageshow` and stop any intro
+// callbacks that may still be pending from before the user left the page.
+window.addEventListener('pageshow', () => {
+  if (
+    isMainPath(window.location.pathname) &&
+    sessionStorage.getItem(SKIP_MAIN_INTRO_KEY) === 'true'
+  ) {
+    sessionStorage.removeItem(SKIP_MAIN_INTRO_KEY);
+    showMainPageImmediately();
+  }
+});
 
 const logo = document.querySelector('.logo');
 
 if (logo) {
   logo.addEventListener('click', function (e) {
     const current = window.location.pathname;
-    if (current.endsWith('/') || current === '/' || current === '/') {
+    if (isMainPath(current)) {
       e.preventDefault();
+      // Clicking the logo while already on the main page intentionally replays
+      // the intro, just like refreshing the page.
+      window.location.reload();
     }
   });
 }
@@ -195,6 +258,18 @@ document.querySelectorAll('a').forEach(link => {
   if (!href || href.startsWith('http')) return;
 
   const linkPath = new URL(href, window.location.origin).pathname;
+
+  if (isMainPath(current) && !isMainPath(linkPath)) {
+    link.addEventListener('click', () => {
+      sessionStorage.setItem(SKIP_MAIN_INTRO_KEY, 'true');
+    });
+  }
+
+  if (isMainPath(linkPath) && !isMainPath(current)) {
+    link.addEventListener('click', () => {
+      sessionStorage.setItem(SKIP_MAIN_INTRO_KEY, 'true');
+    });
+  }
 
   if (linkPath === current || (linkPath.endsWith('/') && current === '/')) {
     link.addEventListener('click', e => e.preventDefault());
