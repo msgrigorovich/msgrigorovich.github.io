@@ -1,3 +1,31 @@
+const amazonStoreOverrides = new Map([
+  ['Secret City|London Calling', 'https://www.amazon.com/dp/B0BC25MWLP'],
+  ['Secret City|The Sunken Kingdom', 'https://www.amazon.com/dp/B0B9BGW8TJ'],
+  ['Secret City|The Human Threat', 'https://www.amazon.com/dp/B0BDYXP2CZ'],
+  ['Secret City|The Chalk of Fate', 'https://www.amazon.com/dp/B0BCX9PY54'],
+  ['Secret City|Mysterious Collection', ''],
+  ['Secret City|Sacred Fire', 'https://www.amazon.com/dp/B0BBSFDQVP'],
+  ['Mystery Tales|Her Own Eyes', 'https://www.amazon.com/dp/B0BD2RFQVZ'],
+  ['Mystery Tales|Eye of the Fire', 'https://www.amazon.com/dp/B0B9H32FQF'],
+  ['Mystery Tales|The Hangman Returns', 'https://www.amazon.com/dp/B0BD93JJBX'],
+  ['Mystery Tales|The House of Others', 'https://www.amazon.com/dp/B0BBH5SPCG'],
+  ['Mystery Tales|Dangerous Desires', 'https://www.amazon.com/dp/B0B9H443LN'],
+  ['Mystery Tales|The Other Side', 'https://www.amazon.com/dp/B0BBGRS1C6'],
+  ['Mystery Tales|The Reel Horror', 'https://www.amazon.com/dp/B0B9P18X67'],
+  ["Mystery Tales|Dealer's Choices", 'https://www.amazon.com/dp/B0BBRV19YK'],
+  ['Mystery Tales|Art and Souls', 'https://www.amazon.com/dp/B0B94H1CN7'],
+  ['Mystery Tales|Til Death', ''],
+  ['Mystery Tales|Master of Puppets', 'https://www.amazon.com/dp/B0B9XT3CBV'],
+  ['Fairy Godmother Stories|Cinderella', 'https://www.amazon.com/dp/B0BD2ZWZSJ'],
+  ['Fairy Godmother Stories|Dark Deal', 'https://www.amazon.com/dp/B0BBH1MFH8'],
+  ['Fairy Godmother Stories|Little Red Riding Hood', 'https://www.amazon.com/dp/B0BD2Q3RN7'],
+  ['Fairy Godmother Stories|Puss in Boots', 'https://www.amazon.com/dp/B0BD7H5LVQ'],
+  ['Fairy Godmother Stories|Miraculous Dream in Taleville', 'https://www.amazon.com/dp/B0B9N1NFJS'],
+  ['Hidden Expedition|The Price of Paradise', ''],
+  ['Hidden Expedition|Reign of Flames', 'https://www.amazon.com/dp/B0B94GCJQ6'],
+  ["Hidden Expedition|A King's Line", 'https://www.amazon.com/dp/B0BBN7Y9J2']
+]);
+
 const dominiSeriesProjects = [
   { label: 'DominiGames', image: 'https://dominigames.com/_nuxt/img/logo.65e3f99.svg', contained: true, url: 'https://dominigames.com/' },
   {
@@ -79,10 +107,21 @@ const dominiSeriesProjects = [
   }
 ].map(project => ({
   ...project,
-  games: project.games?.map(([title, appStore, googlePlay, amazon]) => ({
-    title,
-    stores: { 'app-store': appStore, 'google-play': googlePlay, amazon }
-  }))
+  games: project.games?.map(([title, appStore, googlePlay, amazon]) => {
+    const amazonKey = `${project.label}|${title}`;
+    const amazonUrl = amazonStoreOverrides.has(amazonKey)
+      ? amazonStoreOverrides.get(amazonKey)
+      : amazon.replace('https://www.amazon.com/gp/product/', 'https://www.amazon.com/dp/');
+
+    return {
+      title,
+      stores: {
+        'app-store': appStore,
+        'google-play': googlePlay,
+        amazon: amazonUrl
+      }
+    };
+  })
 }));
 
 const resumeExperience = [
