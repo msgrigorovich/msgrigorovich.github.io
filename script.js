@@ -1,6 +1,10 @@
 
 const el = document.querySelector('.typing-text');
-const text = "Hello, World!";
+const HELLO_TEXT = 'Hello, World!';
+const QUALITY_TEXT = 'Quality is not an act ...';
+const HABIT_TEXT = '... it is a habit!';
+let currentTypingText = HELLO_TEXT;
+let helloIterations = 0;
 let index = 0;
 let typingForward = true;
 let firstTypeDone = false;
@@ -12,13 +16,15 @@ let signatureInkEnabled = false;
 
 function typeEffect() {
   if (!el || !typingActive) return;
+  el.classList.toggle('typing-quote', currentTypingText !== HELLO_TEXT);
   if (typingForward) {
-    if (index <= text.length) {
-      el.textContent = text.substring(0, index);
+    if (index <= currentTypingText.length) {
+      el.textContent = currentTypingText.substring(0, index);
       index++;
       typingTimer = setTimeout(typeEffect, 100);
     } else {
       typingForward = false;
+      if (currentTypingText === HELLO_TEXT) helloIterations++;
       if (!firstTypeDone) {
         firstTypeDone = true;
         if (onFirstTypeComplete) onFirstTypeComplete();
@@ -27,12 +33,21 @@ function typeEffect() {
     }
   } else {
     if (index >= 0) {
-      el.textContent = text.substring(0, index);
+      el.textContent = currentTypingText.substring(0, index);
       index--;
       typingTimer = setTimeout(typeEffect, 50);
     } else {
       typingForward = true;
-      typingTimer = setTimeout(typeEffect, 500);
+      if (currentTypingText === HELLO_TEXT && helloIterations === 2) {
+        currentTypingText = QUALITY_TEXT;
+      } else if (currentTypingText === QUALITY_TEXT) {
+        currentTypingText = HABIT_TEXT;
+      } else if (currentTypingText === HABIT_TEXT) {
+        currentTypingText = HELLO_TEXT;
+        helloIterations = 0;
+      }
+      const nextDelay = currentTypingText === HABIT_TEXT ? 120 : 500;
+      typingTimer = setTimeout(typeEffect, nextDelay);
     }
   }
 }
@@ -184,9 +199,40 @@ function runIntro() {
 
 const MAIN_PATHS = ['/', '/index.html'];
 const SKIP_MAIN_INTRO_KEY = 'skip-main-intro-once';
+const MAIN_RETURN_TINT_KEY = 'main-return-tint';
+
+const PAGE_TINTS = {
+  resume: '184, 211, 233',
+  projects: '252, 183, 172',
+  contact: '198, 246, 200'
+};
 
 function isMainPath(pathname) {
   return MAIN_PATHS.includes(pathname);
+}
+
+function pageNameFromPath(pathname) {
+  if (pathname.includes('resume')) return 'resume';
+  if (pathname.includes('projects')) return 'projects';
+  if (pathname.includes('contact')) return 'contact';
+  return '';
+}
+
+function revealReturnTint() {
+  if (!isMainPath(window.location.pathname)) return;
+  const sourcePage = sessionStorage.getItem(MAIN_RETURN_TINT_KEY);
+  sessionStorage.removeItem(MAIN_RETURN_TINT_KEY);
+  if (!PAGE_TINTS[sourcePage]) return;
+
+  const tintWasPreparedBeforePaint = document.documentElement.classList.contains('return-page-tint-pending');
+  if (!tintWasPreparedBeforePaint) {
+    document.body.style.setProperty('--return-page-tint', PAGE_TINTS[sourcePage]);
+    document.body.classList.add('return-page-tint');
+  }
+  setTimeout(() => {
+    document.body.classList.remove('return-page-tint');
+    document.documentElement.classList.remove('return-page-tint-pending');
+  }, 1950);
 }
 
 function showMainPageImmediately() {
@@ -198,6 +244,7 @@ function showMainPageImmediately() {
   typingTimer = null;
   index = 0;
   typingForward = true;
+  currentTypingText = HELLO_TEXT;
   firstTypeDone = true;
   onFirstTypeComplete = null;
   if (el) {
@@ -232,12 +279,19 @@ const shouldSkipMainIntro =
   isMainPath(window.location.pathname) &&
   sessionStorage.getItem(SKIP_MAIN_INTRO_KEY) === 'true';
 
+const currentInnerPage = pageNameFromPath(window.location.pathname);
+if (currentInnerPage) {
+  sessionStorage.setItem(MAIN_RETURN_TINT_KEY, currentInnerPage);
+}
+
 if (shouldSkipMainIntro) {
   sessionStorage.removeItem(SKIP_MAIN_INTRO_KEY);
   showMainPageImmediately();
 } else {
   runIntro();
 }
+
+revealReturnTint();
 
 // When the browser restores the main page from its back/forward cache, the script
 // is not executed again. Consume the same flag on `pageshow` and stop any intro
@@ -249,6 +303,7 @@ window.addEventListener('pageshow', () => {
   ) {
     sessionStorage.removeItem(SKIP_MAIN_INTRO_KEY);
     showMainPageImmediately();
+    revealReturnTint();
   }
 });
 
@@ -284,12 +339,39 @@ document.querySelectorAll('a').forEach(link => {
   if (isMainPath(linkPath) && !isMainPath(current)) {
     link.addEventListener('click', () => {
       sessionStorage.setItem(SKIP_MAIN_INTRO_KEY, 'true');
+      sessionStorage.setItem(MAIN_RETURN_TINT_KEY, pageNameFromPath(current));
     });
   }
 
   if (linkPath === current || (linkPath.endsWith('/') && current === '/')) {
     link.addEventListener('click', e => e.preventDefault());
   }
+});
+
+document.querySelectorAll('.buttons .circle').forEach(circle => {
+  circle.addEventListener('pointerenter', () => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    circle.classList.remove('droplet-impact', 'droplet-release');
+    void circle.offsetWidth;
+    circle.classList.add('droplet-impact');
+  });
+  circle.addEventListener('pointerleave', event => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const rect = circle.getBoundingClientRect();
+    const angle = Math.atan2(
+      event.clientY - (rect.top + rect.height / 2),
+      event.clientX - (rect.left + rect.width / 2)
+    ) * 180 / Math.PI;
+
+    circle.style.setProperty('--droplet-release-angle', `${angle}deg`);
+    circle.style.setProperty('--droplet-release-angle-reverse', `${-angle}deg`);
+    circle.classList.remove('droplet-impact', 'droplet-release');
+    void circle.offsetWidth;
+    circle.classList.add('droplet-release');
+  });
+  circle.addEventListener('animationend', () => {
+    circle.classList.remove('droplet-impact', 'droplet-release');
+  });
 });
 
 const cursorDot = document.querySelector('.cursor-dot');

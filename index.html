@@ -4,6 +4,22 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Diana Grigorovich</title>
+  <script>
+    try {
+      const returnPage = sessionStorage.getItem('main-return-tint');
+      const returnTints = {
+        resume: '184, 211, 233',
+        projects: '252, 183, 172',
+        contact: '198, 246, 200'
+      };
+      if (returnTints[returnPage]) {
+        document.documentElement.style.setProperty('--return-page-tint', returnTints[returnPage]);
+        document.documentElement.classList.add('return-page-tint-pending');
+      }
+    } catch (error) {
+      // The page remains fully usable if session storage is unavailable.
+    }
+  </script>
   <link rel="icon" href="favicon.png" type="image/png">
   <link rel="stylesheet" href="style.css" />
   <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap" rel="stylesheet">
