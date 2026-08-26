@@ -1469,7 +1469,8 @@ footer {
 @media (hover: none) and (pointer: coarse) {
   .cursor-dot,
   .cursor-outline,
-  .cursor-trail {
+  .cursor-trail,
+  .portrait-smudge-cursor {
     display: none;
   }
 }
@@ -1959,4 +1960,1002 @@ footer {
     padding-bottom: calc(2rem + env(safe-area-inset-bottom));
   }
 
+}
+
+/* Projects — portrait archive */
+.projects-page .projects-main {
+  position: relative;
+  display: flex;
+  flex: 1 1 auto;
+  align-items: center;
+  justify-content: center;
+  min-height: 0;
+  padding: 4.8rem 2rem 1.4rem;
+}
+
+.projects-page .projects-main > .circle.projects {
+  position: absolute;
+  top: -2.5rem;
+  left: 50%;
+  margin: 0;
+  transform: translateX(-50%);
+}
+
+.projects-page .projects-main > .circle.projects:hover {
+  transform: translateX(-50%);
+}
+
+.portfolio-build {
+  position: absolute;
+  top: 0.8rem;
+  left: max(2rem, calc((100% - 1240px) / 2));
+  width: 210px;
+  font-family: 'Source Code Pro', monospace;
+  text-transform: uppercase;
+}
+
+.portfolio-build-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.45rem;
+  font-size: 0.58rem;
+  letter-spacing: 0.12em;
+}
+
+.portfolio-build .progress-bar-container {
+  width: 100%;
+  height: 4px;
+  border: 0;
+  padding: 0;
+  background: rgba(255, 255, 255, 0.55);
+}
+
+.portfolio-build .progress-bar-fill {
+  height: 100%;
+  gap: 0;
+  background: #111;
+  transition: width 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.portfolio-build-days {
+  margin: 0.45rem 0 0;
+  font-size: 0.5rem;
+  letter-spacing: 0.08em;
+  opacity: 0.55;
+}
+
+.projects-gallery {
+  display: grid;
+  grid-template-columns: minmax(15rem, 17.5rem) minmax(19rem, 27rem) minmax(9rem, 12rem);
+  align-items: center;
+  justify-content: center;
+  gap: clamp(1.5rem, 4vw, 4rem);
+  width: min(1180px, 100%);
+  min-height: 0;
+  text-align: left;
+}
+
+.projects-kicker,
+.portrait-archive > p:first-child {
+  margin: 0 0 0.85rem;
+  font-family: 'Source Code Pro', monospace;
+  font-size: 0.58rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  opacity: 0.5;
+}
+
+.projects-intro h1 {
+  margin: 0 0 1.5rem;
+  font-size: clamp(2.7rem, 4vw, 3.55rem);
+  line-height: 0.92;
+  letter-spacing: -0.055em;
+}
+
+.projects-intro h1 span {
+  display: block;
+  white-space: nowrap;
+}
+
+.projects-filters {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+
+.projects-filter {
+  position: relative;
+  border: 1px solid rgba(17, 17, 17, 0.28);
+  border-radius: 999px;
+  padding: 0.45rem 0.8rem;
+  background: transparent;
+  color: #111;
+  font-size: 0.72rem;
+}
+
+.projects-filter.active {
+  border-color: #111;
+  background: #111;
+  color: #fff;
+}
+
+.projects-filter:disabled {
+  cursor: default;
+  opacity: 0.38;
+}
+
+.projects-filter span {
+  position: absolute;
+  left: calc(100% + 0.5rem);
+  top: 50%;
+  width: max-content;
+  transform: translateY(-50%);
+  font-family: 'Source Code Pro', monospace;
+  font-size: 0.48rem;
+  letter-spacing: 0.08em;
+  opacity: 0;
+  transition: opacity 0.18s ease;
+}
+
+.projects-filter:disabled:hover span {
+  opacity: 1;
+}
+
+.projects-note {
+  max-width: 14rem;
+  margin: 1.3rem 0 0;
+  font-size: 0.72rem;
+  line-height: 1.55;
+  opacity: 0.68;
+}
+
+.portrait-stage {
+  min-width: 0;
+}
+
+.portrait-paper {
+  position: relative;
+  height: min(52vh, 550px);
+  aspect-ratio: 0.75;
+  margin: 0 auto;
+  padding: 0.55rem;
+  background: rgba(250, 247, 239, 0.72);
+  box-shadow: 0 0.7rem 2rem rgba(49, 28, 24, 0.12), 0 2rem 4rem rgba(49, 28, 24, 0.08);
+  transform: rotate(-0.12deg);
+  cursor: none;
+}
+
+body.portrait-inspecting .cursor-dot,
+body.portrait-inspecting .cursor-outline,
+body.portrait-inspecting .cursor-trail,
+body.portrait-drawing .cursor-dot,
+body.portrait-drawing .cursor-outline,
+body.portrait-drawing .cursor-trail {
+  visibility: hidden;
+}
+
+.portrait-smudge-cursor {
+  --smudge-cursor-value: 86;
+  --draw-tool-angle: -12deg;
+  position: fixed;
+  z-index: 10002;
+  top: 0;
+  left: 0;
+  width: 1.8rem;
+  height: 2.25rem;
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-50%, -54%) rotate(var(--draw-tool-angle)) scale(0.82);
+  transition: opacity 0.14s ease, transform 0.14s ease;
+  filter: drop-shadow(0 2px 3px rgba(17, 17, 17, 0.15));
+  will-change: left, top, transform;
+}
+
+body.portrait-drawing .portrait-smudge-cursor {
+  opacity: 0.88;
+  transform: translate(-50%, -54%) rotate(var(--draw-tool-angle)) scale(1);
+}
+
+body.portrait-drawing.is-smudging .portrait-smudge-cursor {
+  transform: translate(-50%, -48%) rotate(var(--draw-tool-angle)) scale(0.9, 0.94);
+}
+
+body.portrait-drawing .portrait-modal,
+body.portrait-drawing .portrait-modal * {
+  cursor: none !important;
+}
+
+.portrait-smudge-cursor svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.portrait-smudge-cursor .fingerprint-cursor-path {
+  fill: none;
+  stroke: rgb(
+    var(--smudge-cursor-value)
+    var(--smudge-cursor-value)
+    var(--smudge-cursor-value)
+  );
+  stroke-width: 1.05;
+  stroke-linecap: round;
+  opacity: 0.86;
+}
+
+.pencil-cursor-art {
+  display: none;
+}
+
+body.draw-tool-pencil .portrait-smudge-cursor {
+  width: 2.4rem;
+  height: 2.4rem;
+}
+
+body.draw-tool-pencil .fingerprint-cursor-path {
+  display: none;
+}
+
+body.draw-tool-pencil .pencil-cursor-art {
+  display: block;
+}
+
+.pencil-cursor-body,
+.pencil-cursor-mark {
+  fill: none;
+  stroke: rgb(var(--smudge-cursor-value) var(--smudge-cursor-value) var(--smudge-cursor-value));
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.pencil-cursor-tip {
+  fill: rgb(var(--smudge-cursor-value) var(--smudge-cursor-value) var(--smudge-cursor-value));
+}
+
+.pencil-cursor-mark {
+  stroke-width: 1;
+  opacity: 0.48;
+}
+
+.portrait-paper > img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: #f4f0e6;
+  object-fit: contain;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+.portrait-lens {
+  position: absolute;
+  z-index: 2;
+  width: 9.5rem;
+  height: 9.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.95);
+  border-radius: 50%;
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-50%, -50%) scale(0.96);
+  background-repeat: no-repeat;
+  box-shadow: 0 0.8rem 2.4rem rgba(17, 17, 17, 0.25), inset 0 0 0 1px rgba(17, 17, 17, 0.12);
+  transition: opacity 0.14s ease, transform 0.14s ease;
+}
+
+.portrait-paper.inspecting .portrait-lens {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.portrait-open {
+  position: absolute;
+  z-index: 3;
+  right: 1rem;
+  bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  min-height: 2.45rem;
+  border: 1px solid rgba(17, 17, 17, 0.22);
+  border-radius: 999px;
+  padding: 0.55rem 0.85rem 0.55rem 1rem;
+  background: rgba(250, 247, 239, 0.94);
+  color: #111;
+  box-shadow: 0 0.5rem 1.5rem rgba(17, 17, 17, 0.14);
+  font-family: 'Source Code Pro', monospace;
+  font-size: 0.62rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  transition: transform 0.2s ease, background-color 0.2s ease, color 0.2s ease;
+}
+
+.portrait-open:hover,
+.portrait-open:focus-visible {
+  background: #111;
+  color: #fff;
+  transform: translateY(-2px);
+}
+
+.portrait-caption {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-top: 0.65rem;
+}
+
+.portrait-caption h2 {
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+.portrait-caption span {
+  font-family: 'Source Code Pro', monospace;
+  font-size: 0.62rem;
+  opacity: 0.5;
+}
+
+.portrait-thumbs {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.55rem;
+}
+
+.portrait-thumb {
+  position: relative;
+  aspect-ratio: 0.75;
+  overflow: hidden;
+  border: 1px solid rgba(17, 17, 17, 0.18);
+  padding: 0;
+  background: transparent;
+  opacity: 0.38;
+  transform: scale(0.96);
+  transition: opacity 0.18s ease, transform 0.18s ease, border-color 0.18s ease;
+}
+
+.portrait-thumb:hover,
+.portrait-thumb:focus-visible {
+  opacity: 0.72;
+  transform: scale(1);
+}
+
+.portrait-thumb.active {
+  border-color: #111;
+  opacity: 1;
+  transform: scale(1);
+}
+
+.portrait-thumb img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  -webkit-user-drag: none;
+}
+
+.portrait-thumb span {
+  position: absolute;
+  left: 0.3rem;
+  bottom: 0.3rem;
+  border-radius: 0.25rem;
+  padding: 0.18rem 0.28rem;
+  background: rgba(250, 247, 239, 0.9);
+  font-family: 'Source Code Pro', monospace;
+  font-size: 0.48rem;
+}
+
+.portrait-archive-note {
+  margin: 0.8rem 0 0;
+  font-size: 0.62rem;
+  line-height: 1.5;
+  opacity: 0.58;
+}
+
+.portrait-magnifier-settings {
+  margin-top: 1rem;
+  padding-top: 0.8rem;
+  border-top: 1px solid rgba(17, 17, 17, 0.18);
+}
+
+.portrait-magnifier-settings > p {
+  margin: 0 0 0.65rem;
+  font-family: 'Source Code Pro', monospace;
+  font-size: 0.52rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  opacity: 0.5;
+}
+
+.portrait-magnifier-settings label {
+  display: grid;
+  grid-template-columns: 2.6rem minmax(0, 1fr) 2.2rem;
+  align-items: center;
+  gap: 0.45rem;
+  margin-top: 0.5rem;
+  font-size: 0.56rem;
+}
+
+.portrait-magnifier-settings input[type="range"] {
+  width: 100%;
+  height: 0.2rem;
+  accent-color: #111;
+}
+
+.portrait-magnifier-settings output {
+  font-family: 'Source Code Pro', monospace;
+  font-size: 0.5rem;
+  text-align: right;
+  opacity: 0.55;
+}
+
+.portrait-magnifier-settings .portrait-magnifier-hint {
+  margin: 0.7rem 0 0;
+  font-family: 'Source Code Pro', monospace;
+  font-size: 0.43rem;
+  line-height: 1.55;
+  letter-spacing: 0.04em;
+  opacity: 0.42;
+}
+
+.portrait-modal {
+  width: 100%;
+  max-width: none;
+  height: 100%;
+  max-height: none;
+  border: 0;
+  padding: 0;
+  background: transparent;
+}
+
+.portrait-modal::backdrop {
+  background: rgba(38, 31, 29, 0.62);
+  backdrop-filter: blur(7px);
+}
+
+.portrait-modal-card {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  width: min(90vw, 1040px);
+  height: min(82dvh, 780px);
+  margin: 9dvh auto;
+  overflow: visible;
+  border-radius: 1.25rem;
+  background: #f7f3e9;
+  box-shadow: 0 2rem 6rem rgba(17, 17, 17, 0.3);
+}
+
+.portrait-modal-card > header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid rgba(17, 17, 17, 0.13);
+}
+
+.portrait-modal-card header p {
+  margin: 0 0 0.2rem;
+  font-family: 'Source Code Pro', monospace;
+  font-size: 0.55rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  opacity: 0.5;
+}
+
+.portrait-modal-card header h2 {
+  margin: 0;
+  font-size: 1.25rem;
+}
+
+.portrait-modal-card header button {
+  width: 2.5rem;
+  height: 2.5rem;
+  border: 1px solid rgba(17, 17, 17, 0.25);
+  border-radius: 50%;
+  background: transparent;
+  font-size: 1.4rem;
+}
+
+.portrait-modal-workspace {
+  display: grid;
+  grid-template-columns: 15rem minmax(0, 1fr);
+  min-height: 0;
+  padding: 0 1.75rem;
+}
+
+.portrait-modal-tools {
+  position: relative;
+  z-index: 4;
+  align-self: start;
+  padding: 1.5rem 1.25rem 0 0;
+}
+
+.portrait-modal-summary > p,
+.portrait-tool-panel[data-portrait-panel="draw"] > p {
+  margin: 0 0 0.55rem;
+  font-family: 'Source Code Pro', monospace;
+  font-size: 0.52rem;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  opacity: 0.48;
+}
+
+.portrait-modal-summary > div {
+  font-size: 0.7rem;
+  line-height: 1.55;
+  opacity: 0.72;
+}
+
+.portrait-mode-tabs {
+  display: flex;
+  gap: 0.4rem;
+  margin-top: 1.25rem;
+}
+
+.portrait-mode-tabs button,
+.portrait-draw-actions button {
+  border: 1px solid rgba(17, 17, 17, 0.24);
+  border-radius: 999px;
+  padding: 0.42rem 0.72rem;
+  background: transparent;
+  color: #111;
+  font-size: 0.58rem;
+}
+
+.portrait-mode-tabs button.active {
+  border-color: #111;
+  background: #111;
+  color: #fff;
+}
+
+.portrait-tool-panel {
+  display: none;
+  margin-top: 1.15rem;
+}
+
+.portrait-tool-panel.active {
+  display: block;
+}
+
+.portrait-tool-panel[data-portrait-panel="magnify"] p {
+  margin: 0 0 0.55rem;
+  font-size: 0.66rem;
+  line-height: 1.5;
+  opacity: 0.65;
+}
+
+.portrait-tool-panel[data-portrait-panel="magnify"] span {
+  font-family: 'Source Code Pro', monospace;
+  font-size: 0.48rem;
+  opacity: 0.42;
+}
+
+.graphite-palette {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(4, 2.55rem);
+  gap: 0.25rem 0.35rem;
+  min-height: 6.4rem;
+  padding: 0.45rem 0.1rem;
+}
+
+.portrait-draw-picker {
+  display: flex;
+  align-items: center;
+  gap: 1.45rem;
+}
+
+.portrait-draw-tools {
+  display: grid;
+  gap: 0.45rem;
+  padding-left: 0.85rem;
+  border-left: 1px solid rgba(17, 17, 17, 0.14);
+}
+
+.portrait-draw-tools button {
+  display: grid;
+  width: 2.45rem;
+  height: 2.45rem;
+  place-items: center;
+  border: 1px solid rgba(17, 17, 17, 0.26);
+  border-radius: 50%;
+  background: rgba(247, 243, 233, 0.66);
+  color: #111;
+  transition: transform 0.18s ease, background-color 0.18s ease, border-color 0.18s ease;
+}
+
+.portrait-draw-tools button:hover {
+  border-color: rgba(17, 17, 17, 0.58);
+}
+
+.portrait-modal-card button.droplet-impact {
+  animation: droplet-impact 680ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.portrait-modal-card button.droplet-release {
+  animation: droplet-release 620ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.portrait-draw-tools button.active {
+  border-color: #111;
+  background: #111;
+  color: #f7f3e9;
+}
+
+.portrait-draw-tools svg {
+  width: 1.55rem;
+  height: 1.55rem;
+  overflow: visible;
+}
+
+.portrait-draw-tools path {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.15;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.portrait-draw-tools .pencil-tip {
+  fill: currentColor;
+}
+
+.portrait-draw-tools .pencil-mark {
+  opacity: 0.5;
+}
+
+.graphite-palette button {
+  position: relative;
+  display: grid;
+  width: 2.55rem;
+  height: 2.55rem;
+  place-items: center;
+  border: 0;
+  padding: 0;
+  background: transparent;
+  transform: rotate(-5deg) translateY(0.15rem);
+}
+
+.graphite-palette button:nth-child(2n) { transform: rotate(7deg) translateY(-0.2rem); }
+.graphite-palette button:nth-child(3n) { transform: rotate(-10deg) translateX(0.2rem); }
+.graphite-palette button:nth-child(5n) { transform: rotate(4deg) translate(-0.15rem, 0.25rem); }
+
+.graphite-palette i {
+  position: absolute;
+  inset: 0.18rem;
+  overflow: hidden;
+  border: 1px solid rgba(17, 17, 17, 0.62);
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 34% 28%, rgba(255, 255, 255, 0.72), transparent 38%),
+    #eee9de;
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.46),
+    0 1px 2px rgba(17, 17, 17, 0.12);
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+
+.graphite-palette i::before,
+.graphite-palette i::after {
+  position: absolute;
+  content: '';
+  inset: 0.1rem -0.22rem;
+  border-radius: 50%;
+  background: repeating-linear-gradient(
+    169deg,
+    rgb(var(--graphite-value, 18) var(--graphite-value, 18) var(--graphite-value, 18)) 0 1.25px,
+    transparent 1px var(--graphite-spacing, 2.7px)
+  );
+  opacity: var(--graphite-opacity, 0.65);
+}
+
+.graphite-palette i::after {
+  inset: 0.22rem -0.18rem;
+  background: repeating-linear-gradient(
+    13deg,
+    rgb(var(--graphite-value, 18) var(--graphite-value, 18) var(--graphite-value, 18) / 0.9) 0 1px,
+    transparent 1px var(--graphite-secondary-spacing, 4.3px)
+  );
+  opacity: var(--graphite-secondary-opacity, 0.53);
+}
+
+.graphite-palette span {
+  position: relative;
+  z-index: 1;
+  padding: 0.12rem 0.2rem;
+  border-radius: 0.2rem;
+  color: #050505;
+  background: rgba(247, 243, 233, 0.62);
+  box-shadow: 0 0 0 1px rgba(247, 243, 233, 0.22);
+  font-family: 'Source Code Pro', monospace;
+  font-size: 0.48rem;
+}
+
+.graphite-palette button.selected i {
+  transform: scale(1.16) rotate(-2deg);
+  box-shadow:
+    inset 0 0 0 1px rgba(17, 17, 17, 0.86),
+    0 0 0 2px #f7f3e9,
+    0 0 0 3px #111,
+    0 5px 10px rgba(17, 17, 17, 0.22);
+}
+
+.portrait-draw-actions {
+  display: flex;
+  gap: 0.4rem;
+  margin-top: 0.65rem;
+}
+
+.portrait-modal-image {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  min-width: 0;
+  min-height: 0;
+  width: 100%;
+  height: 100%;
+  place-items: center;
+  padding: 1rem 0 0 1.25rem;
+  overflow: visible;
+}
+
+.portrait-modal-paper {
+  position: relative;
+  width: auto;
+  height: calc(100% + 2rem);
+  min-width: 0;
+  min-height: 0;
+  max-width: 100%;
+  max-height: calc(100% + 2rem);
+  aspect-ratio: 0.75;
+  border: 0.7rem solid rgba(255, 255, 255, 0.72);
+  background: #f4f0e6;
+  box-shadow: 0 1rem 3rem rgba(17, 17, 17, 0.16);
+  touch-action: none;
+}
+
+.portrait-modal-image img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-width: 0;
+  min-height: 0;
+  object-fit: contain;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+#portraitDrawCanvas {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.portrait-modal-image.draw-mode #portraitDrawCanvas {
+  pointer-events: auto;
+  cursor: none;
+}
+
+.portrait-modal-image.magnify-mode .portrait-modal-paper {
+  cursor: none;
+}
+
+.portrait-modal-lens {
+  position: absolute;
+  z-index: 5;
+  width: 14rem;
+  height: 14rem;
+  border: 1px solid rgba(255, 255, 255, 0.95);
+  border-radius: 50%;
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-50%, -50%) scale(0.96);
+  background-repeat: no-repeat;
+  box-shadow: 0 1.2rem 3.5rem rgba(17, 17, 17, 0.3), inset 0 0 0 1px rgba(17, 17, 17, 0.16);
+  transition: opacity 0.14s ease, transform 0.14s ease;
+}
+
+.portrait-modal-lens.visible {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.portrait-modal-meta {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 3.2rem;
+  margin: 0 1.75rem;
+  border-top: 1px solid rgba(17, 17, 17, 0.15);
+  color: rgba(17, 17, 17, 0.62);
+  font-size: 0.62rem;
+}
+
+.portrait-modal-meta span:last-child {
+  font-family: 'Source Code Pro', monospace;
+}
+
+body.portrait-modal-open {
+  overflow: hidden;
+}
+
+@media (max-width: 820px) {
+  .projects-page .projects-main {
+    display: block;
+    padding: 7rem 1.25rem 2rem;
+  }
+
+  .projects-page .projects-main > .circle.projects {
+    top: 0;
+  }
+
+  .portfolio-build {
+    position: relative;
+    top: auto;
+    left: auto;
+    width: min(100%, 230px);
+    margin: 0 0 2.25rem;
+  }
+
+  .projects-gallery {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    width: min(100%, 520px);
+    margin: 0 auto;
+  }
+
+  .projects-intro h1 {
+    font-size: clamp(2.6rem, 12vw, 3.2rem);
+  }
+
+  .projects-filters {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  .projects-filter span {
+    display: none;
+  }
+
+  .projects-note {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .portrait-paper {
+    width: min(100%, 430px);
+    height: auto;
+  }
+
+  .portrait-lens {
+    display: none;
+  }
+
+  .portrait-open {
+    right: 0.9rem;
+    bottom: 0.9rem;
+    min-height: 2.75rem;
+  }
+
+  .portrait-archive {
+    width: 100%;
+  }
+
+  .portrait-thumbs {
+    grid-template-columns: repeat(4, minmax(4rem, 1fr));
+  }
+
+  .portrait-archive-note {
+    display: none;
+  }
+
+  .portrait-magnifier-settings {
+    display: none;
+  }
+
+  .portrait-modal-workspace {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto minmax(0, 1fr);
+    padding: 0 0.75rem;
+  }
+
+  .portrait-modal-tools {
+    padding: 0.65rem 0 0.35rem;
+  }
+
+  .portrait-modal-summary {
+    display: none;
+  }
+
+  .portrait-mode-tabs {
+    justify-content: center;
+    margin-top: 0;
+  }
+
+  .portrait-tool-panel[data-portrait-panel="magnify"].active {
+    display: none;
+  }
+
+  .portrait-tool-panel[data-portrait-panel="draw"] {
+    margin-top: 0.5rem;
+  }
+
+  .portrait-tool-panel[data-portrait-panel="draw"] > p {
+    display: none;
+  }
+
+  .graphite-palette {
+    display: flex;
+    min-height: auto;
+    justify-content: center;
+    padding: 0.2rem 0;
+  }
+
+  .graphite-palette button {
+    width: 2.15rem;
+    height: 2.15rem;
+  }
+
+  .portrait-draw-actions {
+    justify-content: center;
+    margin-top: 0.3rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .projects-page .projects-main {
+    padding-top: 6.5rem;
+  }
+
+  .portfolio-build {
+    margin-top: 0.5rem;
+  }
+
+  .portrait-open {
+    right: 0.9rem;
+    bottom: 0.9rem;
+  }
+
+  .portrait-caption {
+    padding: 0 0.5rem;
+  }
+
+  .portrait-modal-card {
+    width: calc(100vw - 1rem);
+    height: calc(100dvh - 1rem);
+    margin: 0.5rem;
+    border-radius: 1rem;
+  }
+
+  .portrait-modal-image {
+    padding: 0.25rem 0 0;
+    overflow: hidden;
+  }
+
+  .portrait-modal-paper {
+    width: auto;
+    max-width: 100%;
+    height: 100%;
+    border-width: 0.45rem;
+  }
+
+  .portrait-modal-lens {
+    width: 10rem;
+    height: 10rem;
+  }
+
+  .portrait-modal-meta {
+    min-height: 2.75rem;
+    margin: 0 1rem;
+    font-size: 0.52rem;
+  }
 }

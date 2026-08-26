@@ -677,6 +677,21 @@ function animateProgressBar() {
   const passedDays = Math.floor((today - startDate) / (1000 * 60 * 60 * 24));
   const percent = Math.min((passedDays / totalDays) * 100, 100);
   const rounded = parseFloat(percent.toFixed(2));
+  const progressSection = container.closest('[data-progress-mode]');
+  const isCompact = progressSection?.dataset.progressMode === 'compact';
+
+  if (isCompact) {
+    container.style.width = `${rounded}%`;
+    percentText.textContent = `${rounded.toFixed(2)}%`;
+    const daysLeft = Math.max(Math.ceil((endDate - today) / (1000 * 60 * 60 * 24)), 0);
+    const daysText = progressSection.querySelector('.portfolio-build-days');
+    if (daysText) daysText.textContent = `Full portfolio in ${daysLeft} days`;
+    progressSection.setAttribute(
+      'aria-label',
+      `Portfolio build ${rounded.toFixed(2)} percent complete. ${daysLeft} days until December 1, 2027.`
+    );
+    return;
+  }
 
   const totalSegments = 40;
   const filledSegments = Math.round((percent / 100) * totalSegments);

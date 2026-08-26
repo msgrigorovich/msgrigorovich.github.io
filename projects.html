@@ -5,7 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Projects — Diana Grigorovich</title>
   <link rel="icon" href="/favicon.png" type="image/png">
-  <link rel="stylesheet" href="/assets/css/style.css" />
+  <link rel="preload" as="image" href="/assets/images/portraits/albert-einstein-2015.png">
+  <link rel="stylesheet" href="/assets/css/style.css?v=20260826-tools3" />
   <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
@@ -26,20 +27,144 @@
     </nav>
   </header>
 
-  <main>
+  <main class="projects-main">
     <div class="circle projects" aria-current="page">Projects</div>
-  </main>
 
-  <div class="progress-center-wrapper">
-    <div class="progress-section retro-font">
-      <p class="progress-label">Progress to Launch</p>
-      <div class="progress-bar-container">
+    <section class="portfolio-build" data-progress-mode="compact" aria-label="Portfolio build progress">
+      <div class="portfolio-build-row">
+        <span>Portfolio build</span>
+        <span class="progress-percentage">0.00%</span>
+      </div>
+      <div class="progress-bar-container" aria-hidden="true">
         <div class="progress-bar-fill"></div>
       </div>
-      <p class="progress-percentage"></p>
-      <!-- Days left message will be injected by JS as .progress-days-left -->
-    </div>    
-  </div>
+      <p class="portfolio-build-days"></p>
+    </section>
+
+    <section class="projects-gallery" aria-label="Portrait projects">
+      <div class="projects-intro">
+        <p class="projects-kicker">Selected work · 2015—2022</p>
+        <h1><span>The Art of</span><span>Quality</span></h1>
+        <div class="projects-filters" aria-label="Project categories">
+          <button type="button" class="projects-filter active">Art</button>
+          <button type="button" class="projects-filter" disabled>QA <span>In development</span></button>
+          <button type="button" class="projects-filter" disabled>Games <span>In development</span></button>
+          <button type="button" class="projects-filter" disabled>Cinematic Arts <span>In development</span></button>
+        </div>
+        <p class="projects-note">The first things I ever made seriously were graphite portraits. This section begins there.</p>
+      </div>
+
+      <div class="portrait-stage">
+        <div class="portrait-paper" id="portraitViewer">
+          <img id="portraitMainImage" src="/assets/images/portraits/albert-einstein-2015.png" alt="Graphite portrait of Albert Einstein" draggable="false">
+          <div class="portrait-lens" id="portraitLens" aria-hidden="true"></div>
+          <button type="button" class="portrait-open" id="portraitOpen" aria-label="Open Albert Einstein portrait in full view">
+            <span>Open full</span><span aria-hidden="true">↗</span>
+          </button>
+        </div>
+        <div class="portrait-caption" aria-live="polite">
+          <h2 id="portraitTitle">Albert Einstein</h2>
+          <span id="portraitYear">2015</span>
+        </div>
+      </div>
+
+      <aside class="portrait-archive" aria-label="Portrait archive">
+        <p>Archive · 04</p>
+        <div class="portrait-thumbs">
+          <button type="button" class="portrait-thumb active" data-portrait-index="0" aria-label="Show Albert Einstein, 2015">
+            <img src="/assets/images/portraits/albert-einstein-2015.png" alt="" draggable="false"><span>01</span>
+          </button>
+          <button type="button" class="portrait-thumb" data-portrait-index="1" aria-label="Show Robert Pattinson, 2016">
+            <img src="/assets/images/portraits/robert-pattinson-2016.png" alt="" draggable="false"><span>02</span>
+          </button>
+          <button type="button" class="portrait-thumb" data-portrait-index="2" aria-label="Show Colton Haynes, 2018">
+            <img src="/assets/images/portraits/colton-haynes-2018.png" alt="" draggable="false"><span>03</span>
+          </button>
+          <button type="button" class="portrait-thumb" data-portrait-index="3" aria-label="Show Daria Ivanova, 2022">
+            <img src="/assets/images/portraits/daria-ivanova-2022.png" alt="" draggable="false"><span>04</span>
+          </button>
+        </div>
+        <p class="portrait-archive-note">Graphite on paper<br>Selected portraits, 2015—2022</p>
+        <div class="portrait-magnifier-settings">
+          <p>Magnifier</p>
+          <label>
+            <span>Size</span>
+            <input id="portraitLensSize" type="range" min="120" max="220" value="170" step="5">
+            <output id="portraitLensSizeValue">170</output>
+          </label>
+          <label>
+            <span>Zoom</span>
+            <input id="portraitLensZoom" type="range" min="1.8" max="4" value="2.85" step="0.05">
+            <output id="portraitLensZoomValue">2.85×</output>
+          </label>
+          <p class="portrait-magnifier-hint">Wheel · zoom<br>Click / tap · size +10%</p>
+        </div>
+      </aside>
+    </section>
+  </main>
+
+  <dialog class="portrait-modal" id="portraitModal" aria-labelledby="portraitModalTitle">
+    <div class="portrait-modal-card">
+      <header>
+        <div><p>Graphite portrait</p><h2 id="portraitModalTitle">Albert Einstein</h2></div>
+        <button type="button" id="portraitModalClose" aria-label="Close full view">×</button>
+      </header>
+      <div class="portrait-modal-workspace">
+        <aside class="portrait-modal-tools">
+          <div class="portrait-modal-summary">
+            <p>About this work</p>
+            <div id="portraitModalSummary">A study of character, contrast, and the small details that make a face recognisable.</div>
+          </div>
+          <div class="portrait-mode-tabs" role="tablist" aria-label="Portrait interaction mode">
+            <button type="button" class="active" data-portrait-mode="magnify" role="tab" aria-selected="true">Magnify</button>
+            <button type="button" data-portrait-mode="draw" role="tab" aria-selected="false">Draw</button>
+          </div>
+          <section class="portrait-tool-panel active" data-portrait-panel="magnify">
+            <p>Move over the paper to inspect the graphite structure.</p>
+            <span>Wheel · zoom</span>
+          </section>
+          <section class="portrait-tool-panel" data-portrait-panel="draw">
+            <p>Graphite palette</p>
+            <div class="portrait-draw-picker">
+              <div class="graphite-palette" aria-label="Graphite tone">
+                <button type="button" data-graphite="6H" data-tone="0.20" aria-label="6H graphite"><i></i><span>6H</span></button>
+                <button type="button" data-graphite="2H" data-tone="0.32" aria-label="2H graphite"><i></i><span>2H</span></button>
+                <button type="button" data-graphite="H" data-tone="0.42" aria-label="H graphite"><i></i><span>H</span></button>
+                <button type="button" data-graphite="F" data-tone="0.50" aria-label="F graphite"><i></i><span>F</span></button>
+                <button type="button" class="selected" data-graphite="HB" data-tone="0.58" aria-label="HB graphite"><i></i><span>HB</span></button>
+                <button type="button" data-graphite="B" data-tone="0.68" aria-label="B graphite"><i></i><span>B</span></button>
+                <button type="button" data-graphite="2B" data-tone="0.78" aria-label="2B graphite"><i></i><span>2B</span></button>
+                <button type="button" data-graphite="6B" data-tone="0.90" aria-label="6B graphite"><i></i><span>6B</span></button>
+              </div>
+              <div class="portrait-draw-tools" aria-label="Drawing tool">
+                <button type="button" class="active" data-draw-tool="finger" aria-label="Graphite blending finger" aria-pressed="true">
+                  <svg viewBox="0 0 32 42" aria-hidden="true"><path d="M16 3C8 3 4 10 4 20c0 8 4 15 10 19M16 8c-5 0-8 5-8 12 0 7 3 12 8 17M16 3c8 0 12 7 12 17 0 9-4 16-10 20M16 8c5 0 8 5 8 12 0 7-3 13-7 17M16 13c-3 0-4 3-4 7 0 6 2 10 5 13M16 13c3 0 4 3 4 7 0 5-1 9-4 12"/></svg>
+                </button>
+                <button type="button" data-draw-tool="pencil" aria-label="Graphite pencil" aria-pressed="false">
+                  <svg viewBox="0 0 40 40" aria-hidden="true"><path class="pencil-body" d="M8 30 28 10l4 4-20 20-7 2Z"/><path class="pencil-tip" d="m5 36 3-6 4 4Z"/><path class="pencil-mark" d="M6 23c5-4 9 2 14-2s8 0 12-4"/></svg>
+                </button>
+              </div>
+            </div>
+            <div class="portrait-draw-actions">
+              <button type="button" id="portraitDrawUndo">Undo</button>
+              <button type="button" id="portraitDrawClear">Clear</button>
+            </div>
+          </section>
+        </aside>
+        <div class="portrait-modal-image" id="portraitModalStage">
+          <div class="portrait-modal-paper" id="portraitModalPaper">
+            <img id="portraitModalImage" src="/assets/images/portraits/albert-einstein-2015.png" alt="Graphite portrait of Albert Einstein">
+            <canvas id="portraitDrawCanvas" aria-label="Drawing layer"></canvas>
+            <div class="portrait-modal-lens" id="portraitModalLens" aria-hidden="true"></div>
+          </div>
+        </div>
+      </div>
+      <div class="portrait-modal-meta">
+        <span>Original artwork · graphite on paper</span>
+        <span id="portraitModalYear">2015</span>
+      </div>
+    </div>
+  </dialog>
 
   <footer>
     <div class="footer-grid">
@@ -69,12 +194,23 @@
 <div class="cursor-outline">
   <div class="cursor-outline-inner"></div>
 </div>
+<div class="portrait-smudge-cursor" id="portraitSmudgeCursor" aria-hidden="true">
+  <svg viewBox="0 0 48 58" focusable="false">
+    <path class="fingerprint-cursor-path" id="portraitFingerprintPath"></path>
+    <g class="pencil-cursor-art">
+      <path class="pencil-cursor-mark" d="M5 48c9-7 15 3 24-4 6-4 9-2 14-7" />
+      <path class="pencil-cursor-body" d="M11 40 35 10l6 5-25 29-9 3Z" />
+      <path class="pencil-cursor-tip" d="m7 47 4-7 5 4Z" />
+    </g>
+  </svg>
+</div>
 <canvas class="cursor-trail"></canvas>
 
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 
 <script src="/assets/js/main.js"></script>
+<script src="/assets/js/projects.js?v=20260826-tools3"></script>
 <script src="/assets/js/analytics.js"></script>
 
 </body>
