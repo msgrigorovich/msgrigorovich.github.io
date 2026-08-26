@@ -737,6 +737,25 @@ function updatePickerClasses(items, selectedIndex) {
   });
 }
 
+function settleMobileProjectPicker(index) {
+  const projects = resumeExperience[resumeYearIndex].projects || [];
+  const selectedIndex = Math.max(0, Math.min(projects.length - 1, index));
+  const list = resumeProjectRail.querySelector('.resume-project-list');
+  const items = list ? Array.from(list.children) : [];
+  if (!list || !items.length) return;
+
+  resumeProjectIndexes.set(resumeYearIndex, selectedIndex);
+  resumeProjectRail.querySelector('.resume-series-panel')?.remove();
+  updatePickerClasses(items, selectedIndex);
+
+  const step = items.length > 1 ? items[1].offsetLeft - items[0].offsetLeft : 72;
+  list.style.transition = 'transform 0.24s cubic-bezier(0.22, 1, 0.36, 1)';
+  list.style.transform = `translateX(-${selectedIndex * step}px)`;
+  window.setTimeout(() => {
+    if (list.isConnected) list.style.transition = '';
+  }, 260);
+}
+
 function setupTouchYearPicker() {
   let touching = false;
   let startY = 0;
@@ -794,6 +813,7 @@ function setupTouchProjectPicker() {
   let step = 72;
   let moved = false;
   let horizontalGesture = false;
+  let lastDelta = 0;
 
   const projectList = () => resumeProjectRail.querySelector('.resume-project-list');
   const projectItems = () => resumeProjectRail.querySelectorAll('[data-project-index]');
@@ -811,6 +831,7 @@ function setupTouchProjectPicker() {
     step = items.length > 1 ? items[1].offsetLeft - items[0].offsetLeft : 72;
     moved = false;
     horizontalGesture = false;
+    lastDelta = 0;
     list.style.transition = 'none';
   }, { passive: true });
 
@@ -825,7 +846,8 @@ function setupTouchProjectPicker() {
     horizontalGesture = true;
     event.preventDefault();
     moved ||= Math.abs(delta) > 5;
-    const position = Math.max(0, Math.min(items.length - 1, startIndex - delta / step));
+    lastDelta = delta;
+    const position = Math.max(0, Math.min(items.length - 1, startIndex - delta / (step * 0.78)));
     list.style.transform = `translateX(-${position * step}px)`;
 
     const nextIndex = Math.round(position);
@@ -842,8 +864,13 @@ function setupTouchProjectPicker() {
     touching = false;
     const list = projectList();
     if (list) list.style.transition = '';
-    if (moved) selectResumeProject(previewIndex);
-    else renderResumeProjects();
+    if (!moved) return;
+
+    let settledIndex = previewIndex;
+    if (settledIndex === startIndex && Math.abs(lastDelta) >= 14) {
+      settledIndex = startIndex + (lastDelta < 0 ? 1 : -1);
+    }
+    settleMobileProjectPicker(settledIndex);
   };
 
   resumeProjectRail.addEventListener('touchend', finish);
@@ -881,8 +908,19 @@ resumeProjectRail.addEventListener('click', event => {
     return;
   }
   const projectItem = event.target.closest('[data-project-index]');
-  if (!projectItem || projectItem.matches('a')) return;
-  selectResumeProject(Number(projectItem.dataset.projectIndex));
+  if (!projectItem) return;
+
+  const projectIndex = Number(projectItem.dataset.projectIndex);
+  const selectedIndex = resumeProjectIndexes.get(resumeYearIndex) || 0;
+  if (window.matchMedia('(max-width: 600px)').matches && projectIndex !== selectedIndex) {
+    event.preventDefault();
+    settleMobileProjectPicker(projectIndex);
+    playPickerFeedback();
+    return;
+  }
+
+  if (projectItem.matches('a')) return;
+  selectResumeProject(projectIndex);
 });
 
 document.addEventListener('click', event => {
