@@ -387,6 +387,27 @@ main {
   backface-visibility: hidden;
 }
 
+.resume-project-rail.is-touch-dragging .resume-project-item {
+  transition: none;
+}
+
+.resume-project-rail.is-touch-dragging .resume-project-item:hover {
+  background: rgba(255, 255, 255, 0.16);
+  color: #111;
+  opacity: 0.34;
+  transform: scale(0.78);
+}
+
+.resume-project-rail.is-touch-dragging .resume-project-item.near:hover {
+  opacity: 0.62;
+  transform: scale(0.9);
+}
+
+.resume-project-rail.is-touch-dragging .resume-project-item.selected:hover {
+  opacity: 1;
+  transform: scale(1);
+}
+
 html {
   background: #f2f2f2;
 }
@@ -582,6 +603,8 @@ html {
   opacity: 0.22;
   transform: scale(0.82);
   transition: opacity 0.3s ease, transform 0.3s ease;
+  -webkit-tap-highlight-color: transparent;
+  outline: none;
 }
 
 .resume-year.near {
@@ -1852,6 +1875,12 @@ footer {
   .resume-year {
     padding: 0 0.25rem;
     font-size: 0.78rem;
+  }
+
+  .resume-year:focus,
+  .resume-year:focus-visible {
+    outline: none;
+    box-shadow: none;
   }
 
   .resume-year.selected {

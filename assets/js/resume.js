@@ -884,6 +884,7 @@ function setupTouchProjectPicker() {
     horizontalGesture = false;
     lastDelta = 0;
     list.style.transition = 'none';
+    resumeProjectRail.classList.add('is-touch-dragging');
   }, { passive: true });
 
   resumeProjectRail.addEventListener('touchmove', event => {
@@ -919,6 +920,7 @@ function setupTouchProjectPicker() {
   const finish = () => {
     if (!touching) return;
     touching = false;
+    resumeProjectRail.classList.remove('is-touch-dragging');
     const list = projectList();
     if (list) list.style.transition = '';
     if (!moved) return;
