@@ -16,6 +16,9 @@
         document.documentElement.style.setProperty('--return-page-tint', returnTints[returnPage]);
         document.documentElement.classList.add('return-page-tint-pending');
       }
+      if (sessionStorage.getItem('skip-main-intro-once') === 'true') {
+        document.documentElement.classList.add('return-page-ready');
+      }
     } catch (error) {
       // The page remains fully usable if session storage is unavailable.
     }

@@ -232,12 +232,13 @@ function revealReturnTint() {
   setTimeout(() => {
     document.body.classList.remove('return-page-tint');
     document.documentElement.classList.remove('return-page-tint-pending');
-  }, 1950);
+  }, 1200);
 }
 
 function showMainPageImmediately() {
   // The typing heading starts empty and the remaining sections start hidden in CSS.
   // Put everything directly into its final state when returning from an inner page.
+  document.documentElement.classList.add('return-page-ready');
   skipIntroAnimations = true;
   typingActive = false;
   clearTimeout(typingTimer);
