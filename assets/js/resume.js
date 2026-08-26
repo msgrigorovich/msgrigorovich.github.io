@@ -343,7 +343,7 @@ let pickerAudioContext;
 function playPickerFeedback() {
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
-  navigator.vibrate?.(8);
+  navigator.vibrate?.(12);
 
   try {
     pickerAudioContext ||= new (window.AudioContext || window.webkitAudioContext)();
@@ -351,13 +351,13 @@ function playPickerFeedback() {
     const oscillator = pickerAudioContext.createOscillator();
     const gain = pickerAudioContext.createGain();
     const now = pickerAudioContext.currentTime;
-    oscillator.type = 'sine';
-    oscillator.frequency.setValueAtTime(620, now);
-    gain.gain.setValueAtTime(0.012, now);
-    gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.025);
+    oscillator.type = 'triangle';
+    oscillator.frequency.setValueAtTime(720, now);
+    gain.gain.setValueAtTime(0.04, now);
+    gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.04);
     oscillator.connect(gain).connect(pickerAudioContext.destination);
     oscillator.start(now);
-    oscillator.stop(now + 0.025);
+    oscillator.stop(now + 0.04);
   } catch {
     // Audio and vibration are optional enhancements and may be blocked by iOS.
   }
@@ -439,11 +439,11 @@ function renderResumeProjects() {
 
   if (window.matchMedia('(max-width: 600px)').matches) {
     requestAnimationFrame(() => {
-      const windowElement = resumeProjectRail.querySelector('.resume-project-window');
-      const selectedElement = resumeProjectRail.querySelector('.resume-project-item.selected');
-      if (!windowElement || !selectedElement) return;
-      const target = selectedElement.offsetLeft - (windowElement.clientWidth - selectedElement.offsetWidth) / 2;
-      windowElement.scrollTo({ left: Math.max(0, target), behavior: 'smooth' });
+      const list = resumeProjectRail.querySelector('.resume-project-list');
+      const items = list ? Array.from(list.children) : [];
+      if (!list || !items.length) return;
+      const step = items.length > 1 ? items[1].offsetLeft - items[0].offsetLeft : 72;
+      list.style.transform = `translateX(-${selectedIndex * step}px)`;
     });
   }
 }
@@ -789,46 +789,46 @@ function setupTouchProjectPicker() {
   let touching = false;
   let startX = 0;
   let startY = 0;
-  let startScrollLeft = 0;
+  let startIndex = 0;
   let previewIndex = 0;
+  let step = 72;
   let moved = false;
   let horizontalGesture = false;
 
-  const projectWindow = () => resumeProjectRail.querySelector('.resume-project-window');
+  const projectList = () => resumeProjectRail.querySelector('.resume-project-list');
   const projectItems = () => resumeProjectRail.querySelectorAll('[data-project-index]');
 
   resumeProjectRail.addEventListener('touchstart', event => {
     if (activeResumeTab !== 'experience' || event.target.closest('.resume-series-panel')) return;
-    const windowElement = projectWindow();
-    if (!windowElement || projectItems().length < 2) return;
+    const list = projectList();
+    const items = Array.from(projectItems());
+    if (!list || items.length < 2) return;
     touching = true;
     startX = event.touches[0].clientX;
     startY = event.touches[0].clientY;
-    startScrollLeft = windowElement.scrollLeft;
-    previewIndex = resumeProjectIndexes.get(resumeYearIndex) || 0;
+    startIndex = resumeProjectIndexes.get(resumeYearIndex) || 0;
+    previewIndex = startIndex;
+    step = items.length > 1 ? items[1].offsetLeft - items[0].offsetLeft : 72;
     moved = false;
     horizontalGesture = false;
+    list.style.transition = 'none';
   }, { passive: true });
 
   resumeProjectRail.addEventListener('touchmove', event => {
     if (!touching) return;
-    const windowElement = projectWindow();
+    const list = projectList();
     const items = Array.from(projectItems());
-    if (!windowElement || !items.length) return;
+    if (!list || !items.length) return;
     const delta = event.touches[0].clientX - startX;
     const verticalDelta = event.touches[0].clientY - startY;
     if (!horizontalGesture && Math.abs(delta) <= Math.abs(verticalDelta)) return;
     horizontalGesture = true;
     event.preventDefault();
     moved ||= Math.abs(delta) > 5;
-    windowElement.scrollLeft = startScrollLeft - delta;
+    const position = Math.max(0, Math.min(items.length - 1, startIndex - delta / step));
+    list.style.transform = `translateX(-${position * step}px)`;
 
-    const center = windowElement.scrollLeft + windowElement.clientWidth / 2;
-    const nextIndex = items.reduce((nearest, item, index) => {
-      const itemCenter = item.offsetLeft + item.offsetWidth / 2;
-      const nearestCenter = items[nearest].offsetLeft + items[nearest].offsetWidth / 2;
-      return Math.abs(itemCenter - center) < Math.abs(nearestCenter - center) ? index : nearest;
-    }, 0);
+    const nextIndex = Math.round(position);
 
     if (nextIndex !== previewIndex) {
       previewIndex = nextIndex;
@@ -840,7 +840,10 @@ function setupTouchProjectPicker() {
   const finish = () => {
     if (!touching) return;
     touching = false;
+    const list = projectList();
+    if (list) list.style.transition = '';
     if (moved) selectResumeProject(previewIndex);
+    else renderResumeProjects();
   };
 
   resumeProjectRail.addEventListener('touchend', finish);

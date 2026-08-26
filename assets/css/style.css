@@ -359,6 +359,10 @@ main {
   object-fit: contain;
 }
 
+html {
+  background: #f2f2f2;
+}
+
 .resume-project-item:hover .resume-project-image.monochrome,
 .resume-project-item:focus-visible .resume-project-image.monochrome {
   filter: brightness(0) invert(1);
@@ -1741,10 +1745,9 @@ footer {
     width: 100%;
     height: auto;
     margin-left: 0;
-    overflow-x: auto;
+    overflow-x: hidden;
     padding: 0.5rem 0;
     mask-image: none;
-    scroll-snap-type: x mandatory;
     overscroll-behavior-x: contain;
     touch-action: pan-y;
     scrollbar-width: none;
