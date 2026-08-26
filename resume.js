@@ -27,7 +27,7 @@ const amazonStoreOverrides = new Map([
 ]);
 
 const dominiSeriesProjects = [
-  { label: 'DominiGames', image: 'https://dominigames.com/_nuxt/img/logo.65e3f99.svg', contained: true, url: 'https://dominigames.com/' },
+  { label: 'DominiGames', image: 'dominigames-logo.svg', contained: true, logo: true, url: 'https://dominigames.com/' },
   {
     label: 'Secret City', image: 'https://api.dominigames.com/img/c9eef9fd-f8c0-43a5-82ba-f416b0451b84/sc1.jpg?q=80&fit=max&crop=1536%2C1536%2C0%2C0&w=320&fm=webp',
     games: [
@@ -382,7 +382,7 @@ function renderResumeProjects() {
       <div class="resume-project-list" style="--project-index: ${selectedIndex}">
         ${projects.map((project, index) => {
           const icon = project.image
-            ? `<img class="resume-project-image${project.monochrome ? ' monochrome' : ''}${project.contained ? ' contained' : ''}${project.cover ? ' cover' : ''}" src="${project.image}" alt="">`
+            ? `<img class="resume-project-image${project.monochrome ? ' monochrome' : ''}${project.contained ? ' contained' : ''}${project.cover ? ' cover' : ''}${project.logo ? ' company-logo' : ''}" src="${project.image}" alt="">`
             : `<span class="resume-project-icon">${project.icon}</span>`;
           const store = project.store ? `<span class="resume-project-store" aria-hidden="true">${resumeStoreIcons[project.store]}</span>` : '';
           const content = `${icon}${store}<span class="resume-project-name">${project.label}</span>`;
