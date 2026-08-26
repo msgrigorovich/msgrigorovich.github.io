@@ -533,7 +533,7 @@ if (cursorDot && cursorOutline) {
   });
 }
 
-document.querySelectorAll('a, .circle, button').forEach(el => {
+document.querySelectorAll('a, button').forEach(el => {
 el.addEventListener('mouseenter', () => {
     isHoveringClickable = true;
 

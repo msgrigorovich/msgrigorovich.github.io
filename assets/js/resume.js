@@ -422,7 +422,7 @@ function renderResumeProjects() {
       <div class="resume-project-list" style="--project-index: ${selectedIndex}">
         ${projects.map((project, index) => {
           const icon = project.markup || (project.image
-            ? `<img class="resume-project-image${project.monochrome ? ' monochrome' : ''}${project.contained ? ' contained' : ''}${project.cover ? ' cover' : ''}${project.logo ? ' company-logo' : ''}" src="${project.image}" alt="">`
+            ? `<img class="resume-project-image${project.monochrome ? ' monochrome' : ''}${project.contained ? ' contained' : ''}${project.cover ? ' cover' : ''}${project.logo ? ' company-logo' : ''}" src="${project.image}" alt="" draggable="false">`
             : `<span class="resume-project-icon">${project.icon}</span>`);
           const store = project.store ? `<span class="resume-project-store" aria-hidden="true">${resumeStoreIcons[project.store]}</span>` : '';
           const content = `${icon}${store}<span class="resume-project-name">${project.label}</span>`;
@@ -519,6 +519,20 @@ function closeResumeModal() {
   document.body.classList.remove('resume-modal-open');
   document.body.style.removeProperty('--resume-modal-scroll-y');
   window.scrollTo(0, resumeModalScrollY);
+}
+
+function openResumeSeriesPanel(index) {
+  const projects = resumeExperience[resumeYearIndex].projects || [];
+  const project = projects[index];
+  if (!project?.games) return;
+
+  resumeProjectIndexes.set(resumeYearIndex, index);
+  resumeProjectRail.querySelector('.resume-series-panel')?.remove();
+  resumeProjectRail.insertAdjacentHTML('beforeend', resumeSeriesPanelMarkup(project));
+}
+
+function closeResumeSeriesPanel() {
+  resumeProjectRail.querySelector('.resume-series-panel')?.remove();
 }
 
 function renderResumeYears() {
@@ -763,6 +777,10 @@ function setupTouchYearPicker() {
   let previewIndex = 0;
   let step = 56;
   let moved = false;
+  let lastY = 0;
+  let previousY = 0;
+  let lastMoveTime = 0;
+  let previousMoveTime = 0;
 
   resumeYearWheel.addEventListener('touchstart', event => {
     if (!['experience', 'skills'].includes(activeResumeTab)) return;
@@ -770,6 +788,10 @@ function setupTouchYearPicker() {
     step = items.length > 1 ? items[1].offsetTop - items[0].offsetTop : 56;
     touching = true;
     startY = event.touches[0].clientY;
+    lastY = startY;
+    previousY = startY;
+    lastMoveTime = performance.now();
+    previousMoveTime = lastMoveTime;
     startIndex = resumeYearIndex;
     previewIndex = resumeYearIndex;
     moved = false;
@@ -779,7 +801,13 @@ function setupTouchYearPicker() {
   resumeYearWheel.addEventListener('touchmove', event => {
     if (!touching) return;
     event.preventDefault();
-    const delta = event.touches[0].clientY - startY;
+    const currentY = event.touches[0].clientY;
+    const now = performance.now();
+    previousY = lastY;
+    previousMoveTime = lastMoveTime;
+    lastY = currentY;
+    lastMoveTime = now;
+    const delta = currentY - startY;
     moved ||= Math.abs(delta) > 5;
     const position = Math.max(0, Math.min(resumeExperience.length - 1, startIndex - delta / step));
     resumeYearList.style.transform = `translateY(-${position * step}px)`;
@@ -796,8 +824,23 @@ function setupTouchYearPicker() {
     if (!touching) return;
     touching = false;
     resumeYearList.style.transition = '';
-    if (moved) selectResumeYear(previewIndex);
-    else renderResumeYears();
+    if (!moved) return;
+
+    const delta = lastY - startY;
+    const elapsed = Math.max(1, lastMoveTime - previousMoveTime);
+    const velocity = (lastY - previousY) / elapsed;
+    const strongGesture = Math.abs(delta) >= step * 1.75 || Math.abs(velocity) >= 0.85;
+    let settledIndex;
+
+    if (strongGesture) {
+      settledIndex = delta < 0 ? resumeExperience.length - 1 : 0;
+    } else {
+      const projectedDelta = delta + velocity * 130;
+      settledIndex = Math.round(startIndex - projectedDelta / step);
+      if (settledIndex === startIndex) settledIndex += delta < 0 ? 1 : -1;
+    }
+
+    selectResumeYear(Math.max(0, Math.min(resumeExperience.length - 1, settledIndex)));
   };
 
   resumeYearWheel.addEventListener('touchend', finish);
@@ -814,6 +857,10 @@ function setupTouchProjectPicker() {
   let moved = false;
   let horizontalGesture = false;
   let lastDelta = 0;
+  let lastX = 0;
+  let previousX = 0;
+  let lastMoveTime = 0;
+  let previousMoveTime = 0;
 
   const projectList = () => resumeProjectRail.querySelector('.resume-project-list');
   const projectItems = () => resumeProjectRail.querySelectorAll('[data-project-index]');
@@ -825,6 +872,10 @@ function setupTouchProjectPicker() {
     if (!list || items.length < 2) return;
     touching = true;
     startX = event.touches[0].clientX;
+    lastX = startX;
+    previousX = startX;
+    lastMoveTime = performance.now();
+    previousMoveTime = lastMoveTime;
     startY = event.touches[0].clientY;
     startIndex = resumeProjectIndexes.get(resumeYearIndex) || 0;
     previewIndex = startIndex;
@@ -840,7 +891,13 @@ function setupTouchProjectPicker() {
     const list = projectList();
     const items = Array.from(projectItems());
     if (!list || !items.length) return;
-    const delta = event.touches[0].clientX - startX;
+    const currentX = event.touches[0].clientX;
+    const now = performance.now();
+    previousX = lastX;
+    previousMoveTime = lastMoveTime;
+    lastX = currentX;
+    lastMoveTime = now;
+    const delta = currentX - startX;
     const verticalDelta = event.touches[0].clientY - startY;
     if (!horizontalGesture && Math.abs(delta) <= Math.abs(verticalDelta)) return;
     horizontalGesture = true;
@@ -866,9 +923,17 @@ function setupTouchProjectPicker() {
     if (list) list.style.transition = '';
     if (!moved) return;
 
-    let settledIndex = previewIndex;
-    if (settledIndex === startIndex && Math.abs(lastDelta) >= 14) {
-      settledIndex = startIndex + (lastDelta < 0 ? 1 : -1);
+    const elapsed = Math.max(1, lastMoveTime - previousMoveTime);
+    const velocity = (lastX - previousX) / elapsed;
+    const strongGesture = Math.abs(lastDelta) >= step * 1.75 || Math.abs(velocity) >= 0.85;
+    let settledIndex;
+
+    if (strongGesture) {
+      settledIndex = lastDelta < 0 ? projectItems().length - 1 : 0;
+    } else {
+      const projectedDelta = lastDelta + velocity * 130;
+      settledIndex = Math.round(startIndex - projectedDelta / step);
+      if (settledIndex === startIndex) settledIndex += lastDelta < 0 ? 1 : -1;
     }
     settleMobileProjectPicker(settledIndex);
   };
@@ -904,7 +969,7 @@ resumeModal.addEventListener('cancel', event => {
 });
 resumeProjectRail.addEventListener('click', event => {
   if (event.target.closest('[data-project-close]')) {
-    selectResumeProject(0);
+    closeResumeSeriesPanel();
     return;
   }
   const projectItem = event.target.closest('[data-project-index]');
@@ -920,6 +985,11 @@ resumeProjectRail.addEventListener('click', event => {
   }
 
   if (projectItem.matches('a')) return;
+
+  if (window.matchMedia('(max-width: 600px)').matches) {
+    openResumeSeriesPanel(projectIndex);
+    return;
+  }
   selectResumeProject(projectIndex);
 });
 
@@ -928,7 +998,7 @@ document.addEventListener('click', event => {
   if (!seriesPanel) return;
   if (event.target.closest('.resume-series-panel')) return;
   if (event.target.closest('[data-project-index]')) return;
-  selectResumeProject(0);
+  closeResumeSeriesPanel();
 });
 
 function selectResumeProjectDuringWheel(index) {

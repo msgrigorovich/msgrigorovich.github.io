@@ -284,7 +284,17 @@ main {
   flex-direction: column;
   align-items: center;
   gap: 0.65rem;
+  backface-visibility: hidden;
+  will-change: transform;
   transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.circle[aria-current="page"] {
+  pointer-events: none;
+}
+
+.circle[aria-current="page"]:hover {
+  transform: none;
 }
 
 .resume-project-rail.scrollable .resume-project-list {
@@ -308,6 +318,11 @@ main {
   color: #111;
   cursor: pointer;
   text-decoration: none;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-user-drag: none;
+  user-select: none;
+  backface-visibility: hidden;
+  will-change: transform, opacity;
   opacity: 0.34;
   transform: scale(0.78);
   transition: opacity 0.25s ease, transform 0.25s ease, background-color 0.2s ease, color 0.2s ease;
@@ -368,6 +383,8 @@ main {
   height: 82%;
   transform: translate(-50%, -50%);
   object-fit: contain;
+  -webkit-user-drag: none;
+  backface-visibility: hidden;
 }
 
 html {
