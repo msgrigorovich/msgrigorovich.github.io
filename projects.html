@@ -5,37 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Projects — Diana Grigorovich</title>
   <link rel="icon" href="/favicon.png" type="image/png">
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="/assets/css/style.css" />
   <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 
-  <style>
-    main {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: flex-start;
-      flex: 1;
-      padding: 6rem 2rem 3rem;
-    }
-
-    .circle.projects {
-      margin-top: -8.5rem;
-      margin-bottom: 5rem;
-    }
-
-    @media (max-width: 600px) {
-      main {
-        padding: 3rem 1.25rem 2rem;
-      }
-
-      .circle.projects {
-        margin-top: -1rem;
-        margin-bottom: 2.5rem;
-      }
-    }
-  </style>
 </head>
 <body class="projects-page">
   <header>
@@ -78,10 +52,10 @@
         <p><strong>Follow Me</strong></p>
         <div class="icons">
           <a href="https://www.linkedin.com/in/diana-grigorovich/" target="_blank">
-            <img src="linkedin_icon.png" alt="LinkedIn" class="social-icon">
+            <img src="/linkedin_icon.png" alt="LinkedIn" class="social-icon">
           </a>
           <a href="https://github.com/msgrigorovich" target="_blank">
-            <img src="github_icon.png" alt="GitHub" class="social-icon github-icon">
+            <img src="/github_icon.png" alt="GitHub" class="social-icon github-icon">
           </a>
         </div>
       </div>
@@ -100,54 +74,8 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 
-<script src="script.js"></script>
-
-<script>
-  const pathMap = {
-    "/": "main",
-    "/resume": "resume",
-    "/projects": "projects",
-    "/contact": "contact"
-  };
-  
-  const customPage = pathMap[window.location.pathname] || window.location.pathname;
-  
-  const myUserAgentMarker = "Win64; x64";
-  
-  const isMe = navigator.userAgent.includes(myUserAgentMarker);
-  
-  fetch("https://ipwho.is/")
-    .then(res => res.json())
-    .then(ipdata => {
-      const sanitize = (value) => {
-        if (value === null || value === undefined) return "unknown";
-        if (typeof value === "string" && value.trim() === "") return "hidden";
-        return value;
-      };
-  
-      console.log("🧪 Sent:", {
-        org: sanitize(ipdata.connection?.org),
-        isp: sanitize(ipdata.connection?.isp),
-        is_me: isMe
-      });
-      
-      fetch("https://script.google.com/macros/s/AKfycbxTP5h06kKleZrbuAGIvBIMYhaFSfuWZUpurZnpfcuxDAOZAdnMMdRNUvrKFbfTGseVTg/exec", {
-        method: "POST",
-        body: JSON.stringify({
-          ip: sanitize(ipdata.ip),
-          country: sanitize(ipdata.country),
-          region: sanitize(ipdata.region),
-          city: sanitize(ipdata.city),
-          page: customPage,
-          ua: navigator.userAgent,
-          org: sanitize(ipdata.connection?.org),
-          isp: sanitize(ipdata.connection?.isp),
-          is_me: isMe
-        })
-      }).then(() => console.log(`✅ Analytics sent for "${customPage}", is_me: ${isMe}`));
-    })
-    .catch(err => console.error("❌ Failed to fetch IP data:", err));
-  </script>
+<script src="/assets/js/main.js"></script>
+<script src="/assets/js/analytics.js"></script>
 
 </body>
 </html>

@@ -384,7 +384,11 @@ const navigationEntry = performance.getEntriesByType('navigation')[0];
 if (navigationEntry?.type === 'reload') {
   sessionStorage.removeItem('pixel-cursor-color');
 }
-let pixelCursorColor = sessionStorage.getItem('pixel-cursor-color') || '120,0,255';
+const isResumePage = pageNameFromPath(window.location.pathname) === 'resume';
+const resumeCursorColor = '143,169,190';
+let pixelCursorColor = isResumePage
+  ? resumeCursorColor
+  : sessionStorage.getItem('pixel-cursor-color') || '120,0,255';
 
 cursorDot.style.backgroundColor = `rgb(${pixelCursorColor})`;
 cursorOutlineInner.style.backgroundColor = `rgba(${pixelCursorColor}, 0.08)`;
@@ -563,6 +567,10 @@ el.addEventListener('mouseenter', () => {
 
   el.addEventListener('mouseleave', () => {
     isHoveringClickable = false;
+    if (isResumePage) {
+      pixelCursorColor = resumeCursorColor;
+    }
+
     gsap.to(cursorDot, {
       backgroundColor: `rgb(${pixelCursorColor})`,
       duration: 0.2,
@@ -571,6 +579,12 @@ el.addEventListener('mouseenter', () => {
 
     gsap.to(cursorOutlineInner, {
       backgroundColor: `rgba(${pixelCursorColor}, 0.08)`,
+      duration: 0.2,
+      ease: 'power2.out'
+    });
+
+    gsap.to(cursorOutlineInner, {
+      borderColor: `rgb(${pixelCursorColor})`,
       duration: 0.2,
       ease: 'power2.out'
     });
@@ -595,16 +609,24 @@ window.addEventListener('resize', () => {
 });
 
 let trail = [];
+const TRAIL_LIFETIME = 280;
+const TRAIL_FADE_DURATION = 180;
+const TRAIL_POINT_INTERVAL = 14;
+let lastTrailPointAt = 0;
 
 window.addEventListener('mousemove', (e) => {
+  const now = performance.now();
+  if (now - lastTrailPointAt < TRAIL_POINT_INTERVAL) return;
+  lastTrailPointAt = now;
+
   trail.push({
     x: e.clientX,
     y: e.clientY,
     alpha: 0.72,
     color: pixelCursorColor,
-    createdAt: performance.now(),
-    lifetime: 280,
-    fadeDuration: 180
+    createdAt: now,
+    lifetime: TRAIL_LIFETIME,
+    fadeDuration: TRAIL_FADE_DURATION
   });
 
   if (trail.length > 2000) {

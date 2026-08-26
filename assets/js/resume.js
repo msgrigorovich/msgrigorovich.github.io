@@ -26,8 +26,23 @@ const amazonStoreOverrides = new Map([
   ["Hidden Expedition|A King's Line", 'https://www.amazon.com/dp/B0BBN7Y9J2']
 ]);
 
+const dominiGamesLogo = `
+  <svg class="resume-project-image company-logo" viewBox="4 4 180 64" aria-hidden="true">
+    <g fill="#f3a25f">
+      <path d="M9 17 32 7l-4 25L9 17Z"/>
+      <path d="m33 7 23 10-19 15-4-25Z"/>
+      <path d="M9 20 28 35 9 52V20Z"/>
+      <path d="m56 20-19 15 19 17V20Z"/>
+      <path d="m29 35 4-8 4 8-4 25-4-25Z"/>
+    </g>
+    <g fill="#f3a25f" font-family="Arial, Helvetica, sans-serif" font-weight="700">
+      <text x="69" y="36" font-size="27" letter-spacing="1.2">DOMINI</text>
+      <text x="69" y="65" font-size="27" letter-spacing="1.2">GAMES</text>
+    </g>
+  </svg>`;
+
 const dominiSeriesProjects = [
-  { label: 'DominiGames', image: 'dominigames-logo.svg', contained: true, logo: true, url: 'https://dominigames.com/' },
+  { label: 'DominiGames', markup: dominiGamesLogo, url: 'https://dominigames.com/' },
   {
     label: 'Secret City', image: 'https://api.dominigames.com/img/c9eef9fd-f8c0-43a5-82ba-f416b0451b84/sc1.jpg?q=80&fit=max&crop=1536%2C1536%2C0%2C0&w=320&fm=webp',
     games: [
@@ -131,8 +146,8 @@ const resumeExperience = [
     title: 'Senior QA Engineer',
     role: 'Core Gameplay Team · Quality & Systems Validation',
     projects: [
-      { label: 'Strikerz Inc.', icon: 'S', image: 'strikerz-logo.png', monochrome: true, url: 'https://www.strikerz.inc/' },
-      { label: 'UFL', icon: 'UFL', image: 'ufl-logo.png', monochrome: true, url: 'https://uflgame.com/' }
+      { label: 'Strikerz Inc.', icon: 'S', image: '/assets/images/games/strikerz-logo.png', monochrome: true, url: 'https://www.strikerz.inc/' },
+      { label: 'UFL', icon: 'UFL', image: '/assets/images/games/ufl-logo.png', monochrome: true, url: 'https://uflgame.com/' }
     ],
     text: 'Systemic validation of Core Gameplay mechanics with a focus on movement, interaction, and consistency across features.',
     responsibilities: [
@@ -162,8 +177,8 @@ const resumeExperience = [
     title: 'Senior QA Engineer',
     role: 'Quality Control Team · Cross-Platform & Feature Validation',
     projects: [
-      { label: 'Strikerz Inc.', icon: 'S', image: 'strikerz-logo.png', monochrome: true, url: 'https://www.strikerz.inc/' },
-      { label: 'UFL', icon: 'UFL', image: 'ufl-logo.png', monochrome: true, url: 'https://uflgame.com/' }
+      { label: 'Strikerz Inc.', icon: 'S', image: '/assets/images/games/strikerz-logo.png', monochrome: true, url: 'https://www.strikerz.inc/' },
+      { label: 'UFL', icon: 'UFL', image: '/assets/images/games/ufl-logo.png', monochrome: true, url: 'https://uflgame.com/' }
     ],
     text: 'Console product quality during pre-production and release, with cross-team coordination and feature-level ownership.',
     responsibilities: [
@@ -195,11 +210,11 @@ const resumeExperience = [
     title: 'Senior QA Engineer',
     role: 'QA Process Ownership · Mobile Game Development',
     projects: [
-      { label: 'Beresnev Games', image: 'beresnev-icon.ico', url: 'https://beresnev.games/' },
-      { label: 'Pixelwoods · Google Play', image: 'pixelwoods-icon.png', store: 'google-play', url: 'https://play.google.com/store/apps/details?id=com.beresnevgames.pixelgallery&hl=en_US' },
-      { label: 'Pixelwoods · App Store', image: 'pixelwoods-icon.png', store: 'app-store', url: 'https://apps.apple.com/us/app/pixelwoods-coloring-by-pixel/id1541658506' },
-      { label: 'Flippy Knife · Google Play', image: 'flippy-knife-icon.png', store: 'google-play', url: 'https://play.google.com/store/apps/details?id=com.BeresnevGames.Knife&hl=en_US' },
-      { label: 'Flippy Knife · App Store', image: 'flippy-knife-icon.png', store: 'app-store', url: 'https://apps.apple.com/us/app/flippy-knife-throw-spin-hit/id1208359453' }
+      { label: 'Beresnev Games', image: '/assets/images/games/beresnev-icon.ico', url: 'https://beresnev.games/' },
+      { label: 'Pixelwoods · Google Play', image: '/assets/images/games/pixelwoods-icon.png', store: 'google-play', url: 'https://play.google.com/store/apps/details?id=com.beresnevgames.pixelgallery&hl=en_US' },
+      { label: 'Pixelwoods · App Store', image: '/assets/images/games/pixelwoods-icon.png', store: 'app-store', url: 'https://apps.apple.com/us/app/pixelwoods-coloring-by-pixel/id1541658506' },
+      { label: 'Flippy Knife · Google Play', image: '/assets/images/games/flippy-knife-icon.png', store: 'google-play', url: 'https://play.google.com/store/apps/details?id=com.BeresnevGames.Knife&hl=en_US' },
+      { label: 'Flippy Knife · App Store', image: '/assets/images/games/flippy-knife-icon.png', store: 'app-store', url: 'https://apps.apple.com/us/app/flippy-knife-throw-spin-hit/id1208359453' }
     ],
     text: 'Primary QA specialist responsible for product quality from feature design through release and post-release support.',
     responsibilities: [
@@ -381,9 +396,9 @@ function renderResumeProjects() {
     <div class="resume-project-window">
       <div class="resume-project-list" style="--project-index: ${selectedIndex}">
         ${projects.map((project, index) => {
-          const icon = project.image
+          const icon = project.markup || (project.image
             ? `<img class="resume-project-image${project.monochrome ? ' monochrome' : ''}${project.contained ? ' contained' : ''}${project.cover ? ' cover' : ''}${project.logo ? ' company-logo' : ''}" src="${project.image}" alt="">`
-            : `<span class="resume-project-icon">${project.icon}</span>`;
+            : `<span class="resume-project-icon">${project.icon}</span>`);
           const store = project.store ? `<span class="resume-project-store" aria-hidden="true">${resumeStoreIcons[project.store]}</span>` : '';
           const content = `${icon}${store}<span class="resume-project-name">${project.label}</span>`;
           const classes = `resume-project-item${index === selectedIndex ? ' selected' : Math.abs(index - selectedIndex) === 1 ? ' near' : ''}`;
