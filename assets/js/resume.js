@@ -337,6 +337,31 @@ const resumeProjectRail = document.getElementById('resumeProjectRail');
 let resumeYearIndex = 0;
 let activeResumeTab = 'experience';
 const resumeProjectIndexes = new Map();
+let resumeModalScrollY = 0;
+let pickerAudioContext;
+
+function playPickerFeedback() {
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  navigator.vibrate?.(8);
+
+  try {
+    pickerAudioContext ||= new (window.AudioContext || window.webkitAudioContext)();
+    if (pickerAudioContext.state === 'suspended') pickerAudioContext.resume();
+    const oscillator = pickerAudioContext.createOscillator();
+    const gain = pickerAudioContext.createGain();
+    const now = pickerAudioContext.currentTime;
+    oscillator.type = 'sine';
+    oscillator.frequency.setValueAtTime(620, now);
+    gain.gain.setValueAtTime(0.012, now);
+    gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.025);
+    oscillator.connect(gain).connect(pickerAudioContext.destination);
+    oscillator.start(now);
+    oscillator.stop(now + 0.025);
+  } catch {
+    // Audio and vibration are optional enhancements and may be blocked by iOS.
+  }
+}
 
 const resumeStoreIcons = {
   'google-play': `<svg viewBox="0 0 18 18" role="img" aria-label="Google Play"><path fill="#00d4ff" d="M2.5 1.6 10.8 9l-8.3 7.4a1.7 1.7 0 0 1-.3-1V2.6c0-.4.1-.7.3-1Z"/><path fill="#00e676" d="m2.5 1.6 10.4 5.9L10.8 9 2.5 1.6Z"/><path fill="#ffea00" d="m10.8 9 2.1 1.5-10.4 5.9L10.8 9Z"/><path fill="#ff3d5a" d="m12.9 7.5 2.2 1.2c.6.3.6.9 0 1.2l-2.2.6L10.8 9l2.1-1.5Z"/></svg>`,
@@ -411,6 +436,16 @@ function renderResumeProjects() {
     ${isScrollable ? '<p class="resume-project-hint">scroll</p>' : ''}
     ${selectedProject?.games ? resumeSeriesPanelMarkup(selectedProject) : ''}
   `;
+
+  if (window.matchMedia('(max-width: 600px)').matches) {
+    requestAnimationFrame(() => {
+      const windowElement = resumeProjectRail.querySelector('.resume-project-window');
+      const selectedElement = resumeProjectRail.querySelector('.resume-project-item.selected');
+      if (!windowElement || !selectedElement) return;
+      const target = selectedElement.offsetLeft - (windowElement.clientWidth - selectedElement.offsetWidth) / 2;
+      windowElement.scrollTo({ left: Math.max(0, target), behavior: 'smooth' });
+    });
+  }
 }
 
 function resumeSeriesPanelMarkup(series) {
@@ -463,7 +498,11 @@ function openResumeModal() {
       ${resumeDetailListMarkup(item.achievements)}
     </section>
   `;
+  resumeModalScrollY = window.scrollY;
+  document.body.style.setProperty('--resume-modal-scroll-y', `-${resumeModalScrollY}px`);
+  document.body.classList.add('resume-modal-open');
   resumeModal.showModal();
+  resumeModalContent.scrollTop = 0;
 }
 
 function resumeDetailListMarkup(points) {
@@ -475,7 +514,11 @@ function resumeDetailListMarkup(points) {
 }
 
 function closeResumeModal() {
-  if (resumeModal.open) resumeModal.close();
+  if (!resumeModal.open) return;
+  resumeModal.close();
+  document.body.classList.remove('resume-modal-open');
+  document.body.style.removeProperty('--resume-modal-scroll-y');
+  window.scrollTo(0, resumeModalScrollY);
 }
 
 function renderResumeYears() {
@@ -681,6 +724,132 @@ resumeYearWheel.addEventListener('keydown', event => {
   changeResumeYear(event.key === 'ArrowDown' ? 1 : -1);
 });
 
+function updatePickerClasses(items, selectedIndex) {
+  Array.from(items).forEach((item, index) => {
+    item.classList.toggle('selected', index === selectedIndex);
+    item.classList.toggle('near', Math.abs(index - selectedIndex) === 1);
+  });
+}
+
+function setupTouchYearPicker() {
+  let touching = false;
+  let startY = 0;
+  let startIndex = 0;
+  let previewIndex = 0;
+  let step = 56;
+  let moved = false;
+
+  resumeYearWheel.addEventListener('touchstart', event => {
+    if (!['experience', 'skills'].includes(activeResumeTab)) return;
+    const items = resumeYearList.children;
+    step = items.length > 1 ? items[1].offsetTop - items[0].offsetTop : 56;
+    touching = true;
+    startY = event.touches[0].clientY;
+    startIndex = resumeYearIndex;
+    previewIndex = resumeYearIndex;
+    moved = false;
+    resumeYearList.style.transition = 'none';
+  }, { passive: true });
+
+  resumeYearWheel.addEventListener('touchmove', event => {
+    if (!touching) return;
+    event.preventDefault();
+    const delta = event.touches[0].clientY - startY;
+    moved ||= Math.abs(delta) > 5;
+    const position = Math.max(0, Math.min(resumeExperience.length - 1, startIndex - delta / step));
+    resumeYearList.style.transform = `translateY(-${position * step}px)`;
+
+    const nextIndex = Math.round(position);
+    if (nextIndex !== previewIndex) {
+      previewIndex = nextIndex;
+      updatePickerClasses(resumeYearList.children, previewIndex);
+      playPickerFeedback();
+    }
+  }, { passive: false });
+
+  const finish = () => {
+    if (!touching) return;
+    touching = false;
+    resumeYearList.style.transition = '';
+    if (moved) selectResumeYear(previewIndex);
+    else renderResumeYears();
+  };
+
+  resumeYearWheel.addEventListener('touchend', finish);
+  resumeYearWheel.addEventListener('touchcancel', finish);
+}
+
+function setupTouchProjectPicker() {
+  let touching = false;
+  let startX = 0;
+  let startY = 0;
+  let startScrollLeft = 0;
+  let previewIndex = 0;
+  let moved = false;
+  let horizontalGesture = false;
+
+  const projectWindow = () => resumeProjectRail.querySelector('.resume-project-window');
+  const projectItems = () => resumeProjectRail.querySelectorAll('[data-project-index]');
+
+  resumeProjectRail.addEventListener('touchstart', event => {
+    if (activeResumeTab !== 'experience' || event.target.closest('.resume-series-panel')) return;
+    const windowElement = projectWindow();
+    if (!windowElement || projectItems().length < 2) return;
+    touching = true;
+    startX = event.touches[0].clientX;
+    startY = event.touches[0].clientY;
+    startScrollLeft = windowElement.scrollLeft;
+    previewIndex = resumeProjectIndexes.get(resumeYearIndex) || 0;
+    moved = false;
+    horizontalGesture = false;
+  }, { passive: true });
+
+  resumeProjectRail.addEventListener('touchmove', event => {
+    if (!touching) return;
+    const windowElement = projectWindow();
+    const items = Array.from(projectItems());
+    if (!windowElement || !items.length) return;
+    const delta = event.touches[0].clientX - startX;
+    const verticalDelta = event.touches[0].clientY - startY;
+    if (!horizontalGesture && Math.abs(delta) <= Math.abs(verticalDelta)) return;
+    horizontalGesture = true;
+    event.preventDefault();
+    moved ||= Math.abs(delta) > 5;
+    windowElement.scrollLeft = startScrollLeft - delta;
+
+    const center = windowElement.scrollLeft + windowElement.clientWidth / 2;
+    const nextIndex = items.reduce((nearest, item, index) => {
+      const itemCenter = item.offsetLeft + item.offsetWidth / 2;
+      const nearestCenter = items[nearest].offsetLeft + items[nearest].offsetWidth / 2;
+      return Math.abs(itemCenter - center) < Math.abs(nearestCenter - center) ? index : nearest;
+    }, 0);
+
+    if (nextIndex !== previewIndex) {
+      previewIndex = nextIndex;
+      updatePickerClasses(items, previewIndex);
+      playPickerFeedback();
+    }
+  }, { passive: false });
+
+  const finish = () => {
+    if (!touching) return;
+    touching = false;
+    if (moved) selectResumeProject(previewIndex);
+  };
+
+  resumeProjectRail.addEventListener('touchend', finish);
+  resumeProjectRail.addEventListener('touchcancel', finish);
+  resumeProjectRail.addEventListener('click', event => {
+    if (!moved) return;
+    event.preventDefault();
+    event.stopImmediatePropagation();
+    moved = false;
+  }, true);
+}
+
+setupTouchYearPicker();
+setupTouchProjectPicker();
+
 resumeTabs.forEach(tab => tab.addEventListener('click', () => selectResumeTab(tab.dataset.resumeTab)));
 resumeCard.addEventListener('click', event => {
   if (event.target.closest('.resume-more-skills')) {
@@ -692,6 +861,10 @@ resumeCard.addEventListener('click', event => {
 resumeModalClose.addEventListener('click', closeResumeModal);
 resumeModal.addEventListener('click', event => {
   if (event.target === resumeModal) closeResumeModal();
+});
+resumeModal.addEventListener('cancel', event => {
+  event.preventDefault();
+  closeResumeModal();
 });
 resumeProjectRail.addEventListener('click', event => {
   if (event.target.closest('[data-project-close]')) {

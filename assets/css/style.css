@@ -687,6 +687,20 @@ main {
   box-shadow: 0 2rem 6rem rgba(17, 17, 17, 0.28);
 }
 
+.resume-modal[open] {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  overflow: hidden;
+}
+
+body.resume-modal-open {
+  position: fixed;
+  top: var(--resume-modal-scroll-y, 0);
+  left: 0;
+  width: 100%;
+  overflow: hidden;
+}
+
 .resume-modal::backdrop {
   background: rgba(17, 17, 17, 0.48);
   backdrop-filter: blur(5px);
@@ -741,6 +755,7 @@ main {
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 2.5rem;
   max-height: calc(100vh - 13rem);
+  min-height: 0;
   overflow-y: auto;
   padding: 1.75rem 2.25rem 2.25rem;
   scrollbar-width: thin;
@@ -1606,6 +1621,12 @@ footer {
 }
 
 @media (max-width: 600px) {
+  html,
+  body {
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+
   .projects-page main,
   .contact-page main {
     padding: 3rem 1.25rem 2rem;
@@ -1689,6 +1710,7 @@ footer {
 
   .resume-main {
     padding: 3rem 1.25rem 2rem;
+    overflow-x: hidden;
   }
 
   .resume-hint {
@@ -1704,10 +1726,15 @@ footer {
     grid-template-columns: 1fr;
     gap: 1.5rem;
     min-height: 0;
+    min-width: 0;
+    width: calc(100vw - 2.5rem);
+    max-width: calc(100vw - 2.5rem);
   }
 
   .resume-project-rail {
     width: 100%;
+    min-width: 0;
+    max-width: calc(100vw - 2.5rem);
   }
 
   .resume-project-rail.scrollable .resume-project-window {
@@ -1717,6 +1744,14 @@ footer {
     overflow-x: auto;
     padding: 0.5rem 0;
     mask-image: none;
+    scroll-snap-type: x mandatory;
+    overscroll-behavior-x: contain;
+    touch-action: pan-y;
+    scrollbar-width: none;
+  }
+
+  .resume-project-rail.scrollable .resume-project-window::-webkit-scrollbar {
+    display: none;
   }
 
   .resume-project-list,
@@ -1726,10 +1761,14 @@ footer {
     transform: none;
   }
 
+  .resume-project-item {
+    scroll-snap-align: center;
+  }
+
   .resume-project-rail.scrollable .resume-project-list {
     align-items: center;
     justify-content: flex-start;
-    padding-right: 0;
+    padding-inline: calc(50% - 1.925rem);
   }
 
   .resume-project-hint {
@@ -1737,32 +1776,87 @@ footer {
   }
 
   .resume-series-panel {
-    position: relative;
+    position: absolute;
+    z-index: 6;
     top: auto;
     right: auto;
+    bottom: calc(100% - 0.25rem);
+    left: 50%;
     width: min(100%, 22rem);
-    max-height: none;
-    margin: 0.8rem auto 0;
-    transform: none;
+    max-height: min(24rem, 66dvh);
+    margin: 0;
+    transform: translateX(-50%);
+  }
+
+  .resume-series-header {
+    flex-direction: row;
+    align-items: flex-start;
+    text-align: left;
+  }
+
+  .resume-series-header button {
+    margin-left: auto;
+  }
+
+  .resume-series-games {
+    max-height: min(18.5rem, calc(66dvh - 4.5rem));
   }
 
   .resume-year-wheel {
     width: min(100%, 18rem);
+    max-width: calc(100vw - 2.5rem);
     height: 10.5rem;
     margin: 0 auto;
     padding: 3.5rem 0;
+    touch-action: none;
+    overscroll-behavior: contain;
+  }
+
+  .resume-year {
+    padding: 0 0.25rem;
+    font-size: 0.78rem;
+  }
+
+  .resume-year.selected {
+    transform: scale(1);
+  }
+
+  .resume-year.selected::before {
+    margin-right: 0.5rem;
+  }
+
+  .resume-year.selected::after {
+    margin-left: 0.5rem;
   }
 
   .resume-card {
-    min-height: 30rem;
+    width: 100%;
+    min-width: 0;
+    max-width: calc(100vw - 2.5rem);
+    min-height: 0;
     text-align: center;
   }
 
   .resume-card h1 {
     font-size: clamp(2.15rem, 12vw, 3.2rem);
+    overflow-wrap: anywhere;
+  }
+
+  .resume-card h2,
+  .resume-description {
+    width: 100%;
+    max-width: calc(100vw - 2.5rem);
+    margin-right: auto;
+    margin-left: auto;
+    white-space: normal;
+    overflow-wrap: anywhere;
   }
 
   .resume-chips {
+    width: 100%;
+    max-width: calc(100vw - 2.5rem);
+    margin-right: auto;
+    margin-left: auto;
     justify-content: center;
   }
 
@@ -1778,7 +1872,8 @@ footer {
 
   .resume-modal {
     width: calc(100% - 1.5rem);
-    max-height: calc(100vh - 1.5rem);
+    height: calc(100dvh - 1.5rem);
+    max-height: calc(100dvh - 1.5rem);
     border-radius: 1rem;
   }
 
@@ -1788,8 +1883,20 @@ footer {
 
   .resume-modal-content {
     grid-template-columns: 1fr;
-    gap: 1.5rem;
-    max-height: calc(100vh - 10.5rem);
-    padding: 1.25rem;
+    grid-auto-rows: max-content;
+    align-content: start;
+    gap: clamp(1.25rem, 4vh, 2rem);
+    max-height: none;
+    min-height: 0;
+    padding: 1.25rem 1.25rem calc(2rem + env(safe-area-inset-bottom));
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
   }
+
+  .resume-page footer {
+    margin-top: 0;
+    margin-bottom: 0;
+    padding-bottom: calc(2rem + env(safe-area-inset-bottom));
+  }
+
 }
