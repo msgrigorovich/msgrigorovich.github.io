@@ -2193,6 +2193,12 @@ body.portrait-drawing .portrait-modal * {
 body.draw-tool-pencil .portrait-smudge-cursor {
   width: 2.4rem;
   height: 2.4rem;
+  transform-origin: 15% 81%;
+  transform: translate(-15%, -81%) rotate(-12deg) scale(1);
+}
+
+body.draw-tool-pencil.is-smudging .portrait-smudge-cursor {
+  transform: translate(-15%, -81%) rotate(-12deg) scale(0.92);
 }
 
 body.draw-tool-pencil .fingerprint-cursor-path {
@@ -2201,6 +2207,43 @@ body.draw-tool-pencil .fingerprint-cursor-path {
 
 body.draw-tool-pencil .pencil-cursor-art {
   display: block;
+}
+
+.eraser-cursor-art {
+  display: none;
+}
+
+body.draw-tool-eraser .fingerprint-cursor-path,
+body.draw-tool-eraser .pencil-cursor-art {
+  display: none;
+}
+
+body.draw-tool-eraser .eraser-cursor-art {
+  display: block;
+}
+
+body.draw-tool-eraser .portrait-smudge-cursor {
+  width: 2.3rem;
+  height: 2.3rem;
+  transform-origin: 18% 82%;
+  transform: translate(-18%, -82%) rotate(-18deg) scale(1);
+}
+
+body.draw-tool-eraser.is-smudging .portrait-smudge-cursor {
+  transform: translate(-18%, -82%) rotate(-18deg) scale(0.92);
+}
+
+.eraser-cursor-body,
+.eraser-cursor-edge {
+  fill: rgba(247, 243, 233, 0.96);
+  stroke: #111;
+  stroke-width: 1.2;
+  stroke-linejoin: round;
+}
+
+.eraser-cursor-edge {
+  fill: none;
+  opacity: 0.68;
 }
 
 .pencil-cursor-body,
@@ -2440,7 +2483,7 @@ body.draw-tool-pencil .pencil-cursor-art {
 .portrait-modal-card header p {
   margin: 0 0 0.2rem;
   font-family: 'Source Code Pro', monospace;
-  font-size: 0.55rem;
+  font-size: 0.66rem;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   opacity: 0.5;
@@ -2448,7 +2491,7 @@ body.draw-tool-pencil .pencil-cursor-art {
 
 .portrait-modal-card header h2 {
   margin: 0;
-  font-size: 1.25rem;
+  font-size: 1.5rem;
 }
 
 .portrait-modal-card header button {
@@ -2462,7 +2505,7 @@ body.draw-tool-pencil .pencil-cursor-art {
 
 .portrait-modal-workspace {
   display: grid;
-  grid-template-columns: 15rem minmax(0, 1fr);
+  grid-template-columns: 18.5rem minmax(0, 1fr);
   min-height: 0;
   padding: 0 1.75rem;
 }
@@ -2471,29 +2514,35 @@ body.draw-tool-pencil .pencil-cursor-art {
   position: relative;
   z-index: 4;
   align-self: start;
-  padding: 1.5rem 1.25rem 0 0;
+  padding: 1.35rem 1.5rem 0 0;
 }
 
 .portrait-modal-summary > p,
 .portrait-tool-panel[data-portrait-panel="draw"] > p {
   margin: 0 0 0.55rem;
   font-family: 'Source Code Pro', monospace;
-  font-size: 0.52rem;
+  font-size: 0.64rem;
   letter-spacing: 0.13em;
   text-transform: uppercase;
   opacity: 0.48;
 }
 
 .portrait-modal-summary > div {
-  font-size: 0.7rem;
-  line-height: 1.55;
-  opacity: 0.72;
+  font-size: 0.84rem;
+  line-height: 1.6;
+  opacity: 0.78;
+}
+
+.portrait-modal-summary {
+  margin-top: 1.4rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(17, 17, 17, 0.16);
 }
 
 .portrait-mode-tabs {
   display: flex;
   gap: 0.4rem;
-  margin-top: 1.25rem;
+  margin-top: 0;
 }
 
 .portrait-mode-tabs button,
@@ -2503,7 +2552,7 @@ body.draw-tool-pencil .pencil-cursor-art {
   padding: 0.42rem 0.72rem;
   background: transparent;
   color: #111;
-  font-size: 0.58rem;
+  font-size: 0.68rem;
 }
 
 .portrait-mode-tabs button.active {
@@ -2515,6 +2564,7 @@ body.draw-tool-pencil .pencil-cursor-art {
 .portrait-tool-panel {
   display: none;
   margin-top: 1.15rem;
+  height: 15.5rem;
 }
 
 .portrait-tool-panel.active {
@@ -2523,14 +2573,36 @@ body.draw-tool-pencil .pencil-cursor-art {
 
 .portrait-tool-panel[data-portrait-panel="magnify"] p {
   margin: 0 0 0.55rem;
-  font-size: 0.66rem;
+  font-size: 0.82rem;
   line-height: 1.5;
   opacity: 0.65;
 }
 
 .portrait-tool-panel[data-portrait-panel="magnify"] span {
   font-family: 'Source Code Pro', monospace;
-  font-size: 0.48rem;
+  font-size: 0.62rem;
+  opacity: 0.42;
+}
+
+.portrait-modal-magnifier-settings {
+  display: grid;
+  gap: 0.25rem;
+  margin-top: 0.9rem;
+  min-height: 7.5rem;
+}
+
+.portrait-modal-magnifier-settings label {
+  font-size: 0.68rem;
+}
+
+.portrait-modal-magnifier-settings output {
+  font-size: 0.62rem;
+}
+
+.portrait-tool-panel[data-portrait-panel="magnify"] .portrait-modal-magnifier-settings .portrait-magnifier-hint {
+  margin: 0.7rem 0 0;
+  font-size: 0.56rem;
+  line-height: 1.55;
   opacity: 0.42;
 }
 
@@ -2551,12 +2623,14 @@ body.draw-tool-pencil .pencil-cursor-art {
 
 .portrait-draw-tools {
   display: grid;
+  min-width: 4.2rem;
+  justify-items: center;
   gap: 0.45rem;
   padding-left: 0.85rem;
   border-left: 1px solid rgba(17, 17, 17, 0.14);
 }
 
-.portrait-draw-tools button {
+.portrait-draw-tools > button {
   display: grid;
   width: 2.45rem;
   height: 2.45rem;
@@ -2568,7 +2642,7 @@ body.draw-tool-pencil .pencil-cursor-art {
   transition: transform 0.18s ease, background-color 0.18s ease, border-color 0.18s ease;
 }
 
-.portrait-draw-tools button:hover {
+.portrait-draw-tools > button:hover {
   border-color: rgba(17, 17, 17, 0.58);
 }
 
@@ -2580,19 +2654,19 @@ body.draw-tool-pencil .pencil-cursor-art {
   animation: droplet-release 620ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.portrait-draw-tools button.active {
+.portrait-draw-tools > button.active {
   border-color: #111;
   background: #111;
   color: #f7f3e9;
 }
 
-.portrait-draw-tools svg {
+.portrait-draw-tools > button svg {
   width: 1.55rem;
   height: 1.55rem;
   overflow: visible;
 }
 
-.portrait-draw-tools path {
+.portrait-draw-tools > button path {
   fill: none;
   stroke: currentColor;
   stroke-width: 1.15;
@@ -2669,10 +2743,26 @@ body.draw-tool-pencil .pencil-cursor-art {
   padding: 0.12rem 0.2rem;
   border-radius: 0.2rem;
   color: #050505;
-  background: rgba(247, 243, 233, 0.62);
-  box-shadow: 0 0 0 1px rgba(247, 243, 233, 0.22);
+  background: rgba(247, 243, 233, 0.92);
+  box-shadow: 0 0 0 1px rgba(247, 243, 233, 0.72);
   font-family: 'Source Code Pro', monospace;
-  font-size: 0.48rem;
+  font-size: 0.62rem;
+  font-weight: 700;
+}
+
+.graphite-palette button.graphite-none i {
+  background: rgba(247, 243, 233, 0.96);
+}
+
+.graphite-palette button.graphite-none i::before,
+.graphite-palette button.graphite-none i::after {
+  opacity: 0;
+}
+
+.graphite-palette button.graphite-none i {
+  background:
+    linear-gradient(135deg, transparent 45%, #111 46% 53%, transparent 54%),
+    rgba(247, 243, 233, 0.96);
 }
 
 .graphite-palette button.selected i {
@@ -2684,10 +2774,85 @@ body.draw-tool-pencil .pencil-cursor-art {
     0 5px 10px rgba(17, 17, 17, 0.22);
 }
 
+body.draw-tool-eraser .graphite-palette button:not(.graphite-none) {
+  opacity: 0.26;
+  filter: grayscale(1);
+  cursor: not-allowed;
+}
+
 .portrait-draw-actions {
   display: flex;
+  flex-direction: column;
   gap: 0.4rem;
-  margin-top: 0.65rem;
+  margin-top: 0.3rem;
+  padding-top: 0.65rem;
+  border-top: 1px solid rgba(17, 17, 17, 0.14);
+  width: 100%;
+  align-items: stretch;
+}
+
+.portrait-draw-actions button {
+  min-width: 3.75rem;
+  padding-inline: 0.6rem;
+}
+
+.portrait-detail-focus {
+  display: flex;
+  gap: 0.9rem;
+  margin-top: 1rem;
+}
+
+.portrait-detail-focus[hidden] {
+  display: none;
+}
+
+.portrait-detail-focus figure {
+  display: grid;
+  justify-items: center;
+  gap: 0.4rem;
+  margin: 0;
+}
+
+.portrait-detail-focus.is-trio {
+  gap: 0.55rem;
+}
+
+.portrait-detail-focus.is-trio .portrait-detail-crop {
+  width: 5.1rem;
+  height: 5.1rem;
+}
+
+.portrait-detail-crop {
+  display: block;
+  width: 6.8rem;
+  height: 6.8rem;
+  border: 0.32rem solid rgba(255, 255, 255, 0.72);
+  border-radius: 50%;
+  background-repeat: no-repeat;
+  background-color: #eee9de;
+  box-shadow: 0 0 0 1px rgba(17, 17, 17, 0.2), 0 0.65rem 1.6rem rgba(17, 17, 17, 0.13);
+}
+
+.portrait-detail-moustache {
+  background-size: 180% auto;
+  background-position: 50% 67%;
+}
+
+.portrait-detail-sweater {
+  background-size: 195% auto;
+  background-position: 68% 100%;
+}
+
+.portrait-detail-image {
+  background-size: contain;
+  background-position: center;
+}
+
+.portrait-detail-focus figcaption {
+  font-family: 'Source Code Pro', monospace;
+  font-size: 0.58rem;
+  letter-spacing: 0.06em;
+  opacity: 0.56;
 }
 
 .portrait-modal-image {
@@ -2699,7 +2864,7 @@ body.draw-tool-pencil .pencil-cursor-art {
   width: 100%;
   height: 100%;
   place-items: center;
-  padding: 1rem 0 0 1.25rem;
+  padding: 1rem 0 0 1rem;
   overflow: visible;
 }
 
@@ -2736,6 +2901,7 @@ body.draw-tool-pencil .pencil-cursor-art {
   width: 100%;
   height: 100%;
   pointer-events: none;
+  mix-blend-mode: normal;
 }
 
 .portrait-modal-image.draw-mode #portraitDrawCanvas {
@@ -2777,7 +2943,7 @@ body.draw-tool-pencil .pencil-cursor-art {
   margin: 0 1.75rem;
   border-top: 1px solid rgba(17, 17, 17, 0.15);
   color: rgba(17, 17, 17, 0.62);
-  font-size: 0.62rem;
+  font-size: 0.72rem;
 }
 
 .portrait-modal-meta span:last-child {
@@ -2883,6 +3049,10 @@ body.portrait-modal-open {
 
   .portrait-tool-panel[data-portrait-panel="magnify"].active {
     display: none;
+  }
+
+  .portrait-tool-panel {
+    height: auto;
   }
 
   .portrait-tool-panel[data-portrait-panel="draw"] {

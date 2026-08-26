@@ -391,10 +391,14 @@ if (navigationEntry?.type === 'reload') {
   sessionStorage.removeItem('pixel-cursor-color');
 }
 const isResumePage = pageNameFromPath(window.location.pathname) === 'resume';
+const isProjectsPage = pageNameFromPath(window.location.pathname) === 'projects';
 const resumeCursorColor = '143,169,190';
+const projectsCursorColor = '17,17,17';
 let pixelCursorColor = isResumePage
   ? resumeCursorColor
-  : sessionStorage.getItem('pixel-cursor-color') || '120,0,255';
+  : isProjectsPage
+    ? projectsCursorColor
+    : sessionStorage.getItem('pixel-cursor-color') || '120,0,255';
 
 cursorDot.style.backgroundColor = `rgb(${pixelCursorColor})`;
 cursorOutlineInner.style.backgroundColor = `rgba(${pixelCursorColor}, 0.08)`;

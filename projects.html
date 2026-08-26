@@ -6,7 +6,7 @@
   <title>Projects — Diana Grigorovich</title>
   <link rel="icon" href="/favicon.png" type="image/png">
   <link rel="preload" as="image" href="/assets/images/portraits/albert-einstein-2015.png">
-  <link rel="stylesheet" href="/assets/css/style.css?v=20260826-tools3" />
+  <link rel="stylesheet" href="/assets/css/style.css?v=20260827-smudge21" />
   <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
@@ -111,17 +111,25 @@
       </header>
       <div class="portrait-modal-workspace">
         <aside class="portrait-modal-tools">
-          <div class="portrait-modal-summary">
-            <p>About this work</p>
-            <div id="portraitModalSummary">A study of character, contrast, and the small details that make a face recognisable.</div>
-          </div>
           <div class="portrait-mode-tabs" role="tablist" aria-label="Portrait interaction mode">
             <button type="button" class="active" data-portrait-mode="magnify" role="tab" aria-selected="true">Magnify</button>
             <button type="button" data-portrait-mode="draw" role="tab" aria-selected="false">Draw</button>
           </div>
           <section class="portrait-tool-panel active" data-portrait-panel="magnify">
             <p>Move over the paper to inspect the graphite structure.</p>
-            <span>Wheel · zoom</span>
+            <div class="portrait-magnifier-settings portrait-modal-magnifier-settings">
+              <label>
+                <span>Size</span>
+                <input id="portraitModalLensSize" type="range" min="120" max="220" value="170" step="5">
+                <output id="portraitModalLensSizeValue">170</output>
+              </label>
+              <label>
+                <span>Zoom</span>
+                <input id="portraitModalLensZoom" type="range" min="1.8" max="4" value="2.85" step="0.05">
+                <output id="portraitModalLensZoomValue">2.85×</output>
+              </label>
+              <p class="portrait-magnifier-hint">Wheel · zoom<br>Click / tap · size +10%</p>
+            </div>
           </section>
           <section class="portrait-tool-panel" data-portrait-panel="draw">
             <p>Graphite palette</p>
@@ -131,10 +139,10 @@
                 <button type="button" data-graphite="2H" data-tone="0.32" aria-label="2H graphite"><i></i><span>2H</span></button>
                 <button type="button" data-graphite="H" data-tone="0.42" aria-label="H graphite"><i></i><span>H</span></button>
                 <button type="button" data-graphite="F" data-tone="0.50" aria-label="F graphite"><i></i><span>F</span></button>
-                <button type="button" class="selected" data-graphite="HB" data-tone="0.58" aria-label="HB graphite"><i></i><span>HB</span></button>
-                <button type="button" data-graphite="B" data-tone="0.68" aria-label="B graphite"><i></i><span>B</span></button>
-                <button type="button" data-graphite="2B" data-tone="0.78" aria-label="2B graphite"><i></i><span>2B</span></button>
+                <button type="button" data-graphite="HB" data-tone="0.58" aria-label="HB graphite"><i></i><span>HB</span></button>
+                <button type="button" data-graphite="2B" data-tone="0.72" aria-label="2B graphite"><i></i><span>2B</span></button>
                 <button type="button" data-graphite="6B" data-tone="0.90" aria-label="6B graphite"><i></i><span>6B</span></button>
+                <button type="button" class="graphite-none selected" data-graphite="None" data-tone="none" aria-label="Blend without graphite"><i></i><span aria-hidden="true">∅</span></button>
               </div>
               <div class="portrait-draw-tools" aria-label="Drawing tool">
                 <button type="button" class="active" data-draw-tool="finger" aria-label="Graphite blending finger" aria-pressed="true">
@@ -143,13 +151,21 @@
                 <button type="button" data-draw-tool="pencil" aria-label="Graphite pencil" aria-pressed="false">
                   <svg viewBox="0 0 40 40" aria-hidden="true"><path class="pencil-body" d="M8 30 28 10l4 4-20 20-7 2Z"/><path class="pencil-tip" d="m5 36 3-6 4 4Z"/><path class="pencil-mark" d="M6 23c5-4 9 2 14-2s8 0 12-4"/></svg>
                 </button>
+                <button type="button" data-draw-tool="eraser" aria-label="Eraser" aria-pressed="false">
+                  <svg viewBox="0 0 40 40" aria-hidden="true"><path class="eraser-body" d="m8 27 15-17 10 9-15 17H9l-4-4Z"/><path d="m18 36 15-17M8 27l10 9"/></svg>
+                </button>
+                <div class="portrait-draw-actions">
+                  <button type="button" id="portraitDrawUndo">Undo</button>
+                  <button type="button" id="portraitDrawClear">Clear</button>
+                </div>
               </div>
             </div>
-            <div class="portrait-draw-actions">
-              <button type="button" id="portraitDrawUndo">Undo</button>
-              <button type="button" id="portraitDrawClear">Clear</button>
-            </div>
           </section>
+          <div class="portrait-modal-summary">
+            <p>About this work</p>
+            <div id="portraitModalSummary">What I love most about this portrait is the carefully rendered texture of Albert's moustache and sweater.</div>
+            <div class="portrait-detail-focus" id="portraitDetailFocus" aria-label="Highlighted portrait details"></div>
+          </div>
         </aside>
         <div class="portrait-modal-image" id="portraitModalStage">
           <div class="portrait-modal-paper" id="portraitModalPaper">
@@ -202,6 +218,10 @@
       <path class="pencil-cursor-body" d="M11 40 35 10l6 5-25 29-9 3Z" />
       <path class="pencil-cursor-tip" d="m7 47 4-7 5 4Z" />
     </g>
+    <g class="eraser-cursor-art">
+      <path class="eraser-cursor-body" d="m8 39 20-27 12 9-20 27H10l-6-5Z" />
+      <path class="eraser-cursor-edge" d="m20 48 20-27M8 39l12 9" />
+    </g>
   </svg>
 </div>
 <canvas class="cursor-trail"></canvas>
@@ -209,8 +229,8 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 
-<script src="/assets/js/main.js"></script>
-<script src="/assets/js/projects.js?v=20260826-tools3"></script>
+<script src="/assets/js/main.js?v=20260827-smudge21"></script>
+<script src="/assets/js/projects.js?v=20260827-smudge21"></script>
 <script src="/assets/js/analytics.js"></script>
 
 </body>
