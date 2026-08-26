@@ -4,12 +4,28 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Diana Grigorovich</title>
+  <script>
+    try {
+      const returnPage = sessionStorage.getItem('main-return-tint');
+      const returnTints = {
+        resume: '184, 211, 233',
+        projects: '252, 183, 172',
+        contact: '198, 246, 200'
+      };
+      if (returnTints[returnPage]) {
+        document.documentElement.style.setProperty('--return-page-tint', returnTints[returnPage]);
+        document.documentElement.classList.add('return-page-tint-pending');
+      }
+    } catch (error) {
+      // The page remains fully usable if session storage is unavailable.
+    }
+  </script>
   <link rel="icon" href="favicon.png" type="image/png">
   <link rel="stylesheet" href="style.css" />
   <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
-<body>
+<body class="home-page">
   <header class="fade-in-content">
     <a href="/" class="logo">
       <span class="dot"></span>
@@ -65,11 +81,6 @@
 
   <footer class="fade-in-content">
   <div class="footer-grid">
-    <div>
-        <p><strong>Phone</strong><br />
-            <a href="tel:+995511458375">+ 995 511-458-375</a>
-          </p>
-    </div>
     <div>
         <p><strong>Email</strong><br />
             <a href="mailto:me@dianagrigorovich.com">me@dianagrigorovich.com</a>

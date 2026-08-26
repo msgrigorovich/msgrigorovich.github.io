@@ -1,35 +1,53 @@
 
 const el = document.querySelector('.typing-text');
-const text = "Hello, World!";
+const HELLO_TEXT = 'Hello, World!';
+const QUALITY_TEXT = 'Quality is not an act ...';
+const HABIT_TEXT = '... it is a habit!';
+let currentTypingText = HELLO_TEXT;
+let helloIterations = 0;
 let index = 0;
 let typingForward = true;
 let firstTypeDone = false;
 let onFirstTypeComplete = null;
 let skipIntroAnimations = false;
+let typingActive = false;
+let typingTimer = null;
+let signatureInkEnabled = false;
 
 function typeEffect() {
-  if (!el || skipIntroAnimations) return;
+  if (!el || !typingActive) return;
+  el.classList.toggle('typing-quote', currentTypingText !== HELLO_TEXT);
   if (typingForward) {
-    if (index <= text.length) {
-      el.textContent = text.substring(0, index);
+    if (index <= currentTypingText.length) {
+      el.textContent = currentTypingText.substring(0, index);
       index++;
-      setTimeout(typeEffect, 100);
+      typingTimer = setTimeout(typeEffect, 100);
     } else {
       typingForward = false;
+      if (currentTypingText === HELLO_TEXT) helloIterations++;
       if (!firstTypeDone) {
         firstTypeDone = true;
         if (onFirstTypeComplete) onFirstTypeComplete();
       }
-      setTimeout(typeEffect, 2000);
+      typingTimer = setTimeout(typeEffect, 2000);
     }
   } else {
     if (index >= 0) {
-      el.textContent = text.substring(0, index);
+      el.textContent = currentTypingText.substring(0, index);
       index--;
-      setTimeout(typeEffect, 50);
+      typingTimer = setTimeout(typeEffect, 50);
     } else {
       typingForward = true;
-      setTimeout(typeEffect, 500);
+      if (currentTypingText === HELLO_TEXT && helloIterations === 2) {
+        currentTypingText = QUALITY_TEXT;
+      } else if (currentTypingText === QUALITY_TEXT) {
+        currentTypingText = HABIT_TEXT;
+      } else if (currentTypingText === HABIT_TEXT) {
+        currentTypingText = HELLO_TEXT;
+        helloIterations = 0;
+      }
+      const nextDelay = currentTypingText === HABIT_TEXT ? 120 : 500;
+      typingTimer = setTimeout(typeEffect, nextDelay);
     }
   }
 }
@@ -50,8 +68,8 @@ function animateSignature() {
     svg.insertBefore(defs, svg.firstChild);
   }
 
-  const duration = 400;
-  const stagger = 160;
+  const duration = 250;
+  const stagger = 100;
   const maskStrokeWidth = 18;
 
   const ordered = paths
@@ -104,7 +122,9 @@ function revealRestOfPage() {
 }
 
 function startTyping() {
-  if (skipIntroAnimations) return;
+  if (skipIntroAnimations || typingActive) return;
+  signatureInkEnabled = true;
+  typingActive = true;
   if (el) el.classList.add('typing-active');
   onFirstTypeComplete = revealRestOfPage;
   typeEffect();
@@ -173,23 +193,62 @@ function runIntro() {
       } catch (e) {
         finish();
       }
-    }, 500);
+    }, 150);
   });
 }
 
 const MAIN_PATHS = ['/', '/index.html'];
 const SKIP_MAIN_INTRO_KEY = 'skip-main-intro-once';
+const MAIN_RETURN_TINT_KEY = 'main-return-tint';
+
+const PAGE_TINTS = {
+  resume: '184, 211, 233',
+  projects: '252, 183, 172',
+  contact: '198, 246, 200'
+};
 
 function isMainPath(pathname) {
   return MAIN_PATHS.includes(pathname);
+}
+
+function pageNameFromPath(pathname) {
+  if (pathname.includes('resume')) return 'resume';
+  if (pathname.includes('projects')) return 'projects';
+  if (pathname.includes('contact')) return 'contact';
+  return '';
+}
+
+function revealReturnTint() {
+  if (!isMainPath(window.location.pathname)) return;
+  const sourcePage = sessionStorage.getItem(MAIN_RETURN_TINT_KEY);
+  sessionStorage.removeItem(MAIN_RETURN_TINT_KEY);
+  if (!PAGE_TINTS[sourcePage]) return;
+
+  const tintWasPreparedBeforePaint = document.documentElement.classList.contains('return-page-tint-pending');
+  if (!tintWasPreparedBeforePaint) {
+    document.body.style.setProperty('--return-page-tint', PAGE_TINTS[sourcePage]);
+    document.body.classList.add('return-page-tint');
+  }
+  setTimeout(() => {
+    document.body.classList.remove('return-page-tint');
+    document.documentElement.classList.remove('return-page-tint-pending');
+  }, 1950);
 }
 
 function showMainPageImmediately() {
   // The typing heading starts empty and the remaining sections start hidden in CSS.
   // Put everything directly into its final state when returning from an inner page.
   skipIntroAnimations = true;
+  typingActive = false;
+  clearTimeout(typingTimer);
+  typingTimer = null;
+  index = 0;
+  typingForward = true;
+  currentTypingText = HELLO_TEXT;
+  firstTypeDone = true;
+  onFirstTypeComplete = null;
   if (el) {
-    el.textContent = text;
+    el.textContent = '';
     el.classList.add('typing-active');
   }
 
@@ -211,11 +270,19 @@ function showMainPageImmediately() {
   });
 
   revealRestOfPage();
+  signatureInkEnabled = true;
+  typingActive = true;
+  typeEffect();
 }
 
 const shouldSkipMainIntro =
   isMainPath(window.location.pathname) &&
   sessionStorage.getItem(SKIP_MAIN_INTRO_KEY) === 'true';
+
+const currentInnerPage = pageNameFromPath(window.location.pathname);
+if (currentInnerPage) {
+  sessionStorage.setItem(MAIN_RETURN_TINT_KEY, currentInnerPage);
+}
 
 if (shouldSkipMainIntro) {
   sessionStorage.removeItem(SKIP_MAIN_INTRO_KEY);
@@ -223,6 +290,8 @@ if (shouldSkipMainIntro) {
 } else {
   runIntro();
 }
+
+revealReturnTint();
 
 // When the browser restores the main page from its back/forward cache, the script
 // is not executed again. Consume the same flag on `pageshow` and stop any intro
@@ -234,6 +303,7 @@ window.addEventListener('pageshow', () => {
   ) {
     sessionStorage.removeItem(SKIP_MAIN_INTRO_KEY);
     showMainPageImmediately();
+    revealReturnTint();
   }
 });
 
@@ -241,6 +311,7 @@ const logo = document.querySelector('.logo');
 
 if (logo) {
   logo.addEventListener('click', function (e) {
+    sessionStorage.removeItem('pixel-cursor-color');
     const current = window.location.pathname;
     if (isMainPath(current)) {
       e.preventDefault();
@@ -268,6 +339,7 @@ document.querySelectorAll('a').forEach(link => {
   if (isMainPath(linkPath) && !isMainPath(current)) {
     link.addEventListener('click', () => {
       sessionStorage.setItem(SKIP_MAIN_INTRO_KEY, 'true');
+      sessionStorage.setItem(MAIN_RETURN_TINT_KEY, pageNameFromPath(current));
     });
   }
 
@@ -276,9 +348,140 @@ document.querySelectorAll('a').forEach(link => {
   }
 });
 
+document.querySelectorAll('.buttons .circle').forEach(circle => {
+  circle.addEventListener('pointerenter', () => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    circle.classList.remove('droplet-impact', 'droplet-release');
+    void circle.offsetWidth;
+    circle.classList.add('droplet-impact');
+  });
+  circle.addEventListener('pointerleave', event => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const rect = circle.getBoundingClientRect();
+    const angle = Math.atan2(
+      event.clientY - (rect.top + rect.height / 2),
+      event.clientX - (rect.left + rect.width / 2)
+    ) * 180 / Math.PI;
+
+    circle.style.setProperty('--droplet-release-angle', `${angle}deg`);
+    circle.style.setProperty('--droplet-release-angle-reverse', `${-angle}deg`);
+    circle.classList.remove('droplet-impact', 'droplet-release');
+    void circle.offsetWidth;
+    circle.classList.add('droplet-release');
+  });
+  circle.addEventListener('animationend', () => {
+    circle.classList.remove('droplet-impact', 'droplet-release');
+  });
+});
+
 const cursorDot = document.querySelector('.cursor-dot');
 const cursorOutline = document.querySelector('.cursor-outline');
 const cursorOutlineInner = document.querySelector('.cursor-outline-inner');
+
+sessionStorage.removeItem('cursor-effect');
+
+const navigationEntry = performance.getEntriesByType('navigation')[0];
+if (navigationEntry?.type === 'reload') {
+  sessionStorage.removeItem('pixel-cursor-color');
+}
+let pixelCursorColor = sessionStorage.getItem('pixel-cursor-color') || '120,0,255';
+
+cursorDot.style.backgroundColor = `rgb(${pixelCursorColor})`;
+cursorOutlineInner.style.backgroundColor = `rgba(${pixelCursorColor}, 0.08)`;
+cursorOutlineInner.style.borderColor = `rgb(${pixelCursorColor})`;
+
+function interactionColorFor(element) {
+  const styles = window.getComputedStyle(element);
+  const background = styles.backgroundColor;
+  const backgroundParts = background.match(/[\d.]+/g)?.map(Number) || [];
+  const backgroundAlpha = backgroundParts.length > 3 ? backgroundParts[3] : 1;
+  const hasVisibleBackground = backgroundParts.length >= 3 && backgroundAlpha > 0.18;
+  const sourceParts = hasVisibleBackground
+    ? backgroundParts
+    : styles.color.match(/[\d.]+/g)?.map(Number) || [120, 0, 255];
+  const contrastFactor = hasVisibleBackground ? 0.78 : 1;
+
+  return sourceParts
+    .slice(0, 3)
+    .map(channel => Math.round(channel * contrastFactor))
+    .join(',');
+}
+
+function setupSignatureInkInteraction() {
+  const signature = document.querySelector('.name-signature');
+  const signatureBlock = document.querySelector('.signature-block');
+  if (!signature || !signatureBlock || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  signature.classList.add('signature-ink-original');
+
+  let inactivityTimer;
+  let recoveryTimer;
+  let lastPoint = null;
+  let lastColor = '';
+  const inkLayers = new Map();
+
+  const getInkLayer = color => {
+    if (inkLayers.has(color)) return inkLayers.get(color);
+
+    const element = signature.cloneNode(true);
+    element.classList.add('signature-ink-clone');
+    element.classList.remove('name-signature');
+    element.setAttribute('aria-hidden', 'true');
+    element.querySelector('defs')?.remove();
+    element.querySelectorAll('[mask]').forEach(path => path.removeAttribute('mask'));
+    element.style.setProperty('--signature-ink-color', `rgb(${color})`);
+    signatureBlock.appendChild(element);
+
+    const layer = { element, points: [] };
+    inkLayers.set(color, layer);
+    return layer;
+  };
+
+  signature.addEventListener('mousemove', event => {
+    if (!signatureInkEnabled) return;
+
+    const rect = signature.getBoundingClientRect();
+    const x = event.clientX - rect.left;
+    const y = event.clientY - rect.top;
+    const cursorChannels = pixelCursorColor.split(',').map(Number);
+    const inkChannels = [26, 26, 26];
+    const mixedInkColor = inkChannels
+      .map((channel, index) => Math.round((channel + cursorChannels[index]) / 2))
+      .join(',');
+
+    const layer = getInkLayer(mixedInkColor);
+    if (lastColor !== mixedInkColor || !lastPoint || Math.hypot(x - lastPoint.x, y - lastPoint.y) >= 8) {
+      layer.points.push({ x, y });
+      lastPoint = { x, y };
+      lastColor = mixedInkColor;
+    }
+
+    const inkMask = layer.points.map(point => (
+      `radial-gradient(circle 54px at ${point.x}px ${point.y}px, `
+      + '#000 0 42%, rgba(0, 0, 0, 0.76) 68%, transparent 100%)'
+    )).join(',');
+
+    clearTimeout(inactivityTimer);
+    clearTimeout(recoveryTimer);
+    signatureBlock.classList.remove('signature-ink-recovering');
+    signatureBlock.classList.add('signature-ink-active');
+    layer.element.style.webkitMaskImage = inkMask;
+    layer.element.style.maskImage = inkMask;
+
+    inactivityTimer = setTimeout(() => {
+      signatureBlock.classList.add('signature-ink-recovering');
+      recoveryTimer = setTimeout(() => {
+        signatureBlock.classList.remove('signature-ink-active', 'signature-ink-recovering');
+        inkLayers.forEach(layerToRemove => layerToRemove.element.remove());
+        inkLayers.clear();
+        lastPoint = null;
+        lastColor = '';
+      }, 2050);
+    }, 2000);
+  });
+}
+
+setupSignatureInkInteraction();
 
 
 let mouseX = 0, mouseY = 0;
@@ -325,29 +528,34 @@ document.querySelectorAll('a, .circle, button').forEach(el => {
 el.addEventListener('mouseenter', () => {
     isHoveringClickable = true;
 
+    pixelCursorColor = interactionColorFor(el);
+    sessionStorage.setItem('pixel-cursor-color', pixelCursorColor);
+
     const dotRect = cursorDot.getBoundingClientRect();
 
     mouseX = dotRect.left + dotRect.width / 2;
     mouseY = dotRect.top + dotRect.height / 2;
 
-    const elementColor = window.getComputedStyle(el).backgroundColor;
-
-    const darkerElementColor = darkenColor(elementColor, 0.5);
-
     gsap.to(cursorDot, {
-      backgroundColor: '#ff5e5e',
+      backgroundColor: `rgb(${pixelCursorColor})`,
       duration: 0.2,
       ease: 'power2.out'
     });
 
     gsap.to(cursorOutlineInner, {
-      backgroundColor: colorWithAlpha(darkerElementColor, 0.25),
+      backgroundColor: `rgba(${pixelCursorColor}, 0.2)`,
+      duration: 0.2,
+      ease: 'power2.out'
+    });
+
+    gsap.to(cursorOutlineInner, {
+      borderColor: `rgb(${pixelCursorColor})`,
       duration: 0.2,
       ease: 'power2.out'
     });
 
     gsap.to(cursorOutline, {
-      scale: 2.0,
+      scale: 1.8,
       duration: 0.3,
       ease: 'power2.out'
     });
@@ -356,13 +564,13 @@ el.addEventListener('mouseenter', () => {
   el.addEventListener('mouseleave', () => {
     isHoveringClickable = false;
     gsap.to(cursorDot, {
-      backgroundColor: '#ff5e5e',
+      backgroundColor: `rgb(${pixelCursorColor})`,
       duration: 0.2,
       ease: 'power2.out'
     });
 
     gsap.to(cursorOutlineInner, {
-      backgroundColor: 'rgba(255, 94, 94, 0.25)',
+      backgroundColor: `rgba(${pixelCursorColor}, 0.08)`,
       duration: 0.2,
       ease: 'power2.out'
     });
@@ -374,60 +582,6 @@ el.addEventListener('mouseenter', () => {
     });
   });
 });
-
-// function of blackout color
-function darkenColor(rgb, amount) {
-  const nums = rgb.match(/\d+/g).map(Number);
-  const factor = 1 - amount;
-  const r = Math.max(Math.round(nums[0] * factor), 0);
-  const g = Math.max(Math.round(nums[1] * factor), 0);
-  const b = Math.max(Math.round(nums[2] * factor), 0);
-  return `rgb(${r}, ${g}, ${b})`;
-}
-
-function colorWithAlpha(rgb, alpha) {
-  const nums = rgb.match(/\d+/g).map(Number);
-  return `rgba(${nums[0]}, ${nums[1]}, ${nums[2]}, ${alpha})`;
-}
-
-
-// function of blending with cursor base color priority
-function mixColors(color1, color2, weight) {
-  const c1 = color1.match(/\d+/g).map(Number);
-  const c2 = color2.match(/\d+/g).map(Number);
-  const w = weight || 0.5;
-  const r = Math.round(c1[0] * w + c2[0] * (1 - w));
-  const g = Math.round(c1[1] * w + c2[1] * (1 - w));
-  const b = Math.round(c1[2] * w + c2[2] * (1 - w));
-  return `rgb(${r}, ${g}, ${b})`;
-}
-
-function colorWithAlpha(rgb, alpha) {
-  const nums = rgb.match(/\d+/g).map(Number);
-  return `rgba(${nums[0]}, ${nums[1]}, ${nums[2]}, ${alpha})`;
-}
-
-
-// Color mixing function
-function mixColors(color1, color2, weight) {
-  const c1 = color1.match(/\d+/g).map(Number);
-  const c2 = color2.match(/\d+/g).map(Number);
-  const w = weight || 0.5;
-  const r = Math.round(c1[0] * w + c2[0] * (1 - w));
-  const g = Math.round(c1[1] * w + c2[1] * (1 - w));
-  const b = Math.round(c1[2] * w + c2[2] * (1 - w));
-  return `rgb(${r}, ${g}, ${b})`;
-}
-
-// Add alpha to rgb
-function colorWithAlpha(rgb, alpha) {
-  const nums = rgb.match(/\d+/g).map(Number);
-  return `rgba(${nums[0]}, ${nums[1]}, ${nums[2]}, ${alpha})`;
-}
-
-
-
-
 
 const canvas = document.querySelector('.cursor-trail');
 const ctx = canvas.getContext('2d');
@@ -443,42 +597,39 @@ window.addEventListener('resize', () => {
 let trail = [];
 
 window.addEventListener('mousemove', (e) => {
-  const target = document.elementFromPoint(e.clientX, e.clientY);
-  let color = '0,0,0';
+  trail.push({
+    x: e.clientX,
+    y: e.clientY,
+    alpha: 0.72,
+    color: pixelCursorColor,
+    createdAt: performance.now(),
+    lifetime: 280,
+    fadeDuration: 180
+  });
 
-  if (target) {
-    if (target.classList.contains('circle')) {
-      const bg = window.getComputedStyle(target).backgroundColor;
-      const match = bg.match(/\d+,\s*\d+,\s*\d+/);
-      if (match) color = match[0];
-    } else if (
-      ['P', 'A', 'SPAN', 'H1', 'H2', 'STRONG'].includes(target.tagName) ||
-      (target.classList && (
-        target.classList.contains('logo') ||
-        target.classList.contains('copy')
-      )) ||
-      target.closest('.logo') ||
-      target.closest('.footer-grid') ||
-      target.closest('footer')
-    ) {
-      color = '255,255,255';
-    }
+  if (trail.length > 2000) {
+    trail.splice(0, trail.length - 2000);
   }
-
-  trail.push({ x: e.clientX, y: e.clientY, alpha: 1, color });
 });
 
-function drawTrail() {
+function drawTrail(now = performance.now()) {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-  trail.forEach((p, i) => {
-    ctx.beginPath();
-    ctx.arc(p.x, p.y, 40, 0, Math.PI * 2);
-    ctx.fillStyle = `rgba(${p.color || '0,0,0'},${p.alpha})`;
-    ctx.fill();
-    p.alpha -= 0.02;
+  trail.forEach(p => {
+    const age = now - p.createdAt;
+    const fadeStart = p.lifetime - p.fadeDuration;
+    const fadeProgress = Math.max(0, (age - fadeStart) / p.fadeDuration);
+    const visibleAlpha = p.alpha * (1 - Math.min(fadeProgress, 1));
+    const size = 7;
+    ctx.fillStyle = `rgba(${p.color},${visibleAlpha})`;
+    ctx.fillRect(
+      Math.round(p.x / size) * size,
+      Math.round(p.y / size) * size,
+      size,
+      size
+    );
   });
-  
-  trail = trail.filter(p => p.alpha > 0);
+
+  trail = trail.filter(p => now - p.createdAt < p.lifetime);
   requestAnimationFrame(drawTrail);
 }
 
@@ -583,13 +734,3 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 });
-
-function darkenColor(rgb, amount) {
-  const nums = rgb.match(/\d+/g).map(Number);
-  const factor = 1 - amount;
-  const r = Math.max(Math.round(nums[0] * factor), 0);
-  const g = Math.max(Math.round(nums[1] * factor), 0);
-  const b = Math.max(Math.round(nums[2] * factor), 0);
-  return `rgb(${r}, ${g}, ${b})`;
-}
-

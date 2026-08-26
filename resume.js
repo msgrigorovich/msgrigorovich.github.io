@@ -1,5 +1,33 @@
+const amazonStoreOverrides = new Map([
+  ['Secret City|London Calling', 'https://www.amazon.com/dp/B0BC25MWLP'],
+  ['Secret City|The Sunken Kingdom', 'https://www.amazon.com/dp/B0B9BGW8TJ'],
+  ['Secret City|The Human Threat', 'https://www.amazon.com/dp/B0BDYXP2CZ'],
+  ['Secret City|The Chalk of Fate', 'https://www.amazon.com/dp/B0BCX9PY54'],
+  ['Secret City|Mysterious Collection', ''],
+  ['Secret City|Sacred Fire', 'https://www.amazon.com/dp/B0BBSFDQVP'],
+  ['Mystery Tales|Her Own Eyes', 'https://www.amazon.com/dp/B0BD2RFQVZ'],
+  ['Mystery Tales|Eye of the Fire', 'https://www.amazon.com/dp/B0B9H32FQF'],
+  ['Mystery Tales|The Hangman Returns', 'https://www.amazon.com/dp/B0BD93JJBX'],
+  ['Mystery Tales|The House of Others', 'https://www.amazon.com/dp/B0BBH5SPCG'],
+  ['Mystery Tales|Dangerous Desires', 'https://www.amazon.com/dp/B0B9H443LN'],
+  ['Mystery Tales|The Other Side', 'https://www.amazon.com/dp/B0BBGRS1C6'],
+  ['Mystery Tales|The Reel Horror', 'https://www.amazon.com/dp/B0B9P18X67'],
+  ["Mystery Tales|Dealer's Choices", 'https://www.amazon.com/dp/B0BBRV19YK'],
+  ['Mystery Tales|Art and Souls', 'https://www.amazon.com/dp/B0B94H1CN7'],
+  ['Mystery Tales|Til Death', ''],
+  ['Mystery Tales|Master of Puppets', 'https://www.amazon.com/dp/B0B9XT3CBV'],
+  ['Fairy Godmother Stories|Cinderella', 'https://www.amazon.com/dp/B0BD2ZWZSJ'],
+  ['Fairy Godmother Stories|Dark Deal', 'https://www.amazon.com/dp/B0BBH1MFH8'],
+  ['Fairy Godmother Stories|Little Red Riding Hood', 'https://www.amazon.com/dp/B0BD2Q3RN7'],
+  ['Fairy Godmother Stories|Puss in Boots', 'https://www.amazon.com/dp/B0BD7H5LVQ'],
+  ['Fairy Godmother Stories|Miraculous Dream in Taleville', 'https://www.amazon.com/dp/B0B9N1NFJS'],
+  ['Hidden Expedition|The Price of Paradise', ''],
+  ['Hidden Expedition|Reign of Flames', 'https://www.amazon.com/dp/B0B94GCJQ6'],
+  ["Hidden Expedition|A King's Line", 'https://www.amazon.com/dp/B0BBN7Y9J2']
+]);
+
 const dominiSeriesProjects = [
-  { label: 'DominiGames', image: 'https://dominigames.com/_nuxt/img/logo.65e3f99.svg', contained: true, url: 'https://dominigames.com/' },
+  { label: 'DominiGames', image: 'dominigames-logo.svg', contained: true, logo: true, url: 'https://dominigames.com/' },
   {
     label: 'Secret City', image: 'https://api.dominigames.com/img/c9eef9fd-f8c0-43a5-82ba-f416b0451b84/sc1.jpg?q=80&fit=max&crop=1536%2C1536%2C0%2C0&w=320&fm=webp',
     games: [
@@ -54,7 +82,7 @@ const dominiSeriesProjects = [
     ]
   },
   {
-    label: 'Royal Romances', image: 'https://api.dominigames.com/img/f9ad1ffb-e457-4ef6-a269-3336eea6379f/-games-350-440-cut.jpg?q=80&fit=max&crop=348%2C440%2C0%2C0&w=320&fm=webp',
+    label: 'Royal Romances', image: 'https://api.dominigames.com/img/f9ad1ffb-e457-4ef6-a269-3336eea6379f/-games-350-440-cut.jpg?q=80&fit=max&crop=348%2C440%2C0%2C0&w=320&fm=webp', cover: true,
     games: [
       ['Battle of the Woods', 'https://apps.apple.com/us/app/royal-romances-battle/id6463634983', 'https://play.google.com/store/apps/details?id=com.dominigames.rr1full', 'https://www.amazon.com/gp/product/B0CGSFML6K']
     ]
@@ -79,10 +107,21 @@ const dominiSeriesProjects = [
   }
 ].map(project => ({
   ...project,
-  games: project.games?.map(([title, appStore, googlePlay, amazon]) => ({
-    title,
-    stores: { 'app-store': appStore, 'google-play': googlePlay, amazon }
-  }))
+  games: project.games?.map(([title, appStore, googlePlay, amazon]) => {
+    const amazonKey = `${project.label}|${title}`;
+    const amazonUrl = amazonStoreOverrides.has(amazonKey)
+      ? amazonStoreOverrides.get(amazonKey)
+      : amazon.replace('https://www.amazon.com/gp/product/', 'https://www.amazon.com/dp/');
+
+    return {
+      title,
+      stores: {
+        'app-store': appStore,
+        'google-play': googlePlay,
+        amazon: amazonUrl
+      }
+    };
+  })
 }));
 
 const resumeExperience = [
@@ -343,7 +382,7 @@ function renderResumeProjects() {
       <div class="resume-project-list" style="--project-index: ${selectedIndex}">
         ${projects.map((project, index) => {
           const icon = project.image
-            ? `<img class="resume-project-image${project.monochrome ? ' monochrome' : ''}${project.contained ? ' contained' : ''}" src="${project.image}" alt="">`
+            ? `<img class="resume-project-image${project.monochrome ? ' monochrome' : ''}${project.contained ? ' contained' : ''}${project.cover ? ' cover' : ''}${project.logo ? ' company-logo' : ''}" src="${project.image}" alt="">`
             : `<span class="resume-project-icon">${project.icon}</span>`;
           const store = project.store ? `<span class="resume-project-store" aria-hidden="true">${resumeStoreIcons[project.store]}</span>` : '';
           const content = `${icon}${store}<span class="resume-project-name">${project.label}</span>`;
@@ -439,9 +478,21 @@ function renderResumeYears() {
   resumeYearList.style.transform = `translateY(-${resumeYearIndex * 3.5}rem)`;
 }
 
+function closeResumeSeriesPanelForYear(yearIndex) {
+  const projects = resumeExperience[yearIndex]?.projects || [];
+  const selectedIndex = resumeProjectIndexes.get(yearIndex) || 0;
+  if (projects[selectedIndex]?.games) {
+    resumeProjectIndexes.set(yearIndex, 0);
+  }
+}
+
 function selectResumeYear(index) {
   closeResumeModal();
-  resumeYearIndex = Math.max(0, Math.min(resumeExperience.length - 1, index));
+  const nextIndex = Math.max(0, Math.min(resumeExperience.length - 1, index));
+  if (nextIndex !== resumeYearIndex) {
+    closeResumeSeriesPanelForYear(resumeYearIndex);
+  }
+  resumeYearIndex = nextIndex;
   renderResumeYears();
   renderActiveResumeCard();
   renderResumeProjects();
@@ -465,10 +516,148 @@ function selectResumeTab(tabName) {
   }
 }
 
+// Mouse wheels send coarse, fixed deltas and keep the original one-click / one-step
+// behaviour. High-resolution trackpads get a continuous, iOS-style picker motion
+// which follows the gesture and snaps to the closest item after momentum ends.
+function createHybridWheelHandler({
+  getIndex,
+  getCount,
+  getList,
+  onStep,
+  onLiveSelect,
+  onSelect,
+  pixelsPerStep,
+  fallbackStep,
+  selectedScale,
+  nearScale,
+  restingScale,
+  nearOpacity,
+  restingOpacity
+}) {
+  let mode = null;
+  let position = 0;
+  let liveIndex = 0;
+  let settleTimer;
+  let finishTimer;
+
+  const resetItems = list => {
+    Array.from(list.children).forEach(item => {
+      item.style.opacity = '';
+      item.style.transform = '';
+      item.style.transition = '';
+    });
+  };
+
+  const renderTrackpadPosition = (list, step, animate = false) => {
+    list.style.transition = animate
+      ? 'transform 0.24s cubic-bezier(0.22, 1, 0.36, 1)'
+      : 'none';
+    list.style.transform = `translateY(-${position * step}px)`;
+
+    Array.from(list.children).forEach((item, index) => {
+      const distance = Math.abs(index - position);
+      const firstStage = Math.min(distance, 1);
+      const secondStage = Math.max(0, Math.min(distance - 1, 1));
+      const scale = selectedScale
+        + (nearScale - selectedScale) * firstStage
+        + (restingScale - nearScale) * secondStage;
+      const opacity = 1
+        + (nearOpacity - 1) * firstStage
+        + (restingOpacity - nearOpacity) * secondStage;
+      item.style.transition = animate
+        ? 'opacity 0.24s ease, transform 0.24s ease'
+        : 'none';
+      item.style.transform = `scale(${scale})`;
+      item.style.opacity = opacity;
+    });
+  };
+
+  return event => {
+    const list = getList();
+    if (!list) return;
+
+    clearTimeout(settleTimer);
+    clearTimeout(finishTimer);
+
+    // A wheel normally reports line deltas or large fixed pixel deltas. A trackpad
+    // starts a gesture with small pixel deltas and then supplies momentum events.
+    if (!mode) {
+      mode = event.deltaMode === 0 && Math.abs(event.deltaY) < 50 ? 'trackpad' : 'wheel';
+      position = getIndex();
+      liveIndex = getIndex();
+    }
+
+    if (mode === 'wheel') {
+      onStep(event.deltaY > 0 ? 1 : -1);
+      mode = null;
+      return;
+    }
+
+    const items = list.children;
+    const step = items.length > 1 ? items[1].offsetTop - items[0].offsetTop : fallbackStep;
+    position = Math.max(0, Math.min(getCount() - 1, position + event.deltaY / pixelsPerStep));
+    renderTrackpadPosition(list, step);
+
+    const nextLiveIndex = Math.round(position);
+    if (nextLiveIndex !== liveIndex) {
+      liveIndex = nextLiveIndex;
+      onLiveSelect(liveIndex);
+    }
+
+    settleTimer = setTimeout(() => {
+      const settledIndex = Math.round(position);
+      position = settledIndex;
+      renderTrackpadPosition(list, step, true);
+
+      finishTimer = setTimeout(() => {
+        mode = null;
+        onSelect(settledIndex);
+        const currentList = getList();
+        if (currentList) {
+          currentList.style.transition = '';
+          resetItems(currentList);
+        }
+      }, 140);
+    }, 55);
+  };
+}
+
+function selectResumeYearDuringWheel(index) {
+  closeResumeModal();
+  const nextIndex = Math.max(0, Math.min(resumeExperience.length - 1, index));
+  if (nextIndex !== resumeYearIndex) {
+    closeResumeSeriesPanelForYear(resumeYearIndex);
+  }
+  resumeYearIndex = nextIndex;
+  Array.from(resumeYearList.children).forEach((year, yearIndex) => {
+    year.classList.toggle('selected', yearIndex === resumeYearIndex);
+    year.classList.toggle('near', Math.abs(yearIndex - resumeYearIndex) === 1);
+    year.setAttribute('aria-current', yearIndex === resumeYearIndex ? 'true' : 'false');
+  });
+  renderActiveResumeCard();
+  renderResumeProjects();
+}
+
+const handleResumeYearWheel = createHybridWheelHandler({
+  getIndex: () => resumeYearIndex,
+  getCount: () => resumeExperience.length,
+  getList: () => resumeYearList,
+  onStep: changeResumeYear,
+  onLiveSelect: selectResumeYearDuringWheel,
+  onSelect: selectResumeYear,
+  pixelsPerStep: 85,
+  fallbackStep: 56,
+  selectedScale: 1.18,
+  nearScale: 0.93,
+  restingScale: 0.82,
+  nearOpacity: 0.5,
+  restingOpacity: 0.22
+});
+
 resumeYearWheel.addEventListener('wheel', event => {
   if (!['experience', 'skills'].includes(activeResumeTab)) return;
   event.preventDefault();
-  changeResumeYear(event.deltaY > 0 ? 1 : -1);
+  handleResumeYearWheel(event);
 }, { passive: false });
 
 resumeYearWheel.addEventListener('keydown', event => {
@@ -498,12 +687,49 @@ resumeProjectRail.addEventListener('click', event => {
   if (!projectItem || projectItem.matches('a')) return;
   selectResumeProject(Number(projectItem.dataset.projectIndex));
 });
+
+document.addEventListener('click', event => {
+  const seriesPanel = resumeProjectRail.querySelector('.resume-series-panel');
+  if (!seriesPanel) return;
+  if (event.target.closest('.resume-series-panel')) return;
+  if (event.target.closest('[data-project-index]')) return;
+  selectResumeProject(0);
+});
+
+function selectResumeProjectDuringWheel(index) {
+  const projects = resumeExperience[resumeYearIndex].projects || [];
+  const selectedIndex = Math.max(0, Math.min(projects.length - 1, index));
+  resumeProjectIndexes.set(resumeYearIndex, selectedIndex);
+  resumeProjectRail.querySelectorAll('[data-project-index]').forEach((project, projectIndex) => {
+    project.classList.toggle('selected', projectIndex === selectedIndex);
+    project.classList.toggle('near', Math.abs(projectIndex - selectedIndex) === 1);
+  });
+}
+
+const handleResumeProjectWheel = createHybridWheelHandler({
+  getIndex: () => resumeProjectIndexes.get(resumeYearIndex) || 0,
+  getCount: () => (resumeExperience[resumeYearIndex].projects || []).length,
+  getList: () => resumeProjectRail.querySelector('.resume-project-list'),
+  onStep: direction => {
+    const current = resumeProjectIndexes.get(resumeYearIndex) || 0;
+    selectResumeProject(current + direction);
+  },
+  onLiveSelect: selectResumeProjectDuringWheel,
+  onSelect: selectResumeProject,
+  pixelsPerStep: 105,
+  fallbackStep: 72,
+  selectedScale: 1,
+  nearScale: 0.9,
+  restingScale: 0.78,
+  nearOpacity: 0.62,
+  restingOpacity: 0.34
+});
+
 resumeProjectRail.addEventListener('wheel', event => {
   if (event.target.closest('.resume-series-games')) return;
   const projects = resumeExperience[resumeYearIndex].projects || [];
   if (projects.length <= 3 || activeResumeTab !== 'experience') return;
   event.preventDefault();
-  const current = resumeProjectIndexes.get(resumeYearIndex) || 0;
-  selectResumeProject(current + (event.deltaY > 0 ? 1 : -1));
+  handleResumeProjectWheel(event);
 }, { passive: false });
 selectResumeTab('experience');

@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="4 4 180 64" role="img" aria-labelledby="title">
+  <title id="title">DominiGames</title>
+  <g fill="#f3a25f">
+    <path d="M9 17 32 7l-4 25L9 17Z"/>
+    <path d="m33 7 23 10-19 15-4-25Z"/>
+    <path d="M9 20 28 35 9 52V20Z"/>
+    <path d="m56 20-19 15 19 17V20Z"/>
+    <path d="m29 35 4-8 4 8-4 25-4-25Z"/>
+  </g>
+  <g fill="#f3a25f" font-family="Arial, Helvetica, sans-serif" font-weight="700">
+    <text x="69" y="36" font-size="27" letter-spacing="1.2">DOMINI</text>
+    <text x="69" y="65" font-size="27" letter-spacing="1.2">GAMES</text>
+  </g>
+</svg>
