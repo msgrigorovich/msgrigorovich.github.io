@@ -308,8 +308,8 @@ main {
 }
 
 .resume-project-image.contained {
-  width: 72%;
-  height: 72%;
+  width: 65%;
+  height: 65%;
 }
 
 .resume-project-item:hover .resume-project-image.monochrome,
