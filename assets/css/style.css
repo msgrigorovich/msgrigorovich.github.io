@@ -120,6 +120,7 @@ main {
 }
 
 .typing-text {
+  position: relative;
   font-family: 'Source Code Pro', monospace;
   font-size: 3rem;
   white-space: nowrap;
@@ -131,7 +132,17 @@ main {
 }
 
 .typing-text.typing-active {
-  border-right: 3px solid #111;
+  border-right: 0;
+}
+
+.typing-text.typing-active::after {
+  content: '';
+  display: inline-block;
+  width: 3px;
+  height: 1em;
+  margin-left: 0.08em;
+  background: #111;
+  vertical-align: -0.12em;
 }
 
 .typing-text.typing-quote {
@@ -1666,6 +1677,12 @@ footer {
   .typing-text {
     font-size: clamp(1.5rem, 9vw, 3rem);
     height: clamp(1.8rem, 10.8vw, 3.6rem);
+  }
+
+  .typing-text.typing-quote {
+    max-width: 100%;
+    font-size: clamp(0.75rem, 3.4vw, 0.95rem);
+    letter-spacing: -0.015em;
   }
 
   .buttons {

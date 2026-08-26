@@ -288,7 +288,12 @@ if (shouldSkipMainIntro) {
   sessionStorage.removeItem(SKIP_MAIN_INTRO_KEY);
   showMainPageImmediately();
 } else {
-  runIntro();
+  const startIntroWithStableLayout = () => runIntro();
+  if (document.fonts?.ready) {
+    document.fonts.ready.then(startIntroWithStableLayout, startIntroWithStableLayout);
+  } else {
+    startIntroWithStableLayout();
+  }
 }
 
 revealReturnTint();
