@@ -683,6 +683,7 @@ function createHybridWheelHandler({
 function selectResumeYearDuringWheel(index) {
   closeResumeModal();
   const nextIndex = Math.max(0, Math.min(resumeExperience.length - 1, index));
+  const didChange = nextIndex !== resumeYearIndex;
   if (nextIndex !== resumeYearIndex) {
     closeResumeSeriesPanelForYear(resumeYearIndex);
   }
@@ -694,13 +695,18 @@ function selectResumeYearDuringWheel(index) {
   });
   renderActiveResumeCard();
   renderResumeProjects();
+  if (didChange) playPickerFeedback();
 }
 
 const handleResumeYearWheel = createHybridWheelHandler({
   getIndex: () => resumeYearIndex,
   getCount: () => resumeExperience.length,
   getList: () => resumeYearList,
-  onStep: changeResumeYear,
+  onStep: direction => {
+    const previousIndex = resumeYearIndex;
+    changeResumeYear(direction);
+    if (resumeYearIndex !== previousIndex) playPickerFeedback();
+  },
   onLiveSelect: selectResumeYearDuringWheel,
   onSelect: selectResumeYear,
   pixelsPerStep: 85,
@@ -887,11 +893,13 @@ document.addEventListener('click', event => {
 function selectResumeProjectDuringWheel(index) {
   const projects = resumeExperience[resumeYearIndex].projects || [];
   const selectedIndex = Math.max(0, Math.min(projects.length - 1, index));
+  const previousIndex = resumeProjectIndexes.get(resumeYearIndex) || 0;
   resumeProjectIndexes.set(resumeYearIndex, selectedIndex);
   resumeProjectRail.querySelectorAll('[data-project-index]').forEach((project, projectIndex) => {
     project.classList.toggle('selected', projectIndex === selectedIndex);
     project.classList.toggle('near', Math.abs(projectIndex - selectedIndex) === 1);
   });
+  if (selectedIndex !== previousIndex) playPickerFeedback();
 }
 
 const handleResumeProjectWheel = createHybridWheelHandler({
@@ -901,6 +909,8 @@ const handleResumeProjectWheel = createHybridWheelHandler({
   onStep: direction => {
     const current = resumeProjectIndexes.get(resumeYearIndex) || 0;
     selectResumeProject(current + direction);
+    const next = resumeProjectIndexes.get(resumeYearIndex) || 0;
+    if (next !== current) playPickerFeedback();
   },
   onLiveSelect: selectResumeProjectDuringWheel,
   onSelect: selectResumeProject,
