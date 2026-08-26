@@ -44,7 +44,7 @@ const dominiGamesLogo = `
 const dominiSeriesProjects = [
   { label: 'DominiGames', markup: dominiGamesLogo, url: 'https://dominigames.com/' },
   {
-    label: 'Secret City', image: 'https://api.dominigames.com/img/c9eef9fd-f8c0-43a5-82ba-f416b0451b84/sc1.jpg?q=80&fit=max&crop=1536%2C1536%2C0%2C0&w=320&fm=webp',
+    label: 'Secret City', image: '/assets/images/games/domini/secret-city.webp',
     games: [
       ['London Calling', 'https://apps.apple.com/us/app/secret-city-london-calling/id1449950524', 'https://play.google.com/store/apps/details?id=com.dominigames.sc1', 'https://www.amazon.com/gp/product/B07N41R4LM'],
       ['The Sunken Kingdom', 'https://apps.apple.com/us/app/secret-city-sunken-kingdom/id1470936794', 'https://play.google.com/store/apps/details?id=com.dominigames.sc2', 'https://www.amazon.com/gp/product/B07TY1Q8JM'],
@@ -55,7 +55,7 @@ const dominiSeriesProjects = [
     ]
   },
   {
-    label: 'Mystery Tales', image: 'https://api.dominigames.com/img/112f7cb5-a074-43fe-9057-5848fcab76f4/mt4.jpg?q=80&fit=max&crop=1536%2C1536%2C0%2C0&w=320&fm=webp',
+    label: 'Mystery Tales', image: '/assets/images/games/domini/mystery-tales.webp',
     games: [
       ['Her Own Eyes', '', 'https://play.google.com/store/apps/details?id=com.dominigames.mysterytales', 'https://www.amazon.com/gp/product/B07NZ6D1D1'],
       ['Eye of the Fire', '', 'https://play.google.com/store/apps/details?id=com.dominigames.mt5', 'https://www.amazon.com/gp/product/B07PPQGYY3'],
@@ -71,7 +71,7 @@ const dominiSeriesProjects = [
     ]
   },
   {
-    label: 'Fairy Godmother Stories', image: 'https://api.dominigames.com/img/0f2f1ab6-91eb-4ba7-bc2d-2f59b5a24cac/fg1.jpg?q=80&fit=max&crop=1536%2C1536%2C0%2C0&w=320&fm=webp',
+    label: 'Fairy Godmother Stories', image: '/assets/images/games/domini/fairy-godmother-stories.webp',
     games: [
       ['Cinderella', 'https://apps.apple.com/us/app/fairy-godmother-cinderella/id1507170351', 'https://play.google.com/store/apps/details?id=com.dominigames.fg1', 'https://www.amazon.com/gp/product/B089DN96HC'],
       ['Dark Deal', 'https://apps.apple.com/us/app/fairy-godmother-dark-deal/id1529464814', 'https://play.google.com/store/apps/details?id=com.dominigames.fg2', 'https://www.amazon.com/gp/product/B08SVMS9GS'],
@@ -81,7 +81,7 @@ const dominiSeriesProjects = [
     ]
   },
   {
-    label: 'Twin Mind', image: 'https://api.dominigames.com/img/ca6f12fa-0dac-46d3-991e-4e8569af3770/tm1-350x440.jpg?q=80&fit=max&crop=350%2C350%2C0%2C0&w=320&fm=webp',
+    label: 'Twin Mind', image: '/assets/images/games/domini/twin-mind.webp',
     games: [
       ['Murderous Jealousy', 'https://apps.apple.com/us/app/twin-mind-jealousy/id1560304407', 'https://play.google.com/store/apps/details?id=com.dominigames.tm1', 'https://www.amazon.com/Hidden-Objects-Murderous-Jealousy-Collectors/dp/B0BD7ZY7HH/'],
       ['Power of Love', 'https://apps.apple.com/us/app/twin-mind-power-of-love/id1588054017', 'https://play.google.com/store/apps/details?id=com.dominigames.tm2', 'https://www.amazon.com/Hidden-Objects-Twin-Power-Collectors/dp/B0B97PCDR1/'],
@@ -90,20 +90,20 @@ const dominiSeriesProjects = [
     ]
   },
   {
-    label: 'Magic City', image: 'https://api.dominigames.com/img/ca6f12fa-0dac-46d3-991e-4e8569af3770/mc1-350x440.jpg?q=80&fit=max&crop=350%2C350%2C0%2C14&w=320&fm=webp',
+    label: 'Magic City', image: '/assets/images/games/domini/magic-city.webp',
     games: [
       ['Detective Wings of Revenge', 'https://apps.apple.com/us/app/magic-city-detective-revenge/id1606698189', 'https://play.google.com/store/apps/details?id=com.dominigames.mc1', 'https://www.amazon.com/Hidden-Objects-Detective-Revenge-Collectors/dp/B0B94NSL6N/'],
       ['Secret Desire', 'https://apps.apple.com/us/app/magic-%D1%81ity-detective-secret/id1628277001', 'https://play.google.com/store/apps/details?id=com.dominigames.mc2', 'https://www.amazon.com/Hidden-Objects-Detective-Secret-Collectors/dp/B0B5VJ4W1X/']
     ]
   },
   {
-    label: 'Royal Romances', image: 'https://api.dominigames.com/img/f9ad1ffb-e457-4ef6-a269-3336eea6379f/-games-350-440-cut.jpg?q=80&fit=max&crop=348%2C440%2C0%2C0&w=320&fm=webp', cover: true,
+    label: 'Royal Romances', image: '/assets/images/games/domini/royal-romances.webp', cover: true,
     games: [
       ['Battle of the Woods', 'https://apps.apple.com/us/app/royal-romances-battle/id6463634983', 'https://play.google.com/store/apps/details?id=com.dominigames.rr1full', 'https://www.amazon.com/gp/product/B0CGSFML6K']
     ]
   },
   {
-    label: 'Hidden Expedition', image: 'https://api.dominigames.com/img/efbca7ef-6ec9-46a5-95cf-9506a2ae87e4/he19.jpg?q=80&fit=max&crop=1536%2C1536%2C0%2C0&w=320&fm=webp',
+    label: 'Hidden Expedition', image: '/assets/images/games/domini/hidden-expedition.webp',
     games: [
       ['The Price of Paradise', 'https://apps.apple.com/us/app/hidden-expedition-paradise/id1531061347', 'https://play.google.com/store/apps/details?id=com.dominigames.he19.ext', 'https://www.amazon.com/gp/product/B08RK336T4'],
       ['Reign of Flames', 'https://apps.apple.com/us/app/hidden-expedition-reign/id1549490791', 'https://play.google.com/store/apps/details?id=com.dominigames.he20', 'https://www.amazon.com/gp/product/B08WLZZ8GN'],
@@ -111,7 +111,7 @@ const dominiSeriesProjects = [
     ]
   },
   {
-    label: 'The Christmas Spirit', image: 'https://play-lh.googleusercontent.com/jBSg9deFPA-INSsy3Z1RKwsGuXpwImRdOUJyo0zcTMowILE5JuZmT3XceH_CVv6fFPwIpLDDgfNtGLy7HqdA=s160-rw',
+    label: 'The Christmas Spirit', image: '/assets/images/games/domini/christmas-spirit.webp',
     games: [
       ['Trouble in Oz', '', 'https://play.google.com/store/apps/details?id=com.dominigames.ch1.free2play', ''],
       ["Mother Goose's Untold Tales", '', 'https://play.google.com/store/apps/details?id=com.dominigames.ch2.free2play', ''],
