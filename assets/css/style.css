@@ -149,6 +149,12 @@ main {
   display: block;
 }
 
+/* Applied in the inline <head> script before the first paint. The signature is
+   revealed only after every SVG mask has been prepared for the intro. */
+.main-intro-pending .name-signature {
+  visibility: hidden;
+}
+
 .signature-path {
   fill: #1a1a1a;
   stroke: none;

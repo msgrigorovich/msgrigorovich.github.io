@@ -54,10 +54,16 @@ function typeEffect() {
 
 function animateSignature() {
   const svg = document.querySelector('.name-signature');
-  if (!svg) return Promise.resolve();
+  if (!svg) {
+    document.documentElement.classList.remove('main-intro-pending');
+    return Promise.resolve();
+  }
 
   const paths = Array.from(svg.querySelectorAll('.signature-path'));
-  if (!paths.length) return Promise.resolve();
+  if (!paths.length) {
+    document.documentElement.classList.remove('main-intro-pending');
+    return Promise.resolve();
+  }
 
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -76,7 +82,7 @@ function animateSignature() {
     .map(p => ({ p, bbox: p.getBBox(), d: p.getAttribute('d') }))
     .sort((a, b) => a.bbox.x - b.bbox.x);
 
-  const finished = [];
+  const traces = [];
 
   ordered.forEach(({ p, d }, i) => {
     const maskId = `sig-mask-${i}`;
@@ -95,20 +101,28 @@ function animateSignature() {
     defs.appendChild(mask);
     p.setAttribute('mask', `url(#${maskId})`);
 
-    if (prefersReducedMotion) return;
+    if (!prefersReducedMotion) {
+      const length = tracePath.getTotalLength();
+      tracePath.style.strokeDasharray = length;
+      tracePath.style.strokeDashoffset = length;
+      traces.push({ tracePath, length, delay: i * stagger });
+    }
+  });
 
-    const len = tracePath.getTotalLength();
-    tracePath.style.strokeDasharray = len;
-    tracePath.style.strokeDashoffset = len;
+  // All paths are masked and reset before the SVG can become visible, so the
+  // completed signature can never flash for a frame ahead of the animation.
+  document.documentElement.classList.remove('main-intro-pending');
+  if (prefersReducedMotion) return Promise.resolve();
 
+  const finished = traces.map(({ tracePath, length, delay }) => {
     try {
-      const anim = tracePath.animate(
-        [{ strokeDashoffset: len }, { strokeDashoffset: 0 }],
-        { duration, delay: i * stagger, easing: 'ease-out', fill: 'forwards' }
-      );
-      finished.push(anim.finished);
+      return tracePath.animate(
+        [{ strokeDashoffset: length }, { strokeDashoffset: 0 }],
+        { duration, delay, easing: 'ease-out', fill: 'forwards' }
+      ).finished;
     } catch (e) {
       tracePath.style.strokeDashoffset = '0';
+      return Promise.resolve();
     }
   });
 
@@ -239,6 +253,7 @@ function showMainPageImmediately() {
   // The typing heading starts empty and the remaining sections start hidden in CSS.
   // Put everything directly into its final state when returning from an inner page.
   document.documentElement.classList.add('return-page-ready');
+  document.documentElement.classList.remove('main-intro-pending');
   skipIntroAnimations = true;
   typingActive = false;
   clearTimeout(typingTimer);
@@ -392,11 +407,12 @@ if (navigationEntry?.type === 'reload') {
 }
 const isResumePage = pageNameFromPath(window.location.pathname) === 'resume';
 const isProjectsPage = pageNameFromPath(window.location.pathname) === 'projects';
+const isHomePage = isMainPath(window.location.pathname);
 const resumeCursorColor = '143,169,190';
 const projectsCursorColor = '17,17,17';
 let pixelCursorColor = isResumePage
   ? resumeCursorColor
-  : isProjectsPage
+  : isProjectsPage || isHomePage
     ? projectsCursorColor
     : sessionStorage.getItem('pixel-cursor-color') || '120,0,255';
 
@@ -412,7 +428,7 @@ function interactionColorFor(element) {
   const hasVisibleBackground = backgroundParts.length >= 3 && backgroundAlpha > 0.18;
   const sourceParts = hasVisibleBackground
     ? backgroundParts
-    : styles.color.match(/[\d.]+/g)?.map(Number) || [120, 0, 255];
+    : styles.color.match(/[\d.]+/g)?.map(Number) || [17, 17, 17];
   const contrastFactor = hasVisibleBackground ? 0.78 : 1;
 
   return sourceParts
