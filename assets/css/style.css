@@ -2808,9 +2808,22 @@ body.draw-tool-eraser .graphite-palette button:not(.graphite-none) {
 
 .portrait-detail-focus figure {
   display: grid;
+  flex: 0 0 auto;
   justify-items: center;
   gap: 0.4rem;
   margin: 0;
+  outline: none;
+  cursor: crosshair;
+}
+
+.portrait-detail-focus figure .portrait-detail-crop {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.portrait-detail-focus figure:hover .portrait-detail-crop,
+.portrait-detail-focus figure:focus-visible .portrait-detail-crop {
+  transform: translateY(-0.18rem) scale(1.035);
+  box-shadow: 0 0 0 1px rgba(17, 17, 17, 0.42), 0 0.9rem 2rem rgba(17, 17, 17, 0.2);
 }
 
 .portrait-detail-focus.is-trio {
@@ -2824,10 +2837,13 @@ body.draw-tool-eraser .graphite-palette button:not(.graphite-none) {
 
 .portrait-detail-crop {
   display: block;
+  flex: 0 0 auto;
   width: 6.8rem;
   height: 6.8rem;
+  aspect-ratio: 1 / 1;
   border: 0.32rem solid rgba(255, 255, 255, 0.72);
   border-radius: 50%;
+  clip-path: circle(50% at 50% 50%);
   background-repeat: no-repeat;
   background-color: #eee9de;
   box-shadow: 0 0 0 1px rgba(17, 17, 17, 0.2), 0 0.65rem 1.6rem rgba(17, 17, 17, 0.13);
@@ -2844,7 +2860,7 @@ body.draw-tool-eraser .graphite-palette button:not(.graphite-none) {
 }
 
 .portrait-detail-image {
-  background-size: contain;
+  background-size: cover;
   background-position: center;
 }
 
@@ -2913,6 +2929,40 @@ body.draw-tool-eraser .graphite-palette button:not(.graphite-none) {
   cursor: none;
 }
 
+.portrait-highlight-overlay {
+  --highlight-x: 50%;
+  --highlight-y: 50%;
+  --highlight-radius: 5rem;
+  position: absolute;
+  z-index: 4;
+  inset: 0;
+  opacity: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    circle var(--highlight-radius) at var(--highlight-x) var(--highlight-y),
+    transparent 0 calc(var(--highlight-radius) - 1px),
+    rgba(17, 17, 17, 0.58) var(--highlight-radius)
+  );
+  transition: opacity 0.2s ease;
+}
+
+.portrait-highlight-overlay::after {
+  position: absolute;
+  content: '';
+  left: var(--highlight-x);
+  top: var(--highlight-y);
+  width: calc(var(--highlight-radius) * 2);
+  height: calc(var(--highlight-radius) * 2);
+  border: 1px solid rgba(255, 255, 255, 0.92);
+  border-radius: 50%;
+  box-shadow: 0 0 0 1px rgba(17, 17, 17, 0.18);
+  transform: translate(-50%, -50%);
+}
+
+.portrait-highlight-overlay.visible {
+  opacity: 1;
+}
+
 .portrait-modal-lens {
   position: absolute;
   z-index: 5;
@@ -2923,7 +2973,8 @@ body.draw-tool-eraser .graphite-palette button:not(.graphite-none) {
   opacity: 0;
   pointer-events: none;
   transform: translate(-50%, -50%) scale(0.96);
-  background-repeat: no-repeat;
+  display: block;
+  background: #f4f0e6;
   box-shadow: 0 1.2rem 3.5rem rgba(17, 17, 17, 0.3), inset 0 0 0 1px rgba(17, 17, 17, 0.16);
   transition: opacity 0.14s ease, transform 0.14s ease;
 }

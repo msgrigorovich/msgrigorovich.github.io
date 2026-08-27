@@ -2,43 +2,43 @@ const portraits = [
   {
     title: 'Albert Einstein',
     year: '2015',
-    src: '/assets/images/portraits/albert-einstein-2015.png',
+    src: '/assets/images/portraits/albert-einstein-2015.webp',
     summary: "What I love most about this portrait is the carefully rendered texture of Albert's moustache and sweater.",
     highlights: [
-      { label: 'Moustache', className: 'portrait-detail-moustache' },
-      { label: 'Sweater', className: 'portrait-detail-sweater' }
+      { label: 'Moustache', src: '/assets/images/portraits/highlights/albert-moustache.webp', focus: { x: 0.482, y: 0.738, r: 0.196 } },
+      { label: 'Sweater', src: '/assets/images/portraits/highlights/albert-sweater.webp', focus: { x: 0.638, y: 0.884, r: 0.135 } }
     ]
   },
   {
     title: 'Robert Pattinson',
     year: '2016',
-    src: '/assets/images/portraits/robert-pattinson-2016.png',
+    src: '/assets/images/portraits/robert-pattinson-2016.webp',
     summary: 'What I love most here is the shadow cast by the hand across the stubble, the carefully drawn fingernail, and the rendering of the hand itself.',
     highlights: [
-      { label: 'Hand shadow', src: '/assets/images/portraits/highlights/robert-shadow.png' },
-      { label: 'Fingernail', src: '/assets/images/portraits/highlights/robert-nail.png' },
-      { label: 'Hand', src: '/assets/images/portraits/highlights/robert-hand.png' }
+      { label: 'Hand shadow', src: '/assets/images/portraits/highlights/robert-shadow.webp', focus: { x: 0.581, y: 0.659, r: 0.167 } },
+      { label: 'Fingernail', src: '/assets/images/portraits/highlights/robert-nail.webp', focus: { x: 0.656, y: 0.613, r: 0.108 } },
+      { label: 'Hand', src: '/assets/images/portraits/highlights/robert-hand.webp', focus: { x: 0.726, y: 0.812, r: 0.134 } }
     ]
   },
   {
     title: 'Colton Haynes',
     year: '2018',
-    src: '/assets/images/portraits/colton-haynes-2018.png',
+    src: '/assets/images/portraits/colton-haynes-2018.webp',
     summary: 'What I love most here is the transition of tone and shadow across the shirt-collar fold, and the shift from light to shadow along its seam.',
     highlights: [
-      { label: 'Collar fold', src: '/assets/images/portraits/highlights/colton-fold.png' },
-      { label: 'Collar seam', src: '/assets/images/portraits/highlights/colton-seam.png' }
+      { label: 'Collar fold', src: '/assets/images/portraits/highlights/colton-fold.webp', focus: { x: 0.682, y: 0.837, r: 0.124 } },
+      { label: 'Collar seam', src: '/assets/images/portraits/highlights/colton-seam.webp', focus: { x: 0.572, y: 0.933, r: 0.091 } }
     ]
   },
   {
     title: 'Daria Ivanova',
     year: '2022',
-    src: '/assets/images/portraits/daria-ivanova-2022.png',
+    src: '/assets/images/portraits/daria-ivanova-2022.webp',
     summary: 'What I love most here is the detailing of the eyes and the transition between light and shadow around the parting of the hair.',
     highlights: [
-      { label: 'Left eye', src: '/assets/images/portraits/highlights/daria-eye-left.png' },
-      { label: 'Right eye', src: '/assets/images/portraits/highlights/daria-eye-right.png' },
-      { label: 'Hair part', src: '/assets/images/portraits/highlights/daria-hair-part.png' }
+      { label: 'Left eye', src: '/assets/images/portraits/highlights/daria-eye-left.webp', focus: { x: 0.486, y: 0.414, r: 0.097 } },
+      { label: 'Right eye', src: '/assets/images/portraits/highlights/daria-eye-right.webp', focus: { x: 0.316, y: 0.414, r: 0.108 } },
+      { label: 'Hair part', src: '/assets/images/portraits/highlights/daria-hair-part.webp', focus: { x: 0.306, y: 0.201, r: 0.175 } }
     ]
   }
 ];
@@ -60,6 +60,7 @@ const portraitDetailFocus = document.getElementById('portraitDetailFocus');
 const portraitModalStage = document.getElementById('portraitModalStage');
 const portraitModalPaper = document.getElementById('portraitModalPaper');
 const portraitModalLens = document.getElementById('portraitModalLens');
+const portraitHighlightOverlay = document.getElementById('portraitHighlightOverlay');
 const portraitDrawCanvas = document.getElementById('portraitDrawCanvas');
 const portraitSmudgeCursor = document.getElementById('portraitSmudgeCursor');
 const portraitFingerprintPath = document.getElementById('portraitFingerprintPath');
@@ -121,6 +122,9 @@ let cursorToolAngle = -12;
 let drawHistory = [];
 let drawingCanvasReady = false;
 const basePortraitCanvas = document.createElement('canvas');
+const portraitPreloads = new Map();
+let modalLensFrame = 0;
+let pendingModalLensPoint = null;
 
 function clamp(value, min, max) {
   return Math.max(min, Math.min(max, value));
@@ -148,6 +152,39 @@ function setLensZoom(value) {
 
 function portraitAlt(portrait) {
   return `Graphite portrait of ${portrait.title}`;
+}
+
+function preloadImage(src) {
+  if (portraitPreloads.has(src)) return portraitPreloads.get(src);
+  const promise = new Promise(resolve => {
+    const image = new Image();
+    image.decoding = 'async';
+    image.fetchPriority = 'low';
+    image.onload = image.onerror = resolve;
+    image.src = src;
+  });
+  portraitPreloads.set(src, promise);
+  return promise;
+}
+
+function warmPortrait(index, includeHighlights = false) {
+  const portrait = portraits[index];
+  if (!portrait) return Promise.resolve();
+  const sources = [portrait.src];
+  if (includeHighlights) sources.push(...portrait.highlights.map(highlight => highlight.src));
+  return Promise.all(sources.map(preloadImage));
+}
+
+function schedulePortraitWarmup() {
+  const run = async () => {
+    await warmPortrait(0, true);
+    for (let index = 1; index < portraits.length; index += 1) {
+      await warmPortrait(index, true);
+      await new Promise(resolve => setTimeout(resolve, 500));
+    }
+  };
+  if ('requestIdleCallback' in window) requestIdleCallback(run, { timeout: 2500 });
+  else setTimeout(run, 1500);
 }
 
 function selectPortrait(index) {
@@ -194,7 +231,6 @@ function openPortraitModal() {
   portraitModalYear.textContent = portrait.year;
   portraitModalSummary.textContent = portrait.summary;
   renderPortraitHighlights(portrait);
-  portraitModalLens.style.backgroundImage = `url("${portrait.src}")`;
   drawingCanvasReady = false;
   document.body.classList.add('portrait-modal-open');
   sharedCursorElements.forEach(element => portraitModal.appendChild(element));
@@ -211,6 +247,7 @@ function openPortraitModal() {
 
 function renderPortraitHighlights(portrait) {
   const highlights = portrait.highlights || [];
+  hidePortraitHighlight();
   portraitDetailFocus.replaceChildren();
   portraitDetailFocus.hidden = highlights.length === 0;
   portraitDetailFocus.classList.toggle('is-trio', highlights.length === 3);
@@ -219,13 +256,35 @@ function renderPortraitHighlights(portrait) {
     const figure = document.createElement('figure');
     const crop = document.createElement('span');
     const caption = document.createElement('figcaption');
+    figure.tabIndex = 0;
     crop.className = `portrait-detail-crop${highlight.className ? ` ${highlight.className}` : ' portrait-detail-image'}`;
     crop.setAttribute('aria-hidden', 'true');
     crop.style.backgroundImage = `url("${highlight.src || portrait.src}")`;
     caption.textContent = highlight.label;
+    const showFocus = () => showPortraitHighlight(highlight.focus);
+    const hideFocus = () => hidePortraitHighlight();
+    figure.addEventListener('pointerenter', showFocus);
+    figure.addEventListener('pointerleave', hideFocus);
+    figure.addEventListener('focus', showFocus);
+    figure.addEventListener('blur', hideFocus);
     figure.append(crop, caption);
     portraitDetailFocus.append(figure);
   });
+}
+
+function showPortraitHighlight(focus) {
+  if (!focus) return;
+  const rect = portraitModalPaper.getBoundingClientRect();
+  const radius = focus.r * Math.min(rect.width, rect.height);
+  portraitHighlightOverlay.style.setProperty('--highlight-x', `${focus.x * rect.width}px`);
+  portraitHighlightOverlay.style.setProperty('--highlight-y', `${focus.y * rect.height}px`);
+  portraitHighlightOverlay.style.setProperty('--highlight-radius', `${radius}px`);
+  portraitHighlightOverlay.classList.add('visible');
+  portraitModalLens.classList.remove('visible');
+}
+
+function hidePortraitHighlight() {
+  portraitHighlightOverlay.classList.remove('visible');
 }
 
 function setPortraitMode(mode) {
@@ -309,8 +368,8 @@ function resetDrawingCanvas() {
 }
 
 function refreshModalLensArtwork() {
-  if (!drawingCanvasReady || !portraitDrawCanvas.width || !portraitDrawCanvas.height) return;
-  portraitModalLens.style.backgroundImage = `url("${portraitDrawCanvas.toDataURL('image/png')}")`;
+  // The lens reads directly from the live composite canvas. Keeping it as a
+  // canvas avoids encoding a multi-megapixel PNG and repainting it on every move.
 }
 
 function rebuildBasePortrait() {
@@ -667,8 +726,36 @@ function updateModalLens(event) {
   portraitModalLens.classList.add('visible');
   portraitModalLens.style.left = `${x}px`;
   portraitModalLens.style.top = `${y}px`;
-  portraitModalLens.style.backgroundSize = `${imageRect.width * modalZoom}px ${imageRect.height * modalZoom}px`;
-  portraitModalLens.style.backgroundPosition = `${-(imageX * modalZoom - lensDiameter / 2)}px ${-(imageY * modalZoom - lensDiameter / 2)}px`;
+  pendingModalLensPoint = { imageX, imageY, imageRect, lensDiameter, modalZoom };
+  if (modalLensFrame) return;
+  modalLensFrame = requestAnimationFrame(() => {
+    modalLensFrame = 0;
+    if (!pendingModalLensPoint || !drawingCanvasReady) return;
+    const point = pendingModalLensPoint;
+    pendingModalLensPoint = null;
+    const pixelRatio = Math.min(window.devicePixelRatio || 1, 2);
+    const outputSize = Math.max(1, Math.round(point.lensDiameter * pixelRatio));
+    if (portraitModalLens.width !== outputSize || portraitModalLens.height !== outputSize) {
+      portraitModalLens.width = outputSize;
+      portraitModalLens.height = outputSize;
+    }
+    const scaleX = portraitDrawCanvas.width / Math.max(1, point.imageRect.width);
+    const scaleY = portraitDrawCanvas.height / Math.max(1, point.imageRect.height);
+    const sourceWidth = point.lensDiameter / point.modalZoom * scaleX;
+    const sourceHeight = point.lensDiameter / point.modalZoom * scaleY;
+    const sourceX = point.imageX * scaleX - sourceWidth / 2;
+    const sourceY = point.imageY * scaleY - sourceHeight / 2;
+    const context = portraitModalLens.getContext('2d', { alpha: false });
+    context.imageSmoothingEnabled = true;
+    context.imageSmoothingQuality = 'high';
+    context.fillStyle = '#f4f0e6';
+    context.fillRect(0, 0, outputSize, outputSize);
+    context.drawImage(
+      portraitDrawCanvas,
+      sourceX, sourceY, sourceWidth, sourceHeight,
+      0, 0, outputSize, outputSize
+    );
+  });
 }
 
 function closePortraitModal() {
@@ -678,11 +765,21 @@ function closePortraitModal() {
   document.body.classList.remove('portrait-modal-open');
   document.body.classList.remove('portrait-inspecting', 'portrait-drawing', 'is-smudging', 'draw-tool-pencil', 'draw-tool-eraser');
   modalPointerInside = false;
+  pendingModalLensPoint = null;
+  if (modalLensFrame) cancelAnimationFrame(modalLensFrame);
+  modalLensFrame = 0;
 }
 
 portraitThumbs.forEach(thumb => {
-  thumb.addEventListener('click', () => selectPortrait(Number(thumb.dataset.portraitIndex)));
+  const index = Number(thumb.dataset.portraitIndex);
+  const warm = () => warmPortrait(index, true);
+  thumb.addEventListener('pointerenter', warm, { once: true });
+  thumb.addEventListener('focus', warm, { once: true });
+  thumb.addEventListener('touchstart', warm, { once: true, passive: true });
+  thumb.addEventListener('click', () => selectPortrait(index));
 });
+
+window.addEventListener('load', schedulePortraitWarmup, { once: true });
 
 portraitViewer.addEventListener('mousemove', updatePortraitLens);
 portraitViewer.addEventListener('mouseleave', () => {
