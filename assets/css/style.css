@@ -149,6 +149,418 @@ main {
   display: block;
 }
 
+/* Contact — open channel + rolling credits concept */
+.contact-page {
+  background: #c6f6c8;
+}
+
+.contact-page .contact-main {
+  position: relative;
+  display: flex;
+  flex: 1 0 auto;
+  flex-direction: column;
+  align-items: center;
+  min-height: 44rem;
+  padding: 0.75rem 3rem 2rem;
+  text-align: left;
+}
+
+.contact-main > .circle.contact {
+  flex: 0 0 auto;
+  width: 75px;
+  height: 75px;
+  margin: -4.15rem 0 1.2rem;
+  border: 4px solid #f2f2f2;
+  background: transparent;
+  color: #111;
+  font-size: 0.75rem;
+}
+
+.contact-composition {
+  display: grid;
+  grid-template-columns: minmax(22rem, 24rem) minmax(30rem, 34rem);
+  gap: clamp(2.5rem, 5vw, 5.5rem);
+  width: min(100%, 66rem);
+  margin: 0.5rem 0 0 clamp(1rem, 6vw, 6rem);
+  align-items: center;
+}
+
+.contact-credits {
+  min-width: 0;
+}
+
+.contact-credits-heading {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-bottom: 0.65rem;
+  border-bottom: 1px solid rgba(17, 17, 17, 0.22);
+  font-family: 'Source Code Pro', monospace;
+  font-size: 0.56rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+.contact-credits-heading span:last-child {
+  opacity: 0.42;
+}
+
+.contact-credits-window {
+  position: relative;
+  height: 27rem;
+  overflow: hidden;
+  touch-action: none;
+  cursor: grab;
+  outline: none;
+  user-select: none;
+  -webkit-mask-image: linear-gradient(transparent, #000 13%, #000 87%, transparent);
+  mask-image: linear-gradient(transparent, #000 13%, #000 87%, transparent);
+}
+
+.contact-credits-window:active {
+  cursor: grabbing;
+}
+
+.contact-credits-window:focus-visible {
+  box-shadow: 0 0 0 1px #111;
+}
+
+.contact-credits-track {
+  display: grid;
+  gap: 0.85rem;
+  padding: 6rem 0;
+}
+
+.contact-credit-card {
+  display: grid;
+  grid-template-columns: 12.5rem 1fr;
+  gap: 0.9rem;
+  align-items: center;
+  min-height: 9.6rem;
+  opacity: var(--credit-opacity, 0.55);
+  transform: scale(var(--credit-scale, 0.9));
+  transform-origin: center;
+  transition: opacity 0.16s linear, transform 0.16s linear;
+}
+
+.contact-credit-card > div {
+  position: relative;
+  display: grid;
+  width: 12.5rem;
+  height: 8.55rem;
+  place-items: center;
+  overflow: hidden;
+  border: 1px solid rgba(17, 17, 17, 0.46);
+  border-radius: 0.9rem;
+  background:
+    linear-gradient(135deg, transparent 49.5%, rgba(17, 17, 17, 0.14) 50%, transparent 50.5%),
+    linear-gradient(45deg, transparent 49.5%, rgba(17, 17, 17, 0.1) 50%, transparent 50.5%),
+    rgba(250, 247, 239, 0.18);
+}
+
+.contact-credit-card > div::after {
+  position: absolute;
+  content: '';
+  inset: 0.45rem;
+  border: 1px dashed rgba(17, 17, 17, 0.2);
+  border-radius: 0.55rem;
+}
+
+.contact-credit-card > div span {
+  position: absolute;
+  top: 0.55rem;
+  left: 0.65rem;
+  font-family: 'Source Code Pro', monospace;
+  font-size: 0.52rem;
+}
+
+.contact-credit-card > div b {
+  font-family: 'Source Code Pro', monospace;
+  font-size: 0.58rem;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.contact-credit-card p {
+  font-size: 0.76rem;
+  line-height: 1.45;
+}
+
+.contact-credit-card small {
+  font-family: 'Source Code Pro', monospace;
+  font-size: 0.54rem;
+  letter-spacing: 0.07em;
+  opacity: 0.44;
+  text-transform: uppercase;
+}
+
+.contact-credits-hint {
+  padding-top: 0.65rem;
+  border-top: 1px solid rgba(17, 17, 17, 0.22);
+  font-family: 'Source Code Pro', monospace;
+  font-size: 0.54rem;
+  letter-spacing: 0.07em;
+  opacity: 0.5;
+  text-transform: uppercase;
+}
+
+.contact-card {
+  overflow: hidden;
+  border: 1px solid rgba(17, 17, 17, 0.22);
+  border-radius: 1.65rem;
+  background: #faf7ef;
+  box-shadow: 0 1.5rem 4rem rgba(17, 17, 17, 0.13);
+}
+
+.contact-card-heading {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: end;
+  padding: 1.35rem 1.55rem 1.2rem;
+  border-bottom: 1px solid rgba(17, 17, 17, 0.16);
+}
+
+.contact-card-heading p {
+  grid-column: 1 / -1;
+  margin-bottom: 0.4rem;
+  font-family: 'Source Code Pro', monospace;
+  font-size: 0.56rem;
+  letter-spacing: 0.16em;
+  opacity: 0.48;
+  text-transform: uppercase;
+}
+
+.contact-card-heading h1 {
+  font-size: clamp(2rem, 3.2vw, 3rem);
+  line-height: 0.96;
+  letter-spacing: -0.055em;
+  white-space: nowrap;
+}
+
+.contact-card-heading > span {
+  width: 14rem;
+  padding-left: 1.5rem;
+  font-size: 0.72rem;
+  line-height: 1.45;
+  opacity: 0.6;
+}
+
+.contact-page .contact-form {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0;
+  width: 100%;
+  max-width: none;
+  padding: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.contact-field {
+  display: grid;
+  grid-column: 1 / -1;
+  gap: 0.32rem;
+  padding: 0.78rem 1.55rem 0.72rem;
+  border-bottom: 1px solid rgba(17, 17, 17, 0.13);
+}
+
+.contact-field-half {
+  grid-column: auto;
+}
+
+.contact-field-half:first-child {
+  border-right: 1px solid rgba(17, 17, 17, 0.13);
+}
+
+.contact-field > span {
+  font-family: 'Source Code Pro', monospace;
+  font-size: 0.55rem;
+  letter-spacing: 0.1em;
+  opacity: 0.5;
+  text-transform: uppercase;
+}
+
+.contact-page .contact-form input,
+.contact-page .contact-form textarea {
+  width: 100%;
+  padding: 0.18rem 0;
+  border: 0;
+  border-radius: 0;
+  outline: 0;
+  background: transparent;
+  color: #111;
+  font: 500 0.9rem/1.4 'Montserrat', sans-serif;
+  resize: none;
+}
+
+.contact-page .contact-form input::placeholder,
+.contact-page .contact-form textarea::placeholder {
+  color: rgba(17, 17, 17, 0.28);
+}
+
+.contact-page .contact-form input:focus,
+.contact-page .contact-form textarea:focus {
+  box-shadow: inset 0 -1px #111;
+}
+
+.contact-message-field {
+  min-height: 6.6rem;
+}
+
+.contact-form-finish {
+  display: flex;
+  grid-column: 1 / -1;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.9rem 1.05rem 0.95rem;
+}
+
+.contact-signoff {
+  display: flex;
+  flex: 1 1 auto;
+  justify-content: flex-end;
+}
+
+.contact-signature {
+  position: relative;
+  width: 14.25rem;
+  min-height: 2.4rem;
+}
+
+.contact-signature .name-signature {
+  width: 100%;
+  height: auto;
+}
+
+.contact-signature-fallback {
+  display: none;
+  font-family: cursive;
+  font-size: 1.45rem;
+}
+
+.contact-signature.fallback-visible .contact-signature-fallback {
+  display: block;
+}
+
+.contact-page .contact-form button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  min-width: 10.5rem;
+  padding: 0.9rem 1rem;
+  border: 1px solid #111;
+  border-radius: 999px;
+  background: #111;
+  color: #faf7ef;
+  font: 600 0.72rem 'Montserrat', sans-serif;
+  transition: color 0.2s ease, background 0.2s ease, transform 0.2s ease;
+}
+
+.contact-page .contact-form button:hover {
+  background: transparent;
+  color: #111;
+  transform: translateY(-2px);
+}
+
+.contact-form-success {
+  display: none;
+  grid-column: 1 / -1;
+  padding: 0 1.55rem 1rem;
+  color: #237c31;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+@media (max-width: 900px) {
+  .contact-page .contact-main {
+    padding: 2.25rem 1.25rem 2rem;
+  }
+
+  .contact-main > .circle.contact {
+    margin: -1.25rem 0 2rem;
+  }
+
+  .contact-composition {
+    grid-template-columns: minmax(17rem, 20rem) minmax(0, 1fr);
+    gap: 1.5rem;
+    margin-left: 0;
+  }
+
+  .contact-card-heading {
+    grid-template-columns: 1fr;
+  }
+
+  .contact-card-heading > span {
+    width: auto;
+    padding: 0.75rem 0 0;
+  }
+}
+
+@media (max-width: 650px) {
+  .contact-page .contact-main {
+    padding: 2.5rem 1rem 1.5rem;
+  }
+
+  .contact-composition {
+    grid-template-columns: 1fr;
+    width: 100%;
+  }
+
+  .contact-credits {
+    order: 2;
+  }
+
+  .contact-card {
+    order: 1;
+    border-radius: 1.2rem;
+  }
+
+  .contact-credits-window {
+    height: 15rem;
+  }
+
+  .contact-credits-track {
+    padding: 3.5rem 0;
+  }
+
+  .contact-credit-card {
+    grid-template-columns: 12.5rem 1fr;
+    width: min(100%, 24rem);
+    margin: 0 auto;
+  }
+
+  .contact-card-heading h1 {
+    font-size: clamp(2.1rem, 10vw, 3rem);
+  }
+
+  .contact-field-half,
+  .contact-field {
+    grid-column: 1 / -1;
+  }
+
+  .contact-field-half:first-child {
+    border-right: 0;
+  }
+
+  .contact-form-finish {
+    align-items: flex-end;
+    padding-left: 1.1rem;
+  }
+
+  .contact-signature {
+    width: min(45vw, 11rem);
+  }
+
+  .contact-page .contact-form button {
+    min-width: 8.8rem;
+    gap: 0.75rem;
+  }
+}
+
 /* Applied in the inline <head> script before the first paint. The signature is
    revealed only after every SVG mask has been prepared for the intro. */
 .main-intro-pending .name-signature {
@@ -2892,13 +3304,14 @@ body.draw-tool-eraser .graphite-palette button:not(.graphite-none) {
 
 .portrait-modal-paper {
   position: relative;
+  box-sizing: content-box;
   width: auto;
   height: calc(100% + 2rem);
+  aspect-ratio: var(--portrait-aspect-ratio, 3 / 4);
   min-width: 0;
   min-height: 0;
   max-width: 100%;
   max-height: calc(100% + 2rem);
-  aspect-ratio: 0.75;
   border: 0.7rem solid rgba(255, 255, 255, 0.72);
   background: #f4f0e6;
   box-shadow: 0 1rem 3rem rgba(17, 17, 17, 0.16);
@@ -3017,7 +3430,8 @@ body.portrait-modal-open {
     padding: 7rem 1.25rem 2rem;
   }
 
-  .projects-page .projects-main > .circle.projects {
+  .projects-page .projects-main > .circle.projects,
+  .contact-page .contact-main > .circle.contact {
     top: 0;
   }
 
@@ -3138,6 +3552,77 @@ body.portrait-modal-open {
   }
 }
 
+/* Final contact layout guards: legacy contact rules above still support old
+   markup, while this composition owns the current page at every breakpoint. */
+.contact-page main.contact-main {
+  position: relative;
+  display: flex;
+  flex: 1 0 auto;
+  flex-direction: column;
+  align-items: center;
+  min-height: 44rem;
+  justify-content: center;
+  padding: 5.5rem 3rem 2rem;
+  text-align: left;
+}
+
+.projects-page .projects-main > .circle.projects,
+.contact-page .contact-main > .circle.contact {
+  position: absolute;
+  top: -2.5rem;
+  left: 50vw;
+  z-index: 3;
+  margin: 0 !important;
+  transform: translateX(-50%);
+}
+
+.projects-page .projects-main > .circle.projects:hover,
+.contact-page .contact-main > .circle.contact:hover {
+  transform: translateX(-50%);
+}
+
+.contact-card {
+  position: relative;
+  isolation: isolate;
+}
+
+.contact-card > header,
+.contact-card > form {
+  position: relative;
+  z-index: 2;
+}
+
+.contact-ink-canvas {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  mix-blend-mode: multiply;
+}
+
+body.contact-inking .cursor-trail {
+  opacity: 0;
+}
+
+body.contact-inking .cursor-outline {
+  opacity: 0.22;
+}
+
+@media (max-width: 900px) {
+  .contact-page main.contact-main {
+    padding: 7rem 1.25rem 2rem;
+  }
+
+}
+
+@media (max-width: 650px) {
+  .contact-page main.contact-main {
+    padding: 7rem 1rem 1.5rem;
+  }
+}
+
 @media (max-width: 600px) {
   .projects-page .projects-main {
     padding-top: 6.5rem;
@@ -3169,9 +3654,11 @@ body.portrait-modal-open {
   }
 
   .portrait-modal-paper {
-    width: auto;
+    width: calc(100% - 0.9rem);
     max-width: 100%;
-    height: 100%;
+    height: auto;
+    max-height: 100%;
+    aspect-ratio: var(--portrait-aspect-ratio, 3 / 4);
     border-width: 0.45rem;
   }
 

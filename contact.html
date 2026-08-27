@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Contact — Diana Grigorovich</title>
   <link rel="icon" href="/favicon.png" type="image/png">
-  <link rel="stylesheet" href="/assets/css/style.css" />
+  <link rel="stylesheet" href="/assets/css/style.css?v=20260827-contact-circle6" />
   <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
@@ -25,32 +25,55 @@
     </nav>
   </header>
 
-  <main>
+  <main class="contact-main">
     <div class="circle contact" aria-current="page">Contact</div>
-  </main>
 
-  <main class="contact-layout">
-    <div class="contact-text">
-      <p>I will be glad to receive your message :)</p>
-    </div>
+    <section class="contact-composition" aria-label="Contact Diana Grigorovich">
+      <aside class="contact-credits" aria-label="Selected credits preview">
+        <div class="contact-credits-heading">
+          <span>Selected credits</span>
+          <span>Archive pending</span>
+        </div>
+        <div class="contact-credits-window" id="contactCreditsWindow" tabindex="0" aria-label="Future game credits. Scroll to explore placeholders.">
+          <div class="contact-credits-track" id="contactCreditsTrack">
+            <article class="contact-credit-card"><div><span>01</span><b>Credit frame</b></div><p>Game title<br><small>Coming later</small></p></article>
+            <article class="contact-credit-card"><div><span>02</span><b>Credit frame</b></div><p>Game title<br><small>Coming later</small></p></article>
+            <article class="contact-credit-card"><div><span>03</span><b>Credit frame</b></div><p>Game title<br><small>Coming later</small></p></article>
+            <article class="contact-credit-card"><div><span>04</span><b>Credit frame</b></div><p>Game title<br><small>Coming later</small></p></article>
+            <article class="contact-credit-card"><div><span>05</span><b>Credit frame</b></div><p>Game title<br><small>Coming later</small></p></article>
+          </div>
+        </div>
+        <p class="contact-credits-hint">Auto roll · scroll / drag to explore</p>
+      </aside>
 
-    <form class="contact-form" id="contactForm">
-      <div class="form-row">
-        <input type="text" name="first_name" placeholder="First Name" required />
-        <input type="text" name="last_name" placeholder="Last Name" required />
-      </div>
-      <input type="email" name="email" placeholder="Your Email" required />
-      <input type="text" name="subject" placeholder="Subject" />
-      <textarea name="message" placeholder="Message" rows="5" required></textarea>
-      <button type="submit">Submit</button>
-    
-      <img src="/assets/images/branding/best-regards.png" alt="Best regards Diana Grigorovich" class="signature best_regards"/>
-    
-      <p id="formSuccess" style="display:none; color: green; font-weight: bold; text-align: center; margin-top: 1rem;">
-        Thank you! Your message has been sent.
-      </p>
+      <section class="contact-card">
+        <canvas class="contact-ink-canvas" id="contactInkCanvas" aria-hidden="true"></canvas>
+        <header class="contact-card-heading">
+          <p>Open channel · 01</p>
+          <h1>Let’s connect.</h1>
+          <span>Ideas, collaborations, QA conversations — or simply hello.</span>
+        </header>
 
-    </form>
+        <form class="contact-form" id="contactForm">
+          <label class="contact-field contact-field-half"><span>01 · First name</span><input type="text" name="first_name" placeholder="Diana" required /></label>
+          <label class="contact-field contact-field-half"><span>02 · Last name</span><input type="text" name="last_name" placeholder="Grigorovich" required /></label>
+          <label class="contact-field"><span>03 · Your email</span><input type="email" name="email" placeholder="name@example.com" required /></label>
+          <label class="contact-field"><span>04 · Subject</span><input type="text" name="subject" placeholder="What shall we talk about?" /></label>
+          <label class="contact-field contact-message-field"><span>05 · Message</span><textarea name="message" placeholder="Write your message here..." rows="4" required></textarea></label>
+
+          <div class="contact-form-finish">
+            <button type="submit" aria-label="Send message to Diana Grigorovich"><span>Send message to</span><span aria-hidden="true">↗</span></button>
+            <div class="contact-signoff" aria-label="Diana Grigorovich">
+              <div class="contact-signature" id="contactSignature" aria-label="Diana Grigorovich">
+                <span class="contact-signature-fallback">Diana Grigorovich</span>
+              </div>
+            </div>
+          </div>
+
+          <p id="formSuccess" class="contact-form-success">Thank you! Your message has been sent.</p>
+        </form>
+      </section>
+    </section>
   </main>
 
   <footer>
@@ -86,7 +109,8 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 
-<script src="/assets/js/main.js"></script>
+<script src="/assets/js/main.js?v=20260827-contact-concept4"></script>
+<script src="/assets/js/contact.js?v=20260827-contact-concept4"></script>
 <script src="/assets/js/analytics.js"></script>
 
 </body>

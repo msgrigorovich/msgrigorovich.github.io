@@ -407,12 +407,13 @@ if (navigationEntry?.type === 'reload') {
 }
 const isResumePage = pageNameFromPath(window.location.pathname) === 'resume';
 const isProjectsPage = pageNameFromPath(window.location.pathname) === 'projects';
+const isContactPage = pageNameFromPath(window.location.pathname) === 'contact';
 const isHomePage = isMainPath(window.location.pathname);
 const resumeCursorColor = '143,169,190';
 const projectsCursorColor = '17,17,17';
 let pixelCursorColor = isResumePage
   ? resumeCursorColor
-  : isProjectsPage || isHomePage
+  : isProjectsPage || isContactPage || isHomePage
     ? projectsCursorColor
     : sessionStorage.getItem('pixel-cursor-color') || '120,0,255';
 

@@ -895,6 +895,12 @@ animatedPortraitControls.forEach(control => {
 });
 
 portraitModalImage.addEventListener('load', () => {
+  if (portraitModalImage.naturalWidth && portraitModalImage.naturalHeight) {
+    portraitModalPaper.style.setProperty(
+      '--portrait-aspect-ratio',
+      `${portraitModalImage.naturalWidth} / ${portraitModalImage.naturalHeight}`
+    );
+  }
   if (portraitModal.open) resetDrawingCanvas();
 });
 
