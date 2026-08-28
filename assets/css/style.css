@@ -346,8 +346,9 @@ main {
 }
 
 .contact-credit-modal::backdrop {
-  background: rgba(17, 17, 17, 0.58);
-  backdrop-filter: blur(7px);
+  background: rgba(78, 102, 79, 0.32);
+  backdrop-filter: blur(9px) saturate(0.82);
+  animation: contact-credit-backdrop-in 0.42s ease both;
 }
 
 .contact-credit-modal-card {
@@ -358,9 +359,14 @@ main {
   margin: 0;
   padding: 0.55rem;
   border-radius: 1.1rem;
-  background: #faf7ef;
-  box-shadow: 0 1.5rem 5rem rgba(17, 17, 17, 0.35);
+  border: 1px solid rgba(17, 17, 17, 0.14);
+  background: #edf7e9;
+  box-shadow: 0 1.35rem 4.5rem rgba(45, 66, 46, 0.24);
   transform: translate(-50%, -50%);
+}
+
+.contact-credit-modal[open] .contact-credit-modal-card {
+  animation: contact-credit-modal-in 0.52s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
 .contact-credit-modal-card > img {
@@ -401,7 +407,7 @@ main {
   place-items: center;
   border: 1px solid rgba(17, 17, 17, 0.35);
   border-radius: 50%;
-  background: #faf7ef;
+  background: #edf7e9;
   color: #111;
   font: 400 1.25rem/1 'Montserrat', sans-serif;
   cursor: pointer;
@@ -409,6 +415,29 @@ main {
 
 body.contact-credit-open .cursor-trail {
   opacity: 0;
+}
+
+@keyframes contact-credit-modal-in {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.82);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+@keyframes contact-credit-backdrop-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .contact-credit-modal[open] .contact-credit-modal-card,
+  .contact-credit-modal::backdrop {
+    animation-duration: 0.01ms;
+  }
 }
 
 .contact-card {

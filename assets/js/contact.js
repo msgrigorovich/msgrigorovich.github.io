@@ -10,6 +10,21 @@ const contactCreditModalMeta = document.getElementById('contactCreditModalMeta')
 let creditsRollPaused = false;
 let creditsClickSuppressedUntil = 0;
 let openCreditFromCard = () => {};
+const creditFullPreloads = new Map();
+let creditImageRequest = 0;
+
+function getFullCreditSource(source) {
+  return source.replace('/assets/images/credits/', '/assets/images/credits/full/');
+}
+
+function preloadCreditSource(source) {
+  if (!source || creditFullPreloads.has(source)) return creditFullPreloads.get(source);
+  const image = new Image();
+  image.decoding = 'async';
+  image.src = source;
+  creditFullPreloads.set(source, image);
+  return image;
+}
 
 function setupCreditsRoll() {
   if (!creditsWindow || !creditsTrack) return;
@@ -142,13 +157,24 @@ function setupCreditModal() {
     const title = titleNode?.firstChild?.textContent?.trim() || 'Game credits';
     const meta = titleNode?.querySelector('small')?.textContent?.trim() || '';
     if (!preview) return;
-    contactCreditModalImage.src = preview.currentSrc.replace('/assets/images/credits/', '/assets/images/credits/full/');
+    const request = ++creditImageRequest;
+    const previewSource = preview.currentSrc || preview.src;
+    const fullSource = getFullCreditSource(previewSource);
+    contactCreditModalImage.src = previewSource;
     contactCreditModalImage.alt = preview.alt;
     contactCreditModalTitle.textContent = title;
     contactCreditModalMeta.textContent = meta;
     creditsRollPaused = true;
     document.body.classList.add('contact-credit-open');
     contactCreditModal.showModal();
+
+    const fullImage = preloadCreditSource(fullSource);
+    const revealFullImage = () => {
+      if (request !== creditImageRequest || !contactCreditModal.open) return;
+      contactCreditModalImage.src = fullSource;
+    };
+    if (fullImage.complete && fullImage.naturalWidth) revealFullImage();
+    else fullImage.addEventListener('load', revealFullImage, { once: true });
   };
   openCreditFromCard = openCredit;
 
@@ -171,10 +197,21 @@ function setupCreditModal() {
     if (event.target === contactCreditModal) closeCredit();
   });
   contactCreditModal.addEventListener('close', () => {
+    creditImageRequest += 1;
     creditsRollPaused = false;
     document.body.classList.remove('contact-credit-open');
     contactCreditModalImage.removeAttribute('src');
   });
+
+  const warmCreditImages = () => {
+    const sources = Array.from(creditsTrack.querySelectorAll('.contact-credit-card:not([aria-hidden="true"]) img'))
+      .map(image => getFullCreditSource(image.currentSrc || image.src));
+    sources.forEach((source, index) => {
+      window.setTimeout(() => preloadCreditSource(source), index * 90);
+    });
+  };
+  if ('requestIdleCallback' in window) window.requestIdleCallback(warmCreditImages, { timeout: 1800 });
+  else window.addEventListener('load', warmCreditImages, { once: true });
 }
 
 function setupContactInk() {
