@@ -712,7 +712,7 @@ main {
 .resume-project-rail.scrollable .resume-project-list {
   align-items: flex-end;
   padding-right: 1.575rem;
-  transform: translateY(calc(var(--project-index) * -4.5rem));
+  transform: translateY(calc((var(--project-index) * -4.5rem) - (var(--project-group-shift) * 0.55rem)));
 }
 
 .resume-project-item {
@@ -761,6 +761,33 @@ main {
   font-family: 'Source Code Pro', monospace;
   font-size: 0.72rem;
   font-weight: 700;
+}
+
+.resume-project-item:nth-child(2) {
+  margin-top: 0.55rem;
+}
+
+.resume-project-group-label {
+  position: absolute;
+  bottom: calc(100% + 0.26rem);
+  left: 50%;
+  width: 100%;
+  transform: translateX(-50%);
+  color: #111;
+  font-family: 'Source Code Pro', monospace;
+  font-size: 0.5rem;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  opacity: 0.58;
+  pointer-events: none;
+}
+
+.resume-project-item:hover .resume-project-group-label {
+  color: #111;
+  opacity: 0.72;
 }
 
 .resume-project-image {
@@ -2216,7 +2243,7 @@ footer {
     height: auto;
     margin-left: 0;
     overflow-x: hidden;
-    padding: 0.5rem 0;
+    padding: 1rem 0 0.5rem;
     mask-image: none;
     overscroll-behavior-x: contain;
     touch-action: pan-y;
@@ -2236,6 +2263,11 @@ footer {
 
   .resume-project-item {
     scroll-snap-align: center;
+  }
+
+  .resume-project-item:nth-child(2) {
+    margin-top: 0;
+    margin-left: 0.55rem;
   }
 
   .resume-project-rail.scrollable .resume-project-list {

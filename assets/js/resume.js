@@ -1,31 +1,3 @@
-const amazonStoreOverrides = new Map([
-  ['Secret City|London Calling', 'https://www.amazon.com/dp/B0BC25MWLP'],
-  ['Secret City|The Sunken Kingdom', 'https://www.amazon.com/dp/B0B9BGW8TJ'],
-  ['Secret City|The Human Threat', 'https://www.amazon.com/dp/B0BDYXP2CZ'],
-  ['Secret City|The Chalk of Fate', 'https://www.amazon.com/dp/B0BCX9PY54'],
-  ['Secret City|Mysterious Collection', ''],
-  ['Secret City|Sacred Fire', 'https://www.amazon.com/dp/B0BBSFDQVP'],
-  ['Mystery Tales|Her Own Eyes', 'https://www.amazon.com/dp/B0BD2RFQVZ'],
-  ['Mystery Tales|Eye of the Fire', 'https://www.amazon.com/dp/B0B9H32FQF'],
-  ['Mystery Tales|The Hangman Returns', 'https://www.amazon.com/dp/B0BD93JJBX'],
-  ['Mystery Tales|The House of Others', 'https://www.amazon.com/dp/B0BBH5SPCG'],
-  ['Mystery Tales|Dangerous Desires', 'https://www.amazon.com/dp/B0B9H443LN'],
-  ['Mystery Tales|The Other Side', 'https://www.amazon.com/dp/B0BBGRS1C6'],
-  ['Mystery Tales|The Reel Horror', 'https://www.amazon.com/dp/B0B9P18X67'],
-  ["Mystery Tales|Dealer's Choices", 'https://www.amazon.com/dp/B0BBRV19YK'],
-  ['Mystery Tales|Art and Souls', 'https://www.amazon.com/dp/B0B94H1CN7'],
-  ['Mystery Tales|Til Death', ''],
-  ['Mystery Tales|Master of Puppets', 'https://www.amazon.com/dp/B0B9XT3CBV'],
-  ['Fairy Godmother Stories|Cinderella', 'https://www.amazon.com/dp/B0BD2ZWZSJ'],
-  ['Fairy Godmother Stories|Dark Deal', 'https://www.amazon.com/dp/B0BBH1MFH8'],
-  ['Fairy Godmother Stories|Little Red Riding Hood', 'https://www.amazon.com/dp/B0BD2Q3RN7'],
-  ['Fairy Godmother Stories|Puss in Boots', 'https://www.amazon.com/dp/B0BD7H5LVQ'],
-  ['Fairy Godmother Stories|Miraculous Dream in Taleville', 'https://www.amazon.com/dp/B0B9N1NFJS'],
-  ['Hidden Expedition|The Price of Paradise', ''],
-  ['Hidden Expedition|Reign of Flames', 'https://www.amazon.com/dp/B0B94GCJQ6'],
-  ["Hidden Expedition|A King's Line", 'https://www.amazon.com/dp/B0BBN7Y9J2']
-]);
-
 const dominiGamesLogo = `
   <svg class="resume-project-image company-logo" viewBox="4 4 180 64" aria-hidden="true">
     <g fill="#f3a25f">
@@ -120,22 +92,39 @@ const dominiSeriesProjects = [
       ['Golden Ticket', '', 'https://play.google.com/store/apps/details?id=com.dominigames.ch5.free2play', '']
     ]
   }
-].map(project => ({
+];
+
+const dominiSeriesPaths = {
+  'Secret City': 'secret-city',
+  'Mystery Tales': 'mystery-tales',
+  'Fairy Godmother Stories': 'fairy-godmother',
+  'Twin Mind': 'twin-mind',
+  'Magic City': 'magic-city',
+  'Royal Romances': 'royal-romances',
+  'Hidden Expedition': 'hidden-expedition'
+};
+
+function dominiGamePath(title) {
+  return title
+    .toLowerCase()
+    .replace(/[’']/g, '')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/(^-|-$)/g, '');
+}
+
+const dominiProjectsWithOfficialPages = dominiSeriesProjects.map(project => ({
   ...project,
   games: project.games?.map(([title, appStore, googlePlay, amazon]) => {
-    const amazonKey = `${project.label}|${title}`;
-    const amazonUrl = amazonStoreOverrides.has(amazonKey)
-      ? amazonStoreOverrides.get(amazonKey)
-      : amazon.replace('https://www.amazon.com/gp/product/', 'https://www.amazon.com/dp/');
-
-    return {
-      title,
-      stores: {
-        'app-store': appStore,
-        'google-play': googlePlay,
-        amazon: amazonUrl
-      }
-    };
+    const seriesPath = dominiSeriesPaths[project.label];
+    return seriesPath
+      ? {
+          title,
+          url: `https://dominigames.com/${seriesPath}/${dominiGamePath(title)}`
+        }
+      : {
+          title,
+          stores: { 'app-store': appStore, 'google-play': googlePlay, amazon }
+        };
   })
 }));
 
@@ -211,10 +200,10 @@ const resumeExperience = [
     role: 'QA Process Ownership · Mobile Game Development',
     projects: [
       { label: 'Beresnev Games', image: '/assets/images/games/beresnev-icon.ico', url: 'https://beresnev.games/' },
-      { label: 'Pixelwoods · Google Play', image: '/assets/images/games/pixelwoods-icon.png', store: 'google-play', url: 'https://play.google.com/store/apps/details?id=com.beresnevgames.pixelgallery&hl=en_US' },
-      { label: 'Pixelwoods · App Store', image: '/assets/images/games/pixelwoods-icon.png', store: 'app-store', url: 'https://apps.apple.com/us/app/pixelwoods-coloring-by-pixel/id1541658506' },
-      { label: 'Flippy Knife · Google Play', image: '/assets/images/games/flippy-knife-icon.png', store: 'google-play', url: 'https://play.google.com/store/apps/details?id=com.BeresnevGames.Knife&hl=en_US' },
-      { label: 'Flippy Knife · App Store', image: '/assets/images/games/flippy-knife-icon.png', store: 'app-store', url: 'https://apps.apple.com/us/app/flippy-knife-throw-spin-hit/id1208359453' }
+      { label: 'Pixelwoods', image: '/assets/images/games/pixelwoods-icon.png', url: 'https://beresnev.games/en/games/pixelwoods' },
+      { label: 'Flippy Knife', image: '/assets/images/games/flippy-knife-icon.png', url: 'https://beresnev.games/en/games/flippy-knife' },
+      { label: 'R&D Project_1', icon: 'R&D', tooltip: 'R&D Project_1 · Details are confidential and cannot be shared yet' },
+      { label: 'R&D Project_2', icon: 'R&D', tooltip: 'R&D Project_2 · Details are confidential and cannot be shared yet' }
     ],
     text: 'Primary QA specialist responsible for product quality from feature design through release and post-release support.',
     responsibilities: [
@@ -245,7 +234,7 @@ const resumeExperience = [
     eyebrow: 'DominiGames · Voronezh',
     title: 'Senior QA Engineer',
     role: 'QA Leadership & Process Ownership · Mobile Games',
-    projects: dominiSeriesProjects,
+    projects: dominiProjectsWithOfficialPages,
     text: 'Combined hands-on testing with team leadership, mentoring, interviews, and structured QA processes across studio projects.',
     responsibilities: [
       'Functional/non-Functional testing (android/iOS/kindle fire amazon);',
@@ -278,7 +267,7 @@ const resumeExperience = [
     eyebrow: 'DominiGames · Voronezh',
     title: 'Middle QA Engineer',
     role: 'QA Process Development & Test Design · Mobile Games',
-    projects: dominiSeriesProjects,
+    projects: dominiProjectsWithOfficialPages,
     text: 'Expanded from test execution into test design, documentation, and automation foundations in production game development.',
     responsibilities: [
       'Functional/non-Functional testing (android/iOS/kindle fire amazon);',
@@ -298,7 +287,7 @@ const resumeExperience = [
     eyebrow: 'DominiGames · Voronezh',
     title: 'Junior QA Engineer',
     role: 'Entry-Level QA · Mobile Game Production',
-    projects: dominiSeriesProjects,
+    projects: dominiProjectsWithOfficialPages,
     text: 'First commercial game development role, focused on quality validation within active production environments.',
     responsibilities: [
       'Functional/non-Functional testing (android/iOS/kindle fire amazon);',
@@ -366,7 +355,8 @@ function playPickerFeedback() {
 const resumeStoreIcons = {
   'google-play': `<svg viewBox="0 0 18 18" role="img" aria-label="Google Play"><path fill="#00d4ff" d="M2.5 1.6 10.8 9l-8.3 7.4a1.7 1.7 0 0 1-.3-1V2.6c0-.4.1-.7.3-1Z"/><path fill="#00e676" d="m2.5 1.6 10.4 5.9L10.8 9 2.5 1.6Z"/><path fill="#ffea00" d="m10.8 9 2.1 1.5-10.4 5.9L10.8 9Z"/><path fill="#ff3d5a" d="m12.9 7.5 2.2 1.2c.6.3.6.9 0 1.2l-2.2.6L10.8 9l2.1-1.5Z"/></svg>`,
   'app-store': `<svg viewBox="0 0 18 18" role="img" aria-label="App Store"><rect width="18" height="18" rx="4" fill="#087ff5"/><path d="M5 12.8 9.2 5.5m3.8 7.3L8.8 5.5M4.2 10.9h9.6" fill="none" stroke="#fff" stroke-width="1.75" stroke-linecap="round"/></svg>`,
-  amazon: `<svg viewBox="0 0 18 18" role="img" aria-label="Amazon"><rect width="18" height="18" rx="4" fill="#111"/><path d="M5.2 10.6c2.5 1.6 5.2 1.7 7.7.3" fill="none" stroke="#ffb000" stroke-width="1.35" stroke-linecap="round"/><path d="m11.9 10.7 1.3.1-.7 1" fill="none" stroke="#ffb000" stroke-width="1" stroke-linecap="round"/><path d="M9.7 5.1c1.9 0 2.5.8 2.5 2.3v3h-1.5l-.2-.7c-.5.6-1.1.9-1.9.9-1.2 0-2-.7-2-1.8 0-1.5 1.3-2.1 3.8-2.1v-.2c0-.6-.3-.8-1-.8-.7 0-1.4.2-2 .5L7 5.5c.8-.3 1.7-.4 2.7-.4Zm.7 2.7c-1.4 0-2 .3-2 .9 0 .4.3.7.8.7.5 0 .9-.2 1.2-.6v-1Z" fill="#fff"/></svg>`
+  amazon: `<svg viewBox="0 0 18 18" role="img" aria-label="Amazon"><rect width="18" height="18" rx="4" fill="#111"/><path d="M5.2 10.6c2.5 1.6 5.2 1.7 7.7.3" fill="none" stroke="#ffb000" stroke-width="1.35" stroke-linecap="round"/><path d="m11.9 10.7 1.3.1-.7 1" fill="none" stroke="#ffb000" stroke-width="1" stroke-linecap="round"/><path d="M9.7 5.1c1.9 0 2.5.8 2.5 2.3v3h-1.5l-.2-.7c-.5.6-1.1.9-1.9.9-1.2 0-2-.7-2-1.8 0-1.5 1.3-2.1 3.8-2.1v-.2c0-.6-.3-.8-1-.8-.7 0-1.4.2-2 .5L7 5.5c.8-.3 1.7-.4 2.7-.4Zm.7 2.7c-1.4 0-2 .3-2 .9 0 .4.3.7.8.7.5 0 .9-.2 1.2-.6v-1Z" fill="#fff"/></svg>`,
+  official: `<svg viewBox="0 0 18 18" role="img" aria-label="Official game page"><rect width="18" height="18" rx="4" fill="#f3a25f"/><path d="M6 12 12 6m-4 0h4v4" fill="none" stroke="#fff" stroke-width="1.55" stroke-linecap="round" stroke-linejoin="round"/></svg>`
 };
 
 function resumeCardMarkup(item) {
@@ -417,19 +407,24 @@ function renderResumeProjects() {
   }
 
   resumeProjectRail.innerHTML = `
-    <p class="resume-project-label">Games</p>
     <div class="resume-project-window">
-      <div class="resume-project-list" style="--project-index: ${selectedIndex}">
+      <div class="resume-project-list" style="--project-index: ${selectedIndex}; --project-group-shift: ${selectedIndex > 0 ? 1 : 0}">
         ${projects.map((project, index) => {
           const icon = project.markup || (project.image
             ? `<img class="resume-project-image${project.monochrome ? ' monochrome' : ''}${project.contained ? ' contained' : ''}${project.cover ? ' cover' : ''}${project.logo ? ' company-logo' : ''}" src="${project.image}" alt="" draggable="false">`
             : `<span class="resume-project-icon">${project.icon}</span>`);
           const store = project.store ? `<span class="resume-project-store" aria-hidden="true">${resumeStoreIcons[project.store]}</span>` : '';
-          const content = `${icon}${store}<span class="resume-project-name">${project.label}</span>`;
+          const tooltip = project.tooltip || project.label;
+          const groupLabel = index === 0
+            ? '<span class="resume-project-group-label">Company</span>'
+            : index === 1
+              ? `<span class="resume-project-group-label">${projects.length === 2 ? 'Game' : 'Games'}</span>`
+              : '';
+          const content = `${groupLabel}${icon}${store}<span class="resume-project-name">${tooltip}</span>`;
           const classes = `resume-project-item${index === selectedIndex ? ' selected' : Math.abs(index - selectedIndex) === 1 ? ' near' : ''}`;
           return project.url
             ? `<a class="${classes}" href="${project.url}" target="_blank" rel="noopener noreferrer" data-project-index="${index}" aria-label="Open ${project.label}">${content}</a>`
-            : `<button class="${classes}" type="button" data-project-index="${index}" aria-label="Select ${project.label}">${content}</button>`;
+            : `<button class="${classes}" type="button" data-project-index="${index}" aria-label="${project.tooltip || `Select ${project.label}`}">${content}</button>`;
         }).join('')}
       </div>
     </div>
@@ -464,9 +459,11 @@ function resumeSeriesPanelMarkup(series) {
             <span class="resume-series-number">${String(index + 1).padStart(2, '0')}</span>
             <span class="resume-series-title">${game.title}</span>
             <span class="resume-series-stores">
-              ${Object.entries(game.stores).filter(([, url]) => url).map(([store, url]) => `
-                <a href="${url}" target="_blank" rel="noopener noreferrer" aria-label="Open ${game.title} in ${store.replace('-', ' ')}">${resumeStoreIcons[store]}</a>
-              `).join('')}
+              ${game.url
+                ? `<a href="${game.url}" target="_blank" rel="noopener noreferrer" aria-label="Open the official page for ${game.title}">${resumeStoreIcons.official}</a>`
+                : Object.entries(game.stores).filter(([, url]) => url).map(([store, url]) => `
+                    <a href="${url}" target="_blank" rel="noopener noreferrer" aria-label="Open ${game.title} in ${store.replace('-', ' ')}">${resumeStoreIcons[store]}</a>
+                  `).join('')}
             </span>
           </article>
         `).join('')}
