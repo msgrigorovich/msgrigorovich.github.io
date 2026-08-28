@@ -355,17 +355,18 @@ main {
 }
 
 .contact-credit-modal-card {
+  --contact-credit-modal-shift-y: 0%;
   position: absolute;
-  top: 50%;
-  left: 44%;
-  width: min(62rem, 72vw);
+  top: var(--contact-credit-modal-top, 50%);
+  left: min(67%, calc(100% - min(33rem, 37vw) - 0.75rem));
+  width: min(66rem, 74vw);
   margin: 0;
   padding: 0.55rem;
   border-radius: 1.1rem;
   border: 1px solid rgba(17, 17, 17, 0.14);
   background: #edf7e9;
   box-shadow: 0 1.35rem 4.5rem rgba(45, 66, 46, 0.24);
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, var(--contact-credit-modal-shift-y));
 }
 
 .contact-credit-modal[open] .contact-credit-modal-card {
@@ -416,18 +417,23 @@ main {
   cursor: pointer;
 }
 
+body.contact-credit-open .cursor-dot,
+body.contact-credit-open .cursor-outline {
+  z-index: 2147483647;
+}
+
 body.contact-credit-open .cursor-trail {
-  opacity: 0;
+  z-index: 2147483646;
 }
 
 @keyframes contact-credit-modal-in {
   from {
     opacity: 0;
-    transform: translate(-50%, -50%) scale(0.82);
+    transform: translate(-50%, var(--contact-credit-modal-shift-y)) scale(0.82);
   }
   to {
     opacity: 1;
-    transform: translate(-50%, -50%) scale(1);
+    transform: translate(-50%, var(--contact-credit-modal-shift-y)) scale(1);
   }
 }
 
@@ -3808,6 +3814,8 @@ body.contact-inking .cursor-outline {
   }
 
   .contact-credit-modal-card {
+    --contact-credit-modal-shift-y: -50%;
+    top: 50%;
     left: 50%;
     width: calc(100vw - 1.5rem);
   }

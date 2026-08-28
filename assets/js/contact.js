@@ -7,6 +7,7 @@ const contactCreditModal = document.getElementById('contactCreditModal');
 const contactCreditModalImage = document.getElementById('contactCreditModalImage');
 const contactCreditModalTitle = document.getElementById('contactCreditModalTitle');
 const contactCreditModalMeta = document.getElementById('contactCreditModalMeta');
+const contactCredits = document.querySelector('.contact-credits');
 let creditsRollPaused = false;
 let creditsClickSuppressedUntil = 0;
 let openCreditFromCard = () => {};
@@ -157,6 +158,19 @@ function setupCreditsRoll() {
 function setupCreditModal() {
   if (!creditsTrack || !contactCreditModal || !contactCreditModalImage) return;
   const closeButton = contactCreditModal.querySelector('.contact-credit-modal-close');
+  const cursorLayers = [
+    document.querySelector('.cursor-trail'),
+    document.querySelector('.cursor-outline'),
+    document.querySelector('.cursor-dot')
+  ].filter(Boolean);
+
+  const positionCreditModal = () => {
+    if (!contactCreditModal.open || window.matchMedia('(max-width: 650px)').matches) return;
+    const creditsTop = contactCredits?.getBoundingClientRect().top;
+    if (Number.isFinite(creditsTop)) {
+      contactCreditModal.style.setProperty('--contact-credit-modal-top', `${Math.max(12, creditsTop)}px`);
+    }
+  };
 
   const openCredit = card => {
     if (!card || performance.now() < creditsClickSuppressedUntil) return;
@@ -175,6 +189,8 @@ function setupCreditModal() {
     creditsRollPaused = true;
     document.body.classList.add('contact-credit-open');
     contactCreditModal.showModal();
+    cursorLayers.forEach(layer => contactCreditModal.appendChild(layer));
+    positionCreditModal();
 
     const fullImage = preloadCreditSource(fullSource);
     const revealFullImage = () => {
@@ -209,7 +225,9 @@ function setupCreditModal() {
     creditsRollPaused = false;
     document.body.classList.remove('contact-credit-open');
     contactCreditModalImage.removeAttribute('src');
+    cursorLayers.forEach(layer => document.body.appendChild(layer));
   });
+  window.addEventListener('resize', positionCreditModal);
 
   const warmCreditImages = () => {
     const sources = Array.from(creditsTrack.querySelectorAll('.contact-credit-card:not([aria-hidden="true"]) img'))
