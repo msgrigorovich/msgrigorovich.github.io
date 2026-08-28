@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Contact — Diana Grigorovich</title>
   <link rel="icon" href="/favicon.png" type="image/png">
-  <link rel="stylesheet" href="/assets/css/style.css?v=20260828-readability3" />
+  <link rel="stylesheet" href="/assets/css/style.css?v=20260828-credit-modal1" />
   <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
@@ -31,19 +31,25 @@
     <section class="contact-composition" aria-label="Contact Diana Grigorovich">
       <aside class="contact-credits" aria-label="Selected credits preview">
         <div class="contact-credits-heading">
-          <span>Selected credits</span>
-          <span>Archive pending</span>
+          <span>A selection of credits</span>
+          <span>Partial archive</span>
         </div>
-        <div class="contact-credits-window" id="contactCreditsWindow" tabindex="0" aria-label="Future game credits. Scroll to explore placeholders.">
+        <div class="contact-credits-window" id="contactCreditsWindow" tabindex="0" aria-label="A partial archive of game credits. Scroll or drag to explore.">
           <div class="contact-credits-track" id="contactCreditsTrack">
-            <article class="contact-credit-card"><div><span>01</span><b>Credit frame</b></div><p>Game title<br><small>Coming later</small></p></article>
-            <article class="contact-credit-card"><div><span>02</span><b>Credit frame</b></div><p>Game title<br><small>Coming later</small></p></article>
-            <article class="contact-credit-card"><div><span>03</span><b>Credit frame</b></div><p>Game title<br><small>Coming later</small></p></article>
-            <article class="contact-credit-card"><div><span>04</span><b>Credit frame</b></div><p>Game title<br><small>Coming later</small></p></article>
-            <article class="contact-credit-card"><div><span>05</span><b>Credit frame</b></div><p>Game title<br><small>Coming later</small></p></article>
+            <article class="contact-credit-card"><div class="contact-credit-frame"><img src="/assets/images/credits/ufl-2024.webp" alt="UFL in-game credits" decoding="async"><span>01</span></div><p>UFL<br><small>2024 · Actual credits</small></p></article>
+            <article class="contact-credit-card"><div class="contact-credit-frame"><img src="/assets/images/credits/mystery-tales-9-2022.webp" alt="Mystery Tales 9 in-game credits" loading="lazy" decoding="async"><span>02</span></div><p>Mystery Tales 9<br><small>2022 · Actual credits</small></p></article>
+            <article class="contact-credit-card"><div class="contact-credit-frame"><img src="/assets/images/credits/secret-city-3-2021.webp" alt="Secret City 3 in-game credits" loading="lazy" decoding="async"><span>03</span></div><p>Secret City 3<br><small>2021 · Actual credits</small></p></article>
+            <article class="contact-credit-card"><div class="contact-credit-frame"><img src="/assets/images/credits/dark-romance-10-2022.webp" alt="Dark Romance 10 in-game credits" loading="lazy" decoding="async"><span>04</span></div><p>Dark Romance 10<br><small>2022</small></p></article>
+            <article class="contact-credit-card"><div class="contact-credit-frame"><img src="/assets/images/credits/dark-romance-11-2022.webp" alt="Dark Romance 11 in-game credits" loading="lazy" decoding="async"><span>05</span></div><p>Dark Romance 11<br><small>2022</small></p></article>
+            <article class="contact-credit-card"><div class="contact-credit-frame"><img src="/assets/images/credits/dark-romance-13-2022.webp" alt="Dark Romance 13 in-game credits" loading="lazy" decoding="async"><span>06</span></div><p>Dark Romance 13<br><small>2022</small></p></article>
+            <article class="contact-credit-card"><div class="contact-credit-frame"><img src="/assets/images/credits/dark-romance-14-2022.webp" alt="Dark Romance 14 in-game credits" loading="lazy" decoding="async"><span>07</span></div><p>Dark Romance 14<br><small>2022</small></p></article>
+            <article class="contact-credit-card"><div class="contact-credit-frame"><img src="/assets/images/credits/fatal-evidence-4-2022.webp" alt="Fatal Evidence 4 in-game credits" loading="lazy" decoding="async"><span>08</span></div><p>Fatal Evidence 4<br><small>2022</small></p></article>
+            <article class="contact-credit-card"><div class="contact-credit-frame"><img src="/assets/images/credits/secret-city-2-2021.webp" alt="Secret City 2 in-game credits" loading="lazy" decoding="async"><span>09</span></div><p>Secret City 2<br><small>2021</small></p></article>
+            <article class="contact-credit-card"><div class="contact-credit-frame"><img src="/assets/images/credits/secret-city-5-2022.webp" alt="Secret City 5 in-game credits" loading="lazy" decoding="async"><span>10</span></div><p>Secret City 5<br><small>2022</small></p></article>
           </div>
         </div>
         <p class="contact-credits-hint">Auto roll · scroll / drag to explore</p>
+        <p class="contact-credits-note">Marked frames are portfolio reconstructions. Live credits may change after product updates and under company policies for contributors no longer involved in the product.</p>
       </aside>
 
       <section class="contact-card">
@@ -75,6 +81,17 @@
       </section>
     </section>
   </main>
+
+  <dialog class="contact-credit-modal" id="contactCreditModal" aria-labelledby="contactCreditModalTitle">
+    <figure class="contact-credit-modal-card">
+      <button class="contact-credit-modal-close" type="button" aria-label="Close credit image">×</button>
+      <img id="contactCreditModalImage" alt="" decoding="async">
+      <figcaption>
+        <strong id="contactCreditModalTitle"></strong>
+        <span id="contactCreditModalMeta"></span>
+      </figcaption>
+    </figure>
+  </dialog>
 
   <footer>
     <div class="footer-grid">
@@ -110,7 +127,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 
 <script src="/assets/js/main.js?v=20260827-contact-concept4"></script>
-<script src="/assets/js/contact.js?v=20260828-credits-loop2"></script>
+<script src="/assets/js/contact.js?v=20260828-credit-modal4"></script>
 <script src="/assets/js/analytics.js"></script>
 
 </body>

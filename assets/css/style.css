@@ -237,28 +237,33 @@ main {
   grid-template-columns: 12.5rem 1fr;
   gap: 0.9rem;
   align-items: center;
-  min-height: 9.6rem;
+  min-height: 8.15rem;
   opacity: var(--credit-opacity, 0.55);
   transform: scale(var(--credit-scale, 0.9));
   transform-origin: center;
   backface-visibility: hidden;
   transition: none;
   will-change: opacity, transform;
+  cursor: pointer;
 }
 
 .contact-credit-card > div {
   position: relative;
   display: grid;
   width: 12.5rem;
-  height: 8.55rem;
+  aspect-ratio: 16 / 9;
   place-items: center;
   overflow: hidden;
   border: 1px solid rgba(17, 17, 17, 0.46);
   border-radius: 0.9rem;
-  background:
-    linear-gradient(135deg, transparent 49.5%, rgba(17, 17, 17, 0.14) 50%, transparent 50.5%),
-    linear-gradient(45deg, transparent 49.5%, rgba(17, 17, 17, 0.1) 50%, transparent 50.5%),
-    rgba(250, 247, 239, 0.18);
+  background: #111;
+}
+
+.contact-credit-frame img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }
 
 .contact-credit-card > div::after {
@@ -269,12 +274,21 @@ main {
   border-radius: 0.55rem;
 }
 
+.contact-credit-frame::after {
+  display: none;
+}
+
 .contact-credit-card > div span {
   position: absolute;
   top: 0.55rem;
   left: 0.65rem;
   font-family: 'Source Code Pro', monospace;
   font-size: 0.52rem;
+  z-index: 1;
+  padding: 0.16rem 0.3rem;
+  border-radius: 999px;
+  color: #faf7ef;
+  background: rgba(17, 17, 17, 0.72);
 }
 
 .contact-credit-card > div b {
@@ -294,7 +308,8 @@ main {
   font-family: 'Source Code Pro', monospace;
   font-size: 0.54rem;
   letter-spacing: 0.07em;
-  opacity: 0.44;
+  font-weight: 700;
+  opacity: 0.7;
   text-transform: uppercase;
 }
 
@@ -307,6 +322,93 @@ main {
   letter-spacing: 0.07em;
   opacity: 0.68;
   text-transform: uppercase;
+}
+
+.contact-credits-note {
+  max-width: 27rem;
+  margin: 0.55rem 0 0;
+  font-family: 'Source Code Pro', monospace;
+  font-size: 0.58rem;
+  font-weight: 600;
+  line-height: 1.5;
+  opacity: 0.68;
+}
+
+.contact-credit-modal {
+  width: 100vw;
+  max-width: none;
+  height: 100dvh;
+  max-height: none;
+  padding: 0;
+  overflow: hidden;
+  border: 0;
+  background: transparent;
+}
+
+.contact-credit-modal::backdrop {
+  background: rgba(17, 17, 17, 0.58);
+  backdrop-filter: blur(7px);
+}
+
+.contact-credit-modal-card {
+  position: absolute;
+  top: 50%;
+  left: 44%;
+  width: min(62rem, 72vw);
+  margin: 0;
+  padding: 0.55rem;
+  border-radius: 1.1rem;
+  background: #faf7ef;
+  box-shadow: 0 1.5rem 5rem rgba(17, 17, 17, 0.35);
+  transform: translate(-50%, -50%);
+}
+
+.contact-credit-modal-card > img {
+  display: block;
+  width: 100%;
+  max-height: 72dvh;
+  border-radius: 0.7rem;
+  background: #111;
+  object-fit: contain;
+}
+
+.contact-credit-modal-card figcaption {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.65rem 0.35rem 0.15rem;
+  font-size: 0.72rem;
+}
+
+.contact-credit-modal-card figcaption span {
+  font-family: 'Source Code Pro', monospace;
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.contact-credit-modal-close {
+  position: absolute;
+  top: -1rem;
+  right: -1rem;
+  z-index: 2;
+  display: grid;
+  width: 2.6rem;
+  height: 2.6rem;
+  padding: 0;
+  place-items: center;
+  border: 1px solid rgba(17, 17, 17, 0.35);
+  border-radius: 50%;
+  background: #faf7ef;
+  color: #111;
+  font: 400 1.25rem/1 'Montserrat', sans-serif;
+  cursor: pointer;
+}
+
+body.contact-credit-open .cursor-trail {
+  opacity: 0;
 }
 
 .contact-card {
@@ -3669,6 +3771,36 @@ body.contact-inking .cursor-outline {
 @media (max-width: 650px) {
   .contact-page main.contact-main {
     padding: 7rem 1rem 1.5rem;
+  }
+
+  .contact-credit-modal-card {
+    left: 50%;
+    width: calc(100vw - 1.5rem);
+  }
+
+  .contact-credit-modal-card > img {
+    max-height: 70dvh;
+  }
+}
+
+@media (min-width: 651px) {
+  html:has(body.contact-page),
+  body.contact-page {
+    width: 100%;
+    height: 100dvh;
+    min-height: 0;
+    overflow: hidden;
+  }
+
+  .contact-page main.contact-main {
+    flex: 1 1 auto;
+    min-height: 0;
+    padding: 2.5rem 3rem 0.5rem;
+  }
+
+  .contact-page footer {
+    flex: 0 0 auto;
+    margin-top: 0;
   }
 }
 

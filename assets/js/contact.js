@@ -3,14 +3,28 @@ const creditsTrack = document.getElementById('contactCreditsTrack');
 const contactSignature = document.getElementById('contactSignature');
 const contactCard = document.querySelector('.contact-card');
 const contactInkCanvas = document.getElementById('contactInkCanvas');
+const contactCreditModal = document.getElementById('contactCreditModal');
+const contactCreditModalImage = document.getElementById('contactCreditModalImage');
+const contactCreditModalTitle = document.getElementById('contactCreditModalTitle');
+const contactCreditModalMeta = document.getElementById('contactCreditModalMeta');
+let creditsRollPaused = false;
+let creditsClickSuppressedUntil = 0;
+let openCreditFromCard = () => {};
 
 function setupCreditsRoll() {
   if (!creditsWindow || !creditsTrack) return;
   const originals = Array.from(creditsTrack.children);
+  originals.forEach(card => {
+    card.setAttribute('role', 'button');
+    card.setAttribute('tabindex', '0');
+    const title = card.querySelector('p')?.firstChild?.textContent?.trim() || 'credit image';
+    card.setAttribute('aria-label', `Open ${title} credits`);
+  });
   [0, 1].forEach(() => {
     originals.forEach(card => {
       const clone = card.cloneNode(true);
       clone.setAttribute('aria-hidden', 'true');
+      clone.setAttribute('tabindex', '-1');
       creditsTrack.appendChild(clone);
     });
   });
@@ -25,6 +39,8 @@ function setupCreditsRoll() {
   let pointerY = 0;
   let previousPointerY = 0;
   let previousPointerTime = 0;
+  let dragDistance = 0;
+  let pressedCard = null;
 
   const loopStart = () => allCards[originals.length]?.offsetTop || 0;
   const loopEnd = () => allCards[originals.length * 2]?.offsetTop || 0;
@@ -51,7 +67,7 @@ function setupCreditsRoll() {
   const tick = now => {
     const delta = Math.min((now - lastFrame) / 16.67, 3);
     lastFrame = now;
-    if (!dragging) {
+    if (!dragging && !creditsRollPaused) {
       scrollPosition += (AUTO_SCROLL_SPEED + userVelocity) * delta;
       userVelocity *= Math.pow(USER_VELOCITY_DECAY, delta);
     }
@@ -69,8 +85,9 @@ function setupCreditsRoll() {
     dragging = true;
     pointerY = previousPointerY = event.clientY;
     previousPointerTime = performance.now();
+    dragDistance = 0;
+    pressedCard = event.target.closest('.contact-credit-card');
     userVelocity = 0;
-    creditsWindow.setPointerCapture(event.pointerId);
   });
 
   creditsWindow.addEventListener('pointermove', event => {
@@ -78,6 +95,10 @@ function setupCreditsRoll() {
     const now = performance.now();
     pointerY = event.clientY;
     const movement = previousPointerY - pointerY;
+    dragDistance += Math.abs(movement);
+    if (dragDistance > 6 && !creditsWindow.hasPointerCapture(event.pointerId)) {
+      creditsWindow.setPointerCapture(event.pointerId);
+    }
     scrollPosition += movement;
     userVelocity = Math.max(-8, Math.min(8, movement / Math.max(now - previousPointerTime, 1) * 12));
     previousPointerY = pointerY;
@@ -87,6 +108,13 @@ function setupCreditsRoll() {
 
   const finishDrag = event => {
     dragging = false;
+    if (dragDistance > 6) {
+      creditsClickSuppressedUntil = performance.now() + 180;
+    } else if (pressedCard) {
+      openCreditFromCard(pressedCard);
+      creditsClickSuppressedUntil = performance.now() + 180;
+    }
+    pressedCard = null;
     if (creditsWindow.hasPointerCapture(event.pointerId)) creditsWindow.releasePointerCapture(event.pointerId);
   };
   creditsWindow.addEventListener('pointerup', finishDrag);
@@ -100,6 +128,52 @@ function setupCreditsRoll() {
       lastFrame = performance.now();
       requestAnimationFrame(tick);
     });
+  });
+}
+
+function setupCreditModal() {
+  if (!creditsTrack || !contactCreditModal || !contactCreditModalImage) return;
+  const closeButton = contactCreditModal.querySelector('.contact-credit-modal-close');
+
+  const openCredit = card => {
+    if (!card || performance.now() < creditsClickSuppressedUntil) return;
+    const preview = card.querySelector('img');
+    const titleNode = card.querySelector('p');
+    const title = titleNode?.firstChild?.textContent?.trim() || 'Game credits';
+    const meta = titleNode?.querySelector('small')?.textContent?.trim() || '';
+    if (!preview) return;
+    contactCreditModalImage.src = preview.currentSrc.replace('/assets/images/credits/', '/assets/images/credits/full/');
+    contactCreditModalImage.alt = preview.alt;
+    contactCreditModalTitle.textContent = title;
+    contactCreditModalMeta.textContent = meta;
+    creditsRollPaused = true;
+    document.body.classList.add('contact-credit-open');
+    contactCreditModal.showModal();
+  };
+  openCreditFromCard = openCredit;
+
+  const closeCredit = () => {
+    if (contactCreditModal.open) contactCreditModal.close();
+  };
+
+  creditsWindow.addEventListener('click', event => {
+    if (contactCreditModal.open || performance.now() < creditsClickSuppressedUntil) return;
+    const pointedElement = document.elementFromPoint(event.clientX, event.clientY);
+    openCredit(event.target.closest('.contact-credit-card') || pointedElement?.closest('.contact-credit-card'));
+  });
+  creditsTrack.addEventListener('keydown', event => {
+    if (event.key !== 'Enter' && event.key !== ' ') return;
+    event.preventDefault();
+    openCredit(event.target.closest('.contact-credit-card'));
+  });
+  closeButton?.addEventListener('click', closeCredit);
+  contactCreditModal.addEventListener('click', event => {
+    if (event.target === contactCreditModal) closeCredit();
+  });
+  contactCreditModal.addEventListener('close', () => {
+    creditsRollPaused = false;
+    document.body.classList.remove('contact-credit-open');
+    contactCreditModalImage.removeAttribute('src');
   });
 }
 
@@ -242,5 +316,6 @@ async function setupContactSignature() {
 }
 
 setupCreditsRoll();
+setupCreditModal();
 setupContactInk();
 setupContactSignature();
