@@ -34,6 +34,8 @@ function setupCreditsRoll() {
     card.setAttribute('tabindex', '0');
     const title = card.querySelector('p')?.firstChild?.textContent?.trim() || 'credit image';
     card.setAttribute('aria-label', `Open ${title} credits`);
+    const image = card.querySelector('img');
+    if (image) image.draggable = false;
   });
   [0, 1].forEach(() => {
     originals.forEach(card => {
@@ -52,6 +54,8 @@ function setupCreditsRoll() {
   let lastFrame = performance.now();
   let dragging = false;
   let pointerY = 0;
+  let pointerX = 0;
+  let previousPointerX = 0;
   let previousPointerY = 0;
   let previousPointerTime = 0;
   let dragDistance = 0;
@@ -98,6 +102,7 @@ function setupCreditsRoll() {
 
   creditsWindow.addEventListener('pointerdown', event => {
     dragging = true;
+    pointerX = previousPointerX = event.clientX;
     pointerY = previousPointerY = event.clientY;
     previousPointerTime = performance.now();
     dragDistance = 0;
@@ -108,32 +113,35 @@ function setupCreditsRoll() {
   creditsWindow.addEventListener('pointermove', event => {
     if (!dragging) return;
     const now = performance.now();
+    pointerX = event.clientX;
     pointerY = event.clientY;
     const movement = previousPointerY - pointerY;
-    dragDistance += Math.abs(movement);
+    dragDistance += Math.hypot(pointerX - previousPointerX, pointerY - previousPointerY);
     if (dragDistance > 6 && !creditsWindow.hasPointerCapture(event.pointerId)) {
       creditsWindow.setPointerCapture(event.pointerId);
     }
     scrollPosition += movement;
     userVelocity = Math.max(-8, Math.min(8, movement / Math.max(now - previousPointerTime, 1) * 12));
     previousPointerY = pointerY;
+    previousPointerX = pointerX;
     previousPointerTime = now;
     normalize();
   });
 
-  const finishDrag = event => {
+  const finishDrag = (event, allowOpen) => {
     dragging = false;
     if (dragDistance > 6) {
       creditsClickSuppressedUntil = performance.now() + 180;
-    } else if (pressedCard) {
+    } else if (allowOpen && pressedCard) {
       openCreditFromCard(pressedCard);
       creditsClickSuppressedUntil = performance.now() + 180;
     }
     pressedCard = null;
     if (creditsWindow.hasPointerCapture(event.pointerId)) creditsWindow.releasePointerCapture(event.pointerId);
   };
-  creditsWindow.addEventListener('pointerup', finishDrag);
-  creditsWindow.addEventListener('pointercancel', finishDrag);
+  creditsWindow.addEventListener('pointerup', event => finishDrag(event, true));
+  creditsWindow.addEventListener('pointercancel', event => finishDrag(event, false));
+  creditsWindow.addEventListener('dragstart', event => event.preventDefault());
 
   requestAnimationFrame(() => {
     scrollPosition = loopStart() + Math.max(1, originals[0]?.offsetHeight * 0.45 || 1);
