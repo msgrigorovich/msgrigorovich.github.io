@@ -6,7 +6,8 @@ const portraits = [
     summary: "What I love most about this portrait is the carefully rendered texture of Albert's moustache and sweater.",
     highlights: [
       { label: 'Moustache', src: '/assets/images/portraits/highlights/albert-moustache.webp', focus: { x: 0.482, y: 0.738, r: 0.196 } },
-      { label: 'Sweater', src: '/assets/images/portraits/highlights/albert-sweater.webp', focus: { x: 0.638, y: 0.884, r: 0.135 } }
+      { label: 'Sweater', src: '/assets/images/portraits/highlights/albert-sweater.webp', focus: { x: 0.638, y: 0.884, r: 0.135 } },
+      { label: 'Wrinkle detail', src: '/assets/images/portraits/highlights/albert-eye-detail.webp', focus: { x: 0.682, y: 0.514, r: 0.105 } }
     ]
   },
   {
@@ -27,7 +28,8 @@ const portraits = [
     summary: 'What I love most here is the transition of tone and shadow across the shirt-collar fold, and the shift from light to shadow along its seam.',
     highlights: [
       { label: 'Collar fold', src: '/assets/images/portraits/highlights/colton-fold.webp', focus: { x: 0.682, y: 0.837, r: 0.124 } },
-      { label: 'Collar seam', src: '/assets/images/portraits/highlights/colton-seam.webp', focus: { x: 0.572, y: 0.933, r: 0.091 } }
+      { label: 'Collar seam', src: '/assets/images/portraits/highlights/colton-seam.webp', focus: { x: 0.572, y: 0.933, r: 0.091 } },
+      { label: 'Eyebrow & eye', src: '/assets/images/portraits/highlights/colton-eye-detail.webp', focus: { x: 0.397, y: 0.414, r: 0.135 } }
     ]
   },
   {
@@ -274,10 +276,14 @@ function renderPortraitHighlights(portrait) {
 
 function showPortraitHighlight(focus) {
   if (!focus) return;
-  const rect = portraitModalPaper.getBoundingClientRect();
-  const radius = focus.r * Math.min(rect.width, rect.height);
-  portraitHighlightOverlay.style.setProperty('--highlight-x', `${focus.x * rect.width}px`);
-  portraitHighlightOverlay.style.setProperty('--highlight-y', `${focus.y * rect.height}px`);
+  // The overlay is positioned inside the paper border. clientWidth/clientHeight
+  // use that same inner coordinate system, unlike getBoundingClientRect(),
+  // which also includes the decorative frame and shifts small highlights.
+  const width = portraitModalPaper.clientWidth;
+  const height = portraitModalPaper.clientHeight;
+  const radius = focus.r * Math.min(width, height);
+  portraitHighlightOverlay.style.setProperty('--highlight-x', `${focus.x * width}px`);
+  portraitHighlightOverlay.style.setProperty('--highlight-y', `${focus.y * height}px`);
   portraitHighlightOverlay.style.setProperty('--highlight-radius', `${radius}px`);
   portraitHighlightOverlay.classList.add('visible');
   portraitModalLens.classList.remove('visible');

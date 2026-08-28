@@ -14,6 +14,7 @@ function setupCreditsRoll() {
       creditsTrack.appendChild(clone);
     });
   });
+  const allCards = Array.from(creditsTrack.children);
 
   const AUTO_SCROLL_SPEED = 0.42;
   const USER_VELOCITY_DECAY = 0.92;
@@ -25,12 +26,14 @@ function setupCreditsRoll() {
   let previousPointerY = 0;
   let previousPointerTime = 0;
 
-  const loopLength = () => creditsTrack.scrollHeight / 3;
+  const loopStart = () => allCards[originals.length]?.offsetTop || 0;
+  const loopEnd = () => allCards[originals.length * 2]?.offsetTop || 0;
+  const loopLength = () => loopEnd() - loopStart();
   const normalize = () => {
     const length = loopLength();
     if (!length) return;
-    while (scrollPosition >= length * 2) scrollPosition -= length;
-    while (scrollPosition < length) scrollPosition += length;
+    while (scrollPosition >= loopEnd()) scrollPosition -= length;
+    while (scrollPosition < loopStart()) scrollPosition += length;
     creditsWindow.scrollTop = scrollPosition;
   };
 
@@ -90,9 +93,13 @@ function setupCreditsRoll() {
   creditsWindow.addEventListener('pointercancel', finishDrag);
 
   requestAnimationFrame(() => {
-    scrollPosition = loopLength() + Math.max(1, originals[0]?.offsetHeight * 0.45 || 1);
+    scrollPosition = loopStart() + Math.max(1, originals[0]?.offsetHeight * 0.45 || 1);
     creditsWindow.scrollTop = scrollPosition;
-    requestAnimationFrame(tick);
+    updateDepth();
+    requestAnimationFrame(() => {
+      lastFrame = performance.now();
+      requestAnimationFrame(tick);
+    });
   });
 }
 

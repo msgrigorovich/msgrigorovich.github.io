@@ -197,6 +197,7 @@ main {
   border-bottom: 1px solid rgba(17, 17, 17, 0.22);
   font-family: 'Source Code Pro', monospace;
   font-size: 0.56rem;
+  font-weight: 600;
   letter-spacing: 0.15em;
   text-transform: uppercase;
 }
@@ -240,7 +241,9 @@ main {
   opacity: var(--credit-opacity, 0.55);
   transform: scale(var(--credit-scale, 0.9));
   transform-origin: center;
-  transition: opacity 0.16s linear, transform 0.16s linear;
+  backface-visibility: hidden;
+  transition: none;
+  will-change: opacity, transform;
 }
 
 .contact-credit-card > div {
@@ -299,9 +302,10 @@ main {
   padding-top: 0.65rem;
   border-top: 1px solid rgba(17, 17, 17, 0.22);
   font-family: 'Source Code Pro', monospace;
-  font-size: 0.54rem;
+  font-size: 0.6rem;
+  font-weight: 600;
   letter-spacing: 0.07em;
-  opacity: 0.5;
+  opacity: 0.68;
   text-transform: uppercase;
 }
 
@@ -315,7 +319,7 @@ main {
 
 .contact-card-heading {
   display: grid;
-  grid-template-columns: 1fr auto;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 12.25rem);
   align-items: end;
   padding: 1.35rem 1.55rem 1.2rem;
   border-bottom: 1px solid rgba(17, 17, 17, 0.16);
@@ -339,11 +343,13 @@ main {
 }
 
 .contact-card-heading > span {
-  width: 14rem;
-  padding-left: 1.5rem;
-  font-size: 0.72rem;
+  min-width: 0;
+  width: auto;
+  padding-left: 1rem;
+  font-size: 0.7rem;
   line-height: 1.45;
   opacity: 0.6;
+  overflow-wrap: anywhere;
 }
 
 .contact-page .contact-form {
@@ -376,9 +382,10 @@ main {
 
 .contact-field > span {
   font-family: 'Source Code Pro', monospace;
-  font-size: 0.55rem;
+  font-size: 0.59rem;
+  font-weight: 600;
   letter-spacing: 0.1em;
-  opacity: 0.5;
+  opacity: 0.68;
   text-transform: uppercase;
 }
 
@@ -428,6 +435,7 @@ main {
   position: relative;
   width: 14.25rem;
   min-height: 2.4rem;
+  transform: translateX(-0.65rem);
 }
 
 .contact-signature .name-signature {
@@ -2449,7 +2457,8 @@ footer {
   justify-content: space-between;
   gap: 1rem;
   margin-bottom: 0.45rem;
-  font-size: 0.58rem;
+  font-size: 0.62rem;
+  font-weight: 600;
   letter-spacing: 0.12em;
 }
 
@@ -2470,9 +2479,10 @@ footer {
 
 .portfolio-build-days {
   margin: 0.45rem 0 0;
-  font-size: 0.5rem;
+  font-size: 0.56rem;
+  font-weight: 500;
   letter-spacing: 0.08em;
-  opacity: 0.55;
+  opacity: 0.7;
 }
 
 .projects-gallery {
@@ -2543,7 +2553,8 @@ footer {
   width: max-content;
   transform: translateY(-50%);
   font-family: 'Source Code Pro', monospace;
-  font-size: 0.48rem;
+  font-size: 0.56rem;
+  font-weight: 700;
   letter-spacing: 0.08em;
   opacity: 0;
   transition: opacity 0.18s ease;
@@ -2789,7 +2800,8 @@ body.draw-tool-eraser.is-smudging .portrait-smudge-cursor {
 .portrait-caption span {
   font-family: 'Source Code Pro', monospace;
   font-size: 0.62rem;
-  opacity: 0.5;
+  font-weight: 600;
+  opacity: 0.68;
 }
 
 .portrait-thumbs {
@@ -2843,9 +2855,10 @@ body.draw-tool-eraser.is-smudging .portrait-smudge-cursor {
 
 .portrait-archive-note {
   margin: 0.8rem 0 0;
-  font-size: 0.62rem;
+  font-size: 0.69rem;
+  font-weight: 500;
   line-height: 1.5;
-  opacity: 0.58;
+  opacity: 0.72;
 }
 
 .portrait-magnifier-settings {
@@ -2857,10 +2870,11 @@ body.draw-tool-eraser.is-smudging .portrait-smudge-cursor {
 .portrait-magnifier-settings > p {
   margin: 0 0 0.65rem;
   font-family: 'Source Code Pro', monospace;
-  font-size: 0.52rem;
+  font-size: 0.58rem;
+  font-weight: 600;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  opacity: 0.5;
+  opacity: 0.68;
 }
 
 .portrait-magnifier-settings label {
@@ -2869,7 +2883,8 @@ body.draw-tool-eraser.is-smudging .portrait-smudge-cursor {
   align-items: center;
   gap: 0.45rem;
   margin-top: 0.5rem;
-  font-size: 0.56rem;
+  font-size: 0.62rem;
+  font-weight: 600;
 }
 
 .portrait-magnifier-settings input[type="range"] {
@@ -2880,18 +2895,20 @@ body.draw-tool-eraser.is-smudging .portrait-smudge-cursor {
 
 .portrait-magnifier-settings output {
   font-family: 'Source Code Pro', monospace;
-  font-size: 0.5rem;
+  font-size: 0.56rem;
+  font-weight: 600;
   text-align: right;
-  opacity: 0.55;
+  opacity: 0.7;
 }
 
 .portrait-magnifier-settings .portrait-magnifier-hint {
   margin: 0.7rem 0 0;
   font-family: 'Source Code Pro', monospace;
-  font-size: 0.43rem;
+  font-size: 0.54rem;
+  font-weight: 600;
   line-height: 1.55;
   letter-spacing: 0.04em;
-  opacity: 0.42;
+  opacity: 0.64;
 }
 
 .portrait-modal {
