@@ -6,7 +6,7 @@
   <title>Projects — Diana Grigorovich</title>
   <link rel="icon" href="/favicon.png" type="image/png">
   <link rel="preload" as="image" href="/assets/images/portraits/albert-einstein-2015.webp" fetchpriority="high">
-  <link rel="stylesheet" href="/assets/css/style.css?v=20260829-mobile-portrait-popup5" />
+  <link rel="stylesheet" href="/assets/css/style.css?v=20260830-qa-result-scroll1" />
   <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
@@ -44,14 +44,17 @@
     <section class="projects-gallery" aria-label="Portrait projects">
       <div class="projects-intro">
         <p class="projects-kicker">Selected work · 2015—2022</p>
-        <h1><span>The Art of</span><span>Quality</span></h1>
+        <h1><span>The Art of</span><span>Grayness</span></h1>
         <div class="projects-filters" aria-label="Project categories">
-          <button type="button" class="projects-filter active">Art</button>
-          <button type="button" class="projects-filter" disabled>QA <span>In development</span></button>
+          <button type="button" class="projects-filter active" data-project-filter="art" aria-pressed="true">Art</button>
+          <button type="button" class="projects-filter" data-project-filter="qa" aria-pressed="false">QA</button>
           <button type="button" class="projects-filter" disabled>Games <span>In development</span></button>
           <button type="button" class="projects-filter" disabled>Cinematic Arts <span>In development</span></button>
         </div>
         <p class="projects-note">The first things I ever made seriously were graphite portraits. This section begins there.</p>
+        <a class="qa-repository-link" href="https://github.com/msgrigorovich/Art#----art" target="_blank" rel="noreferrer">
+          <img src="/github_icon.png" alt="" class="qa-repository-icon"><span>View repository</span><span aria-hidden="true">↗</span>
+        </a>
       </div>
 
       <div class="portrait-stage">
@@ -101,7 +104,189 @@
         </div>
       </aside>
     </section>
+
+    <section class="qa-project-view" id="qaProjectView" aria-label="QA analytics case study" hidden>
+      <div class="qa-project-intro">
+        <p class="projects-kicker">QA case study · ClickHouse</p>
+        <h1><span>The Art of</span><span>Quality</span></h1>
+        <div class="projects-filters" aria-label="Project categories">
+          <button type="button" class="projects-filter" data-project-filter="art" aria-pressed="false">Art</button>
+          <button type="button" class="projects-filter active" data-project-filter="qa" aria-pressed="true">QA</button>
+          <button type="button" class="projects-filter" disabled>Games <span>In development</span></button>
+          <button type="button" class="projects-filter" disabled>Cinematic Arts <span>In development</span></button>
+        </div>
+        <p class="projects-note">A practical SQL toolkit for validating product analytics in mobile games — from a single event to a production pattern.</p>
+        <a class="qa-repository-link" href="https://github.com/msgrigorovich/SQL#----qa-analyst" target="_blank" rel="noreferrer">
+          <img src="/github_icon.png" alt="" class="qa-repository-icon"><span>View repository</span><span aria-hidden="true">↗</span>
+        </a>
+      </div>
+
+      <div class="qa-project-stage">
+        <button class="qa-preview-card" id="qaCaseOpen" type="button" aria-label="Open The Art of Quality case study">
+          <span class="qa-preview-top"><i></i><i></i><i></i><b>analytics_qa.sql</b></span>
+          <span class="qa-preview-heading"><small>ClickHouse · read-only diagnostics</small><strong>From action<br>to evidence.</strong></span>
+          <span class="qa-preview-flow" aria-hidden="true">
+            <i><b>01</b>Action</i><em>→</em><i><b>02</b>Event</i><em>→</em><i><b>03</b>Query</i><em>→</em><i><b>04</b>Decision</i>
+          </span>
+          <span class="qa-preview-chart" aria-hidden="true">
+            <i style="--qa-bar: 88%"><b>Start</b></i>
+            <i style="--qa-bar: 78%"><b>Complete</b></i>
+            <i style="--qa-bar: 12%"><b>Fail</b></i>
+          </span>
+          <span class="qa-preview-open"><span>Open full</span><span>↗</span></span>
+        </button>
+        <div class="qa-project-caption"><h2>Analytics-driven QA</h2><span>2024</span></div>
+      </div>
+
+      <aside class="qa-project-archive" aria-label="QA project archive">
+        <p>Projects · 04</p>
+        <div class="qa-project-thumbs">
+          <button type="button" class="qa-project-thumb active" data-qa-project="sql" aria-label="Select The Art of Quality preview" aria-pressed="true">
+            <span class="qa-project-thumb-art"><i>SELECT</i><i>FROM</i><i>WHERE</i></span><b>01</b>
+          </button>
+          <button type="button" class="qa-project-thumb placeholder" aria-label="QA project 02, in development" aria-disabled="true">
+            <span class="qa-project-thumb-art"><i>TRACE</i><i>CHECK</i><i>REPORT</i></span><b>02</b><span class="qa-project-coming">In development</span>
+          </button>
+          <button type="button" class="qa-project-thumb placeholder" aria-label="QA project 03, in development" aria-disabled="true">
+            <span class="qa-project-thumb-art"><i>PLAN</i><i>RUN</i><i>LEARN</i></span><b>03</b><span class="qa-project-coming">In development</span>
+          </button>
+          <button type="button" class="qa-project-thumb placeholder" aria-label="QA project 04, in development" aria-disabled="true">
+            <span class="qa-project-thumb-art"><i>LOAD</i><i>MEASURE</i><i>TUNE</i></span><b>04</b><span class="qa-project-coming">In development</span>
+          </button>
+        </div>
+        <p class="qa-project-archive-note">ClickHouse · OLAP<br>Mobile game analytics, 2024</p>
+        <div class="qa-project-index" aria-label="QA case study contents">
+          <p>Case contents</p>
+          <span><b>04</b> diagnostic scenarios</span>
+          <span><b>03</b> evidence layers</span>
+          <span><b>01</b> read-only approach</span>
+        </div>
+      </aside>
+    </section>
   </main>
+
+  <dialog class="qa-case-modal" id="qaCaseModal" aria-labelledby="qaCaseTitle">
+    <article class="qa-case-card">
+      <header class="qa-case-header">
+        <div><p>QA case study · 01</p><h2 id="qaCaseTitle">Analytics-driven QA</h2></div>
+        <div class="qa-poster-guide" aria-label="Reading guide: question, method, evidence, decision">
+          <span>Reading guide</span><b>Question</b><i></i><b>Method</b><i></i><b>Evidence</b><i></i><b>Decision</b>
+        </div>
+        <button class="qa-tour-replay" id="qaTourReplay" type="button">Tour</button>
+        <button type="button" id="qaCaseClose" aria-label="Close QA case study">×</button>
+      </header>
+      <div class="qa-tour-layer" id="qaTourLayer" hidden aria-live="polite">
+        <div class="qa-tour-blocker" aria-hidden="true"></div>
+        <div class="qa-tour-focus" id="qaTourFocus" aria-hidden="true"></div>
+        <section class="qa-tour-panel" id="qaTourPanel" role="dialog" aria-modal="true" aria-labelledby="qaTourTitle">
+          <div class="qa-tour-progress"><span id="qaTourStep">01 / 05</span><i><b id="qaTourProgress"></b></i></div>
+          <p>Guided reading</p>
+          <h3 id="qaTourTitle">Start with the question</h3>
+          <div id="qaTourText">The interface shows an outcome. The funnel and telemetry show the evidence behind it.</div>
+          <footer>
+            <button type="button" id="qaTourSkip">Skip tour</button>
+            <span>
+              <button type="button" id="qaTourBack">Back</button>
+              <button type="button" id="qaTourNext">Next</button>
+            </span>
+          </footer>
+        </section>
+      </div>
+      <div class="qa-case-scroll">
+        <section class="qa-case-hero">
+          <div>
+            <p class="qa-case-kicker">The question</p>
+            <h3>How do you test what the interface cannot show?</h3>
+            <p>In a mobile game, a tap can trigger analytics, experiment assignment, advertising callbacks and cloud-save transitions. The UI shows the outcome; ClickHouse shows the evidence.</p>
+          </div>
+          <div class="qa-case-chart" aria-label="Synthetic advertising funnel example">
+            <p><span>Synthetic funnel</span><span>7 days</span></p>
+            <div><span>Start <b>4,293</b></span><i style="--qa-value: 100%"></i></div>
+            <div><span>Complete <b>4,064</b></span><i style="--qa-value: 94.7%"></i></div>
+            <div><span>Fail <b>3</b></span><i class="fail" style="--qa-value: 3%"></i></div>
+            <small>A failed ad event is an outcome signal—not automatically an ANR or crash.</small>
+          </div>
+        </section>
+
+        <section class="qa-case-method">
+          <p class="qa-case-kicker">The method</p>
+          <div class="qa-case-flow">
+            <span><b>01</b><strong>Action</strong><small>Reproduce a controlled test step</small></span>
+            <i>→</i>
+            <span><b>02</b><strong>Event</strong><small>Locate the emitted telemetry</small></span>
+            <i>→</i>
+            <span><b>03</b><strong>Query</strong><small>Check sequence and parameters</small></span>
+            <i>→</i>
+            <span><b>04</b><strong>Decision</strong><small>Confirm, investigate or prioritize</small></span>
+          </div>
+        </section>
+
+        <section class="qa-case-evidence">
+          <article class="qa-query-card" aria-live="polite">
+            <header class="qa-query-header">
+              <div><p id="qaQueryEyebrow">01 · Event trail</p><h2 id="qaQueryTitle">Rebuild a user session</h2></div>
+              <span class="qa-query-status"><i></i> Read only</span>
+            </header>
+            <p class="qa-query-description" id="qaQueryDescription">Trace ordered analytics events and inspect experiment context without touching production state.</p>
+            <div class="qa-query-insight">
+              <p>How to read this</p>
+              <div id="qaQueryInsight">This baseline trace reconstructs the session. Device-owned install and session rows can leave product fields empty, so they are filtered before event order is assessed.</div>
+              <small><b>Context</b> ClickHouse · OLAP · columnar</small>
+            </div>
+            <pre class="qa-query-code"><code id="qaQueryCode">SELECT
+    created_at,
+    activity_kind,
+    event_name,
+    JSONExtractString(base_parameters, 'ab_group') AS ab_group
+FROM analytics.realtime_events
+WHERE user_id = {user_id:String}
+  AND toDate(created_at) = today()
+  AND activity_kind NOT IN ('install', 'session')
+ORDER BY created_at DESC;</code></pre>
+            <section class="qa-guided-result" id="qaGuidedResult" hidden aria-live="polite">
+              <header><span>Query result</span><b>Fictional data</b></header>
+              <div class="qa-guided-result-table" id="qaGuidedResultTable"></div>
+              <p id="qaGuidedResultNote">These anonymized example values come from the source article and do not represent company data.</p>
+            </section>
+            <div class="qa-query-output" id="qaQueryOutput"><span><b>Signal</b> ordered event trail</span><span><b>Use</b> reproduce & verify</span><span><b>Guard</b> synthetic identifiers</span></div>
+          </article>
+          <div class="qa-case-section-heading">
+            <div><p class="qa-case-kicker">The evidence</p><h3>Eight recurring QA questions</h3></div>
+            <p>Choose a scenario to update the explanation, query and interpretation.</p>
+          </div>
+          <div class="qa-scenario-list" aria-label="SQL test scenarios">
+            <div class="qa-scenario-item"><button type="button" class="qa-scenario active" data-qa-scenario="events" aria-pressed="true"><span>01</span><strong>Event trail</strong><small>Session evidence</small></button><button class="qa-scenario-run" type="button" data-qa-tour-scenario="events" aria-label="Run Event trail guided case" title="Run guided case">▶</button></div>
+            <div class="qa-scenario-item"><button type="button" class="qa-scenario" data-qa-scenario="ab" aria-pressed="false"><span>02</span><strong>A/B split</strong><small>Assignment health</small></button><button class="qa-scenario-run" type="button" data-qa-tour-scenario="ab" aria-label="Run A/B split guided case" title="Run guided case">▶</button></div>
+            <div class="qa-scenario-item"><button type="button" class="qa-scenario" data-qa-scenario="adActivity" aria-pressed="false"><span>03</span><strong>Ad activity</strong><small>Logging compliance</small></button><button class="qa-scenario-run" type="button" data-qa-tour-scenario="adActivity" aria-label="Run Ad activity guided case" title="Run guided case">▶</button></div>
+            <div class="qa-scenario-item"><button type="button" class="qa-scenario" data-qa-scenario="adOutcomes" aria-pressed="false"><span>04</span><strong>Ad outcomes</strong><small>Fail frequency</small></button><button class="qa-scenario-run" type="button" data-qa-tour-scenario="adOutcomes" aria-label="Run Ad outcomes guided case" title="Run guided case">▶</button></div>
+            <div class="qa-scenario-item"><button type="button" class="qa-scenario" data-qa-scenario="networkUser" aria-pressed="false"><span>05</span><strong>Network trace</strong><small>User evidence</small></button><button class="qa-scenario-run" type="button" data-qa-tour-scenario="networkUser" aria-label="Run Network trace guided case" title="Run guided case">▶</button></div>
+            <div class="qa-scenario-item"><button type="button" class="qa-scenario" data-qa-scenario="networkAggregate" aria-pressed="false"><span>06</span><strong>Network volume</strong><small>Aggregate activity</small></button><button class="qa-scenario-run" type="button" data-qa-tour-scenario="networkAggregate" aria-label="Run Network volume guided case" title="Run guided case">▶</button></div>
+            <div class="qa-scenario-item"><button type="button" class="qa-scenario" data-qa-scenario="socialSaves" aria-pressed="false"><span>07</span><strong>Social save</strong><small>Stable identity</small></button><button class="qa-scenario-run" type="button" data-qa-tour-scenario="socialSaves" aria-label="Run Social save guided case" title="Run guided case">▶</button></div>
+            <div class="qa-scenario-item"><button type="button" class="qa-scenario" data-qa-scenario="stateAudit" aria-pressed="false"><span>08</span><strong>State audit</strong><small>Recovery timeline</small></button><button class="qa-scenario-run" type="button" data-qa-tour-scenario="stateAudit" aria-label="Run State audit guided case" title="Run guided case">▶</button></div>
+          </div>
+        </section>
+
+        <section class="qa-case-takeaways">
+          <p class="qa-case-kicker">Conclusion · decision</p>
+          <article class="qa-decision-card" aria-live="polite">
+            <span id="qaDecisionNumber">01</span>
+            <h3 id="qaDecisionTitle">The event sequence is the evidence</h3>
+            <p id="qaDecisionConclusion">The logging contract is healthy when the emitted order and parameters match the controlled actions performed on the device.</p>
+            <div><b>Decision</b><p id="qaDecisionAction">Confirm the scenario, or investigate the first missing, duplicated or malformed event.</p></div>
+          </article>
+          <div class="qa-article-conclusions">
+            <p>Article conclusions</p>
+            <ul>
+              <li>Use telemetry to verify what the interface cannot expose.</li>
+              <li>Interpret counts against an expected result—not in isolation.</li>
+              <li>Keep diagnostics read-only; perform recovery only through approved tooling.</li>
+            </ul>
+          </div>
+        </section>
+      </div>
+      <footer class="qa-case-footer"><span>ClickHouse · SQL · Product analytics</span><a href="https://github.com/msgrigorovich/SQL#----qa-analyst" target="_blank" rel="noreferrer">Source repository ↗</a></footer>
+    </article>
+  </dialog>
 
   <dialog class="portrait-modal" id="portraitModal" aria-labelledby="portraitModalTitle">
     <div class="portrait-modal-card">
@@ -231,7 +416,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 
 <script src="/assets/js/main.js?v=20260827-performance1"></script>
-<script src="/assets/js/projects.js?v=20260829-mobile-portrait-popup1"></script>
+<script src="/assets/js/projects.js?v=20260830-qa-result-scroll1"></script>
 <script src="/assets/js/analytics.js"></script>
 
 </body>

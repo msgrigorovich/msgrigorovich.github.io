@@ -133,6 +133,252 @@ let activeHighlightFigure = null;
 
 const isMobilePortraitModal = () => window.matchMedia('(max-width: 820px), (hover: none) and (pointer: coarse)').matches;
 
+const qaScenarios = {
+  events: {
+    eyebrow: '01 · Event trail',
+    title: 'Rebuild a user session',
+    description: 'Trace ordered analytics events and inspect experiment context without touching production state.',
+    insight: 'This baseline trace reconstructs the session. Device-owned install and session rows can leave product fields empty, so they are filtered before event order is assessed.',
+    code: `SELECT
+    created_at,
+    activity_kind,
+    event_name,
+    JSONExtractString(base_parameters, 'ab_group') AS ab_group
+FROM analytics.realtime_events
+WHERE user_id = {user_id:String}
+  AND toDate(created_at) = today()
+  AND activity_kind NOT IN ('install', 'session')
+ORDER BY created_at DESC;`,
+    output: [['Signal', 'ordered event trail'], ['Use', 'reproduce & verify'], ['Guard', 'synthetic identifiers']],
+    decisionTitle: 'The event sequence is the evidence',
+    conclusion: 'The logging contract is healthy when the emitted order and parameters match the controlled actions performed on the device.',
+    decision: 'Confirm the scenario, or investigate the first missing, duplicated or malformed event.'
+  },
+  ab: {
+    eyebrow: '02 · A/B split',
+    title: 'Validate experiment assignment',
+    description: 'Compare exact unique-user counts before interpreting test results or investigating a biased rollout.',
+    insight: 'Compare the actual distribution with the allocation planned by the team. A near 1:1 result is healthy only when 1:1 was the expected experiment ratio.',
+    code: `SELECT
+    app_version,
+    ab_group,
+    uniqExact(user_id) AS unique_users
+FROM product.analytics_events
+WHERE ab_group LIKE '021_%'
+GROUP BY app_version, ab_group
+ORDER BY app_version, ab_group;`,
+    output: [['Signal', 'group distribution'], ['Use', 'detect allocation drift'], ['Expected', 'planned ratio']],
+    decisionTitle: 'Expected must equal actual',
+    conclusion: 'A near 1:1 split supports correct assignment only when 1:1 is the allocation planned for this experiment and version.',
+    decision: 'Accept the rollout distribution, or investigate allocation drift by version and group.'
+  },
+  adActivity: {
+    eyebrow: '03 · Ad activity',
+    title: 'Verify advertising logging',
+    description: 'Match the telemetry of a specific tester to the advertising test case performed on the device.',
+    insight: 'Check creation time, ad type, placement and status together. Each emitted row should correspond to a deliberate action and its visible outcome.',
+    code: `SELECT created_at,
+    JSONExtractString(base_parameters, 'type') AS ad_type,
+    JSONExtractString(base_parameters, 'ad_placement') AS placement,
+    JSONExtractString(base_parameters, 'status') AS status
+FROM analytics.realtime_events
+WHERE toDate(created_at) = today()
+  AND event_name = 'AdView' AND user_id = {user_id:String}
+ORDER BY created_at DESC;`,
+    output: [['Signal', 'time · type · placement'], ['Use', 'check ad test case'], ['Expected', 'action matches event']],
+    decisionTitle: 'The test action matches its log',
+    conclusion: 'Advertising logging is compliant when time, type, placement and status reproduce the tester’s controlled sequence.',
+    decision: 'Confirm instrumentation, or report the first mismatch with its placement and status.'
+  },
+  adOutcomes: {
+    eyebrow: '04 · Ad outcomes',
+    title: 'Measure fail frequency',
+    description: 'Compare Start, Complete and Fail outcomes to understand scale before prioritizing an advertising defect.',
+    insight: 'The repository visualizes these counts as a funnel. A Fail event is an outcome signal; without crash evidence it must not be labelled as an ANR.',
+    code: `WITH JSONExtractString(base_parameters, 'status') AS status
+SELECT status, count() AS events
+FROM analytics.realtime_events
+WHERE event_name = 'AdView'
+  AND toDate(created_at) >= '2024-02-02'
+  AND status IN ('Start', 'Complete', 'Fail')
+GROUP BY status
+ORDER BY events DESC;`,
+    output: [['Signal', 'outcome frequency'], ['Use', 'prioritize placement'], ['Guard', 'Fail ≠ ANR']],
+    decisionTitle: 'Frequency informs priority, not cause',
+    conclusion: 'A low Fail count can lower immediate priority, but it does not identify a crash mechanism or prove that the defect is harmless.',
+    decision: 'Prioritize by rate and placement, then correlate failures with crash or ANR evidence.'
+  },
+  networkUser: {
+    eyebrow: '05 · Network trace',
+    title: 'Trace one ad network',
+    description: 'Use production telemetry to verify whether a network emits revenue activity for a specific user and placement.',
+    insight: 'This is useful when a test debugger reports an error but the integration did not change from production. Store, network, placement and type provide the context.',
+    code: `SELECT app_name, created_at, store,
+    ad_network, ad_placement, ad_type
+FROM analytics.ad_revenue
+WHERE app_name = {app:String} AND toDate(created_at) = today()
+  AND activity_kind = 'ad_revenue'
+  AND ad_network = 'Google AdMob'
+  AND user_id = {user_id:String}
+ORDER BY created_at DESC;`,
+    output: [['Signal', 'network activity'], ['Use', 'verify integration'], ['Context', 'store · placement · type']],
+    decisionTitle: 'Production activity challenges the debugger',
+    conclusion: 'Rows from the expected store and placements demonstrate that the selected network is active for this product context.',
+    decision: 'Treat the debugger error as environment-specific, or escalate when production telemetry is also absent.'
+  },
+  networkAggregate: {
+    eyebrow: '06 · Network volume',
+    title: 'Compare network activity',
+    description: 'Count impressions by integrated ad network to establish the observed production distribution.',
+    insight: 'Aggregate volume shows which networks are used most often. It is a useful prioritization signal, but traffic volume alone is not a stability metric.',
+    code: `SELECT ad_network AS network,
+    count() AS impressions
+FROM analytics.ad_revenue
+WHERE app_name = {app:String}
+  AND toDate(created_at) >= '2024-02-15'
+  AND activity_kind = 'ad_revenue' AND ad_network != ''
+GROUP BY network
+ORDER BY impressions DESC;`,
+    output: [['Signal', 'impression volume'], ['Use', 'rank coverage'], ['Guard', 'volume ≠ quality']],
+    decisionTitle: 'Coverage follows observed usage',
+    conclusion: 'The ranking identifies high-volume networks that deserve proportionally strong regression coverage and monitoring.',
+    decision: 'Prioritize coverage by volume, then assess failures and completion rates separately.'
+  },
+  socialSaves: {
+    eyebrow: '07 · Social save',
+    title: 'Find a stable save identity',
+    description: 'Trace social connections that can anchor a user’s progress when device-level identifiers change.',
+    insight: 'IDFA access can be denied or reset, and an app reinstall can generate a new project user ID. A social identifier is therefore a more reliable recovery key.',
+    code: `SELECT created_at, event_name,
+    JSONExtractString(base_parameters, 'reason') AS reason,
+    JSONExtractString(base_parameters, 'social_network') AS network
+FROM analytics.realtime_events
+WHERE toDate(created_at) >= '2024-01-01'
+  AND event_name = 'SocialConnected'
+  AND user_id = {user_id:String}
+ORDER BY created_at DESC;`,
+    output: [['Signal', 'social connection'], ['Use', 'locate stable save'], ['Guard', 'verify ownership']],
+    decisionTitle: 'Social identity is the safer anchor',
+    conclusion: 'A verified social connection provides a more durable path to the correct progress than a resettable device or installation identifier.',
+    decision: 'Use the verified social identity to locate the save, then follow the approved recovery flow.'
+  },
+  stateAudit: {
+    eyebrow: '08 · State audit',
+    title: 'Audit every state transition',
+    description: 'Build a read-only timeline before any approved recovery action; keep decoding inside trusted tooling.',
+    insight: 'Order every state transition before choosing the last valid save. Encrypted state payloads protect storage and must be decoded only inside trusted tools.',
+    code: `SELECT event_time, process, login,
+    coalesce(
+      nullIf(JSONExtractString(request, 'state'), ''),
+      JSONExtractString(response, 'state')
+    ) AS encoded_state
+FROM support.user_state_events
+WHERE user_id = {user_id:String}
+  AND toDate(event_time) >= '2024-01-01'
+  AND bundle_id = {bundle_id:String}
+ORDER BY event_time DESC;`,
+    output: [['Signal', 'state chronology'], ['Use', 'locate last valid save'], ['Guard', 'audited recovery only']],
+    decisionTitle: 'Recover from the last valid state',
+    conclusion: 'The ordered timeline exposes when progress changed and which earlier state is a defensible recovery candidate.',
+    decision: 'Select the last verified state and restore it only through access-controlled, audited tooling.'
+  }
+};
+
+const qaScenarioGuides = {
+  events: {
+    condition: 'Reproduce one controlled session for a known test user, then reconstruct the emitted event order.',
+    timing: 'Filter by today and order newest first. Device-owned install and session rows are excluded from the product-event assessment.',
+    expected: 'SessionStart → RegimeChanged → PreferencesSelected → CoreOpen → GameExit, with the Testing A/B value present on product events.',
+    columns: ['created_at', 'activity', 'event_name', 'ab_group'],
+    rows: [
+      ['11:30:58', 'event', 'GameExit', 'Testing'],
+      ['11:29:56', 'event', 'CoreOpen', 'Testing'],
+      ['11:29:41', 'event', 'PreferencesSelected', 'Testing'],
+      ['11:07:06', 'event', 'RegimeChanged', 'Testing'],
+      ['11:07:02', 'event', 'SessionStart', 'Testing']
+    ],
+    result: 'The expected product events are present in reverse chronological order; the logging contract can be compared directly with the controlled actions.'
+  },
+  ab: {
+    condition: 'Check whether users of app version 1.74 were assigned to experiment 021 according to the planned allocation.',
+    timing: 'Use the selected app version and the 021 experiment cohort; aggregate exact unique users by group.',
+    expected: 'The planned split is 1:1, so Testing and Control should contain nearly equal unique-user counts.',
+    columns: ['app_version', 'ab_group', 'users_unique'],
+    rows: [['1.74', '021_AbName_Testing', '2,751'], ['1.74', '021_AbName_Control', '2,748']],
+    result: 'The three-user difference is consistent with the planned 1:1 allocation: expected and observed distributions agree.'
+  },
+  adActivity: {
+    condition: 'Perform a controlled advertising test and match every device action to its emitted AdView telemetry.',
+    timing: 'Filter the known tester to today, then read creation time, type, placement and status together.',
+    expected: 'Each Start, Click, Complete, Fail or End row should match the action, placement and visible outcome on the test device.',
+    columns: ['created_at', 'type', 'placement', 'status'],
+    rows: [
+      ['17:54:32', 'Banner', 'Core', 'End'],
+      ['15:25:52', 'Rewarded', 'Shop', 'Fail'],
+      ['15:23:43', 'Rewarded', 'Shop', 'Complete'],
+      ['16:04:17', 'Interstitial', 'CoreExit', 'Complete']
+    ],
+    result: 'The sample contains the expected placements and statuses. Any first mismatch should be reported with its timestamp and device action.'
+  },
+  adOutcomes: {
+    condition: 'Measure the scale of advertising outcomes before assigning severity to a reported failure.',
+    timing: 'Aggregate Start, Complete and Fail events from 2 February 2024 onward, matching the source example.',
+    expected: 'Most starts should complete; Fail must be treated as an outcome signal rather than automatic proof of an ANR or crash.',
+    columns: ['ad_status', 'count'],
+    rows: [['Start', '4,293'], ['Complete', '4,064'], ['Fail', '3']],
+    result: 'Fail is rare in this synthetic sample, which lowers immediate priority, but causality still requires crash or ANR correlation.'
+  },
+  networkUser: {
+    condition: 'A debugger reports a Google AdMob error. Check whether unchanged production integration still emits activity.',
+    timing: 'Filter one user and today, then retain Google AdMob ad-revenue rows across store, placement and type.',
+    expected: 'At least one row from the expected stores and placements demonstrates that the network is active in the product context.',
+    columns: ['store', 'network', 'placement', 'type'],
+    rows: [
+      ['google', 'Google AdMob', 'CoreExit', 'Interstitial'],
+      ['itunes', 'Google AdMob', 'CoreExit', 'Interstitial'],
+      ['itunes', 'Google AdMob', 'Shop', 'Rewarded'],
+      ['google', 'Google AdMob', 'Core', 'Banner']
+    ],
+    result: 'Production telemetry contains the expected AdMob placements, so the isolated debugger error is not enough to declare an integration defect.'
+  },
+  networkAggregate: {
+    condition: 'Establish which integrated advertising networks carry the most observed product traffic.',
+    timing: 'Count non-empty ad-revenue network rows from 15 February 2024 onward and rank them descending.',
+    expected: 'The result should expose a usable coverage ranking; impression volume alone must not be interpreted as stability.',
+    columns: ['network', 'impressions'],
+    rows: [['AppLovin', '1,307'], ['ironSource', '362'], ['Unity Ads', '294'], ['Mintegral', '260'], ['Facebook', '192'], ['InMobi', '159'], ['DT Exchange', '137']],
+    result: 'AppLovin has the largest observed volume and therefore deserves proportionally strong regression coverage; quality still needs separate failure metrics.'
+  },
+  socialSaves: {
+    condition: 'Find a durable identity that can locate progress after a device identifier changes or an application is reinstalled.',
+    timing: 'Read SocialConnected events since 1 January 2024 for the known user and compare reason and social network.',
+    expected: 'A verified social connection should provide a more stable recovery key than IDFA or an installation-scoped identifier.',
+    columns: ['created_at', 'reason', 'network'],
+    rows: [
+      ['Jan 24 · 16:16', 'MainMenu', 'Google'],
+      ['Jan 21 · 16:16', 'SettingsMenu', 'Google'],
+      ['Jan 18 · 16:16', 'SettingsMenu', 'Apple'],
+      ['Jan 06 · 16:16', 'MainMenu', 'Google'],
+      ['Jan 02 · 16:16', 'MainMenu', 'Facebook']
+    ],
+    result: 'The timeline exposes several social identities. Ownership must be verified before Google is used as the durable recovery anchor.'
+  },
+  stateAudit: {
+    condition: 'A user restored the wrong progress. Build the full state timeline before considering any recovery action.',
+    timing: 'Read the selected bundle from 1 January 2024 onward and order LOAD, SAVE and RESOLVE operations newest first.',
+    expected: 'The ordered states should reveal the last valid version before replacement; encrypted payloads remain inside trusted tooling.',
+    columns: ['event_time', 'process', 'login', 'state'],
+    rows: [
+      ['16:13:31', 'LOAD', '145807…', 'v1.74'],
+      ['16:13:28', 'SAVE', '145807…', 'v1.74'],
+      ['16:13:27', 'RESOLVE', '145807…', 'v1.74'],
+      ['16:13:03', 'LOAD', '—', 'v1.23'],
+      ['16:12:52', 'LOAD', '—', 'v1.23']
+    ],
+    result: 'The state changes from 1.23 to 1.74. The earlier verified state is a recovery candidate, but restoration requires approved and audited tooling.'
+  }
+};
+
 function clamp(value, min, max) {
   return Math.max(min, Math.min(max, value));
 }
@@ -1130,6 +1376,503 @@ portraitModalPaper.addEventListener('click', event => {
   const minimumSize = Number(portraitLensSize.min);
   setLensSize(lensSize >= maximumSize ? minimumSize : lensSize * 1.1);
   updateModalLens(event);
+});
+
+const projectsGallery = document.querySelector('.projects-gallery');
+const qaProjectView = document.getElementById('qaProjectView');
+const projectFilterButtons = Array.from(document.querySelectorAll('[data-project-filter]'));
+const qaScenarioButtons = Array.from(document.querySelectorAll('[data-qa-scenario]'));
+const qaQueryCard = document.querySelector('.qa-query-card');
+const qaQueryEyebrow = document.getElementById('qaQueryEyebrow');
+const qaQueryTitle = document.getElementById('qaQueryTitle');
+const qaQueryDescription = document.getElementById('qaQueryDescription');
+const qaQueryInsight = document.getElementById('qaQueryInsight');
+const qaQueryCode = document.getElementById('qaQueryCode');
+const qaQueryOutput = document.getElementById('qaQueryOutput');
+const qaGuidedResult = document.getElementById('qaGuidedResult');
+const qaGuidedResultTable = document.getElementById('qaGuidedResultTable');
+const qaGuidedResultNote = document.getElementById('qaGuidedResultNote');
+const qaDecisionNumber = document.getElementById('qaDecisionNumber');
+const qaDecisionTitle = document.getElementById('qaDecisionTitle');
+const qaDecisionConclusion = document.getElementById('qaDecisionConclusion');
+const qaDecisionAction = document.getElementById('qaDecisionAction');
+const qaCaseModal = document.getElementById('qaCaseModal');
+const qaCaseOpen = document.getElementById('qaCaseOpen');
+const qaCaseClose = document.getElementById('qaCaseClose');
+const qaTourReplay = document.getElementById('qaTourReplay');
+const qaTourLayer = document.getElementById('qaTourLayer');
+const qaTourFocus = document.getElementById('qaTourFocus');
+const qaTourPanel = document.getElementById('qaTourPanel');
+const qaTourStep = document.getElementById('qaTourStep');
+const qaTourProgress = document.getElementById('qaTourProgress');
+const qaTourTitle = document.getElementById('qaTourTitle');
+const qaTourText = document.getElementById('qaTourText');
+const qaTourBack = document.getElementById('qaTourBack');
+const qaTourNext = document.getElementById('qaTourNext');
+const qaTourSkip = document.getElementById('qaTourSkip');
+const qaScenarioRunButtons = Array.from(document.querySelectorAll('[data-qa-tour-scenario]'));
+const qaProjectButtons = Array.from(document.querySelectorAll('[data-qa-project]'));
+const qaCursorElements = [
+  document.querySelector('.cursor-trail'),
+  document.querySelector('.cursor-outline'),
+  document.querySelector('.cursor-dot')
+].filter(Boolean);
+const qaOverviewTourSteps = [
+  { target: '.qa-case-hero', title: 'Start with the question', text: 'The interface shows an outcome. The funnel and telemetry show the evidence behind it.' },
+  { target: '.qa-case-method', title: 'Follow the testing method', text: 'Move from a controlled action to an emitted event, then use a query to reach an evidence-based decision.' },
+  { target: '.qa-query-card', title: 'Read evidence beside the SQL', text: 'The left side explains the purpose and interpretation. The highlighted query shows exactly how the evidence is selected.' },
+  { target: '.qa-scenario-list', title: 'Explore all eight questions', text: 'Choose any scenario to update its goal, explanation, SQL, conclusion and recommended decision.' },
+  { target: '.qa-case-takeaways', title: 'Finish with a decision', text: 'A query is not the conclusion. This panel turns the observed signal into a defensible QA decision and next step.' },
+  { target: '[data-qa-tour-scenario="events"]', title: 'Try the first case', text: 'Ready to apply the chain? Continue to inspect the condition, timing, expected result, query evidence and decision for Event trail.', nextLabel: 'Start case', skipLabel: 'Not now' }
+];
+let qaTourSteps = qaOverviewTourSteps;
+let qaTourMode = 'overview';
+let qaTourScenarioKey = null;
+let qaTourIndex = -1;
+let qaTourActive = false;
+let qaTourPreviousFocus = null;
+let qaTourPositionFrame = 0;
+let qaTourMotionFrame = 0;
+let qaTourStartTimer = 0;
+
+function qaTourWasCompleted() {
+  try { return sessionStorage.getItem('qa-guided-tour-v1') === 'complete'; }
+  catch { return false; }
+}
+
+function rememberQaTourCompletion() {
+  try { sessionStorage.setItem('qa-guided-tour-v1', 'complete'); }
+  catch { /* Storage can be unavailable in privacy modes. */ }
+}
+
+function setQaGuidedResultVisible(visible) {
+  qaGuidedResult.hidden = !visible;
+  qaQueryCard.classList.toggle('show-guided-result', visible);
+}
+
+function renderQaGuidedResult(key) {
+  const guide = qaScenarioGuides[key];
+  if (!guide) return;
+  const table = document.createElement('table');
+  const head = document.createElement('thead');
+  const headRow = document.createElement('tr');
+  guide.columns.forEach(column => {
+    const cell = document.createElement('th');
+    cell.textContent = column;
+    headRow.appendChild(cell);
+  });
+  head.appendChild(headRow);
+  const body = document.createElement('tbody');
+  guide.rows.forEach(row => {
+    const tableRow = document.createElement('tr');
+    row.forEach(value => {
+      const cell = document.createElement('td');
+      cell.textContent = value;
+      tableRow.appendChild(cell);
+    });
+    body.appendChild(tableRow);
+  });
+  table.append(head, body);
+  qaGuidedResultTable.replaceChildren(table);
+  qaGuidedResultNote.textContent = `${guide.result} All displayed values are fictional, anonymized examples from the source article.`;
+}
+
+function buildQaScenarioTour(key) {
+  const scenario = qaScenarios[key];
+  const guide = qaScenarioGuides[key];
+  if (!scenario || !guide) return [];
+  return [
+    {
+      target: '.qa-query-description',
+      title: `${scenario.eyebrow.slice(0, 2)} · Define the check`,
+      text: `Condition: ${guide.condition} Timing: ${guide.timing}`,
+      showResult: false
+    },
+    {
+      target: '.qa-query-code',
+      title: 'State the expected result',
+      text: `${guide.expected} The query is read-only and uses fictional identifiers.`,
+      nextLabel: 'Run query',
+      showResult: false
+    },
+    {
+      target: '.qa-guided-result',
+      title: 'Compare with the returned data',
+      text: 'This is the synthetic result published in the GitHub article. Compare observed rows with the expectation before interpreting them.',
+      showResult: true,
+      allowInteraction: true
+    },
+    {
+      target: '.qa-case-takeaways',
+      title: 'Conclude, then decide',
+      text: `${guide.result} This completes the fixed chain: Question → Method → Evidence → Decision.`,
+      nextLabel: 'Finish case',
+      showResult: true
+    }
+  ];
+}
+
+function positionQaTour() {
+  if (!qaTourActive) return;
+  const step = qaTourSteps[qaTourIndex];
+  const target = qaCaseModal.querySelector(step.target);
+  if (!target) return;
+  const card = qaCaseModal.querySelector('.qa-case-card');
+  const cardRect = card.getBoundingClientRect();
+  const targetRect = target.getBoundingClientRect();
+  const padding = 7;
+  const left = Math.max(8, targetRect.left - cardRect.left - padding);
+  const top = Math.max(8, targetRect.top - cardRect.top - padding);
+  const right = Math.min(cardRect.width - 8, targetRect.right - cardRect.left + padding);
+  const bottom = Math.min(cardRect.height - 8, targetRect.bottom - cardRect.top + padding);
+  qaTourFocus.style.left = `${left}px`;
+  qaTourFocus.style.top = `${top}px`;
+  qaTourFocus.style.width = `${Math.max(1, right - left)}px`;
+  qaTourFocus.style.height = `${Math.max(1, bottom - top)}px`;
+
+  const panelWidth = qaTourPanel.offsetWidth;
+  const panelHeight = qaTourPanel.offsetHeight;
+  const gap = 14;
+  const spaceRight = cardRect.width - right;
+  const spaceLeft = left;
+  let panelLeft;
+  let panelTop;
+  if (spaceRight >= panelWidth + gap) {
+    panelLeft = right + gap;
+    panelTop = top;
+  } else if (spaceLeft >= panelWidth + gap) {
+    panelLeft = left - panelWidth - gap;
+    panelTop = top;
+  } else {
+    panelLeft = Math.min(Math.max(14, left), cardRect.width - panelWidth - 14);
+    panelTop = bottom + panelHeight + gap <= cardRect.height
+      ? bottom + gap
+      : Math.max(14, top - panelHeight - gap);
+  }
+  qaTourPanel.style.left = `${panelLeft}px`;
+  qaTourPanel.style.top = `${Math.min(panelTop, cardRect.height - panelHeight - 14)}px`;
+}
+
+function animateQaTourScroll(scroll, destination) {
+  if (qaTourMotionFrame) cancelAnimationFrame(qaTourMotionFrame);
+  qaTourLayer.classList.remove('is-moving');
+  const startScroll = scroll.scrollTop;
+  const distance = destination - startScroll;
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduceMotion) {
+    scroll.scrollTop = destination;
+    positionQaTour();
+    return;
+  }
+
+  const startFocus = {
+    left: parseFloat(qaTourFocus.style.left),
+    top: parseFloat(qaTourFocus.style.top),
+    width: parseFloat(qaTourFocus.style.width),
+    height: parseFloat(qaTourFocus.style.height)
+  };
+  const startPanel = {
+    left: parseFloat(qaTourPanel.style.left),
+    top: parseFloat(qaTourPanel.style.top)
+  };
+  const blend = (from, to, progress) => from + (to - from) * progress;
+  const startedAt = performance.now();
+  const duration = 580;
+  qaTourLayer.classList.add('is-moving');
+  const move = now => {
+    if (!qaTourActive) return;
+    const progress = Math.min(1, (now - startedAt) / duration);
+    const eased = progress < 0.5
+      ? 4 * Math.pow(progress, 3)
+      : 1 - Math.pow(-2 * progress + 2, 3) / 2;
+    scroll.scrollTop = startScroll + distance * eased;
+    positionQaTour();
+    const targetFocus = {
+      left: parseFloat(qaTourFocus.style.left),
+      top: parseFloat(qaTourFocus.style.top),
+      width: parseFloat(qaTourFocus.style.width),
+      height: parseFloat(qaTourFocus.style.height)
+    };
+    const targetPanel = {
+      left: parseFloat(qaTourPanel.style.left),
+      top: parseFloat(qaTourPanel.style.top)
+    };
+    qaTourFocus.style.left = `${blend(startFocus.left, targetFocus.left, eased)}px`;
+    qaTourFocus.style.top = `${blend(startFocus.top, targetFocus.top, eased)}px`;
+    qaTourFocus.style.width = `${blend(startFocus.width, targetFocus.width, eased)}px`;
+    qaTourFocus.style.height = `${blend(startFocus.height, targetFocus.height, eased)}px`;
+    qaTourPanel.style.left = `${blend(startPanel.left, targetPanel.left, eased)}px`;
+    qaTourPanel.style.top = `${blend(startPanel.top, targetPanel.top, eased)}px`;
+    if (progress < 1) {
+      qaTourMotionFrame = requestAnimationFrame(move);
+      return;
+    }
+    qaTourMotionFrame = 0;
+    qaTourLayer.classList.remove('is-moving');
+    positionQaTour();
+  };
+  qaTourMotionFrame = requestAnimationFrame(move);
+}
+
+function revealQaTourStep({ initial = false } = {}) {
+  const step = qaTourSteps[qaTourIndex];
+  qaTourLayer.classList.toggle('allows-target-interaction', Boolean(step.allowInteraction));
+  if (qaTourMode === 'scenario') {
+    setQaGuidedResultVisible(Boolean(step.showResult));
+  }
+  const target = qaCaseModal.querySelector(step.target);
+  if (!target) return;
+  const scroll = qaCaseModal.querySelector('.qa-case-scroll');
+  const scrollRect = scroll.getBoundingClientRect();
+  const targetRect = target.getBoundingClientRect();
+  const targetTop = scroll.scrollTop + targetRect.top - scrollRect.top;
+  const nextScroll = Math.max(0, targetTop - Math.max(12, (scroll.clientHeight - targetRect.height) / 2));
+  qaTourStep.textContent = `${String(qaTourIndex + 1).padStart(2, '0')} / ${String(qaTourSteps.length).padStart(2, '0')}`;
+  qaTourProgress.style.width = `${((qaTourIndex + 1) / qaTourSteps.length) * 100}%`;
+  qaTourTitle.textContent = step.title;
+  qaTourText.textContent = step.text;
+  qaTourBack.disabled = qaTourIndex === 0;
+  qaTourNext.textContent = step.nextLabel || (qaTourIndex === qaTourSteps.length - 1 ? 'Finish' : 'Next');
+  qaTourSkip.textContent = step.skipLabel || (qaTourMode === 'scenario' ? 'Exit case' : 'Skip tour');
+  if (initial) {
+    scroll.scrollTop = nextScroll;
+    positionQaTour();
+  } else {
+    animateQaTourScroll(scroll, nextScroll);
+  }
+}
+
+function beginQaTour(steps, mode, { initial = true } = {}) {
+  if (!qaCaseModal.open) return;
+  if (!qaTourActive) qaTourPreviousFocus = document.activeElement;
+  qaTourSteps = steps;
+  qaTourMode = mode;
+  qaTourIndex = 0;
+  qaTourActive = true;
+  qaTourLayer.hidden = false;
+  qaTourLayer.classList.toggle('is-preparing', initial);
+  qaCaseModal.classList.add('qa-tour-active');
+  revealQaTourStep({ initial });
+  requestAnimationFrame(() => {
+    positionQaTour();
+    requestAnimationFrame(() => {
+      qaTourLayer.classList.remove('is-preparing');
+      qaTourNext.focus();
+    });
+  });
+}
+
+function startQaTour() {
+  qaTourScenarioKey = null;
+  setQaGuidedResultVisible(false);
+  beginQaTour(qaOverviewTourSteps, 'overview');
+}
+
+function startQaScenarioTour(key, continueFromOverview = false) {
+  const steps = buildQaScenarioTour(key);
+  if (!steps.length) return;
+  qaTourScenarioKey = key;
+  selectQaScenario(key);
+  renderQaGuidedResult(key);
+  setQaGuidedResultVisible(false);
+  beginQaTour(steps, 'scenario', { initial: !continueFromOverview });
+}
+
+function endQaTour(completed = true) {
+  if (qaTourStartTimer) clearTimeout(qaTourStartTimer);
+  qaTourStartTimer = 0;
+  if (!qaTourActive) return;
+  qaTourActive = false;
+  qaTourIndex = -1;
+  if (qaTourMotionFrame) cancelAnimationFrame(qaTourMotionFrame);
+  qaTourMotionFrame = 0;
+  qaTourLayer.classList.remove('is-moving', 'is-preparing', 'allows-target-interaction');
+  qaTourLayer.hidden = true;
+  qaCaseModal.classList.remove('qa-tour-active');
+  setQaGuidedResultVisible(false);
+  qaTourSteps = qaOverviewTourSteps;
+  qaTourMode = 'overview';
+  qaTourScenarioKey = null;
+  if (completed) rememberQaTourCompletion();
+  if (qaTourPreviousFocus?.isConnected) qaTourPreviousFocus.focus();
+}
+
+function setProjectCategory(category) {
+  const showQa = category === 'qa';
+  if (showQa === !qaProjectView.hidden) return;
+  if (portraitModal.open) closePortraitModal();
+  if (qaCaseModal.open) qaCaseModal.close();
+  const incomingView = showQa ? qaProjectView : projectsGallery;
+  const updateCategory = () => {
+    projectsGallery.hidden = showQa;
+    qaProjectView.hidden = !showQa;
+    document.querySelector('.projects-main').classList.toggle('qa-active', showQa);
+    projectFilterButtons.forEach(button => {
+      const active = button.dataset.projectFilter === category;
+      button.classList.toggle('active', active);
+      button.setAttribute('aria-pressed', active ? 'true' : 'false');
+    });
+  };
+
+  if (document.startViewTransition && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    document.startViewTransition(updateCategory);
+  } else {
+    updateCategory();
+    incomingView.classList.remove('category-arriving');
+    void incomingView.offsetWidth;
+    incomingView.classList.add('category-arriving');
+  }
+}
+
+function openQaCaseStudy() {
+  document.body.classList.add('qa-case-open');
+  qaCaseModal.showModal();
+  qaCursorElements.forEach(element => qaCaseModal.appendChild(element));
+  qaCaseModal.querySelector('.qa-case-scroll').scrollTop = 0;
+  selectQaScenario('events');
+  if (!qaTourWasCompleted()) {
+    qaTourStartTimer = window.setTimeout(() => {
+      qaTourStartTimer = 0;
+      startQaTour();
+    }, 320);
+  }
+}
+
+function closeQaCaseStudy() {
+  endQaTour(false);
+  if (qaCaseModal.open) qaCaseModal.close();
+}
+
+function renderHighlightedSql(code) {
+  const tokenPattern = /(--[^\n]*|'(?:''|[^'])*'|\{[^}]+\}|\b(?:SELECT|FROM|WHERE|AND|OR|AS|WITH|IN|NOT|LIKE|GROUP|BY|ORDER|DESC|ASC|INTERVAL|DAY|WHEN|THEN|ELSE|END|NULL)\b|\b(?:JSONExtractString|uniqExact|countIf|count|nullIf|coalesce|toDate|today|now|round)\b(?=\s*\()|\b\d+(?:\.\d+)?\b)/gi;
+  const fragment = document.createDocumentFragment();
+  let cursor = 0;
+  for (const match of code.matchAll(tokenPattern)) {
+    if (match.index > cursor) fragment.append(document.createTextNode(code.slice(cursor, match.index)));
+    const token = document.createElement('span');
+    const value = match[0];
+    if (value.startsWith('--')) token.className = 'sql-comment';
+    else if (value.startsWith("'")) token.className = 'sql-string';
+    else if (value.startsWith('{')) token.className = 'sql-parameter';
+    else if (/^\d/.test(value)) token.className = 'sql-number';
+    else if (/^(JSONExtractString|uniqExact|countIf|count|nullIf|coalesce|toDate|today|now|round)$/i.test(value)) token.className = 'sql-function';
+    else token.className = 'sql-keyword';
+    token.textContent = value;
+    fragment.append(token);
+    cursor = match.index + value.length;
+  }
+  if (cursor < code.length) fragment.append(document.createTextNode(code.slice(cursor)));
+  qaQueryCode.replaceChildren(fragment);
+}
+
+function selectQaScenario(key) {
+  const scenario = qaScenarios[key];
+  if (!scenario) return;
+  qaQueryEyebrow.textContent = scenario.eyebrow;
+  qaQueryTitle.textContent = scenario.title;
+  qaQueryDescription.textContent = scenario.description;
+  qaQueryInsight.textContent = scenario.insight;
+  renderHighlightedSql(scenario.code);
+  qaDecisionNumber.textContent = scenario.eyebrow.slice(0, 2);
+  qaDecisionTitle.textContent = scenario.decisionTitle;
+  qaDecisionConclusion.textContent = scenario.conclusion;
+  qaDecisionAction.textContent = scenario.decision;
+  qaQueryOutput.replaceChildren(...scenario.output.map(([label, value]) => {
+    const item = document.createElement('span');
+    const heading = document.createElement('b');
+    heading.textContent = label;
+    item.append(heading, ` ${value}`);
+    return item;
+  }));
+  qaScenarioButtons.forEach(button => {
+    const active = button.dataset.qaScenario === key;
+    button.classList.toggle('active', active);
+    button.setAttribute('aria-pressed', active ? 'true' : 'false');
+  });
+  qaQueryCard.classList.remove('scenario-changing');
+  void qaQueryCard.offsetWidth;
+  qaQueryCard.classList.add('scenario-changing');
+}
+
+projectFilterButtons.forEach(button => {
+  button.addEventListener('click', () => {
+    button.classList.remove('filter-pressed');
+    void button.offsetWidth;
+    button.classList.add('filter-pressed');
+    setProjectCategory(button.dataset.projectFilter);
+  });
+});
+
+document.querySelectorAll('.projects-filter').forEach(button => {
+  button.addEventListener('animationend', () => button.classList.remove('filter-pressed'));
+});
+
+qaScenarioButtons.forEach(button => {
+  button.addEventListener('click', () => {
+    setQaGuidedResultVisible(false);
+    selectQaScenario(button.dataset.qaScenario);
+  });
+});
+
+qaScenarioRunButtons.forEach(button => {
+  button.addEventListener('click', () => startQaScenarioTour(button.dataset.qaTourScenario));
+});
+
+qaTourReplay.addEventListener('click', startQaTour);
+qaTourNext.addEventListener('click', () => {
+  if (qaTourIndex >= qaTourSteps.length - 1) {
+    if (qaTourMode === 'overview') {
+      startQaScenarioTour('events', true);
+      return;
+    }
+    endQaTour(true);
+    return;
+  }
+  qaTourIndex += 1;
+  revealQaTourStep();
+});
+qaTourBack.addEventListener('click', () => {
+  if (qaTourIndex <= 0) return;
+  qaTourIndex -= 1;
+  revealQaTourStep();
+});
+qaTourSkip.addEventListener('click', () => endQaTour(true));
+qaCaseModal.querySelector('.qa-case-scroll').addEventListener('scroll', () => {
+  if (!qaTourActive || qaTourPositionFrame) return;
+  qaTourPositionFrame = requestAnimationFrame(() => {
+    qaTourPositionFrame = 0;
+    positionQaTour();
+  });
+}, { passive: true });
+window.addEventListener('resize', positionQaTour);
+document.addEventListener('keydown', event => {
+  if (!qaTourActive || event.key !== 'Escape') return;
+  event.preventDefault();
+  event.stopImmediatePropagation();
+  endQaTour(true);
+}, true);
+
+qaCaseOpen.addEventListener('click', openQaCaseStudy);
+qaProjectButtons.forEach(button => {
+  button.addEventListener('click', () => {
+    qaProjectButtons.forEach(projectButton => {
+      const active = projectButton === button;
+      projectButton.classList.toggle('active', active);
+      projectButton.setAttribute('aria-pressed', active ? 'true' : 'false');
+    });
+  });
+});
+qaCaseClose.addEventListener('click', closeQaCaseStudy);
+qaCaseModal.addEventListener('click', event => {
+  if (event.target === qaCaseModal) closeQaCaseStudy();
+});
+qaCaseModal.addEventListener('cancel', event => {
+  event.preventDefault();
+  closeQaCaseStudy();
+});
+qaCaseModal.addEventListener('close', () => {
+  document.body.classList.remove('qa-case-open');
+  qaCursorElements.forEach(element => document.body.appendChild(element));
 });
 
 setLensSize(lensSize);
