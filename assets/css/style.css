@@ -3697,10 +3697,18 @@ body.portrait-modal-open {
   }
 
   .portrait-modal-tools {
+    width: 100%;
     padding: 0.65rem 0 0.35rem;
   }
 
   .portrait-modal-summary {
+    display: block;
+    margin-top: 0.75rem;
+    padding-top: 0.65rem;
+  }
+
+  .portrait-modal-summary > p,
+  #portraitModalSummary {
     display: none;
   }
 
@@ -3709,7 +3717,37 @@ body.portrait-modal-open {
     margin-top: 0;
   }
 
+  .portrait-mode-tabs button {
+    min-height: 2.5rem;
+    padding-inline: 1rem;
+  }
+
   .portrait-tool-panel[data-portrait-panel="magnify"].active {
+    display: block;
+    height: auto;
+    margin-top: 0.45rem;
+  }
+
+  .portrait-tool-panel[data-portrait-panel="magnify"] > p {
+    display: none;
+  }
+
+  .portrait-modal-magnifier-settings {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.45rem 0.75rem;
+    min-height: 0;
+    margin-top: 0;
+    padding-top: 0;
+    border-top: 0;
+  }
+
+  .portrait-modal-magnifier-settings label {
+    grid-template-columns: 2rem minmax(0, 1fr) 1.8rem;
+    margin-top: 0;
+  }
+
+  .portrait-modal-magnifier-settings .portrait-magnifier-hint {
     display: none;
   }
 
@@ -3725,22 +3763,90 @@ body.portrait-modal-open {
     display: none;
   }
 
+  .portrait-draw-picker {
+    display: grid;
+    gap: 0.5rem;
+  }
+
   .graphite-palette {
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(8, minmax(0, 1fr));
     min-height: auto;
-    justify-content: center;
+    justify-content: stretch;
+    gap: 0.15rem;
     padding: 0.2rem 0;
   }
 
   .graphite-palette button {
     width: 2.15rem;
     height: 2.15rem;
+    justify-self: center;
+  }
+
+  .portrait-draw-tools {
+    display: flex;
+    min-width: 0;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.45rem 0 0;
+    border-top: 1px solid rgba(17, 17, 17, 0.14);
+    border-left: 0;
+  }
+
+  .portrait-draw-tools > button {
+    width: 2.6rem;
+    height: 2.6rem;
+    flex: 0 0 auto;
   }
 
   .portrait-draw-actions {
+    flex-direction: row;
+    width: auto;
     justify-content: center;
-    margin-top: 0.3rem;
+    margin: 0 0 0 0.25rem;
+    padding: 0 0 0 0.65rem;
+    border-top: 0;
+    border-left: 1px solid rgba(17, 17, 17, 0.14);
   }
+
+  .portrait-draw-actions button {
+    min-height: 2.6rem;
+  }
+
+  .portrait-modal-summary::before {
+    display: block;
+    content: 'Tap a detail to highlight it';
+    margin: 0 0 0.65rem 0.25rem;
+    font-family: 'Source Code Pro', monospace;
+    font-size: 0.54rem;
+    letter-spacing: 0.08em;
+    opacity: 0.5;
+    text-transform: uppercase;
+  }
+
+  .portrait-detail-focus {
+    gap: 0.65rem;
+    margin-top: 0;
+    padding: 0.2rem 0.25rem 0.75rem;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scrollbar-width: none;
+  }
+
+  .portrait-detail-focus::-webkit-scrollbar {
+    display: none;
+  }
+
+  .portrait-detail-focus.is-trio .portrait-detail-crop {
+    width: 4.35rem;
+    height: 4.35rem;
+  }
+
+  .portrait-detail-focus figure.active .portrait-detail-crop {
+    transform: translateY(-0.12rem) scale(1.035);
+    box-shadow: 0 0 0 1px rgba(17, 17, 17, 0.55), 0 0.65rem 1.4rem rgba(17, 17, 17, 0.2);
+  }
+
 }
 
 /* Final contact layout guards: legacy contact rules above still support old
@@ -3847,6 +3953,11 @@ body.contact-inking .cursor-outline {
 }
 
 @media (max-width: 600px) {
+  .projects-page .projects-main > .circle.projects,
+  .contact-page .contact-main > .circle.contact {
+    top: 1rem;
+  }
+
   .projects-page .projects-main {
     padding-top: 6.5rem;
   }
@@ -3868,29 +3979,94 @@ body.contact-inking .cursor-outline {
     width: calc(100vw - 1rem);
     height: calc(100dvh - 1rem);
     margin: 0.5rem;
+    overflow: hidden;
     border-radius: 1rem;
   }
 
-  .portrait-modal-image {
-    padding: 0.25rem 0 0;
+  body.portrait-modal-open {
+    position: fixed;
+    top: var(--portrait-modal-scroll-y, 0);
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .portrait-modal {
     overflow: hidden;
+    overscroll-behavior: contain;
+  }
+
+  .portrait-modal-card > header {
+    position: relative;
+    z-index: 6;
+    flex: 0 0 auto;
+    padding: 0.75rem 1rem;
+    background: #f7f3e9;
+  }
+
+  .portrait-modal-card header h2 {
+    font-size: 1.35rem;
+  }
+
+  .portrait-modal-workspace {
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    padding: 0 0.75rem;
+    overflow-x: hidden;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .portrait-modal-tools {
+    order: 2;
+    display: flex;
+    flex-direction: column;
+    flex: 0 0 auto;
+    height: auto;
+    padding: 1rem 0 1.25rem;
+  }
+
+  .portrait-modal-summary {
+    order: 1;
+    margin-top: 0;
+  }
+
+  .portrait-mode-tabs {
+    order: 2;
+    margin-top: 0.85rem;
+  }
+
+  .portrait-tool-panel {
+    order: 3;
+  }
+
+  .portrait-modal-image {
+    order: 1;
+    flex: 0 0 auto;
+    width: 100%;
+    height: auto;
+    padding: 0.35rem 0 0.65rem;
+    overflow: visible;
   }
 
   .portrait-modal-paper {
     width: calc(100% - 0.9rem);
     max-width: 100%;
     height: auto;
-    max-height: 100%;
+    max-height: none;
     aspect-ratio: var(--portrait-aspect-ratio, 3 / 4);
     border-width: 0.45rem;
   }
 
   .portrait-modal-lens {
-    width: 10rem;
-    height: 10rem;
+    width: 9rem !important;
+    height: 9rem !important;
   }
 
   .portrait-modal-meta {
+    flex: 0 0 auto;
     min-height: 2.75rem;
     margin: 0 1rem;
     font-size: 0.52rem;

@@ -59,6 +59,7 @@ const portraitModalYear = document.getElementById('portraitModalYear');
 const portraitModalClose = document.getElementById('portraitModalClose');
 const portraitModalSummary = document.getElementById('portraitModalSummary');
 const portraitDetailFocus = document.getElementById('portraitDetailFocus');
+const portraitModalWorkspace = document.querySelector('.portrait-modal-workspace');
 const portraitModalStage = document.getElementById('portraitModalStage');
 const portraitModalPaper = document.getElementById('portraitModalPaper');
 const portraitModalLens = document.getElementById('portraitModalLens');
@@ -127,6 +128,10 @@ const basePortraitCanvas = document.createElement('canvas');
 const portraitPreloads = new Map();
 let modalLensFrame = 0;
 let pendingModalLensPoint = null;
+let portraitModalScrollY = 0;
+let activeHighlightFigure = null;
+
+const isMobilePortraitModal = () => window.matchMedia('(max-width: 820px), (hover: none) and (pointer: coarse)').matches;
 
 function clamp(value, min, max) {
   return Math.max(min, Math.min(max, value));
@@ -234,6 +239,8 @@ function openPortraitModal() {
   portraitModalSummary.textContent = portrait.summary;
   renderPortraitHighlights(portrait);
   drawingCanvasReady = false;
+  portraitModalScrollY = window.scrollY;
+  document.body.style.setProperty('--portrait-modal-scroll-y', `-${portraitModalScrollY}px`);
   document.body.classList.add('portrait-modal-open');
   sharedCursorElements.forEach(element => portraitModal.appendChild(element));
   portraitModal.showModal();
@@ -253,6 +260,7 @@ function renderPortraitHighlights(portrait) {
   portraitDetailFocus.replaceChildren();
   portraitDetailFocus.hidden = highlights.length === 0;
   portraitDetailFocus.classList.toggle('is-trio', highlights.length === 3);
+  activeHighlightFigure = null;
 
   highlights.forEach(highlight => {
     const figure = document.createElement('figure');
@@ -269,6 +277,16 @@ function renderPortraitHighlights(portrait) {
     figure.addEventListener('pointerleave', hideFocus);
     figure.addEventListener('focus', showFocus);
     figure.addEventListener('blur', hideFocus);
+    figure.addEventListener('click', event => {
+      if (!isMobilePortraitModal()) return;
+      event.preventDefault();
+      const alreadyActive = activeHighlightFigure === figure;
+      portraitDetailFocus.querySelectorAll('figure').forEach(item => item.classList.remove('active'));
+      activeHighlightFigure = alreadyActive ? null : figure;
+      figure.classList.toggle('active', !alreadyActive);
+      if (alreadyActive) hidePortraitHighlight();
+      else showFocus();
+    });
     figure.append(crop, caption);
     portraitDetailFocus.append(figure);
   });
@@ -310,6 +328,10 @@ function setPortraitMode(mode) {
   portraitToolPanels.forEach(panel => panel.classList.toggle('active', panel.dataset.portraitPanel === mode));
   portraitModalLens.classList.remove('visible');
   syncPortraitCursorMode();
+  if (isMobilePortraitModal()) {
+    portraitModal.scrollTop = 0;
+    portraitModalWorkspace.scrollTop = 0;
+  }
 }
 
 function setDrawTool(tool) {
@@ -721,14 +743,26 @@ function saveDrawingState() {
 
 function updateModalLens(event) {
   if (portraitMode !== 'magnify') return;
+  if (isMobilePortraitModal() && activeHighlightFigure) {
+    activeHighlightFigure.classList.remove('active');
+    activeHighlightFigure = null;
+    hidePortraitHighlight();
+  }
   const paperRect = portraitModalPaper.getBoundingClientRect();
   const imageRect = portraitModalImage.getBoundingClientRect();
-  const x = event.clientX - paperRect.left;
-  const y = event.clientY - paperRect.top;
+  const pointerX = event.clientX - paperRect.left;
+  const pointerY = event.clientY - paperRect.top;
   const imageX = event.clientX - imageRect.left;
   const imageY = event.clientY - imageRect.top;
   const lensDiameter = portraitModalLens.offsetWidth;
   const modalZoom = lensZoom;
+  const mobileOffset = isMobilePortraitModal();
+  const x = mobileOffset
+    ? clamp(pointerX - lensDiameter * 0.48, lensDiameter / 2, paperRect.width - lensDiameter / 2)
+    : pointerX;
+  const y = mobileOffset
+    ? clamp(pointerY - lensDiameter * 0.72, lensDiameter / 2, paperRect.height - lensDiameter / 2)
+    : pointerY;
   portraitModalLens.classList.add('visible');
   portraitModalLens.style.left = `${x}px`;
   portraitModalLens.style.top = `${y}px`;
@@ -769,11 +803,13 @@ function closePortraitModal() {
   portraitModal.close();
   sharedCursorElements.forEach(element => document.body.appendChild(element));
   document.body.classList.remove('portrait-modal-open');
+  document.body.style.removeProperty('--portrait-modal-scroll-y');
   document.body.classList.remove('portrait-inspecting', 'portrait-drawing', 'is-smudging', 'draw-tool-pencil', 'draw-tool-eraser');
   modalPointerInside = false;
   pendingModalLensPoint = null;
   if (modalLensFrame) cancelAnimationFrame(modalLensFrame);
   modalLensFrame = 0;
+  window.scrollTo(0, portraitModalScrollY);
 }
 
 portraitThumbs.forEach(thumb => {
@@ -916,6 +952,13 @@ portraitModalPaper.addEventListener('pointermove', event => {
   if (portraitMode === 'magnify') {
     updateModalLens(event);
   }
+});
+
+portraitModalPaper.addEventListener('pointerdown', event => {
+  if (portraitMode !== 'magnify' || !isMobilePortraitModal()) return;
+  event.preventDefault();
+  modalPointerInside = true;
+  updateModalLens(event);
 });
 
 portraitDrawCanvas.addEventListener('pointermove', event => {
@@ -1079,6 +1122,10 @@ portraitViewer.addEventListener('click', event => {
 
 portraitModalPaper.addEventListener('click', event => {
   if (portraitMode !== 'magnify') return;
+  if (isMobilePortraitModal()) {
+    updateModalLens(event);
+    return;
+  }
   const maximumSize = Number(portraitLensSize.max);
   const minimumSize = Number(portraitLensSize.min);
   setLensSize(lensSize >= maximumSize ? minimumSize : lensSize * 1.1);
