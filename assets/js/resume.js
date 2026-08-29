@@ -499,6 +499,7 @@ function openResumeModal() {
   document.body.style.setProperty('--resume-modal-scroll-y', `-${resumeModalScrollY}px`);
   document.body.classList.add('resume-modal-open');
   resumeModal.showModal();
+  resumeCursorLayers.forEach(layer => resumeModal.appendChild(layer));
   resumeModalContent.scrollTop = 0;
 }
 
@@ -513,8 +514,18 @@ function resumeDetailListMarkup(points) {
 function closeResumeModal() {
   if (!resumeModal.open) return;
   resumeModal.close();
+}
+
+const resumeCursorLayers = [
+  document.querySelector('.cursor-trail'),
+  document.querySelector('.cursor-outline'),
+  document.querySelector('.cursor-dot')
+].filter(Boolean);
+
+function restoreResumeModalPageState() {
   document.body.classList.remove('resume-modal-open');
   document.body.style.removeProperty('--resume-modal-scroll-y');
+  resumeCursorLayers.forEach(layer => document.body.appendChild(layer));
   window.scrollTo(0, resumeModalScrollY);
 }
 
@@ -962,6 +973,7 @@ resumeModalClose.addEventListener('click', closeResumeModal);
 resumeModal.addEventListener('click', event => {
   if (event.target === resumeModal) closeResumeModal();
 });
+resumeModal.addEventListener('close', restoreResumeModalPageState);
 resumeModal.addEventListener('cancel', event => {
   event.preventDefault();
   closeResumeModal();
