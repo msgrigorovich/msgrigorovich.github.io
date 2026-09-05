@@ -149,6 +149,120 @@ main {
   display: block;
 }
 
+/* Final overview overrides: keep the run control inside the output surface. */
+.qalab-evidence-visual .qalab-run-stage { grid-template-columns:minmax(19rem,.95fr) minmax(25rem,1.35fr); gap:.7rem; min-height:0; height:auto; }
+.qalab-evidence-visual .qalab-run-console { position:relative; display:block; }
+.qalab-evidence-visual .qalab-run-console .qalab-output { height:100%; min-height:6rem; font-size:.72rem; }
+.qalab-evidence-visual .qalab-run-console .qalab-output > div { height:4.6rem; padding:.55rem 8.5rem .55rem .75rem; }
+.qalab-evidence-visual .qalab-run-console .qalab-output > div { overflow:hidden; }
+.qalab-output header b.is-warning { color:#e7bd55; }
+.qalab-evidence-visual .qalab-run-console .qalab-run-button { position:absolute; right:.8rem; bottom:.8rem; display:flex; gap:.55rem; align-items:center; min-width:7.6rem; padding:.55rem .7rem; border-color:rgba(255,255,255,.18); border-radius:.6rem; background:#f5f2e9; box-shadow:0 .5rem 1.2rem rgba(0,0,0,.2); }
+.qalab-evidence-visual .qalab-run-console .qalab-run-button span { width:2.15rem; height:2.15rem; margin:0; font-size:.8rem; }
+.qalab-evidence-visual .qalab-run-console .qalab-run-button b { font-size:.66rem; white-space:nowrap; }
+.qalab-evidence-visual .qalab-controlled-change { gap:.35rem; padding:.6rem .7rem; }
+.qalab-evidence-visual .qalab-controlled-change header { gap:.65rem; font-size:.68rem; line-height:1.3; }
+.qalab-evidence-visual .qalab-controlled-change header b { padding:.32rem .52rem; font-size:.6rem; white-space:nowrap; }
+.qalab-evidence-visual .qalab-controlled-change article { gap:.15rem; padding:.45rem; }
+.qalab-evidence-visual .qalab-controlled-change small,
+.qalab-evidence-visual .qalab-controlled-change span { font-size:.63rem; line-height:1.3; }
+.qalab-evidence-visual .qalab-controlled-change strong { font-size:1.15rem; }
+.qalab-evidence-visual .qalab-controlled-change > p { padding-top:.45rem; border-top:1px solid rgba(17,17,17,.12); font-size:.59rem; line-height:1.45; }
+
+/* Identical Open full control for both QA project previews. */
+.qa-preview-card.qalab-preview .qa-preview-open {
+  position:absolute;
+  z-index:3;
+  right:1rem;
+  bottom:1rem;
+  left:auto;
+  display:flex;
+  width:auto;
+  min-width:7rem;
+  min-height:2.45rem;
+  align-items:center;
+  justify-content:space-between;
+  gap:.8rem;
+  margin:0;
+  padding:.55rem .85rem .55rem 1rem;
+  border:1px solid rgba(17,17,17,.22);
+  border-radius:999px;
+  background:rgba(250,247,239,.94);
+  color:#111;
+  box-shadow:0 .5rem 1.5rem rgba(17,17,17,.14);
+  backdrop-filter:none;
+  font-size:.62rem;
+  font-weight:700;
+  letter-spacing:.06em;
+}
+
+.qa-preview-card.qalab-preview:hover .qa-preview-open {
+  background:#111;
+  color:#fff;
+  transform:translateY(-2px);
+}
+
+/* QA archive parity: qalab follows the same preview controls as project 02. */
+.qa-preview-card.qalab-preview { display:grid; grid-template-rows:auto minmax(0,1fr); }
+.qalab-preview .qa-preview-heading { padding:1.1rem 1rem .8rem; }
+.qalab-preview-directions { display:grid; align-content:center; gap:.55rem; padding:1rem 1.1rem 5rem; }
+.qalab-preview-directions i { display:flex; align-items:center; min-height:2.65rem; padding:.65rem .8rem; border:1px solid rgba(17,17,17,.2); border-radius:.65rem; background:rgba(247,243,233,.88); font:600 .68rem 'Source Code Pro',monospace; font-style:normal; box-shadow:0 .4rem 1rem rgba(17,17,17,.07); }
+.qalab-preview .qa-preview-open { position:absolute; right:1rem; bottom:1rem; left:auto; margin:0; border:1px solid rgba(17,17,17,.22); border-radius:999px; background:rgba(250,247,239,.94); color:#111; backdrop-filter:none; }
+.qalab-preview:hover .qa-preview-open { background:#111; color:#fff; }
+.qa-project-archive-note { font-size:.82rem; line-height:1.55; opacity:.82; }
+.qa-project-index { gap:.58rem; margin-top:1.15rem; padding-top:1rem; }
+.qa-project-index p { font-size:.64rem; }
+.qa-project-index span { gap:.65rem; font-size:.7rem; line-height:1.35; opacity:.8; }
+.qa-project-index b { font-size:.62rem; }
+
+/* qalab redesign — a live QA instrument rather than a scientific poster. */
+.qalab-redesign { background:#eeeae1; }
+.qalab-redesign .qalab-header { background:#f8f5ed; }
+.qalab-redesign .qalab-body { gap:.5rem; padding:.55rem; background:linear-gradient(rgba(17,17,17,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(17,17,17,.025) 1px,transparent 1px); background-size:1.25rem 1.25rem; }
+.qalab-redesign .qalab-hero { grid-template-columns:minmax(0,1.45fr) minmax(18rem,.75fr); min-height:6.8rem; padding:.5rem 1rem; border:0; background:#f8f5ed; box-shadow:inset 0 0 0 1px rgba(17,17,17,.14); }
+.qalab-redesign .qalab-hero h3 { max-width:50rem; font-size:clamp(1.35rem,2vw,1.7rem); }
+.qalab-redesign .qalab-hero > div:first-child > p:last-child { max-width:62rem; font-size:.84rem; }
+.qalab-redesign .qalab-reaction-wrap { align-self:stretch; align-content:center; padding:.55rem; border-radius:.75rem; background:#33513f; color:#f8f5ed; }
+.qalab-redesign .qalab-reaction-wrap > p { color:#a9d4b1; }
+.qalab-redesign .qalab-reaction-wrap > small { color:rgba(248,245,237,.72); }
+.qalab-redesign .qalab-reaction span { border-color:rgba(248,245,237,.32); }
+.qalab-redesign .qalab-reaction strong { background:#f8f5ed; color:#111; }
+.qalab-redesign .qalab-architecture { grid-template-columns:auto minmax(0,1fr); min-height:3.6rem; border:0; border-radius:.65rem; background:#dfece0; box-shadow:inset 0 0 0 1px rgba(73,122,85,.2); }
+.qalab-redesign .qalab-evidence { grid-template-columns:8.5rem minmax(0,1fr); padding:0; border:0; background:#f8f5ed; box-shadow:inset 0 0 0 1px rgba(17,17,17,.14); }
+.qalab-redesign .qalab-evidence nav { align-content:center; padding:.8rem; border:0; border-radius:.8rem 0 0 .8rem; background:#4a4a46; }
+.qalab-redesign .qalab-evidence nav button { border-color:rgba(255,255,255,.14); color:#f8f5ed; }
+.qalab-redesign .qalab-evidence nav button.active { background:#f8f5ed; color:#111; }
+.qalab-redesign .qalab-evidence-panel { padding:.5rem .8rem .35rem; }
+.qalab-redesign .qalab-evidence-panel > header p { color:#477e55; }
+.qalab-redesign .qalab-decision { border:0; background:#f4e3df; box-shadow:inset 0 0 0 1px rgba(174,77,68,.2); }
+.qalab-redesign .qalab-decision .qalab-kicker { color:#9f4a42; }
+.qalab-redesign .qalab-warning { border-left:.28rem solid #d7a641; background:#f6ebcc; }
+.qalab-redesign .qalab-warning i { background:#d7a641; }
+.qalab-redesign .qalab-conclusion { border:0; background:#f8f5ed; box-shadow:inset 0 0 0 1px rgba(17,17,17,.14); }
+.qalab-redesign .qalab-conclusion article { padding:.2rem .5rem; border-left:2px solid #7db68a; }
+.qalab-redesign .qalab-drift-week { background:#f8f5ed; }
+.qalab-redesign .qalab-drift-days p { grid-template-columns:4.5rem minmax(0,1fr) 4.5rem; }
+
+.qalab-drift-week { display:grid; grid-template-rows:auto 1fr; gap:.6rem; height:100%; padding:.7rem .8rem; border:1px solid rgba(17,17,17,.14); border-radius:.65rem; background:#faf7ef; }
+.qalab-drift-week > header { display:flex; justify-content:space-between; align-items:flex-start; gap:1rem; padding:0; margin:0; }
+.qalab-drift-week > header div { display:grid; gap:.2rem; }
+.qalab-drift-week > header span { font:700 .57rem 'Source Code Pro',monospace; letter-spacing:.08em; text-transform:uppercase; color:rgba(17,17,17,.65); }
+.qalab-drift-week > header b { font-size:.88rem; }
+.qalab-drift-week > header > strong { padding:.35rem .55rem; border-radius:999px; background:#f3d5d0; color:#9c453d; font:700 .68rem 'Source Code Pro',monospace; white-space:nowrap; }
+.qalab-drift-days { display:grid; align-content:center; gap:.5rem; }
+.qalab-drift-days p { display:grid; grid-template-columns:2.7rem minmax(0,1fr) 4.6rem; gap:.65rem; align-items:center; margin:0; }
+.qalab-drift-days p > b,.qalab-drift-days p > strong { font:700 .68rem 'Source Code Pro',monospace; }
+.qalab-drift-days p > strong { text-align:right; }
+.qalab-drift-days p > i { height:.8rem; overflow:hidden; border:1px solid rgba(17,17,17,.1); border-radius:999px; background:#e6e1d7; }
+.qalab-drift-days p > i em { display:block; width:var(--score); height:100%; border-radius:inherit; background:#7fc48e; transform-origin:left; animation:qalab-week-bar .75s var(--delay) cubic-bezier(.22,1,.36,1) both; }
+.qalab-drift-days p.is-watch > i em { background:#d9ab62; }
+.qalab-drift-days p.is-drift > i em { background:#d46f63; }
+.qalab-drift-days p.is-drift > strong { color:#ad4b43; }
+@keyframes qalab-week-bar { from { transform:scaleX(0); } }
+.qalab-drift-week > footer { display:grid; grid-template-columns:auto minmax(0,1fr) auto; gap:.55rem; align-items:center; padding-top:.65rem; border-top:1px solid rgba(17,17,17,.12); font-size:.68rem; line-height:1.4; }
+.qalab-drift-week > footer span { color:rgba(17,17,17,.72); }
+.qalab-drift-week > footer strong { color:#a84942; white-space:nowrap; }
+
+
 
 /* Contact — open channel + rolling credits concept */
 .contact-page {
@@ -448,6 +562,585 @@ body.contact-credit-open .cursor-trail {
   .contact-credit-modal::backdrop {
     animation-duration: 0.01ms;
   }
+}
+
+/* qalab — QA case study 02 */
+.qa-preview-card.qalab-preview {
+  display: block;
+  background:
+    linear-gradient(180deg, rgba(247,243,233,.18), rgba(247,243,233,.62)),
+    url('/assets/images/qalab/laboratory-viewport.jpg') center / cover no-repeat;
+  color: #111;
+}
+.qa-preview-card.qalab-preview::after { position:absolute; inset:0; content:''; pointer-events:none; box-shadow:inset 0 0 0 1px rgba(17,17,17,.08); }
+.qalab-preview > * { position:relative; z-index:1; }
+
+.qalab-preview .qa-preview-top { border-color: rgba(17,17,17,.12); }
+.qalab-preview .qa-preview-top i { background: rgba(17,17,17,.22); }
+.qalab-preview .qa-preview-top i:first-child { background:#59bb6a; }
+.qalab-preview .qa-preview-heading { position:relative; z-index:1; }
+.qalab-preview .qa-preview-heading small { opacity:.62; }
+.qalab-preview .qa-preview-heading strong { display:block; max-width:85%; font-size:clamp(1.55rem,2.6vw,2.15rem); }
+.qalab-preview .qa-preview-open { position:absolute; right:0; bottom:0; left:0; border-color:rgba(17,17,17,.14); background:rgba(247,243,233,.7); }
+
+.qalab-preview-orbit {
+  position: absolute;
+  top: 42%;
+  right: 9%;
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-family: 'Source Code Pro', monospace;
+}
+
+.qalab-preview-orbit i,
+.qalab-preview-orbit strong {
+  display: grid;
+  width: 3rem;
+  height: 3rem;
+  place-items: center;
+  border: 1px solid rgba(17, 17, 17, 0.28);
+  border-radius: 50%;
+  font-style: normal;
+}
+
+.qalab-preview-orbit strong {
+  width: 4rem;
+  height: 4rem;
+  border-color: #111;
+  background: #111;
+  color: #fff;
+}
+
+.qalab-preview-proof {
+  position: absolute;
+  right: 8%;
+  bottom: 18%;
+  display: grid;
+  grid-template-columns: repeat(3, auto);
+  gap: 0.45rem;
+}
+
+.qalab-preview-proof i {
+  display: grid;
+  gap: 0.15rem;
+  padding: 0.55rem 0.65rem;
+  border: 1px solid rgba(17, 17, 17, 0.18);
+  border-radius: 0.55rem;
+  font-family: 'Source Code Pro', monospace;
+  font-size: 0.52rem;
+  font-style: normal;
+}
+
+.qalab-preview-proof b { font-size: 0.68rem; }
+
+.qalab-modal {
+  width: 100vw;
+  max-width: none;
+  height: 100dvh;
+  max-height: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  border: 0;
+  background: transparent;
+}
+
+.qalab-modal::backdrop {
+  background: rgba(38, 31, 29, 0.62);
+  backdrop-filter: blur(7px);
+}
+
+.qalab-poster {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  width: min(92vw, 1120px);
+  height: min(86dvh, 800px);
+  margin: 7dvh auto;
+  overflow: hidden;
+  border-radius: 1.15rem;
+  background: #f7f3e9;
+  color: #111;
+  box-shadow: 0 2rem 6rem rgba(17, 17, 17, 0.34);
+}
+
+@media (min-width: 821px) {
+  .qalab-poster {
+    width: min(calc(100vw - 3rem), 1480px);
+    height: 90dvh;
+    max-height: 940px;
+    margin: 5dvh auto;
+  }
+}
+
+.qalab-ident { position:absolute; inset:0; z-index:40; display:grid; place-content:center; gap:1rem; overflow:hidden; background:#f7f3e9; color:#111; text-align:center; }
+.qalab-ident[hidden] { display:none; }
+.qalab-ident::before,.qalab-ident::after { position:absolute; width:28rem; height:28rem; border:1px solid rgba(17,17,17,.08); border-radius:50%; content:''; }
+.qalab-ident::before { left:-12rem; top:-17rem; }
+.qalab-ident::after { right:-12rem; bottom:-17rem; }
+.qalab-ident.is-active { animation:qalab-ident-screen 2.6s cubic-bezier(.22,1,.36,1) both; }
+@keyframes qalab-ident-screen { 0%{opacity:0} 8%,86%{opacity:1} 100%{opacity:0;visibility:hidden} }
+.qalab-ident-mark { display:flex; align-items:center; justify-content:center; gap:.015em; font:800 clamp(4.8rem,10vw,9rem)/.82 'Source Code Pro',monospace; letter-spacing:-.13em; transform-origin:center; }
+.qalab-ident-mark span { display:block; }
+.qalab-ident-mark i { display:block; width:.11em; height:.74em; margin:0 .08em 0 .12em; border-radius:999px; background:currentColor; }
+.qalab-ident.is-active .qalab-ident-mark { animation:qalab-mark-turn 2.08s .18s cubic-bezier(.65,0,.35,1) both; }
+@keyframes qalab-mark-turn { 0%,18%{transform:rotate(0deg);filter:blur(0)} 42%,61%{transform:rotate(180deg);filter:blur(0)} 46%{filter:blur(1.5px)} 86%,100%{transform:rotate(360deg);filter:blur(0)} }
+.qalab-ident p { margin:0; font:600 .76rem 'Source Code Pro',monospace; letter-spacing:.28em; text-transform:uppercase; opacity:0; }
+.qalab-ident.is-active p { animation:qalab-ident-copy 2.6s ease both; }
+.qalab-ident small { font:.5rem 'Source Code Pro',monospace; letter-spacing:.12em; opacity:0; text-transform:uppercase; }
+.qalab-ident.is-active small { animation:qalab-ident-small 2.6s ease both; }
+@keyframes qalab-ident-copy { 0%,62%{opacity:0;transform:translateY(.5rem)} 75%,90%{opacity:1;transform:none} 100%{opacity:0} }
+@keyframes qalab-ident-small { 0%,70%{opacity:0} 82%,90%{opacity:.46} 100%{opacity:0} }
+@media (prefers-reduced-motion: reduce) {
+  .qalab-ident.is-active { animation:qalab-ident-screen 1.35s ease both; }
+  .qalab-ident.is-active .qalab-ident-mark { animation:none; }
+  .qalab-ident.is-active p { animation:qalab-ident-copy 1.35s ease both; }
+  .qalab-ident.is-active small { display:none; }
+}
+
+.qalab-header {
+  display: grid;
+  grid-template-columns: auto minmax(20rem, 1fr) auto;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 0.8rem 1.15rem;
+  border-bottom: 1px solid rgba(17, 17, 17, 0.14);
+}
+
+@media (max-width: 1180px) and (min-width: 821px) {
+  #qalabModal .qalab-header { grid-template-columns: minmax(0,1fr) auto; gap: .8rem; }
+  #qalabModal .qalab-guide { display: none; }
+}
+
+.qalab-header p,
+.qalab-kicker {
+  margin: 0 0 0.18rem;
+  font-family: 'Source Code Pro', monospace;
+  font-size: 0.58rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  opacity: 0.62;
+  text-transform: uppercase;
+}
+
+.qalab-header h2 { margin: 0; font-size: 1.05rem; white-space: nowrap; }
+.qalab-header h2 .qalab-mark { color: #ad4b43; font-weight: 800; }
+.qalab-header h2 .qalab-title-expansion { font-size: .7em; font-weight: 700; }
+.qalab-header-actions button {
+  display: grid;
+  width: 2.25rem;
+  height: 2.25rem;
+  padding: 0;
+  place-items: center;
+  border: 1px solid rgba(17,17,17,.24);
+  border-radius: 50%;
+  background: transparent;
+  font-size: 1.25rem;
+}
+.qalab-header-actions { display:flex; align-items:center; gap:.4rem; }
+.qalab-header-actions button:not(:last-child) { width:auto; padding:0 .65rem; border-radius:999px; font:700 .54rem 'Source Code Pro',monospace; text-transform:uppercase; white-space:nowrap; }
+
+.qalab-side-rail {
+  display: none;
+  position: absolute;
+  z-index: 6;
+  top: 5dvh;
+  right: calc(50% + min(50vw - 1.5rem, 740px) + 0.9rem);
+  flex-direction: column;
+  gap: .4rem;
+  padding: .8rem .5rem;
+}
+.qalab-side-rail button {
+  min-width: 6.4rem;
+  padding: .5rem .7rem;
+  border: 1px solid rgba(17, 17, 17, .24);
+  border-radius: 999px;
+  background: rgba(247, 243, 233, .95);
+  color: #000;
+  font: 700 .56rem 'Source Code Pro', monospace;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+  white-space: nowrap;
+  cursor: pointer;
+  box-shadow: 0 .3rem 1rem rgba(17, 17, 17, .22);
+  transition: background .2s ease, border-color .2s ease;
+}
+.qalab-side-rail button:hover { background: #fff; border-color: rgba(17, 17, 17, .4); }
+.qalab-side-rail #qalabTourStart { background: #111; color: #fff; border-color: #111; }
+.qalab-side-rail #qalabTourStart:hover { background: #2a2a2a; }
+
+@media (min-width: 1800px) {
+  .qalab-side-rail { display: flex; }
+  #qalabModal .qalab-header-actions #qalabOpenRationaleCompact,
+  #qalabModal .qalab-header-actions #qalabOpenSimulationCompact,
+  #qalabModal .qalab-header-actions #qalabTourStartCompact { display: none; }
+}
+
+.qa-case-side-rail {
+  display: none;
+  position: absolute;
+  z-index: 6;
+  top: 5dvh;
+  right: calc(50% + min(50vw - 1.5rem, 740px) + 0.9rem);
+  flex-direction: column;
+  gap: .4rem;
+  padding: .8rem .5rem;
+}
+.qa-case-side-rail button {
+  min-width: 6.4rem;
+  padding: .5rem .7rem;
+  border: 1px solid #111;
+  border-radius: 999px;
+  background: #111;
+  color: #fff;
+  font: 700 .56rem 'Source Code Pro', monospace;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+  white-space: nowrap;
+  cursor: pointer;
+  box-shadow: 0 .3rem 1rem rgba(17, 17, 17, .22);
+  transition: background .2s ease, border-color .2s ease;
+}
+.qa-case-side-rail button:hover { background: #2a2a2a; border-color: #2a2a2a; }
+
+@media (min-width: 1800px) {
+  .qa-case-side-rail { display: flex; }
+}
+
+.qalab-guide { display: flex; justify-content: center; align-items: center; gap: 0.7rem; font: 600 0.68rem 'Source Code Pro', monospace; text-transform: uppercase; }
+.qalab-guide span { opacity: 0.65; }
+.qalab-guide i { width: clamp(1.5rem, 4vw, 4rem); height: 1px; background: #8bc69a; }
+
+.qalab-body {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: auto auto auto auto auto;
+  gap: 0.5rem;
+  min-height: 0;
+  padding: 0.65rem;
+  overflow-y: auto;
+  background-image: linear-gradient(rgba(17,17,17,.035) 1px, transparent 1px), linear-gradient(90deg, rgba(17,17,17,.035) 1px, transparent 1px);
+  background-size: 1.25rem 1.25rem;
+}
+
+.qalab-hero,
+.qalab-architecture,
+.qalab-evidence,
+.qalab-conclusion {
+  border: 1px solid rgba(17,17,17,.16);
+  border-radius: 0.8rem;
+  background: rgba(247,243,233,.9);
+}
+
+.qalab-hero { grid-column: 1 / -1; display: grid; grid-template-columns: minmax(0,1.5fr) minmax(18rem,.8fr); gap: 1.2rem; align-items: center; padding: 0.55rem 1rem; }
+.qalab-hero h3 { margin: 0 0 0.35rem; font-size: clamp(1.6rem,2.4vw,2.25rem); line-height: 1; letter-spacing: -.045em; }
+.qalab-hero > div:first-child > p:last-child { max-width: 58rem; margin: 0; font-size: 0.75rem; line-height: 1.5; color: rgba(17,17,17,.74); }
+.qalab-reaction { display: flex; align-items: center; justify-content: center; gap: 0.55rem; }
+.qalab-reaction span,.qalab-reaction strong { display:grid; min-width:3.15rem; min-height:3.15rem; place-content:center; text-align:center; border:1px solid rgba(17,17,17,.22); border-radius:50%; }
+.qalab-reaction b,.qalab-reaction strong { font-size:.94rem; }
+.qalab-reaction small { display:block; margin-top:.08rem; font: .48rem 'Source Code Pro',monospace; opacity:.62; }
+.qalab-reaction strong { background:#4a4a46; color:#fff; }
+.qalab-reaction em { font-style:normal; font-size:.74rem; opacity:.5; }
+.qalab-reaction > i { color:#8bc69a; font-style:normal; font-size:1.15rem; }
+.qalab-reaction [data-tip] { position:relative; cursor:help; }
+.qalab-reaction [data-tip]::after {
+  content: attr(data-tip);
+  position: absolute; bottom: 100%; left: 50%;
+  width: max-content; max-width: 9.5rem;
+  padding: .4rem .55rem; margin-bottom: .4rem;
+  border-radius: .4rem; background: #1f3327; color: #f8f5ed;
+  font: 500 .58rem/1.35 'Source Code Pro', monospace; text-align: left; white-space: normal;
+  opacity: 0; visibility: hidden; pointer-events: none; z-index: 30;
+  box-shadow: 0 .3rem .7rem rgba(0,0,0,.25);
+  transform: translate(-50%, .3rem);
+  transition: opacity .15s ease, transform .15s ease;
+}
+.qalab-reaction [data-tip]:hover::after,
+.qalab-reaction [data-tip]:focus-visible::after {
+  opacity: 1; visibility: visible; transform: translate(-50%, 0);
+}
+.qalab-reaction [data-tip].qalab-tip-start::after { left: 0; transform: translate(0, .3rem); }
+.qalab-reaction [data-tip].qalab-tip-start:hover::after,
+.qalab-reaction [data-tip].qalab-tip-start:focus-visible::after { transform: translate(0, 0); }
+.qalab-reaction [data-tip].qalab-tip-end::after { left: auto; right: 0; transform: translate(0, .3rem); }
+.qalab-reaction [data-tip].qalab-tip-end:hover::after,
+.qalab-reaction [data-tip].qalab-tip-end:focus-visible::after { transform: translate(0, 0); }
+
+.qalab-architecture { grid-column:1/-1; }
+
+.qalab-evidence { grid-column:1/-1; display:grid; grid-template-columns:9rem minmax(0,1fr); padding:.65rem; }
+.qalab-verdict { display:flex; flex-wrap:wrap; align-items:center; justify-content:center; text-align:center; gap:.55rem; grid-column:1/-1; padding:.55rem .85rem; border:1px solid rgba(17,17,17,.16); border-radius:.7rem; background:#efe4de; font-size:.74rem; transition:box-shadow .4s ease,border-color .4s ease; }
+.qalab-verdict b { font-size:.8rem; }
+.qalab-verdict b.is-warning { color:#9f4a42; }
+.qalab-verdict i { font-style:normal; opacity:.45; }
+.qalab-verdict span { color:rgba(17,17,17,.74); }
+.qalab-verdict.is-active { border-color:#c07c72; box-shadow:0 0 0 3px rgba(159,74,66,.14); }
+.qalab-evidence nav { display:grid; align-content:center; gap:.45rem; padding-right:.65rem; border-right:1px solid rgba(17,17,17,.13); }
+.qalab-evidence nav button { display:flex; gap:.55rem; padding:.7rem; border:1px solid rgba(17,17,17,.14); border-radius:.55rem; background:transparent; text-align:left; font-size:.74rem; }
+.qalab-evidence nav button span { font: .56rem 'Source Code Pro',monospace; opacity:.5; }
+.qalab-evidence nav button.active { background:#111; color:#fff; }
+.qalab-evidence-panel { display:grid; grid-template-rows:auto auto auto minmax(0,1fr) auto; min-width:0; padding:.35rem .75rem .2rem 1rem; }
+.qalab-evidence-panel header { display:flex; justify-content:space-between; align-items:center; }
+.qalab-evidence-panel header p { margin:0; font:700 .56rem 'Source Code Pro',monospace; letter-spacing:.09em; color:#588866; }
+.qalab-evidence-panel header b { padding:.28rem .48rem; border-radius:999px; background:#dcebdd; font:700 .56rem 'Source Code Pro',monospace; }
+.qalab-evidence-panel h3 { margin:.18rem 0; font-size:1.1rem; }
+.qalab-evidence-panel > p { margin:0; font-size:.78rem; line-height:1.35; color:rgba(17,17,17,.76); }
+.qalab-evidence-visual { min-height:0; margin:.65rem 0; }
+.qalab-evidence-panel > small { font:.56rem/1.4 'Source Code Pro',monospace; color:rgba(17,17,17,.68); }
+.qalab-evidence-panel.is-changing { animation: qalab-panel-in .35s ease both; }
+@keyframes qalab-panel-in { from { opacity:.3; transform:translateY(.2rem); } }
+.qalab-test-grid { display:grid; grid-template-columns:repeat(12,1fr); gap:.3rem; height:100%; align-items:end; }
+.qalab-test-grid i { height:var(--h,75%); min-height:1.2rem; border-radius:.25rem .25rem 0 0; background:#8bc69a; }
+.qalab-test-grid i:nth-child(3n) { --h:100%; } .qalab-test-grid i:nth-child(3n + 1) { --h:55%; }
+.qalab-telemetry-table { display:grid; grid-template-columns:1.3fr repeat(3,1fr); grid-template-rows:repeat(6,minmax(0,1fr)); height:100%; border:1px solid rgba(17,17,17,.13); border-radius:.5rem; overflow:hidden; font:.82rem/1.35 'Source Code Pro',monospace; }
+.qalab-telemetry-table > * { display:flex; align-items:center; min-height:0; padding:.38rem .72rem; border-bottom:1px solid rgba(17,17,17,.09); }
+.qalab-telemetry-table b { background:#e5eee4; }
+.qalab-drift-line { display:grid; grid-template-columns:auto 1fr auto; gap:.7rem; align-items:center; height:100%; font:.58rem 'Source Code Pro',monospace; }
+.qalab-drift-line > span { font-size:1.3rem; font-weight:700; color:#b45850; }
+.qalab-drift-line i { position:relative; height:.45rem; border-radius:999px; background:rgba(17,17,17,.12); }
+.qalab-drift-line i::after { position:absolute; left:50%; top:-.35rem; width:1px; height:1.15rem; content:''; background:#111; }
+.qalab-drift-line b { display:block; width:82%; height:100%; border-radius:inherit; background:#d9776b; }
+
+.qalab-run-stage { display:grid; grid-template-columns:minmax(15rem,.95fr) minmax(18rem,1.25fr); gap:.55rem; height:100%; min-height:7.2rem; }
+.qalab-controlled-change { display:grid; grid-template-rows:auto 1fr auto; min-width:0; padding:.5rem; border:1px solid rgba(17,17,17,.16); border-radius:.6rem; background:#f7f3e9; }
+.qalab-controlled-change header { display:flex; align-items:center; justify-content:space-between; font:700 .48rem 'Source Code Pro',monospace; text-transform:uppercase; padding:0; margin:0; }
+.qalab-controlled-change header b { padding:.2rem .35rem; border-radius:999px; background:#f3d5d0; color:#8d3d37; font-size:.45rem; }
+.qalab-controlled-change > div { display:grid; grid-template-columns:1fr auto 1fr; gap:.4rem; align-items:center; margin:.35rem 0; }
+.qalab-controlled-change article { display:grid; gap:.05rem; padding:.35rem; border:1px solid rgba(17,17,17,.12); border-radius:.4rem; }
+.qalab-controlled-change article:last-child { border-color:#d9776b; background:#fbebe8; }
+.qalab-controlled-change small,.qalab-controlled-change span { font:.43rem 'Source Code Pro',monospace; color:rgba(17,17,17,.65); }
+.qalab-controlled-change strong { font-size:.82rem; }
+.qalab-controlled-change > div > i { font-style:normal; opacity:.4; }
+.qalab-controlled-change > p { margin:0; font:.44rem/1.35 'Source Code Pro',monospace; color:rgba(17,17,17,.7); }
+.qalab-controlled-change > p b { color:#111; }
+.qalab-run-console { display:grid; grid-template-columns:minmax(7.5rem,.5fr) minmax(0,1.5fr); gap:.45rem; min-width:0; }
+.qalab-run-button { display:grid; place-content:center; gap:.22rem; border:1px solid rgba(17,17,17,.18); border-radius:.6rem; background:#e3efe2; color:#111; text-align:center; transition:transform .25s ease,background .25s ease; }
+.qalab-run-button:hover { transform:translateY(-2px); background:#d3e8d3; }
+.qalab-run-button span { display:grid; width:2rem; height:2rem; margin:0 auto .15rem; place-items:center; border-radius:50%; background:#4a4a46; color:#fff; font-size:.65rem; }
+.qalab-run-button b { font-size:.7rem; }
+.qalab-run-button small { font:.48rem 'Source Code Pro',monospace; opacity:.66; }
+.qalab-run-button.is-running span { animation:qalab-run-pulse .8s ease infinite; }
+@keyframes qalab-run-pulse { 50% { transform:scale(.84); box-shadow:0 0 0 .5rem rgba(17,17,17,.08); } }
+.qalab-output { min-width:0; overflow:hidden; border-radius:.6rem; background:#1a1a1a; color:#cfcfcf; font:.54rem/1.45 'Source Code Pro',monospace; }
+.qalab-output header { padding:.45rem .6rem; border-bottom:1px solid rgba(255,255,255,.12); }
+.qalab-output header span { text-transform:uppercase; letter-spacing:.08em; color:#9a9a9a; }
+.qalab-output header b { color:#cfcfcf; background:transparent; }
+.qalab-output > div { display:grid; align-content:start; gap:.2rem; height:5.2rem; padding:.5rem .6rem; overflow:hidden; }
+.qalab-output p { margin:0; opacity:0; transform:translateY(.3rem); animation:qalab-log-in .35s ease forwards; }
+.qalab-output p i { color:#8a8a8a; font-style:normal; }
+.qalab-output p.is-warning,.qalab-output p.is-warning i { color:#ef958a; }
+@keyframes qalab-log-in { to { opacity:1; transform:none; } }
+
+.qalab-decision { grid-column:2; padding:.8rem; }
+.qalab-decision h3 { margin:.35rem 0 .65rem; font-size:1.3rem; line-height:1.05; }
+.qalab-metric { display:grid; grid-template-columns:repeat(2,1fr); gap:.4rem; }
+.qalab-metric span { display:grid; gap:.2rem; padding:.5rem; border:1px solid rgba(17,17,17,.13); border-radius:.5rem; font:.54rem 'Source Code Pro',monospace; }
+.qalab-metric strong { font-size:.78rem; }
+.qalab-warning { display:flex; gap:.55rem; margin:.65rem 0; padding:.6rem; border-radius:.55rem; background:#f3d5d0; font-size:.64rem; line-height:1.4; }
+.qalab-warning i { flex:0 0 auto; width:.55rem; height:.55rem; margin-top:.1rem; border-radius:50%; background:#c95950; }
+.qalab-warning b { display:block; font:.58rem 'Source Code Pro',monospace; }
+.qalab-decision > p:not(.qalab-kicker) { margin:0; font-size:.68rem; line-height:1.48; color:rgba(17,17,17,.76); }
+.qalab-notification { display:flex; gap:.7rem; align-items:center; margin-top:.65rem; padding:.72rem .78rem; border:1px solid rgba(17,17,17,.13); border-radius:.5rem; background:#1d1f1d; color:#fff; opacity:.5; transform:translateY(.25rem); transition:.45s ease; }
+.qalab-notification.is-sent { opacity:1; transform:none; box-shadow:0 .5rem 1.4rem rgba(17,17,17,.16); }
+.qalab-notification i { display:grid; width:1.8rem; height:1.8rem; flex:0 0 auto; place-items:center; border-radius:.4rem; background:#c95950; font-size:.82rem; font-style:normal; font-weight:800; }
+.qalab-notification span { font:.68rem/1.45 'Source Code Pro',monospace; color:#f6f3ec; }
+.qalab-notification b { display:block; margin-bottom:.12rem; color:#f2a198; font-size:.72rem; }
+
+.qalab-conclusion { grid-column:1/-1; display:flex; align-items:center; gap:1rem; padding:.4rem .8rem; }
+.qalab-conclusion > div { display:flex; align-items:center; gap:.6rem; }
+.qalab-conclusion b { font-size:.68rem; }
+.qalab-conclusion i { font-style:normal; opacity:.4; }
+
+.qalab-explore { display:grid; grid-column:1/-1; grid-template-columns:repeat(2,1fr); gap:.5rem; }
+.qalab-explore button { display:flex; justify-content:space-between; align-items:center; gap:.5rem; padding:.55rem .8rem; border:1px dashed rgba(17,17,17,.28); border-radius:.55rem; background:transparent; color:#111; font:600 .64rem 'Source Code Pro',monospace; text-align:left; letter-spacing:.01em; transition:border-color .2s ease,background .2s ease,transform .2s ease; }
+.qalab-explore button:hover { border-style:solid; border-color:rgba(17,17,17,.5); background:#f8f5ed; transform:translateY(-1px); }
+.qalab-explore button i { font-style:normal; opacity:.55; }
+.qalab-footer { display:flex; justify-content:space-between; align-items:center; min-height:2.65rem; padding:0 1rem; border-top:1px solid rgba(17,17,17,.14); font:.54rem 'Source Code Pro',monospace; text-transform:uppercase; }
+.qalab-footer div { display:flex; gap:1rem; }
+.qalab-footer a { color:#111; }
+
+.qalab-tour { position:absolute; inset:0; z-index:20; pointer-events:none; }
+.qalab-tour[hidden] { display:none; }
+.qalab-tour-shade { position:absolute; inset:0; background:transparent; }
+@keyframes qalab-shade-in { to { opacity:1; } }
+.qalab-tour-focus { position:absolute; z-index:1; border:2px solid #9bcda5; border-radius:.75rem; box-shadow:0 0 0 .25rem rgba(155,205,165,.2),0 0 0 100vmax rgba(22,20,18,.66),0 0 2rem rgba(155,205,165,.25); transition:left .7s cubic-bezier(.22,1,.36,1),top .7s cubic-bezier(.22,1,.36,1),width .7s cubic-bezier(.22,1,.36,1),height .7s cubic-bezier(.22,1,.36,1); }
+.qalab-tour-panel { position:absolute; z-index:2; width:min(21rem,calc(100% - 2rem)); padding:.9rem; border:1px solid rgba(17,17,17,.16); border-radius:.9rem; background:#f7f3e9; color:#111; box-shadow:0 1rem 3rem rgba(17,17,17,.25); pointer-events:auto; transition:left .7s cubic-bezier(.22,1,.36,1),top .7s cubic-bezier(.22,1,.36,1); }
+.qalab-tour-panel > header { display:grid; grid-template-columns:auto 1fr; gap:.6rem; align-items:center; font:700 .52rem 'Source Code Pro',monospace; padding:0; margin:0; }
+.qalab-tour-panel > header i { height:1px; background:rgba(17,17,17,.16); }
+.qalab-tour-panel > header b { display:block; width:20%; height:100%; background:#78b987; transition:width .5s ease; }
+.qalab-tour-panel > p { margin:.7rem 0 .2rem; font:700 .5rem 'Source Code Pro',monospace; color:#659873; text-transform:uppercase; }
+.qalab-tour-panel h3 { margin:0 0 .4rem; font-size:1.1rem; line-height:1.2; }
+.qalab-tour-panel > div { font-size:.72rem; line-height:1.5; color:rgba(17,17,17,.76); }
+.qalab-tour-panel footer { display:flex; justify-content:space-between; margin-top:.8rem; }
+.qalab-tour-panel footer div { display:flex; gap:.35rem; }
+.qalab-tour-panel button { min-height:2.1rem; padding:.5rem .75rem; border:1px solid rgba(17,17,17,.2); border-radius:999px; background:transparent; font-size:.62rem; }
+.qalab-tour-panel #qalabTourNext { background:#4a4a46; color:#fff; }
+.qalab-tour.is-interactive .qalab-tour-shade { pointer-events:none; }
+.qalab-tour.is-interactive .qalab-tour-focus { pointer-events:none; }
+.qalab-tour.is-interactive { pointer-events:none; }
+.qalab-tour.is-moving .qalab-tour-focus,
+.qalab-tour.is-moving .qalab-tour-panel { transition:none; }
+.qalab-tour.is-interactive .qalab-tour-panel { pointer-events:auto; }
+
+.qalab-rationale { position:absolute; top:4.35rem; right:.75rem; bottom:3.15rem; left:.75rem; z-index:15; display:grid; grid-template-rows:auto auto minmax(0,1fr) auto; gap:.8rem; padding:1.1rem; overflow:hidden; border:1px solid rgba(17,17,17,.18); border-radius:1rem; background:#f7f3e9; color:#111; box-shadow:0 1.5rem 5rem rgba(17,17,17,.3); }
+.qalab-rationale[hidden] { display:none; }
+.qalab-rationale.is-entering { animation:qalab-sim-enter .65s cubic-bezier(.22,1,.36,1) both; }
+.qalab-rationale > header { display:flex; justify-content:space-between; align-items:center; gap:.6rem; padding:0; margin:0; }
+.qalab-rationale > header > div { margin-right:auto; }
+.qalab-rationale > header p { margin:0 0 .15rem; font:700 .52rem 'Source Code Pro',monospace; letter-spacing:.08em; color:#659873; text-transform:uppercase; }
+.qalab-rationale > header h3 { margin:0; font-size:1.15rem; line-height:1.25; }
+.qalab-rationale > header > b { flex:0 0 auto; padding:.45rem .8rem; border-radius:999px; background:#4a4a46; color:#fff; font:700 .58rem 'Source Code Pro',monospace; white-space:nowrap; }
+.qalab-panel-close { display:grid; flex:0 0 auto; width:1.7rem; height:1.7rem; padding:0; place-items:center; border:1px solid rgba(17,17,17,.24); border-radius:50%; background:#f8f5ed; color:#4a4a46; font-size:1rem; line-height:1; cursor:pointer; }
+.qalab-panel-close:hover { background:#eee9dc; }
+.qalab-rationale > nav { display:flex; align-items:center; justify-content:center; gap:.45rem; }
+.qalab-rationale > nav i { display:grid; width:1.8rem; height:1.8rem; place-items:center; border:1px solid rgba(17,17,17,.16); border-radius:50%; font:.52rem 'Source Code Pro',monospace; font-style:normal; transition:.5s ease; }
+.qalab-rationale > nav i.active { background:#4a4a46; color:#fff; transform:scale(1.08); }
+.qalab-rationale > nav i.passed { border-color:#83bd90; background:#dcebdd; color:#477e55; }
+.qalab-rationale > nav span { width:clamp(2rem,8vw,7rem); height:1px; background:rgba(17,17,17,.13); }
+.qalab-rationale-scenes { position:relative; min-height:0; overflow:hidden; border:1px solid rgba(17,17,17,.13); border-radius:.8rem; background:linear-gradient(rgba(17,17,17,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(17,17,17,.025) 1px,transparent 1px),#fbf8ef; background-size:1.2rem 1.2rem; }
+.qalab-rationale-scenes > article { position:absolute; inset:0; display:grid; grid-template-rows:auto auto; align-content:center; gap:.5rem; align-items:center; padding:clamp(.85rem,1.8vw,1.6rem); overflow:auto; visibility:hidden; opacity:0; transform:translateX(2rem); transition:opacity .55s ease,transform .75s cubic-bezier(.22,1,.36,1),visibility 0s .75s; }
+.qalab-rationale-scenes > article.active { visibility:visible; opacity:1; transform:none; transition-delay:0s; }
+.qalab-rationale-scenes article > p { max-width:58rem; margin:0 auto; font-size:.78rem; line-height:1.55; text-align:center; color:rgba(17,17,17,.72); }
+.qalab-case-equation { display:flex; flex-wrap:wrap; align-items:center; justify-content:center; gap:clamp(.4rem,1.5vw,1.2rem); }
+.qalab-case-equation span { display:grid; min-width:6.8rem; min-height:6.4rem; place-content:center; gap:.3rem; border:1px solid rgba(17,17,17,.16); border-radius:1rem; background:#f7f3e9; text-align:center; opacity:0; animation:qalab-rationale-card .55s ease forwards; }
+.qalab-case-equation span:nth-of-type(2){animation-delay:.14s}.qalab-case-equation span:nth-of-type(3){animation-delay:.28s}.qalab-case-equation span:nth-of-type(4){animation-delay:.42s}
+@keyframes qalab-rationale-card { from { opacity:0; transform:translateY(.7rem) scale(.96); } to { opacity:1; transform:none; } }
+.qalab-case-equation small,.qalab-stand-bridge small { font:.48rem 'Source Code Pro',monospace; text-transform:uppercase; opacity:.55; }
+.qalab-case-equation b { font-size:1.1rem; }
+.qalab-case-equation em { font-style:normal; color:#75ad82; }
+.qalab-principle-orbit { position:relative; width:min(100%,42rem); height:16rem; margin:auto; }
+.qalab-principle-orbit strong { position:absolute; left:50%; top:50%; display:grid; width:8rem; height:8rem; place-items:center; border-radius:50%; background:#4a4a46; color:#fff; text-align:center; transform:translate(-50%,-50%); }
+.qalab-principle-orbit span { position:absolute; left:50%; top:50%; padding:.55rem .8rem; border:1px solid rgba(17,17,17,.17); border-radius:999px; background:#f7f3e9; font-size:.68rem; opacity:0; animation:qalab-principle-in .55s ease forwards; }
+.qalab-principle-orbit span:nth-of-type(1){transform:translate(-50%,-10rem);animation-delay:.05s}.qalab-principle-orbit span:nth-of-type(2){transform:translate(7rem,-5.5rem);animation-delay:.15s}.qalab-principle-orbit span:nth-of-type(3){transform:translate(6rem,3.8rem);animation-delay:.25s}.qalab-principle-orbit span:nth-of-type(4){transform:translate(-16rem,3.8rem);animation-delay:.35s}.qalab-principle-orbit span:nth-of-type(5){transform:translate(-17rem,-5.5rem);animation-delay:.45s}
+@keyframes qalab-principle-in { from { opacity:0; filter:blur(5px); } to { opacity:1; filter:none; } }
+.qalab-stand-bridge { display:grid; grid-template-columns:minmax(13rem,1fr) auto minmax(13rem,1fr); gap:1.2rem; align-items:center; width:min(100%,48rem); margin:auto; }
+.qalab-stand-bridge > span { display:grid; gap:.35rem; min-height:10rem; place-content:center; border:1px solid rgba(17,17,17,.16); border-radius:1rem; background:#f7f3e9; text-align:center; animation:qalab-rationale-card .6s ease both; }
+.qalab-stand-bridge > span:last-child { animation-delay:.25s; }
+.qalab-stand-bridge b { font-size:1.05rem; }
+.qalab-stand-bridge i { font-size:.62rem; font-style:normal; color:rgba(17,17,17,.62); }
+.qalab-stand-bridge em { padding:.45rem .65rem; border-radius:999px; background:#dcebdd; color:#477e55; font:.55rem 'Source Code Pro',monospace; font-style:normal; }
+.qalab-complexity-boundary { display:grid; grid-template-columns:1fr auto 1fr; gap:1.2rem; align-items:center; width:min(100%,49rem); margin:auto; }
+.qalab-complexity-boundary span { display:grid; gap:.45rem; padding:1.2rem; border:1px solid rgba(17,17,17,.15); border-radius:1rem; background:#f7f3e9; }
+.qalab-complexity-boundary span:first-child { opacity:.48; text-decoration-color:#c45d54; }
+.qalab-complexity-boundary span:first-child b { text-decoration:line-through 2px #c45d54; }
+.qalab-complexity-boundary b { font-size:1rem; }
+.qalab-complexity-boundary i { font-size:.67rem; font-style:normal; }
+.qalab-complexity-boundary > strong { max-width:9rem; font-size:.76rem; line-height:1.35; text-align:center; color:#588866; }
+.qalab-rationale > footer { display:grid; grid-template-columns:auto 1fr; gap:1rem; align-items:center; font:.75rem 'Source Code Pro',monospace; }
+.qalab-rationale > footer > i { height:.2rem; overflow:hidden; border-radius:99px; background:rgba(17,17,17,.12); }
+.qalab-rationale > footer b { display:block; width:25%; height:100%; border-radius:inherit; background:#7db58a; transition:width .6s ease; }
+
+.qalab-simulation { position:absolute; top:4.35rem; right:.75rem; bottom:3.15rem; left:.75rem; z-index:15; display:grid; grid-template-rows:auto auto minmax(0,1fr) auto auto; gap:.65rem; padding:1rem; overflow:hidden; border:1px solid rgba(17,17,17,.18); border-radius:1rem; background:#f7f3e9; color:#111; box-shadow:0 1.5rem 5rem rgba(17,17,17,.3); }
+.qalab-simulation[hidden] { display:none; }
+.qalab-simulation.is-entering { animation:qalab-sim-enter .65s cubic-bezier(.22,1,.36,1) both; }
+@keyframes qalab-sim-enter { from { opacity:0; transform:scale(.97) translateY(.6rem); } }
+.qalab-simulation > header { display:flex; align-items:center; justify-content:space-between; gap:.6rem; padding:0; margin:0; }
+.qalab-simulation > header > div { margin-right:auto; }
+.qalab-simulation > header p { margin:0 0 .15rem; font:700 .52rem 'Source Code Pro',monospace; letter-spacing:.08em; text-transform:uppercase; color:#659873; }
+.qalab-simulation > header h3 { margin:0; font-size:1.1rem; line-height:1.25; }
+.qalab-simulation > header > b { flex:0 0 auto; padding:.45rem .8rem; border-radius:999px; background:#4a4a46; color:#fff; font:700 .58rem 'Source Code Pro',monospace; white-space:nowrap; }
+.qalab-sim-objective { display:flex; align-items:center; justify-content:center; gap:.7rem; padding:.55rem; border:1px solid rgba(17,17,17,.12); border-radius:.6rem; font-size:.74rem; }
+.qalab-sim-objective span { font:700 .5rem 'Source Code Pro',monospace; text-transform:uppercase; opacity:.55; }
+.qalab-sim-objective strong { color:#477e55; }
+.qalab-sim-objective i { font-style:normal; opacity:.45; }
+.qalab-sim-world { position:relative; width:min(100%,62rem); height:100%; min-height:0; margin:auto; overflow:hidden; border-radius:.75rem; background:#bbb; box-shadow:inset 0 0 0 1px rgba(17,17,17,.18); }
+.qalab-sim-world > img { position:absolute; inset:0; display:block; width:100%; height:100%; object-fit:cover; object-position:center 47%; filter:contrast(1.06) brightness(.83); transform:scale(1.01); }
+.qalab-sim-world::after { position:absolute; inset:0; content:''; pointer-events:none; background:linear-gradient(90deg,rgba(17,17,17,.52),transparent 36%,transparent 67%,rgba(17,17,17,.38)); }
+.qalab-sim-world figcaption { position:absolute; z-index:3; left:.65rem; bottom:.5rem; padding:.3rem .42rem; border-radius:.3rem; background:rgba(17,17,17,.72); color:#fff; font:.46rem 'Source Code Pro',monospace; }
+.qalab-world-station { position:absolute; z-index:4; left:39.7%; top:34%; width:8.7%; aspect-ratio:1.65; border:1px solid rgba(151,216,164,.92); border-radius:50%; box-shadow:0 0 0 .2rem rgba(151,216,164,.12),0 0 1.25rem rgba(151,216,164,.2); pointer-events:none; }
+.qalab-world-station span { position:absolute; left:50%; top:-1.35rem; padding:.25rem .38rem; border-radius:.25rem; background:#91ca9c; color:#111; font:700 .44rem 'Source Code Pro',monospace; white-space:nowrap; transform:translateX(-50%); }
+.qalab-world-station i { position:absolute; left:50%; top:50%; width:.32rem; height:.32rem; border-radius:50%; background:#9bd7a6; box-shadow:0 0 0 0 rgba(155,215,166,.5); animation:qalab-station-pulse 1.8s ease infinite; }
+@keyframes qalab-station-pulse { 70% { box-shadow:0 0 0 1rem rgba(155,215,166,0); } }
+@property --reaction-progress { syntax:'<angle>'; inherits:false; initial-value:0deg; }
+.qalab-world-reaction { --reaction-progress:0deg; position:absolute; z-index:5; left:40.8%; top:34.8%; display:grid; width:6.5%; aspect-ratio:1; place-items:center; border-radius:50%; opacity:0; background:conic-gradient(#99d2a4 var(--reaction-progress),rgba(17,17,17,.3) 0); box-shadow:0 0 1.4rem rgba(153,210,164,.35); transition:opacity .4s ease,--reaction-progress 1s ease; }
+.qalab-world-reaction::before { position:absolute; inset:5px; border-radius:50%; background:rgba(22,24,22,.82); content:''; }
+.qalab-simulation.is-running .qalab-world-reaction { opacity:1; }
+.qalab-world-reaction > div { position:absolute; z-index:1; width:42%; height:18%; border-radius:50%; background:rgba(153,210,164,.32); filter:blur(3px); animation:qalab-reaction-core 1.1s ease-in-out infinite alternate; }
+@keyframes qalab-reaction-core { to { transform:scale(1.35); opacity:.55; } }
+.qalab-world-reaction b,.qalab-world-reaction small { position:relative; z-index:2; color:#fff; font:.5rem 'Source Code Pro',monospace; }
+.qalab-world-reaction b { margin-top:.4rem; font-size:.56rem; }
+.qalab-world-reaction small { margin-top:-.45rem; font-size:.34rem; opacity:.62; }
+.qalab-simulation.is-hot .qalab-world-reaction { background:conic-gradient(#df796e var(--reaction-progress),rgba(17,17,17,.3) 0); box-shadow:0 0 1.4rem rgba(223,121,110,.42); }
+.qalab-world-hud { position:absolute; z-index:6; right:.65rem; top:1.65rem; display:grid; gap:.4rem; width:min(17rem,32%); padding:.65rem; border:1px solid rgba(255,255,255,.24); border-radius:.55rem; background:rgba(20,21,20,.82); color:#fff; backdrop-filter:blur(8px); }
+.qalab-world-hud header { display:flex; justify-content:space-between; gap:.5rem; font:700 .45rem 'Source Code Pro',monospace; }
+.qalab-world-hud header b { color:#9fd4a9; }
+.qalab-world-hud > div { display:grid; gap:.28rem; }
+.qalab-world-hud label { position:relative; display:grid; grid-template-columns:1fr auto; gap:.4rem; padding-bottom:.28rem; font:.46rem 'Source Code Pro',monospace; }
+.qalab-world-hud label > i { position:absolute; right:0; bottom:0; left:0; height:2px; background:rgba(255,255,255,.14); }
+.qalab-world-hud label > i::after { display:block; width:var(--value); height:100%; content:''; background:#92ca9e; transition:width 1.8s ease,background .4s ease; }
+.qalab-world-hud button { padding:.42rem; border:0; border-radius:.35rem; background:#91ca9c; color:#111; font:700 .5rem 'Source Code Pro',monospace; }
+.qalab-world-hud > p { display:grid; grid-template-columns:repeat(3,1fr); gap:.25rem; margin:0; }
+.qalab-world-hud > p span { display:grid; gap:.08rem; padding:.3rem; border:1px solid rgba(255,255,255,.12); border-radius:.3rem; font:.4rem 'Source Code Pro',monospace; }
+.qalab-world-hud > p b { font-size:.53rem; }
+.qalab-simulation.is-hot .qalab-world-hud header b { color:#ef958a; }
+.qalab-simulation.is-hot .qalab-world-hud button { background:#d9776b; }
+.qalab-sim-stage { display:grid; grid-template-columns:7rem 2rem minmax(12rem,1fr) 2rem 7rem; align-items:center; justify-content:center; max-width:46rem; width:100%; min-height:11rem; margin:auto; }
+.qalab-reagent { position:relative; display:grid; width:6rem; height:8rem; place-content:center; overflow:hidden; border:2px solid rgba(17,17,17,.2); border-radius:1rem 1rem 1.7rem 1.7rem; text-align:center; }
+.qalab-reagent::after { position:absolute; right:0; bottom:0; left:0; height:62%; content:''; background:var(--liquid,#a9d8ec); opacity:.7; }
+.qalab-reagent-b { --liquid:#f4c3a9; }
+.qalab-reagent b,.qalab-reagent span { position:relative; z-index:2; }
+.qalab-reagent b { font-size:1.7rem; }
+.qalab-reagent span { font:.58rem 'Source Code Pro',monospace; }
+.qalab-reagent i { position:absolute; z-index:1; width:.45rem; height:.45rem; border-radius:50%; background:#fff; opacity:.65; animation:qalab-bubble 2.2s ease-in infinite; }
+.qalab-reagent i:nth-of-type(1){left:20%;bottom:8%;}.qalab-reagent i:nth-of-type(2){left:52%;bottom:18%;animation-delay:.6s}.qalab-reagent i:nth-of-type(3){left:75%;bottom:4%;animation-delay:1.2s}
+@keyframes qalab-bubble { to { transform:translateY(-3.2rem) scale(.5); opacity:0; } }
+.qalab-sim-arrow { text-align:center; font-size:1.3rem; opacity:.35; }
+.qalab-chamber { position:relative; display:grid; width:12rem; height:11rem; margin:auto; place-items:end center; overflow:hidden; border:2px solid rgba(17,17,17,.25); border-radius:1.2rem 1.2rem 4rem 4rem; background:rgba(255,255,255,.5); }
+.qalab-chamber::before { position:absolute; top:7%; width:70%; height:.45rem; border-radius:99px; background:rgba(17,17,17,.12); content:''; }
+.qalab-liquid { position:absolute; right:0; bottom:0; left:0; height:12%; background:linear-gradient(135deg,#a8d9e5,#edbea8); transition:height 2.4s ease,background .7s ease; }
+.qalab-liquid i { position:absolute; width:.55rem; height:.55rem; border-radius:50%; background:#fff; animation:qalab-chamber-particle 2.3s linear infinite; }
+.qalab-liquid i:nth-child(1){left:10%;bottom:10%}.qalab-liquid i:nth-child(2){left:28%;bottom:35%;animation-delay:.4s}.qalab-liquid i:nth-child(3){left:46%;bottom:14%;animation-delay:.8s}.qalab-liquid i:nth-child(4){left:62%;bottom:43%;animation-delay:1.2s}.qalab-liquid i:nth-child(5){left:77%;bottom:16%;animation-delay:1.6s}.qalab-liquid i:nth-child(6){left:88%;bottom:38%;animation-delay:2s}
+@keyframes qalab-chamber-particle { 50% { transform:translate(.7rem,-2rem) scale(.65); } }
+.qalab-chamber > span,.qalab-chamber > b { position:relative; z-index:2; margin-bottom:.45rem; font:.5rem 'Source Code Pro',monospace; }
+.qalab-chamber > b { position:absolute; top:42%; margin:0; font-size:1.15rem; }
+.qalab-simulation.is-running .qalab-liquid { height:72%; }
+.qalab-simulation.is-hot .qalab-liquid { height:78%; background:linear-gradient(135deg,#edbe77,#df796e); }
+.qalab-sim-controls { display:grid; grid-template-columns:repeat(3,1fr); gap:.65rem; }
+.qalab-sim-controls article { display:grid; gap:.18rem; padding:.65rem; border:1px solid rgba(17,17,17,.13); border-radius:.55rem; }
+.qalab-sim-controls span { font:700 .52rem 'Source Code Pro',monospace; text-transform:uppercase; opacity:.55; }
+.qalab-sim-controls b { font-size:1rem; }
+.qalab-sim-controls small { font-size:.57rem; color:rgba(17,17,17,.68); }
+.qalab-sim-controls article { overflow:visible; }
+.qalab-temp-track { position:relative; height:.35rem; margin-top:.35rem; border-radius:99px; background:rgba(17,17,17,.1); overflow:visible; }
+.qalab-temp-track i { display:block; width:0; height:100%; border-radius:inherit; background:#72b581; transition:width 1.8s ease,background .4s ease; }
+.qalab-temp-track em { position:absolute; left:62.5%; top:.55rem; padding-left:.2rem; border-left:1px solid #c95850; font:.4rem 'Source Code Pro',monospace; color:#9d4a44; white-space:nowrap; }
+.qalab-sim-timeline { display:flex; align-items:center; justify-content:center; gap:.45rem; font:.52rem 'Source Code Pro',monospace; }
+.qalab-sim-timeline i { padding:.35rem .5rem; border:1px solid rgba(17,17,17,.13); border-radius:999px; font-style:normal; transition:.35s ease; }
+.qalab-sim-timeline i.active { background:#4a4a46; color:#fff; }
+.qalab-sim-timeline span { opacity:.38; }
+.qalab-simulation > footer { display:flex; align-items:center; justify-content:space-between; gap:1rem; padding-top:.55rem; border-top:1px solid rgba(17,17,17,.13); }
+.qalab-simulation > footer span { max-width:55rem; font-size:.55rem; line-height:1.4; color:rgba(17,17,17,.7); }
+.qalab-simulation > footer b { color:#111; }
+.qalab-simulation > footer button { flex:0 0 auto; padding:.4rem .65rem; border:1px solid rgba(17,17,17,.18); border-radius:999px; background:transparent; font-size:.55rem; }
+
+@media (max-width: 820px) {
+  .qalab-poster { width:calc(100vw - 1rem); height:calc(100dvh - 1rem); overflow:auto; }
+  .qalab-tour { position:fixed; }
+  .qalab-header { grid-template-columns:1fr auto; }
+  .qalab-header h2 { font-size:.92rem; white-space:normal; }
+  .qalab-guide { display:none; }
+  #qalabOpenRationaleCompact, #qalabOpenSimulationCompact { display:none; }
+  .qalab-body { display:block; overflow:visible; }
+  .qalab-body > * + * { margin-top:.65rem; }
+  #qalabModal .qalab-hero { grid-template-columns:1fr; }
+  .qalab-reaction { flex-wrap:wrap; }
+  #qalabModal .qalab-architecture { grid-template-columns:1fr; }
+  .qalab-architecture-flow > div { flex-wrap:wrap; }
+  #qalabModal .qalab-evidence { grid-template-columns:1fr; }
+  .qalab-evidence nav { grid-template-columns:repeat(3,1fr); padding:0 0 .6rem; border:0; }
+  .qalab-evidence nav button { justify-content:center; padding:.55rem .25rem; }
+  .qalab-evidence-panel { min-height:20rem; padding:.75rem .2rem .2rem; }
+  #qalabModal .qalab-run-stage { grid-template-columns:1fr; height:auto; }
+  #qalabModal .qalab-run-console { grid-template-columns:1fr; }
+  .qalab-conclusion > div { grid-template-columns:1fr; }
+  .qalab-explore { grid-template-columns:1fr; }
+  .qalab-footer { gap:.75rem; align-items:flex-start; padding:.75rem; }
+  .qalab-footer div { display:grid; gap:.35rem; text-align:right; }
+  .qalab-preview-orbit { right:4%; transform:scale(.82); transform-origin:right center; }
+  .qalab-preview-proof { right:4%; grid-template-columns:1fr; }
+  .qalab-rationale, .qalab-simulation { right:.75rem; }
 }
 
 .contact-card {
@@ -3216,6 +3909,10 @@ footer {
   padding: 1rem 1.1rem 0.8rem;
 }
 
+.qa-preview-card:not(.qalab-preview) .qa-preview-chart {
+  padding-bottom: 4.1rem;
+}
+
 .qa-preview-chart i {
   position: relative;
   display: block;
@@ -3457,9 +4154,11 @@ footer {
 
 .qa-case-header {
   display: flex;
+  flex-direction: row;
   align-items: center;
   justify-content: space-between;
   padding: 1rem 1.35rem;
+  text-align: left;
   border-bottom: 1px solid rgba(17, 17, 17, 0.14);
 }
 
@@ -6569,6 +7268,10 @@ body.contact-inking .cursor-outline {
   transform: translateY(-1px);
 }
 
+@media (min-width: 1800px) {
+  .qa-case-header .qa-tour-replay { display: none; }
+}
+
 .qa-tour-layer {
   position: absolute;
   z-index: 100;
@@ -6766,4 +7469,1197 @@ body.contact-inking .cursor-outline {
   .qa-tour-progress b {
     transition-duration: 0.01ms;
   }
+}
+
+/* qalab preview uses document flow so its layers never collide. */
+.qa-preview-card.qalab-preview {
+  display: grid;
+  grid-template-rows: auto auto minmax(0, 1fr) auto;
+}
+
+.qalab-preview .qa-preview-top {
+  background: rgba(247, 243, 233, 0.78);
+  backdrop-filter: blur(5px);
+}
+
+.qalab-preview .qa-preview-heading {
+  padding: 0.9rem 1rem 0.75rem;
+  background: linear-gradient(180deg, rgba(247, 243, 233, 0.9), rgba(247, 243, 233, 0.58));
+}
+
+.qalab-preview .qa-preview-heading strong {
+  max-width: none;
+  font-size: clamp(1.45rem, 2.5vw, 2.05rem);
+  line-height: 0.96;
+}
+
+.qalab-preview-content {
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) auto;
+  gap: 0.65rem;
+  min-height: 0;
+  padding: 0.65rem 0.7rem 0.75rem;
+  background: linear-gradient(180deg, rgba(247, 243, 233, 0.05), rgba(247, 243, 233, 0.58));
+}
+
+.qalab-preview .qalab-preview-orbit {
+  position: static;
+  align-self: center;
+  justify-self: center;
+  gap: clamp(0.18rem, 0.8vw, 0.4rem);
+  padding: 0.45rem 0.6rem;
+  border: 1px solid rgba(17, 17, 17, 0.12);
+  border-radius: 999px;
+  background: rgba(247, 243, 233, 0.84);
+  backdrop-filter: blur(6px);
+  transform: none;
+}
+
+.qalab-preview .qalab-preview-orbit i {
+  width: clamp(2rem, 4.5vw, 2.65rem);
+  height: clamp(2rem, 4.5vw, 2.65rem);
+}
+
+.qalab-preview .qalab-preview-orbit strong {
+  width: clamp(2.7rem, 5.5vw, 3.35rem);
+  height: clamp(2.7rem, 5.5vw, 3.35rem);
+}
+
+.qalab-preview .qalab-preview-proof {
+  position: static;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.35rem;
+}
+
+.qalab-preview .qalab-preview-proof i {
+  min-width: 0;
+  padding: 0.42rem 0.28rem;
+  overflow: hidden;
+  background: rgba(247, 243, 233, 0.88);
+  backdrop-filter: blur(6px);
+  text-align: center;
+  white-space: nowrap;
+}
+
+.qalab-preview .qa-preview-open {
+  position: absolute;
+  z-index: 3;
+  right: 1rem;
+  bottom: 1rem;
+  left: auto;
+  width: auto;
+  min-width: 7rem;
+  min-height: 2.45rem;
+  margin: 0;
+  padding: 0.55rem 0.85rem 0.55rem 1rem;
+  border: 1px solid rgba(17, 17, 17, 0.22);
+  border-radius: 999px;
+  background: rgba(250, 247, 239, 0.94);
+  color: #111;
+  box-shadow: 0 0.5rem 1.5rem rgba(17, 17, 17, 0.14);
+  backdrop-filter: none;
+}
+
+.qa-preview-card:hover {
+  transform: rotate(.12deg);
+}
+
+.qa-preview-card.qalab-preview {
+  display:block;
+  background-image:url('/assets/images/qalab/laboratory-viewport.jpg');
+  background-position:center;
+  background-size:cover;
+  background-repeat:no-repeat;
+}
+
+.qa-preview-card.qalab-preview::before {
+  position:absolute;
+  z-index:0;
+  inset:0;
+  content:'';
+  background:linear-gradient(180deg,rgba(247,243,233,.92) 0%,rgba(247,243,233,.34) 34%,rgba(17,17,17,.05) 68%,rgba(17,17,17,.28) 100%);
+  pointer-events:none;
+}
+
+.qalab-preview-directions {
+  position:absolute;
+  z-index:2;
+  right:1rem;
+  bottom:4.15rem;
+  left:1rem;
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:.35rem;
+  padding:0;
+}
+
+.qalab-preview-directions i {
+  display:grid;
+  min-height:2rem;
+  place-items:center;
+  padding:.35rem .25rem;
+  border:1px solid rgba(17,17,17,.18);
+  border-radius:.5rem;
+  background:rgba(247,243,233,.9);
+  font:600 .46rem/1.2 'Source Code Pro',monospace;
+  font-style:normal;
+  text-align:center;
+  box-shadow:0 .3rem .8rem rgba(17,17,17,.08);
+}
+
+.qa-preview-card.qalab-preview .qa-preview-heading {
+  position:absolute;
+  z-index:2;
+  top:0;
+  right:0;
+  left:0;
+  padding:1.1rem 1rem .8rem;
+}
+
+.qa-preview-card.qalab-preview .qalab-preview-directions {
+  right:auto;
+  bottom:4.8rem;
+  left:50%;
+  width:calc(100% - 2rem);
+  grid-template-columns:repeat(5,minmax(0,1fr));
+  justify-content:center;
+  gap:.3rem;
+  transform:translateX(-50%);
+}
+
+.qa-preview-card.qalab-preview .qalab-preview-directions i {
+  min-width:0;
+  min-height:2.85rem;
+  padding:.4rem .12rem;
+  font-size:.52rem;
+  line-height:1.3;
+}
+
+/* Wide guided layouts prioritize reading comfort over compact density. */
+@media (min-width: 821px) and (min-height: 560px) {
+  .qalab-rationale:not([hidden]),
+  .qalab-simulation:not([hidden]) {
+    right: clamp(15rem, 20vw, 23rem);
+  }
+}
+
+/* qalab overview: use the available poster space as an annotated engineering surface. */
+.qalab-reaction-wrap {
+  display: grid;
+  gap: 0.45rem;
+  justify-items: center;
+}
+
+.qalab-reaction-wrap > p {
+  margin: 0;
+  font: 700 0.62rem/1.2 'Source Code Pro', monospace;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.qalab-reaction-wrap > small {
+  max-width: 24rem;
+  font-size: 0.66rem;
+  line-height: 1.4;
+  text-align: center;
+  color: rgba(17, 17, 17, 0.74);
+}
+
+.qalab-architecture {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 1.1rem;
+  align-items: center;
+  padding: 0.4rem 0.9rem;
+}
+
+.qalab-architecture-intro {
+  display: grid;
+  gap: 0.28rem;
+  max-width: 11rem;
+}
+
+.qalab-architecture-flow {
+  display: grid;
+  gap: 0.4rem;
+}
+
+.qalab-architecture-flow > div {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  font-size: 0.88rem;
+  font-weight: 600;
+}
+
+.qalab-architecture-flow i {
+  color: #72a881;
+  font-style: normal;
+  font-size: 1rem;
+}
+
+.qalab-architecture-flow > small {
+  font-size: 0.72rem;
+  line-height: 1.4;
+  color: rgba(17, 17, 17, 0.74);
+}
+
+.qalab-architecture-flow.is-animating i { animation: qalab-flow-fade 1.1s ease-in-out infinite; }
+@keyframes qalab-flow-fade { 0%,100% { opacity:.5; } 50% { opacity:1; } }
+
+.qalab-redesign .qalab-architecture {
+  grid-template-columns: 1fr;
+  justify-items: center;
+  gap: 0.65rem;
+  padding: 0.8rem 1.25rem;
+  text-align: center;
+}
+
+.qalab-redesign .qalab-architecture-intro {
+  gap: 0.12rem;
+  max-width: none;
+  justify-items: center;
+}
+
+.qalab-redesign .qalab-architecture-intro .qalab-kicker {
+  margin: 0;
+}
+
+.qalab-redesign .qalab-architecture-intro > strong {
+  font-size: 1.1rem;
+  line-height: 1.15;
+}
+
+.qalab-redesign .qalab-architecture-flow {
+  justify-items: center;
+  width: min(100%, 62rem);
+  gap: 0.5rem;
+}
+
+.qalab-redesign .qalab-testing-views {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  width: 100%;
+  gap: 0.55rem;
+}
+
+.qalab-redesign .qalab-testing-views span {
+  display: grid;
+  min-height: 2.65rem;
+  place-items: center;
+  padding: 0.45rem 0.65rem;
+  border: 1px solid rgba(73, 122, 85, 0.22);
+  border-radius: 0.55rem;
+  background: rgba(248, 245, 237, 0.72);
+  font-size: 0.78rem;
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+.qalab-redesign .qalab-architecture-flow > small {
+  text-align: center;
+}
+
+@media (max-width: 720px) {
+  .qalab-redesign .qalab-testing-views {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 821px) {
+  .qalab-redesign .qalab-body {
+    grid-template-rows: auto auto auto minmax(0, 1fr) auto;
+  }
+
+  .qalab-redesign .qalab-evidence,
+  .qalab-redesign .qalab-evidence-panel {
+    min-height: 0;
+    overflow: hidden;
+  }
+
+  .qalab-redesign .qalab-evidence-visual {
+    min-height: 0;
+    overflow: auto;
+  }
+
+  .qalab-redesign .qalab-evidence-visual.is-telemetry {
+    overflow: hidden;
+  }
+
+  .qalab-redesign .qalab-test-groups > p,
+  .qalab-redesign #qalabEvidenceNote {
+    width: calc(100% + 8.5rem);
+    margin-left: -8.5rem;
+  }
+}
+
+.qalab-redesign .qalab-evidence-panel {
+  grid-template-rows: auto auto auto minmax(0, 1fr) auto auto;
+}
+
+.qalab-test-groups {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 0.45rem;
+  padding: 0 0 0.55rem;
+}
+
+.qalab-redesign .qalab-evidence .qalab-test-groups {
+  align-content: initial;
+  padding: 0 0 0.55rem;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+}
+
+.qalab-test-groups[hidden] {
+  display: none;
+}
+
+.qalab-test-groups > p {
+  grid-column: 1 / -1;
+  margin: 0 0 0.05rem;
+  color: rgba(17, 17, 17, 0.7);
+  font-size: 1.02rem;
+  line-height: 1.35;
+  text-align: center;
+}
+
+.qalab-test-groups a {
+  position: relative;
+  display: grid;
+  grid-template-columns: 2.45rem minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.55rem;
+  min-width: 0;
+  padding: 0.25rem 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: #111;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.qalab-test-groups a:hover,
+.qalab-test-groups a:focus-visible {
+  background: transparent;
+  color: #477e55;
+}
+
+.qalab-test-group-icon {
+  display: grid;
+  width: 2.35rem;
+  height: 2.35rem;
+  place-items: center;
+  border: 1px solid rgba(71, 126, 85, 0.42);
+  border-radius: 50%;
+  color: #477e55;
+  transform-origin: center;
+}
+
+.qalab-test-group-icon svg {
+  width: 1.18rem;
+  height: 1.18rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.55;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.qalab-test-group-icon.droplet-impact {
+  animation: droplet-impact 680ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.qalab-test-group-icon.droplet-release {
+  animation: droplet-release 620ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.site-droplet-motion.droplet-impact {
+  animation: droplet-impact 680ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.site-droplet-motion.droplet-release {
+  animation: droplet-release 620ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.qalab-test-group-copy {
+  display: grid;
+  gap: 0.16rem;
+  min-width: 0;
+}
+
+.qalab-test-group-copy b {
+  overflow: hidden;
+  font-size: 0.72rem;
+  line-height: 1.2;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.qalab-test-group-copy small {
+  overflow: hidden;
+  color: rgba(17, 17, 17, 0.64);
+  font: 0.56rem/1.25 'Source Code Pro', monospace;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.qalab-test-groups a > em {
+  color: #477e55;
+  font-style: normal;
+}
+
+#qalabEvidenceNote {
+  display: block;
+  text-align: center;
+}
+
+.qalab-redesign .qalab-conclusion {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1.1rem;
+  padding: 0.45rem 0.8rem;
+  text-align: center;
+}
+
+.qalab-redesign .qalab-conclusion .qalab-kicker {
+  margin: 0;
+  font-size: 0.87rem;
+}
+
+.qalab-redesign .qalab-conclusion > div {
+  justify-content: center;
+  gap: 0.8rem;
+}
+
+.qalab-redesign .qalab-conclusion b {
+  font-size: 1.02rem;
+}
+
+.qalab-redesign .qalab-conclusion i {
+  font-size: 1rem;
+}
+
+.qalab-hero-visual {
+  position: relative;
+  align-self: stretch;
+  min-width: 0;
+  min-height: 0;
+  margin: 0;
+  overflow: hidden;
+  border-radius: 0.75rem;
+  background: #d9d9d4;
+}
+
+.qalab-hero-visual::after {
+  position: absolute;
+  inset: 0;
+  content: '';
+  background: linear-gradient(180deg, transparent 48%, rgba(17, 17, 17, 0.54));
+  pointer-events: none;
+}
+
+.qalab-hero-visual img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 46%;
+  filter: grayscale(1) contrast(0.92);
+}
+
+.qalab-hero-visual figcaption {
+  position: absolute;
+  right: 0.75rem;
+  bottom: 0.55rem;
+  left: 0.75rem;
+  z-index: 1;
+  color: rgba(255, 255, 255, 0.88);
+  font: 600 0.55rem/1.2 'Source Code Pro', monospace;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.qalab-redesign .qalab-evidence > nav {
+  border-right: 1px solid rgba(17, 17, 17, 0.13);
+  background: #f8f5ed;
+}
+
+.qalab-redesign .qalab-evidence > nav button {
+  border-color: rgba(17, 17, 17, 0.14);
+  color: #111;
+}
+
+.qalab-redesign .qalab-evidence > nav button.active {
+  border-color: rgba(73, 122, 85, 0.28);
+  background: #e5eee4;
+  color: #111;
+}
+
+.qalab-tour-panel {
+  width: min(22rem, calc(100% - 2rem));
+  padding: 1rem;
+  border: 1px solid rgba(17, 17, 17, 0.18);
+  border-radius: 0.9rem;
+  box-shadow: 0 1.3rem 3.5rem rgba(17, 17, 17, 0.3);
+}
+
+.qalab-tour-panel > header {
+  gap: 0.65rem;
+  margin: 0 0 0.75rem;
+  font-size: 0.58rem;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+
+.qalab-tour-panel > header i {
+  height: 2px;
+  overflow: hidden;
+}
+
+.qalab-tour-panel > p {
+  margin: 0 0 0.35rem;
+  font-size: 0.58rem;
+  letter-spacing: 0.09em;
+}
+
+.qalab-tour-panel h3 {
+  margin: 0 0 0.5rem;
+  font-size: 1.15rem;
+  line-height: 1.15;
+}
+
+.qalab-tour-panel > div {
+  color: #45403d;
+  font-size: 0.76rem;
+  line-height: 1.5;
+}
+
+.qalab-tour-panel footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  min-height: 0;
+  margin: 1rem 0 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+}
+
+.qalab-tour-panel footer div {
+  display: flex;
+  gap: 0.45rem;
+}
+
+.qalab-tour-panel button {
+  min-height: 2.15rem;
+  padding: 0.45rem 0.75rem;
+  font-size: 0.68rem;
+}
+
+.qalab-tour-panel #qalabTourNext {
+  border-color: #111;
+  background: #111;
+}
+
+.qalab-tour-panel button:disabled {
+  opacity: 0.32;
+}
+
+.qalab-rationale > footer,
+.qalab-simulation > footer {
+  background: linear-gradient(180deg, #f2f2f2 0%, #f7f3e9 100%);
+}
+
+.qalab-test-story,
+.qalab-shared-story {
+  display: grid;
+  grid-template-columns: minmax(8rem, 1fr) auto minmax(8rem, 1fr) auto minmax(8rem, 1fr) auto minmax(8rem, 1fr);
+  align-items: center;
+  gap: clamp(0.45rem, 1.4vw, 1.2rem);
+  width: min(100%, 58rem);
+  margin: auto;
+}
+
+.qalab-test-story > span,
+.qalab-shared-story > span,
+.qalab-shared-story > strong {
+  display: grid;
+  justify-items: center;
+  gap: 0.35rem;
+  min-height: 9rem;
+  padding: 1rem 0.75rem;
+  place-content: center;
+  border: 1px solid rgba(17, 17, 17, 0.14);
+  border-radius: 1rem;
+  background: rgba(248, 245, 237, 0.9);
+  text-align: center;
+  box-shadow: 0 0.65rem 1.5rem rgba(45, 57, 48, 0.06);
+}
+
+.qalab-test-story > span:nth-of-type(2),
+.qalab-test-story > span:nth-of-type(4),
+.qalab-shared-story > strong {
+  background: #e3eee3;
+  border-color: rgba(73, 122, 85, 0.28);
+}
+
+.qalab-test-story span > i,
+.qalab-shared-story span > i,
+.qalab-shared-story strong > i {
+  display: grid;
+  min-width: 3.25rem;
+  min-height: 3.25rem;
+  padding: 0.45rem;
+  place-items: center;
+  border: 1px solid rgba(71, 126, 85, 0.38);
+  border-radius: 50%;
+  color: #477e55;
+  font: 700 0.88rem/1 'Source Code Pro', monospace;
+  font-style: normal;
+}
+
+.qalab-test-story small,
+.qalab-shared-story small,
+.qalab-clarity-filter small {
+  color: #588866;
+  font: 700 0.52rem/1.2 'Source Code Pro', monospace;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.qalab-test-story span > b,
+.qalab-shared-story span > b,
+.qalab-shared-story strong > b {
+  font-size: 0.78rem;
+  line-height: 1.25;
+}
+
+.qalab-test-story > em,
+.qalab-shared-story > em {
+  color: #72a881;
+  font-size: 1.35rem;
+  font-style: normal;
+}
+
+.qalab-shared-story {
+  grid-template-columns: minmax(11rem, 1fr) auto minmax(13rem, 1.15fr) auto minmax(11rem, 1fr);
+  width: min(100%, 52rem);
+}
+
+.qalab-method-cycle {
+  position: relative;
+  width: min(31rem, 90%);
+  aspect-ratio: 1.8 / 1;
+  margin: auto;
+}
+
+.qalab-method-cycle::before {
+  position: absolute;
+  inset: 12% 18%;
+  border: 1px dashed rgba(71, 126, 85, 0.42);
+  border-radius: 50%;
+  content: '';
+}
+
+.qalab-method-cycle > strong {
+  position: absolute;
+  inset: 50% auto auto 50%;
+  display: grid;
+  width: 8rem;
+  height: 8rem;
+  place-content: center;
+  border-radius: 50%;
+  background: #35533f;
+  color: #fff;
+  text-align: center;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 0 0 0.7rem rgba(114, 168, 129, 0.12);
+}
+
+.qalab-method-cycle > strong i {
+  color: #a9d4b1;
+  font-size: 1.4rem;
+  font-style: normal;
+}
+
+.qalab-method-cycle > strong b { font-size: 0.9rem; line-height: 1.15; }
+
+.qalab-method-cycle > span {
+  position: absolute;
+  left: calc(50% + cos(calc((var(--step) * 72deg) - 90deg)) * 42%);
+  top: calc(50% + sin(calc((var(--step) * 72deg) - 90deg)) * 39%);
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.5rem 0.7rem;
+  border: 1px solid rgba(17, 17, 17, 0.15);
+  border-radius: 999px;
+  background: #f8f5ed;
+  transform: translate(-50%, -50%);
+  white-space: nowrap;
+  box-shadow: 0 0.35rem 1rem rgba(45, 57, 48, 0.07);
+}
+
+.qalab-method-cycle > span i {
+  color: #588866;
+  font: 700 0.5rem 'Source Code Pro', monospace;
+  font-style: normal;
+}
+
+.qalab-method-cycle > span b { font-size: 0.68rem; }
+
+.qalab-clarity-filter {
+  display: grid;
+  grid-template-columns: minmax(14rem, 1fr) auto minmax(16rem, 1.15fr);
+  align-items: stretch;
+  gap: clamp(1rem, 3vw, 2.5rem);
+  width: min(100%, 52rem);
+  margin: auto;
+}
+
+.qalab-clarity-filter > span,
+.qalab-clarity-filter > strong {
+  display: grid;
+  align-content: center;
+  gap: 0.55rem;
+  min-height: 10rem;
+  padding: 1.1rem;
+  border: 1px solid rgba(17, 17, 17, 0.14);
+  border-radius: 1rem;
+  background: rgba(248, 245, 237, 0.9);
+}
+
+.qalab-clarity-filter > span b {
+  color: rgba(17, 17, 17, 0.42);
+  font: 500 0.72rem 'Source Code Pro', monospace;
+  text-decoration: line-through;
+}
+
+.qalab-clarity-filter > strong {
+  border-color: rgba(73, 122, 85, 0.28);
+  background: #e3eee3;
+}
+
+.qalab-clarity-filter > strong b { font-size: 0.78rem; }
+
+.qalab-clarity-filter > em {
+  align-self: center;
+  display: grid;
+  justify-items: center;
+  gap: 0.35rem;
+  color: #477e55;
+  font-style: normal;
+}
+
+.qalab-clarity-filter > em i {
+  display: grid;
+  width: 3.5rem;
+  height: 3.5rem;
+  place-items: center;
+  border-radius: 50%;
+  background: #35533f;
+  color: #fff;
+  font-size: 1.2rem;
+  font-style: normal;
+}
+
+.qalab-clarity-filter > em b {
+  max-width: 6rem;
+  font-size: 0.62rem;
+  line-height: 1.25;
+  text-align: center;
+}
+
+.qalab-rationale-scenes > article.active .qalab-test-story > span,
+.qalab-rationale-scenes > article.active .qalab-shared-story > :is(span, strong),
+.qalab-rationale-scenes > article.active .qalab-method-cycle > span,
+.qalab-rationale-scenes > article.active .qalab-clarity-filter > :is(span, em, strong) {
+  animation: qalab-diagram-enter 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: calc(var(--step, 0) * 90ms);
+}
+
+.qalab-test-story > span:nth-of-type(2),
+.qalab-shared-story > :nth-child(3),
+.qalab-clarity-filter > :nth-child(2) { --step: 1; }
+.qalab-test-story > span:nth-of-type(3),
+.qalab-shared-story > :nth-child(5),
+.qalab-clarity-filter > :nth-child(3) { --step: 2; }
+.qalab-test-story > span:nth-of-type(4) { --step: 3; }
+
+@keyframes qalab-diagram-enter {
+  from { opacity: 0; transform: translateY(0.8rem) scale(0.97); }
+  to { opacity: 1; }
+}
+
+@media (max-width: 820px) {
+  .qalab-test-story,
+  .qalab-shared-story,
+  .qalab-clarity-filter {
+    grid-template-columns: 1fr;
+  }
+
+  .qalab-test-story > em,
+  .qalab-shared-story > em { transform: rotate(90deg); }
+  .qalab-method-cycle { width: 100%; }
+
+  /* Identical Open full control for both QA project previews on mobile too. */
+  .qa-preview-open {
+    position: absolute;
+    z-index: 3;
+    right: 1rem;
+    bottom: 1rem;
+    left: auto;
+    display: flex;
+    width: auto;
+    min-width: 7rem;
+    min-height: 2.45rem;
+    align-items: center;
+    justify-content: space-between;
+    gap: .8rem;
+    margin: 0;
+    padding: .55rem .85rem .55rem 1rem;
+    border: 1px solid rgba(17,17,17,.22);
+    border-radius: 999px;
+    background: rgba(250,247,239,.94);
+    color: #111;
+    box-shadow: 0 .5rem 1.5rem rgba(17,17,17,.14);
+    backdrop-filter: none;
+    font-size: .62rem;
+    font-weight: 700;
+    letter-spacing: .06em;
+  }
+
+  .qa-preview-card:hover .qa-preview-open {
+    background: #111;
+    color: #fff;
+    transform: translateY(-2px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .qalab-rationale-scenes > article.active .qalab-test-story > span,
+  .qalab-rationale-scenes > article.active .qalab-shared-story > :is(span, strong),
+  .qalab-rationale-scenes > article.active .qalab-method-cycle > span,
+  .qalab-rationale-scenes > article.active .qalab-clarity-filter > :is(span, em, strong) {
+    animation: none;
+  }
+}
+
+@media (max-width: 980px) {
+  .qalab-test-groups {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.qalab-evidence-panel > header {
+  display: grid;
+  grid-template-columns: auto minmax(2rem, 1fr) auto;
+  gap: 0.75rem;
+  padding: 0;
+  margin: 0;
+}
+
+.qalab-evidence-panel > header::after {
+  grid-column: 2;
+  grid-row: 1;
+  align-self: center;
+  height: 1px;
+  background: rgba(88, 136, 102, 0.35);
+  content: '';
+}
+
+.qalab-evidence-panel > header > b {
+  grid-column: 3;
+}
+
+.qalab-run-stage {
+  grid-template-columns: minmax(19rem, 0.95fr) minmax(25rem, 1.35fr);
+  gap: 0.7rem;
+}
+
+.qalab-controlled-change {
+  gap: 0.35rem;
+  padding: 0.8rem;
+}
+
+.qalab-controlled-change header {
+  gap: 0.6rem;
+  font-size: 0.64rem;
+  line-height: 1.3;
+}
+
+.qalab-controlled-change header b {
+  padding: 0.3rem 0.48rem;
+  font-size: 0.57rem;
+  white-space: nowrap;
+}
+
+.qalab-controlled-change > div {
+  gap: 0.55rem;
+  margin: 0;
+}
+
+.qalab-controlled-change article {
+  gap: 0.15rem;
+  padding: 0.58rem;
+}
+
+.qalab-controlled-change small,
+.qalab-controlled-change span {
+  font-size: 0.6rem;
+  line-height: 1.3;
+}
+
+.qalab-controlled-change strong {
+  font-size: 1.08rem;
+}
+
+.qalab-controlled-change > p {
+  padding-top: 0.45rem;
+  border-top: 1px solid rgba(17, 17, 17, 0.12);
+  font-size: 0.59rem;
+  line-height: 1.45;
+}
+
+.qalab-run-console {
+  position: relative;
+  display: block;
+}
+
+.qalab-run-console .qalab-output {
+  height: 100%;
+  min-height: 9rem;
+  font-size: 0.72rem;
+}
+
+.qalab-run-console .qalab-output > div {
+  height: 7.2rem;
+  padding-right: 8.5rem;
+}
+
+.qalab-run-console .qalab-run-button {
+  position: absolute;
+  right: 0.8rem;
+  bottom: 0.8rem;
+  display: flex;
+  gap: 0.48rem;
+  align-items: center;
+  min-width: 7.2rem;
+  padding: 0.48rem 0.62rem;
+  border-color: rgba(255, 255, 255, 0.18);
+  background: #f5f2e9;
+  box-shadow: 0 0.5rem 1.2rem rgba(0, 0, 0, 0.2);
+}
+
+.qalab-run-console .qalab-run-button span {
+  width: 1.9rem;
+  height: 1.9rem;
+  margin: 0;
+}
+
+.qalab-run-console .qalab-run-button b {
+  font-size: 0.62rem;
+  white-space: nowrap;
+}
+
+.qalab-evidence-panel > small {
+  display: block;
+  padding-top: 0.42rem;
+  border-top: 1px solid rgba(17, 17, 17, 0.12);
+  font-size: 0.66rem;
+  color: rgba(17, 17, 17, 0.78);
+}
+
+/* Readable qalab instrumentation and automation output. */
+.qalab-run-stage {
+  grid-template-columns: minmax(16rem, 0.82fr) minmax(24rem, 1.48fr);
+  min-height: 9rem;
+}
+
+.qalab-run-console {
+  grid-template-columns: 3.4rem minmax(0, 1fr);
+  gap: 0.6rem;
+}
+
+.qalab-run-console .qalab-run-button {
+  min-width: 0;
+  padding: 0;
+  border-radius: 0.55rem;
+  background: #e3efe2;
+}
+
+.qalab-run-console .qalab-run-button span {
+  width: 2.35rem;
+  height: 2.35rem;
+  margin: 0;
+  font-size: 0.72rem;
+}
+
+.qalab-output {
+  font-size: 0.68rem;
+  line-height: 1.6;
+}
+
+.qalab-output header {
+  padding: 0.35rem 0.6rem;
+}
+
+.qalab-output > div {
+  height: 6.9rem;
+  gap: 0.3rem;
+  padding: 0.65rem 0.75rem;
+  overflow-y: auto;
+}
+
+.qalab-controlled-change {
+  padding: 0.7rem;
+}
+
+.qalab-controlled-change header {
+  font-size: 0.6rem;
+}
+
+.qalab-controlled-change header b {
+  padding: 0.28rem 0.45rem;
+  font-size: 0.54rem;
+}
+
+.qalab-controlled-change article {
+  gap: 0.12rem;
+  padding: 0.5rem;
+}
+
+.qalab-controlled-change small,
+.qalab-controlled-change span {
+  font-size: 0.56rem;
+  color: rgba(17, 17, 17, 0.76);
+}
+
+.qalab-controlled-change strong {
+  font-size: 1rem;
+}
+
+.qalab-controlled-change > p {
+  font-size: 0.55rem;
+  color: rgba(17, 17, 17, 0.78);
+}
+
+@media (min-width: 821px) and (min-height: 560px) {
+  .qalab-world-station span {
+    top: -1.65rem;
+    padding: 0.38rem 0.55rem;
+    font-size: 0.62rem;
+  }
+
+  .qalab-world-reaction {
+    width: 7.6%;
+  }
+
+  .qalab-world-reaction b {
+    font-size: 0.75rem;
+  }
+
+  .qalab-world-reaction small {
+    font-size: 0.48rem;
+  }
+
+  .qalab-world-hud {
+    width: min(21rem, 36%);
+    gap: 0.55rem;
+    padding: 0.85rem;
+  }
+
+  .qalab-world-hud header {
+    font-size: 0.62rem;
+  }
+
+  .qalab-world-hud label {
+    padding-bottom: 0.38rem;
+    font-size: 0.58rem;
+  }
+
+  .qalab-world-hud button {
+    padding: 0.58rem;
+    font-size: 0.66rem;
+  }
+
+  .qalab-world-hud > p span {
+    padding: 0.45rem;
+    font-size: 0.52rem;
+  }
+
+  .qalab-world-hud > p b {
+    font-size: 0.72rem;
+  }
+
+  .qalab-sim-controls article {
+    gap: 0.22rem;
+    padding: 0.75rem;
+  }
+
+  .qalab-sim-controls span {
+    font-size: 0.66rem;
+    color: rgba(17, 17, 17, 0.72);
+  }
+
+  .qalab-sim-controls b {
+    font-size: 1.2rem;
+  }
+
+  .qalab-sim-controls small {
+    font-size: 0.72rem;
+    line-height: 1.4;
+    color: rgba(17, 17, 17, 0.78);
+  }
+
+  .qalab-sim-timeline {
+    gap: 0.5rem;
+    font-size: 0.68rem;
+  }
+
+  .qalab-sim-timeline i {
+    padding: 0.42rem 0.6rem;
+  }
+
+  .qalab-simulation > footer span {
+    font-size: 0.72rem;
+    line-height: 1.5;
+    color: rgba(17, 17, 17, 0.8);
+  }
+}
+
+.qalab-evidence-visual .qalab-run-stage { grid-template-columns:minmax(19rem,.95fr) minmax(25rem,1.35fr); gap:.7rem; min-height:0; height:auto; }
+.qalab-evidence-visual .qalab-run-console { position:relative; display:block; }
+.qalab-evidence-visual .qalab-run-console .qalab-output { height:100%; min-height:6rem; font-size:.72rem; }
+.qalab-evidence-visual .qalab-run-console .qalab-output > div { height:4.6rem; padding:.55rem 8.5rem .55rem .75rem; }
+.qalab-evidence-visual .qalab-run-console .qalab-run-button { position:absolute; right:.8rem; bottom:.8rem; display:flex; gap:.55rem; align-items:center; min-width:7.6rem; padding:.55rem .7rem; border-color:rgba(255,255,255,.18); border-radius:.6rem; background:#f5f2e9; box-shadow:0 .5rem 1.2rem rgba(0,0,0,.2); }
+.qalab-evidence-visual .qalab-run-console .qalab-run-button span { width:2.15rem; height:2.15rem; margin:0; font-size:.8rem; }
+.qalab-evidence-visual .qalab-run-console .qalab-run-button b { font-size:.66rem; white-space:nowrap; }
+.qalab-evidence-visual .qalab-controlled-change { gap:.35rem; padding:.6rem .7rem; }
+.qalab-evidence-visual .qalab-controlled-change header { gap:.65rem; font-size:.68rem; line-height:1.3; }
+.qalab-evidence-visual .qalab-controlled-change header b { padding:.32rem .52rem; font-size:.6rem; white-space:nowrap; }
+.qalab-evidence-visual .qalab-controlled-change article { gap:.15rem; padding:.45rem; }
+.qalab-evidence-visual .qalab-controlled-change small,
+.qalab-evidence-visual .qalab-controlled-change span { font-size:.63rem; line-height:1.3; }
+.qalab-evidence-visual .qalab-controlled-change strong { font-size:1.15rem; }
+.qalab-evidence-visual .qalab-controlled-change > p { padding-top:.45rem; border-top:1px solid rgba(17,17,17,.12); font-size:.59rem; line-height:1.45; }
+.qa-project-thumb.qalab-thumb .qalab-thumb-cover {
+  display: block;
+  height: 100%;
+  padding: 0;
+  background-image:
+    linear-gradient(180deg, rgba(247, 243, 233, 0.12), rgba(17, 17, 17, 0.14)),
+    url('/assets/images/qalab/laboratory-viewport.jpg');
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
 }

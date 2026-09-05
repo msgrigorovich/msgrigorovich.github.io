@@ -6,7 +6,7 @@
   <title>Projects — Diana Grigorovich</title>
   <link rel="icon" href="/favicon.png" type="image/png">
   <link rel="preload" as="image" href="/assets/images/portraits/albert-einstein-2015.webp" fetchpriority="high">
-  <link rel="stylesheet" href="/assets/css/style.css?v=20260830-qa-result-scroll1" />
+  <link rel="stylesheet" href="/assets/css/style.css?v=20260905-analytics-cover55" />
   <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
@@ -107,7 +107,7 @@
 
     <section class="qa-project-view" id="qaProjectView" aria-label="QA analytics case study" hidden>
       <div class="qa-project-intro">
-        <p class="projects-kicker">QA case study · ClickHouse</p>
+        <p class="projects-kicker" id="qaProjectKicker">QA case study · Unreal Engine</p>
         <h1><span>The Art of</span><span>Quality</span></h1>
         <div class="projects-filters" aria-label="Project categories">
           <button type="button" class="projects-filter" data-project-filter="art" aria-pressed="false">Art</button>
@@ -115,37 +115,29 @@
           <button type="button" class="projects-filter" disabled>Games <span>In development</span></button>
           <button type="button" class="projects-filter" disabled>Cinematic Arts <span>In development</span></button>
         </div>
-        <p class="projects-note">A practical SQL toolkit for validating product analytics in mobile games — from a single event to a production pattern.</p>
-        <a class="qa-repository-link" href="https://github.com/msgrigorovich/SQL#----qa-analyst" target="_blank" rel="noreferrer">
+        <p class="projects-note" id="qaProjectNote">An analytical-chemistry mindset translated into data-driven QA: controlled conditions, repeatable validation, measurable evidence and preventive regression detection.</p>
+        <a class="qa-repository-link" id="qaProjectRepository" href="https://github.com/msgrigorovich/qalab#qalab" target="_blank" rel="noreferrer">
           <img src="/github_icon.png" alt="" class="qa-repository-icon"><span>View repository</span><span aria-hidden="true">↗</span>
         </a>
       </div>
 
       <div class="qa-project-stage">
-        <button class="qa-preview-card" id="qaCaseOpen" type="button" aria-label="Open The Art of Quality case study">
-          <span class="qa-preview-top"><i></i><i></i><i></i><b>analytics_qa.sql</b></span>
-          <span class="qa-preview-heading"><small>ClickHouse · read-only diagnostics</small><strong>From action<br>to evidence.</strong></span>
-          <span class="qa-preview-flow" aria-hidden="true">
-            <i><b>01</b>Action</i><em>→</em><i><b>02</b>Event</i><em>→</em><i><b>03</b>Query</i><em>→</em><i><b>04</b>Decision</i>
-          </span>
-          <span class="qa-preview-chart" aria-hidden="true">
-            <i style="--qa-bar: 88%"><b>Start</b></i>
-            <i style="--qa-bar: 78%"><b>Complete</b></i>
-            <i style="--qa-bar: 12%"><b>Fail</b></i>
-          </span>
+        <button class="qa-preview-card qalab-preview" id="qaCaseOpen" type="button" aria-label="Open qalab case study">
+          <span class="qa-preview-heading"><small>Chemistry · Quality · Analytics</small><strong>One system.<br>Five testing views.</strong></span>
+          <span class="qalab-preview-directions" aria-hidden="true"><i>Manual</i><i>Automated<br>Tests</i><i>Test<br>Stands</i><i>Analytics<br>Tests</i><i>Blueprint<br>Debug</i></span>
           <span class="qa-preview-open"><span>Open full</span><span>↗</span></span>
         </button>
-        <div class="qa-project-caption"><h2>Analytics-driven QA</h2><span>2024</span></div>
+        <div class="qa-project-caption"><h2 id="qaProjectCaption">qalab · quality assurance lab</h2><span id="qaProjectYear">2026</span></div>
       </div>
 
       <aside class="qa-project-archive" aria-label="QA project archive">
         <p>Projects · 04</p>
         <div class="qa-project-thumbs">
-          <button type="button" class="qa-project-thumb active" data-qa-project="sql" aria-label="Select The Art of Quality preview" aria-pressed="true">
-            <span class="qa-project-thumb-art"><i>SELECT</i><i>FROM</i><i>WHERE</i></span><b>01</b>
+          <button type="button" class="qa-project-thumb qalab-thumb active" data-qa-project="qalab" aria-label="Select qalab preview" aria-pressed="true">
+            <span class="qa-project-thumb-art qalab-thumb-cover" aria-hidden="true"></span><b>01</b>
           </button>
-          <button type="button" class="qa-project-thumb placeholder" aria-label="QA project 02, in development" aria-disabled="true">
-            <span class="qa-project-thumb-art"><i>TRACE</i><i>CHECK</i><i>REPORT</i></span><b>02</b><span class="qa-project-coming">In development</span>
+          <button type="button" class="qa-project-thumb" data-qa-project="sql" aria-label="Select The Art of Quality preview" aria-pressed="false">
+            <span class="qa-project-thumb-art"><i>SELECT</i><i>FROM</i><i>WHERE</i></span><b>02</b>
           </button>
           <button type="button" class="qa-project-thumb placeholder" aria-label="QA project 03, in development" aria-disabled="true">
             <span class="qa-project-thumb-art"><i>PLAN</i><i>RUN</i><i>LEARN</i></span><b>03</b><span class="qa-project-coming">In development</span>
@@ -154,12 +146,12 @@
             <span class="qa-project-thumb-art"><i>LOAD</i><i>MEASURE</i><i>TUNE</i></span><b>04</b><span class="qa-project-coming">In development</span>
           </button>
         </div>
-        <p class="qa-project-archive-note">ClickHouse · OLAP<br>Mobile game analytics, 2024</p>
-        <div class="qa-project-index" aria-label="QA case study contents">
+        <p class="qa-project-archive-note" id="qaProjectArchiveNote">Unreal Engine · C++ · Blueprints<br>Automation &amp; analytics, 2026</p>
+        <div class="qa-project-index" id="qaProjectIndex" aria-label="QA case study contents">
           <p>Case contents</p>
-          <span><b>04</b> diagnostic scenarios</span>
-          <span><b>03</b> evidence layers</span>
-          <span><b>01</b> read-only approach</span>
+          <span><b>33</b> automated checks</span>
+          <span><b>03</b> QA evidence layers</span>
+          <span><b>01</b> shared gameplay API</span>
         </div>
       </aside>
     </section>
@@ -168,7 +160,7 @@
   <dialog class="qa-case-modal" id="qaCaseModal" aria-labelledby="qaCaseTitle">
     <article class="qa-case-card">
       <header class="qa-case-header">
-        <div><p>QA case study · 01</p><h2 id="qaCaseTitle">Analytics-driven QA</h2></div>
+        <div><p>QA case study · 02</p><h2 id="qaCaseTitle">Analytics-driven QA</h2></div>
         <div class="qa-poster-guide" aria-label="Reading guide: question, method, evidence, decision">
           <span>Reading guide</span><b>Question</b><i></i><b>Method</b><i></i><b>Evidence</b><i></i><b>Decision</b>
         </div>
@@ -251,7 +243,7 @@ ORDER BY created_at DESC;</code></pre>
             <div class="qa-query-output" id="qaQueryOutput"><span><b>Signal</b> ordered event trail</span><span><b>Use</b> reproduce & verify</span><span><b>Guard</b> synthetic identifiers</span></div>
           </article>
           <div class="qa-case-section-heading">
-            <div><p class="qa-case-kicker">The evidence</p><h3>Eight recurring QA questions</h3></div>
+            <div><p class="qa-case-kicker">The evidence</p><h3>Some of the QA questions</h3></div>
             <p>Choose a scenario to update the explanation, query and interpretation.</p>
           </div>
           <div class="qa-scenario-list" aria-label="SQL test scenarios">
@@ -286,6 +278,125 @@ ORDER BY created_at DESC;</code></pre>
       </div>
       <footer class="qa-case-footer"><span>ClickHouse · SQL · Product analytics</span><a href="https://github.com/msgrigorovich/SQL#----qa-analyst" target="_blank" rel="noreferrer">Source repository ↗</a></footer>
     </article>
+    <div class="qa-case-side-rail" id="qaCaseSideRail">
+      <button type="button" id="qaTourReplayRail">Tour</button>
+    </div>
+  </dialog>
+
+  <dialog class="qalab-modal" id="qalabModal" aria-labelledby="qalabTitle">
+    <article class="qalab-poster qalab-redesign">
+      <div class="qalab-ident" id="qalabIdent" hidden aria-label="qalab — quality assurance lab">
+        <div class="qalab-ident-mark" aria-hidden="true"><span>q</span><span>a</span><i></i><span>a</span><span>b</span></div>
+        <p>quality assurance lab</p>
+        <small>symmetry in name · consistency in method</small>
+      </div>
+      <header class="qalab-header">
+        <div><p>QA case study · 01</p><h2 id="qalabTitle"><span class="qalab-mark">qalab</span><span class="qalab-title-expansion"> — <span class="qalab-mark">q</span>uality <span class="qalab-mark">a</span>ssurance <span class="qalab-mark">lab</span> for Preventive Regression Signaling</span></h2></div>
+        <div class="qalab-guide" aria-label="Reading guide"><span>Mechanic</span><i></i><span>Automate</span><i></i><span>Measure</span><i></i><span>Decide</span></div>
+        <div class="qalab-header-actions"><button type="button" id="qalabOpenRationaleCompact">Why chemistry?</button><button type="button" id="qalabOpenSimulationCompact">Simulation</button><button type="button" id="qalabTourStartCompact">Tour</button><button type="button" id="qalabClose" aria-label="Close qalab case study">×</button></div>
+      </header>
+
+      <div class="qalab-body">
+        <section class="qalab-hero">
+          <div>
+            <p class="qalab-kicker">Analytical Chemistry × Quality Assurance × Data</p>
+            <h3>Functional tests vs. Behavioral tests</h3>
+            <p>Functional checks may produce the expected result, but that does not guarantee that behavioral checks will do the same. In other words, testing a feature cannot—and should not—end with a binary true/false or passed/failed result. What happens afterward is just as important.</p>
+          </div>
+          <figure class="qalab-hero-visual">
+            <img src="/assets/images/qalab/laboratory-viewport.jpg" alt="Unreal Engine laboratory prototype with the player character at the reaction station">
+            <figcaption>Actual Unreal Engine prototype</figcaption>
+          </figure>
+        </section>
+
+        <section class="qalab-architecture">
+          <div class="qalab-architecture-intro">
+            <p class="qalab-kicker">One core mechanic</p>
+            <strong>Five testing views</strong>
+          </div>
+          <div class="qalab-architecture-flow">
+            <div class="qalab-testing-views">
+              <span>Manual testing via UI</span>
+              <span>Automated tests</span>
+              <span>Test stands</span>
+              <span>Analytics tests</span>
+              <span>Blueprint debug panel</span>
+            </div>
+            <small>The same production mechanic is exercised through five complementary testing views.</small>
+          </div>
+        </section>
+
+        <div class="qalab-verdict" id="qalabVerdict"><b>Functional PASS</b><i>·</i><b class="is-warning">Behavioral WARNING</b><span>ReactionTime crept −2% → −6% over 5 days — every single day passed, only the trend crossed ±5%.</span></div>
+
+        <section class="qalab-evidence">
+          <nav aria-label="qalab evidence layers">
+            <button type="button" class="active" data-qalab-layer="automation" aria-pressed="true"><span>01</span>Automation</button>
+            <button type="button" data-qalab-layer="telemetry" aria-pressed="false"><span>02</span>Telemetry</button>
+            <button type="button" data-qalab-layer="regression" aria-pressed="false"><span>03</span>Regression</button>
+          </nav>
+          <article class="qalab-evidence-panel" id="qalabEvidencePanel" aria-live="polite">
+            <header><p id="qalabEvidenceEyebrow">01 · VALIDATE</p><b id="qalabEvidenceStatus">33 / 33 PASS</b></header>
+            <h3 id="qalabEvidenceTitle">Functional gameplay automation</h3>
+            <p id="qalabEvidenceText">Domain rules, state transitions, interaction range, parameter sweeps, exports and regression logic are exercised through Unreal Automation Framework.</p>
+            <div class="qalab-evidence-visual" id="qalabEvidenceVisual"><div class="qalab-run-stage"><div class="qalab-controlled-change"><header><span>Controlled fixture</span><b>day 5 of 5</b></header><div><article><small>Versioned baseline</small><strong>12.42 s</strong><span>ReactionTime mean</span></article><i>→</i><article><small>Friday's batch</small><strong>11.67 s</strong><span>ReactionTime mean</span></article></div></div><div class="qalab-run-console"><div class="qalab-output" aria-live="polite"><header><span>Regression analyzer</span><b data-qalab-output-state>Ready</b></header><div data-qalab-output-lines><p><i>›</i> Waiting for baseline and current batch.</p></div></div><button type="button" class="qalab-run-button" data-qalab-run aria-label="Run regression comparison" title="Run comparison"><span>▶</span><b>Compare batches</b></button></div></div></div>
+            <nav class="qalab-test-groups" id="qalabTestGroups" aria-label="Automation test group documentation">
+              <p>Explore every test in the GitHub repository using the links below.</p>
+              <a href="https://github.com/msgrigorovich/qalab/blob/main/Docs/TestStrategy.md#experiment-domain--qalabgameplayexperiment" target="_blank" rel="noreferrer"><i class="qalab-test-group-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M9 3h6M10 3v6l-5 9a2 2 0 0 0 2 3h10a2 2 0 0 0 2-3l-5-9V3M7.5 16h9"/></svg></i><span class="qalab-test-group-copy"><b>Experiment</b><small>Domain model</small></span><em>↗</em></a>
+              <a href="https://github.com/msgrigorovich/qalab/blob/main/Docs/TestStrategy.md#interaction--qalabgameplayinteraction" target="_blank" rel="noreferrer"><i class="qalab-test-group-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m7 3 10 9-5 1 3 6-2 1-3-6-3 4V3Z"/></svg></i><span class="qalab-test-group-copy"><b>Interaction</b><small>Player range</small></span><em>↗</em></a>
+              <a href="https://github.com/msgrigorovich/qalab/blob/main/Docs/TestStrategy.md#test-stand--qalabgameplayteststand" target="_blank" rel="noreferrer"><i class="qalab-test-group-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 5h14v14H5zM9 9h6M9 12h6M9 15h3"/></svg></i><span class="qalab-test-group-copy"><b>Test Stand</b><small>Sweeps and runs</small></span><em>↗</em></a>
+              <a href="https://github.com/msgrigorovich/qalab/blob/main/Docs/TestStrategy.md#telemetry--qalabgameplaytelemetry" target="_blank" rel="noreferrer"><i class="qalab-test-group-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 18V9M9 18V5M14 18v-7M19 18V3M3 18h18"/></svg></i><span class="qalab-test-group-copy"><b>Telemetry</b><small>CSV and JSON</small></span><em>↗</em></a>
+              <a href="https://github.com/msgrigorovich/qalab/blob/main/Docs/TestStrategy.md#regression--qalabgameplayregression" target="_blank" rel="noreferrer"><i class="qalab-test-group-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m4 7 5 4 4-3 7 7M16 15h4v-4"/></svg></i><span class="qalab-test-group-copy"><b>Regression</b><small>Drift analysis</small></span><em>↗</em></a>
+            </nav>
+            <small id="qalabEvidenceNote">29 simple tests + 1 parameterized test with 4 cases · Editor-only qalabTests module</small>
+          </article>
+        </section>
+
+        <section class="qalab-conclusion">
+          <p class="qalab-kicker">The connection</p>
+          <div><b>Standardize</b><i>→</i><b>Validate</b><i>→</i><b>Analyze</b></div>
+        </section>
+      </div>
+
+      <section class="qalab-rationale" id="qalabRationale" hidden aria-label="Why chemistry fits quality assurance">
+        <header><div><p>Why chemistry fits · 01—04</p><h3 id="qalabRationaleTitle">An experiment already behaves like a test case</h3></div><b id="qalabRationaleCount">01 / 04</b><button type="button" class="qalab-panel-close" id="qalabRationaleClose" aria-label="Close">×</button></header>
+        <nav aria-label="Chemistry rationale progress"><i class="active">01</i><span></span><i>02</i><span></span><i>03</i><span></span><i>04</i></nav>
+        <div class="qalab-rationale-scenes">
+          <article class="active" data-qalab-rationale-scene="0"><div class="qalab-test-story"><span><i>A+B</i><small>Arrange</small><b>Known inputs</b></span><em>→</em><span><i>50°</i><small>Control</small><b>Same conditions</b></span><em>→</em><span><i>⌁</i><small>Observe</small><b>Yield + time</b></span><em>→</em><span><i>✓</i><small>Assert</small><b>Expected range</b></span></div><p>A chemical experiment already follows the shape of a test case: arrange, control, observe and assert.</p></article>
+          <article data-qalab-rationale-scene="1"><div class="qalab-method-cycle"><strong><i>↻</i><b>Trustworthy<br>evidence</b></strong><span style="--step:0"><i>01</i><b>Standardize</b></span><span style="--step:1"><i>02</i><b>Calibrate</b></span><span style="--step:2"><i>03</i><b>Repeat</b></span><span style="--step:3"><i>04</i><b>Measure</b></span><span style="--step:4"><i>05</i><b>Validate</b></span></div><p>Chemistry and QA earn trust in the same way: repeat a stable method, measure change and validate the evidence.</p></article>
+          <article data-qalab-rationale-scene="2"><div class="qalab-shared-story"><span><i>UI</i><small>Player view</small><b>Interact in the world</b></span><em>→</em><strong><i>⚗</i><small>Shared object</small><b>Laboratory station</b></strong><em>←</em><span><i>▶</i><small>QA view</small><b>Run repeatable batches</b></span></div><p>The same believable station supports play and automation, so the test surface never becomes a separate fake system.</p></article>
+          <article data-qalab-rationale-scene="3"><div class="qalab-clarity-filter"><span><small>Leave behind</small><b>Σ formulas</b><b>AₓBᵧ nomenclature</b><b>k(T) kinetics</b></span><em><i>→</i><b>Keep the signal</b></em><strong><small>Show the player</small><b>Balance changes yield</b><b>Heat changes time</b><b>Overheat reduces quality</b></strong></div><p>The model keeps only readable cause and effect—enough structure for QA, without asking the visitor to become a chemist.</p></article>
+        </div>
+        <footer><span id="qalabRationaleCaption">Inputs → conditions → outputs → expected range</span><i><b id="qalabRationaleProgress"></b></i></footer>
+      </section>
+
+      <section class="qalab-simulation" id="qalabSimulation" hidden aria-label="Guided animated chemistry simulation">
+        <header><div><p>Guided simulation · fictional laboratory model</p><h3>A playable reaction, frame by frame</h3></div><b id="qalabSimState">01 · Configure</b><button type="button" class="qalab-panel-close" id="qalabSimulationClose" aria-label="Close">×</button></header>
+        <div class="qalab-sim-objective"><span>Objective</span><strong>Yield ≥ 90%</strong><i>while</i><strong>Peak temperature &lt; 70°C</strong></div>
+        <figure class="qalab-sim-world">
+          <img src="/assets/images/qalab/laboratory-viewport.jpg" alt="Monochrome Unreal Engine laboratory with a third-person character facing the reaction station">
+          <figcaption>Actual Unreal Engine prototype · laboratory viewport</figcaption>
+          <div class="qalab-world-station"><span>Shared gameplay station</span><i></i></div>
+          <div class="qalab-world-reaction" aria-hidden="true"><div></div><b id="qalabSimProgress">0%</b><small>Running</small></div>
+          <div class="qalab-world-hud">
+            <header><span>GUIDED DATA LAYER</span><b id="qalabWorldValidation">Awaiting input</b></header>
+            <div><label>A <strong>50.0</strong><i style="--value:50%"></i></label><label>B <strong>50.0</strong><i style="--value:50%"></i></label><label>Temperature <strong id="qalabWorldTemp">20.0</strong><i id="qalabWorldTempBar" style="--value:0%"></i></label></div>
+            <button type="button" tabindex="-1" id="qalabWorldAction">Configure experiment</button>
+            <p><span>Yield <b id="qalabWorldYield">—</b></span><span>Time <b id="qalabWorldTime">—</b></span><span>Peak <b id="qalabWorldPeak">—</b></span></p>
+          </div>
+        </figure>
+        <div class="qalab-sim-controls"><article><span>Ratio A:B</span><b id="qalabSimRatio">1 : 1</b><small>Closer to balance → higher yield</small></article><article><span>Temperature</span><b id="qalabSimTemp">20°C</b><div class="qalab-temp-track"><i id="qalabSimTempFill"></i><em>70° safe limit</em></div></article><article><span>Predicted output</span><b id="qalabSimYield">—</b><small id="qalabSimTime">Waiting to run</small></article></div>
+        <div class="qalab-sim-timeline"><i class="active">Idle</i><span>Configure</span><i>Ready</i><span>Start</span><i>Running</i><span>Emit once</span><i>Completed</i></div>
+        <footer><span><b>Learning model, not laboratory truth.</b> Coefficients are intentionally simple tuning data: balance improves Yield; heat reduces ReactionTime; heat above 70°C adds a Yield penalty.</span><button type="button" id="qalabSimReplay">↻ Replay</button></footer>
+      </section>
+
+      <div class="qalab-tour" id="qalabTour" hidden><div class="qalab-tour-shade"></div><div class="qalab-tour-focus" id="qalabTourFocus"></div><aside class="qalab-tour-panel" id="qalabTourPanel"><header><span id="qalabTourStep">01 / 14</span><i><b id="qalabTourProgress"></b></i></header><p>Guided reading</p><h3 id="qalabTourTitle">Start with the QA problem</h3><div id="qalabTourText">A functional pass confirms an outcome, but it does not prove that behavior stayed unchanged.</div><footer><button type="button" id="qalabTourExit">Exit</button><div><button type="button" id="qalabTourBack">Back</button><button type="button" id="qalabTourNext">Next</button></div></footer></aside></div>
+      <footer class="qalab-footer"><span>Unreal Engine 5.8.2 · C++ · Blueprints · Automation · Analytics</span><div><a href="https://github.com/msgrigorovich/qalab#qalab" target="_blank" rel="noreferrer">Repository ↗</a><a href="https://www.youtube.com/watch?v=nrnqqqrfimI" target="_blank" rel="noreferrer">58 sec demo ↗</a></div></footer>
+    </article>
+    <div class="qalab-side-rail" id="qalabSideRail">
+      <button type="button" id="qalabOpenRationale">Why chemistry?</button>
+      <button type="button" id="qalabOpenSimulation">Simulation</button>
+      <button type="button" id="qalabTourStart">Tour</button>
+    </div>
   </dialog>
 
   <dialog class="portrait-modal" id="portraitModal" aria-labelledby="portraitModalTitle">
@@ -416,7 +527,7 @@ ORDER BY created_at DESC;</code></pre>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 
 <script src="/assets/js/main.js?v=20260827-performance1"></script>
-<script src="/assets/js/projects.js?v=20260830-qa-result-scroll1"></script>
+<script src="/assets/js/projects.js?v=20260905-analytics-cover55"></script>
 <script src="/assets/js/analytics.js"></script>
 
 </body>
