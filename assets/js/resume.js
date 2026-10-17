@@ -130,7 +130,8 @@ const dominiProjectsWithOfficialPages = dominiSeriesProjects.map(project => ({
 
 const resumeExperience = [
   {
-    period: 'Jan 2025 — Present',
+    slug: 'strikerz-core-gameplay',
+    period: 'Jan 2025 – Present',
     eyebrow: 'Strikerz Inc. · Tbilisi',
     title: 'Senior QA Engineer',
     role: 'Core Gameplay Team · Quality & Systems Validation',
@@ -161,7 +162,8 @@ const resumeExperience = [
     skills: ['Unreal Engine 5', 'Test Automation', 'Blueprint']
   },
   {
-    period: 'Apr 2024 — Jan 2025',
+    slug: 'strikerz-quality-control',
+    period: 'Apr 2024 – Jan 2025',
     eyebrow: 'Strikerz Inc. · Tbilisi',
     title: 'Senior QA Engineer',
     role: 'Quality Control Team · Cross-Platform & Feature Validation',
@@ -194,7 +196,8 @@ const resumeExperience = [
     skills: ['Play Station 5', 'xBox Series X', 'xBox Series S', 'Console DevKits', 'Console TestKits', 'TestRail', 'Jira', 'Confluence']
   },
   {
-    period: 'Oct 2022 — Apr 2024',
+    slug: 'beresnev-games',
+    period: 'Oct 2022 – Apr 2024',
     eyebrow: 'Beresnev Games · Prague',
     title: 'Senior QA Engineer',
     role: 'QA Process Ownership · Mobile Game Development',
@@ -230,7 +233,8 @@ const resumeExperience = [
     skills: ['Xcode', 'Unity', 'SQL', 'JetBrains DataGrip', 'ClickHouse', 'Tableau', 'GitLab', 'JSON', 'Asana', 'C#', 'DBeaver', 'Notion', 'Charles Proxy', 'TeamCity']
   },
   {
-    period: 'Mar 2022 — Sep 2022',
+    slug: 'dominigames-senior',
+    period: 'Mar 2022 – Sep 2022',
     eyebrow: 'DominiGames · Voronezh',
     title: 'Senior QA Engineer',
     role: 'QA Leadership & Process Ownership · Mobile Games',
@@ -263,7 +267,8 @@ const resumeExperience = [
     skills: ['Bookstack', 'Jenkins', 'Test design', 'Scrum']
   },
   {
-    period: 'Dec 2021 — Mar 2022',
+    slug: 'dominigames-middle',
+    period: 'Dec 2021 – Mar 2022',
     eyebrow: 'DominiGames · Voronezh',
     title: 'Middle QA Engineer',
     role: 'QA Process Development & Test Design · Mobile Games',
@@ -283,7 +288,8 @@ const resumeExperience = [
     skills: ['XML', 'Trello', 'Automated Testing', 'Python']
   },
   {
-    period: 'Sep 2021 — Dec 2021',
+    slug: 'dominigames-junior',
+    period: 'Sep 2021 – Dec 2021',
     eyebrow: 'DominiGames · Voronezh',
     title: 'Junior QA Engineer',
     role: 'Entry-Level QA · Mobile Game Production',
@@ -304,7 +310,7 @@ const resumeExperience = [
 
 const resumeSections = {
   education: {
-    eyebrow: 'September 2017 — August 2021',
+    eyebrow: 'September 2017 – August 2021',
     title: 'Analytical Chemistry',
     role: 'Bachelor’s degree · Lipetsk State Technical University',
     text: 'A scientific foundation in structured investigation and analytical thinking that continues to inform data-driven QA work and gameplay health analysis.',
@@ -501,6 +507,7 @@ function openResumeModal() {
   resumeModal.showModal();
   resumeCursorLayers.forEach(layer => resumeModal.appendChild(layer));
   resumeModalContent.scrollTop = 0;
+  syncResumeHash();
 }
 
 function resumeDetailListMarkup(points) {
@@ -527,6 +534,7 @@ function restoreResumeModalPageState() {
   document.body.style.removeProperty('--resume-modal-scroll-y');
   resumeCursorLayers.forEach(layer => document.body.appendChild(layer));
   window.scrollTo(0, resumeModalScrollY);
+  syncResumeHash();
 }
 
 function openResumeSeriesPanel(index) {
@@ -576,6 +584,7 @@ function selectResumeYear(index) {
   renderResumeYears();
   renderActiveResumeCard();
   renderResumeProjects();
+  syncResumeHash();
 }
 
 function changeResumeYear(direction) {
@@ -593,6 +602,7 @@ function selectResumeTab(tabName) {
   } else {
     resumeCard.innerHTML = resumeCardMarkup(resumeSections[tabName]);
     renderResumeProjects();
+    syncResumeHash();
   }
 }
 
@@ -1052,4 +1062,38 @@ resumeProjectRail.addEventListener('wheel', event => {
   event.preventDefault();
   handleResumeProjectWheel(event);
 }, { passive: false });
+
+// --- Deep linking (shareable URLs for tab / role / details) ---
+// #education | #experience[/<role-slug>[/details]] | #skills[/<role-slug>]
+let applyingResumeHash = false;
+
+function syncResumeHash() {
+  if (applyingResumeHash) return;
+  const hash = activeResumeTab === 'education'
+    ? '#education'
+    : `#${[activeResumeTab, resumeExperience[resumeYearIndex]?.slug, activeResumeTab === 'experience' && resumeModal.open ? 'details' : null].filter(Boolean).join('/')}`;
+  if (location.hash !== hash) history.replaceState(null, '', hash);
+}
+
+function applyResumeHash(hash) {
+  const [tab, roleSlug, detail] = (hash || '').replace(/^#/, '').split('/').filter(Boolean);
+  applyingResumeHash = true;
+  try {
+    if (tab === 'education') {
+      selectResumeTab('education');
+    } else {
+      selectResumeTab(tab === 'skills' ? 'skills' : 'experience');
+      const roleIndex = roleSlug ? resumeExperience.findIndex(item => item.slug === roleSlug) : -1;
+      if (roleIndex >= 0) selectResumeYear(roleIndex);
+      if (tab !== 'skills' && detail === 'details') openResumeModal();
+    }
+  } finally {
+    applyingResumeHash = false;
+  }
+  syncResumeHash();
+}
+
+const initialResumeHash = location.hash;
 selectResumeTab('experience');
+applyResumeHash(initialResumeHash);
+window.addEventListener('hashchange', () => applyResumeHash(location.hash));

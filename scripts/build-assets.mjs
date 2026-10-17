@@ -29,6 +29,25 @@ for (const path of cssEntries) {
   productionHashes.set(output, createHash('sha256').update(result.code).digest('hex').slice(0, 10));
 }
 
+for (const [sourcePath, output] of vendorEntries) {
+  const code = await readFile(sourcePath);
+  await mkdir(new URL('../assets/vendor/', import.meta.url), { recursive: true });
+  await writeFile(output, code);
+  productionHashes.set(output, createHash('sha256').update(code).digest('hex').slice(0, 10));
+}
+
+function rewriteHashedPaths(text) {
+  for (const [path, hash] of productionHashes) {
+    const publicPath = `/${path.replaceAll('\\', '/')}`;
+    const escapedPath = publicPath.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    text = text.replace(new RegExp(`${escapedPath}(?:\\?v=[^"']*)?`, 'g'), `${publicPath}?v=${hash}`);
+  }
+  return text;
+}
+
+// A production script can reference another fingerprinted asset at runtime (e.g. main.js
+// lazy-loads the gsap vendor bundle), so rewrite those references before hashing the JS
+// output itself - otherwise the HTML's <script> tag would point at a stale fingerprint.
 for (const path of jsEntries) {
   const source = await readFile(path, 'utf8');
   const result = await minify(source, {
@@ -38,26 +57,14 @@ for (const path of jsEntries) {
   });
   if (!result.code) throw new Error(`Terser produced no output for ${path}`);
   const output = productionPath(path);
-  const code = `${result.code}\n`;
-  await writeFile(output, code);
-  productionHashes.set(output, createHash('sha256').update(code).digest('hex').slice(0, 10));
-}
-
-for (const [sourcePath, output] of vendorEntries) {
-  const code = await readFile(sourcePath);
-  await mkdir(new URL('../assets/vendor/', import.meta.url), { recursive: true });
+  const code = rewriteHashedPaths(`${result.code}\n`);
   await writeFile(output, code);
   productionHashes.set(output, createHash('sha256').update(code).digest('hex').slice(0, 10));
 }
 
 for (const page of htmlEntries) {
-  let html = await readFile(page, 'utf8');
-  for (const [path, hash] of productionHashes) {
-    const publicPath = `/${path.replaceAll('\\', '/')}`;
-    const escapedPath = publicPath.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-    html = html.replace(new RegExp(`${escapedPath}(?:\\?v=[^"']*)?`, 'g'), `${publicPath}?v=${hash}`);
-  }
-  await writeFile(page, html);
+  const html = await readFile(page, 'utf8');
+  await writeFile(page, rewriteHashedPaths(html));
 }
 
 console.log(`Built and fingerprinted ${cssEntries.length} CSS, ${jsEntries.length} JavaScript and ${vendorEntries.size} vendor assets.`);

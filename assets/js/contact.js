@@ -13,9 +13,37 @@ let creditsClickSuppressedUntil = 0;
 let openCreditFromCard = () => {};
 const creditFullPreloads = new Map();
 let creditImageRequest = 0;
+let currentCreditSlug = null;
+let applyingContactHash = false;
 
 function getFullCreditSource(source) {
   return source.replace('/assets/images/credits/', '/assets/images/credits/full/');
+}
+
+function creditSlugFromCard(card) {
+  const source = card?.querySelector('img')?.getAttribute('src') || '';
+  return source.match(/\/([^/]+)\.[a-z0-9]+$/i)?.[1] || null;
+}
+
+function syncContactHash() {
+  if (applyingContactHash) return;
+  const hash = contactCreditModal.open && currentCreditSlug ? `#credits/${currentCreditSlug}` : '';
+  if (hash) {
+    if (location.hash !== hash) history.replaceState(null, '', hash);
+  } else if (location.hash) {
+    history.replaceState(null, '', location.pathname + location.search);
+  }
+}
+
+function applyContactHash(hash) {
+  const [section, slug] = (hash || '').replace(/^#/, '').split('/').filter(Boolean);
+  if (section !== 'credits' || !slug || !creditsTrack) return;
+  const card = Array.from(creditsTrack.querySelectorAll('.contact-credit-card:not([aria-hidden="true"])'))
+    .find(candidate => creditSlugFromCard(candidate) === slug);
+  if (!card) return;
+  applyingContactHash = true;
+  openCreditFromCard(card);
+  applyingContactHash = false;
 }
 
 function preloadCreditSource(source) {
@@ -191,6 +219,8 @@ function setupCreditModal() {
     contactCreditModal.showModal();
     cursorLayers.forEach(layer => contactCreditModal.appendChild(layer));
     positionCreditModal();
+    currentCreditSlug = creditSlugFromCard(card);
+    syncContactHash();
 
     const fullImage = preloadCreditSource(fullSource);
     const revealFullImage = () => {
@@ -226,6 +256,8 @@ function setupCreditModal() {
     document.body.classList.remove('contact-credit-open');
     contactCreditModalImage.removeAttribute('src');
     cursorLayers.forEach(layer => document.body.appendChild(layer));
+    currentCreditSlug = null;
+    syncContactHash();
   });
   window.addEventListener('resize', positionCreditModal);
 
@@ -382,3 +414,5 @@ setupCreditsRoll();
 setupCreditModal();
 setupContactInk();
 setupContactSignature();
+applyContactHash(location.hash);
+window.addEventListener('hashchange', () => applyContactHash(location.hash));

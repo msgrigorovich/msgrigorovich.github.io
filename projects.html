@@ -3,13 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Projects — Diana Grigorovich</title>
+  <title>Projects – Diana Grigorovich</title>
   <link rel="icon" href="/favicon.png" type="image/png">
   <link rel="preload" as="image" href="/assets/images/portraits/albert-einstein-2015.webp" fetchpriority="high">
-  <link rel="stylesheet" href="/assets/css/style.min.css?v=a1afe1a8ca" />
+  <link rel="stylesheet" href="/assets/css/style.min.css?v=e422c757f0" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Press+Start+2P&family=Source+Code+Pro&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Source+Code+Pro&display=swap" rel="stylesheet">
 
 </head>
 <body class="projects-page">
@@ -43,7 +43,7 @@
 
     <section class="projects-gallery" aria-label="Portrait projects">
       <div class="projects-intro">
-        <p class="projects-kicker">Selected work · 2015—2022</p>
+        <p class="projects-kicker">Selected work · 2015 – 2022</p>
         <h1><span>The Art of</span><span>Grayness</span></h1>
         <div class="projects-filters" aria-label="Project categories">
           <button type="button" class="projects-filter active" data-project-filter="art" aria-pressed="true">Art</button>
@@ -87,7 +87,7 @@
             <img src="/assets/images/portraits/thumbs/daria-ivanova-2022.webp" width="260" height="325" alt="" draggable="false" decoding="async"><span>04</span>
           </button>
         </div>
-        <p class="portrait-archive-note">Graphite on paper<br>Selected portraits, 2015—2022</p>
+        <p class="portrait-archive-note">Graphite on paper<br>Selected portraits, 2015 – 2022</p>
         <div class="portrait-magnifier-settings">
           <p>Magnifier</p>
           <label>
@@ -136,14 +136,14 @@
           <button type="button" class="qa-project-thumb qalab-thumb active" data-qa-project="qalab" aria-label="Select qalab preview" aria-pressed="true">
             <span class="qa-project-thumb-art qalab-thumb-cover" aria-hidden="true"></span><b>01</b>
           </button>
-          <button type="button" class="qa-project-thumb" data-qa-project="sql" aria-label="Select The Art of Quality preview" aria-pressed="false">
-            <span class="qa-project-thumb-art"><i>SELECT</i><i>FROM</i><i>WHERE</i></span><b>02</b>
+          <button type="button" class="qa-project-thumb scope-thumb" data-qa-project="scope" aria-label="Select Testing Scope Framework preview" aria-pressed="false">
+            <span class="qa-project-thumb-art scope-thumb-cover" aria-hidden="true"><i>IMPACT</i><i>+</i><i>COMPLEXITY</i><strong>XS – XL</strong></span><b>02</b>
           </button>
-          <button type="button" class="qa-project-thumb placeholder" aria-label="QA project 03, in development" aria-disabled="true">
-            <span class="qa-project-thumb-art"><i>PLAN</i><i>RUN</i><i>LEARN</i></span><b>03</b><span class="qa-project-coming">In development</span>
+          <button type="button" class="qa-project-thumb" data-qa-project="sql" aria-label="Select Analytics-driven QA preview" aria-pressed="false">
+            <span class="qa-project-thumb-art"><i>SELECT</i><i>FROM</i><i>WHERE</i></span><b>03</b>
           </button>
           <button type="button" class="qa-project-thumb placeholder" aria-label="QA project 04, in development" aria-disabled="true">
-            <span class="qa-project-thumb-art"><i>LOAD</i><i>MEASURE</i><i>TUNE</i></span><b>04</b><span class="qa-project-coming">In development</span>
+            <span class="qa-project-thumb-art"><i>DOMINI</i><i>GAMES</i><i>2022</i></span><b>04</b><span class="qa-project-coming">In development</span>
           </button>
         </div>
         <p class="qa-project-archive-note" id="qaProjectArchiveNote">Unreal Engine · C++ · Blueprints<br>Automation &amp; analytics, 2026</p>
@@ -157,10 +157,148 @@
     </section>
   </main>
 
+  <dialog class="scope-modal" id="scopeModal" aria-labelledby="scopeTitle">
+    <article class="scope-article">
+      <header class="scope-header">
+        <div><p>QA case study · 02</p><h2 id="scopeTitle">Testing Scope Framework</h2></div>
+        <nav aria-label="Article map"><button type="button" data-scope-jump="0">Question</button><i></i><button type="button" data-scope-jump="2">Assess</button><i></i><button type="button" data-scope-jump="3">Scope</button><i></i><button type="button" data-scope-jump="9">Framework</button><i></i><button type="button" data-scope-jump="11">Decide</button></nav>
+        <div class="scope-header-actions"><button type="button" id="scopeTourStart">Tour</button><button type="button" id="scopeClose" aria-label="Close Testing Scope Framework">×</button></div>
+      </header>
+      <div class="scope-tour" id="scopeTour" hidden>
+        <button type="button" class="scope-tour-shade" id="scopeTourExit" aria-label="Exit guided reading"></button>
+        <div class="scope-tour-focus" id="scopeTourFocus"></div>
+        <section class="scope-tour-panel" id="scopeTourPanel" role="dialog" aria-modal="true" aria-labelledby="scopeTourTitle">
+          <div><span id="scopeTourStep">01 / 12</span><i><b id="scopeTourProgress"></b></i></div><p>Guided reading</p><h3 id="scopeTourTitle">Begin with the real question</h3><p id="scopeTourText">A useful standard starts by asking how much evidence this particular change needs.</p><footer><button type="button" id="scopeTourSkip">Exit</button><span><button type="button" id="scopeTourBack">Back</button><button type="button" id="scopeTourNext">Next</button></span></footer>
+        </section>
+      </div>
+
+      <div class="scope-content-shell">
+        <nav class="scope-section-tabs" aria-label="Case study sections">
+          <button type="button" class="active" data-scope-side-jump="0"><small>01</small><span>Question</span></button>
+          <button type="button" data-scope-side-jump="1"><small>02</small><span>Context</span></button>
+          <button type="button" data-scope-side-jump="2"><small>03</small><span>Assess</span></button>
+          <button type="button" data-scope-side-jump="3"><small>04</small><span>Scope</span></button>
+          <button type="button" data-scope-side-jump="4"><small>05</small><span>Checklist</span></button>
+          <button type="button" data-scope-side-jump="5"><small>06</small><span>Inputs</span></button>
+          <button type="button" data-scope-side-jump="6"><small>07</small><span>Workflow</span></button>
+          <button type="button" data-scope-side-jump="7"><small>08</small><span>Evidence</span></button>
+          <button type="button" data-scope-side-jump="8"><small>09</small><span>Pitfalls</span></button>
+          <button type="button" data-scope-side-jump="9"><small>10</small><span>Framework</span></button>
+          <button type="button" data-scope-side-jump="10"><small>11</small><span>Artifact</span></button>
+          <button type="button" data-scope-side-jump="11"><small>12</small><span>Calibrate</span></button>
+        </nav>
+        <div class="scope-scroll">
+        <section class="scope-hero active" data-scope-screen="0">
+          <p class="scope-kicker">Risk-based test design · production practice</p>
+          <h3>Can we expect two independent QA engineers to complete the same task with the same result?</h3>
+          <p>Imagine two identical parallel universes with one exception: the QA engineer assigned to the task. How can we shape the QA process for an AAA system with a complex Core Gameplay structure so that we can expect the same result in both universes?</p>
+          <p class="scope-hero-question">My experience in AAA suggests that the individual specialist has too much influence on the outcome. So what can we do about it?</p>
+          <figure class="scope-universe-map is-unframed" id="scopeUniverseMap" aria-label="Two QA engineers approach the same task in parallel scenarios">
+            <div class="scope-universe-toggle" aria-label="Comparison mode"><button type="button" class="active" data-universe-mode="unframed">Without framework</button><button type="button" data-universe-mode="framed">With framework</button></div>
+            <div class="scope-shared-task"><small>Identical input</small><b>Same change request</b></div>
+            <div class="scope-universe-branches" aria-hidden="true"><i></i><i></i></div>
+            <div class="scope-universes">
+              <article><small>Universe A</small><span>QA A</span><b data-universe-path-a>Personal interpretation</b><em data-universe-result-a>Scope A</em></article>
+              <article><small>Universe B</small><span>QA B</span><b data-universe-path-b>Personal interpretation</b><em data-universe-result-b>Scope B</em></article>
+            </div>
+            <figcaption id="scopeUniverseCaption"><b>Same task. Different reasoning.</b><span>Experience and individual interpretation can produce two valid-looking but materially different test scopes.</span></figcaption>
+            <div class="scope-universe-note">
+              <p>Individuality is valuable – until it leads to a poor outcome.</p>
+              <p>Individuality can create frameworks like this. It can also create the reasons such frameworks are needed.</p>
+              <p>When we talk about quality, we mean bringing the expected and actual results into alignment. We cannot accept a situation in which we do not know what to expect.</p>
+            </div>
+          </figure>
+        </section>
+
+        <section class="scope-origin" data-scope-screen="1">
+          <p class="scope-kicker">The original problem</p>
+          <div class="scope-context-copy">
+            <h2>A universal AAA checklist does not exist.</h2>
+            <p>A check is not inherently mandatory or optional.</p>
+            <p class="scope-context-warning">This makes it important not to settle for the apparently safest conclusion: <b>test everything.</b> In an AAA environment, deciding what does <em>not</em> need to be tested is the hardes – and perhaps the most importan – question.</p>
+            <p class="scope-context-intro">This framework builds that decision around three parameters:</p>
+            <div class="scope-context-parameters">
+              <button type="button" class="active" data-context-parameter="depth"><small>01</small><b>Testing depth</b><span>How thoroughly should the changed behavior itself be examined?</span></button>
+              <button type="button" data-context-parameter="breadth"><small>02</small><b>Testing breadth</b><span>How far should regression expand across connected systems?</span></button>
+              <button type="button" data-context-parameter="distrust"><small>03 · expert layer</small><b>Distrust in the logic</b><span>Where does an experienced QA engineer believe the calculated minimum is insufficient?</span></button>
+            </div>
+            <div class="scope-context-detail" id="scopeContextDetail"><b>Depth defines vertical coverage.</b><p>It determines how many rules, states, boundaries, combinations and failure paths must be investigated inside the changed functionality.</p></div>
+            <p class="scope-context-principle"><b>Distrust is the space for individuality and QA expertise.</b> It is always applied on top of the depth and breadth calculation – and it remains visible, explainable and open to discussion.</p>
+          </div>
+          <figure class="scope-boundary-map is-everything" id="scopeBoundaryMap" aria-label="Comparison between testing everything and a justified testing scope">
+            <div class="scope-boundary-toggle"><button type="button" class="active" data-boundary-mode="everything">Test everything</button><button type="button" data-boundary-mode="justified">Justified scope</button></div>
+            <div class="scope-boundary-rings" aria-hidden="true">
+              <span class="scope-boundary-ring ring-product"><b>Full product</b></span>
+              <span class="scope-boundary-ring ring-systems"><b>Connected systems</b></span>
+              <span class="scope-boundary-ring ring-feature"><b>Feature boundaries</b></span>
+              <span class="scope-boundary-ring ring-change"><b>Changed behavior</b></span>
+              <i class="scope-boundary-expert">Expert override</i>
+            </div>
+            <figcaption id="scopeBoundaryCaption"><b>Maximum coverage is not automatically maximum quality.</b><span>When every layer is treated as equally necessary, scope becomes expensive but the reasoning behind it remains invisible.</span></figcaption>
+            <p>The framework helps explain what does not need to be tested – and why.</p>
+          </figure>
+          <div class="scope-context-help" aria-label="Background notes">
+            <button type="button" aria-describedby="scopeOriginTip">?</button><span id="scopeOriginTip"><b>Where did the idea come from?</b>The initial question grew from my work at Strikerz on UFL, specifically within Core Gameplay QA.</span>
+            <button type="button" aria-describedby="scopeIndependenceTip">!</button><span id="scopeIndependenceTip"><b>Independent public work</b>The framework was substantially redesigned and discloses no internal data, processes or implementation details.</span>
+          </div>
+        </section>
+
+        <section class="scope-calculator" id="scopeCalculator" data-scope-screen="2">
+          <header><div><p class="scope-kicker">Interactive model</p><h3>Estimate the minimum test scope</h3></div><p>Choose what the change can affect and how difficult it is to implement safely.</p></header>
+          <div class="scope-axis-rationale"><article><span>01</span><div><b>Impact measures consequence.</b><p>Player exposure, affected systems, persistence, business risk and the cost of an unnoticed failure. It answers how far regression can travel.</p></div></article><article><span>02</span><div><b>Complexity measures uncertainty.</b><p>Rules, states, branches, dependencies, timing and technical novelty. It answers how many ways the implementation can behave unexpectedly.</p></div></article><p><b>Why 60 / 40?</b> Impact is weighted higher because testing scope should primarily protect the product from consequences. Complexity increases uncertainty, but difficult code with a tiny blast radius should not automatically receive release-wide regression.</p></div>
+          <div class="scope-calc-grid">
+            <fieldset data-scope-axis="impact"><legend><b>01</b> Impact</legend><p>How widely can a failure affect the product or player?</p><div class="scope-options" role="radiogroup" aria-label="Impact"><button type="button" data-value="1">XS</button><button type="button" class="active" data-value="2">S</button><button type="button" data-value="3">M</button><button type="button" data-value="4">L</button><button type="button" data-value="5">XL</button></div></fieldset>
+            <div class="scope-formula" aria-hidden="true"><span>Impact</span><b>60%</b><i>+</i><span>Complexity</span><b>40%</b></div>
+            <fieldset data-scope-axis="complexity"><legend><b>02</b> Complexity</legend><p>How many rules, states, dependencies or technical risks change?</p><div class="scope-options" role="radiogroup" aria-label="Complexity"><button type="button" data-value="1">XS</button><button type="button" data-value="2">S</button><button type="button" class="active" data-value="3">M</button><button type="button" data-value="4">L</button><button type="button" data-value="5">XL</button></div></fieldset>
+            <article class="scope-result" aria-live="polite"><small>Recommended minimum</small><strong id="scopeResultLevel">M</strong><div><b id="scopeResultTitle">Deep Validation</b><p id="scopeResultText">Verify the complete mechanic as a system of calculations, states, transitions and dependencies.</p></div><span id="scopeResultMath">ceil(2 × .6 + 3 × .4) = 3</span></article>
+          </div>
+          <div class="scope-matrix-wrap">
+            <div><b>Recommendation matrix</b><span>Rows: development complexity · Columns: impact</span></div>
+            <table class="scope-matrix" aria-label="Testing scope recommendation matrix"><thead><tr><th class="scope-matrix-axes"><span>Impact</span><span>Complexity</span></th><th>XS</th><th>S</th><th>M</th><th>L</th><th>XL</th></tr></thead><tbody><tr><th>XS</th><td style="--heat:0" data-matrix-level="1">XS</td><td style="--heat:.15" data-matrix-level="2">S</td><td style="--heat:.30" data-matrix-level="3">M</td><td style="--heat:.45" data-matrix-level="3">M</td><td style="--heat:.60" data-matrix-level="4">L</td></tr><tr><th>S</th><td style="--heat:.10" data-matrix-level="2">S</td><td style="--heat:.25" data-matrix-level="2">S</td><td style="--heat:.40" data-matrix-level="3">M</td><td style="--heat:.55" data-matrix-level="4">L</td><td style="--heat:.70" data-matrix-level="4">L</td></tr><tr><th>M</th><td style="--heat:.20" data-matrix-level="2">S</td><td style="--heat:.35" data-matrix-level="3">M</td><td style="--heat:.50" data-matrix-level="3">M</td><td style="--heat:.65" data-matrix-level="4">L</td><td style="--heat:.80" data-matrix-level="5">XL</td></tr><tr><th>L</th><td style="--heat:.30" data-matrix-level="3">M</td><td style="--heat:.45" data-matrix-level="3">M</td><td style="--heat:.60" data-matrix-level="4">L</td><td style="--heat:.75" data-matrix-level="4">L</td><td style="--heat:.90" data-matrix-level="5">XL</td></tr><tr><th>XL</th><td style="--heat:.40" data-matrix-level="3">M</td><td style="--heat:.55" data-matrix-level="4">L</td><td style="--heat:.70" data-matrix-level="4">L</td><td style="--heat:.85" data-matrix-level="5">XL</td><td style="--heat:1" data-matrix-level="5">XL</td></tr></tbody></table>
+          </div>
+          <footer><b>The ceiling is deliberate:</b> an intermediate score is rounded upward because uncertainty should not reduce the minimum recommendation. The matrix starts a review; QA can raise the result when evidence or context requires it.</footer>
+        </section>
+
+        <section class="scope-levels" data-scope-screen="3">
+          <header><p class="scope-kicker">One change · five possible scopes</p><h3>What the recommendation changes</h3></header>
+          <div class="scope-level-tabs" role="tablist" aria-label="Testing levels"><button type="button" data-level="1">XS</button><button type="button" data-level="2">S</button><button type="button" class="active" data-level="3">M</button><button type="button" data-level="4">L</button><button type="button" data-level="5">XL</button></div>
+          <article class="scope-level-detail" id="scopeLevelDetail"><div><small>qalab example · level M</small><h4>Ratio-dependent safe temperature</h4><p>The safe temperature now depends on the AmountA/AmountB ratio, creating combinations and a dynamic boundary.</p></div><ol><li><b>Depth</b><span>Calculations, combinations, boundaries, states and data consistency</span></li><li><b>Breadth</b><span>The whole Reaction Experiment mechanic</span></li><li><b>Boundary</b><span>Testing does not expand beyond the mechanic</span></li></ol></article>
+        </section>
+
+        <section class="scope-checklist" data-scope-screen="4">
+          <header><div><p class="scope-kicker">Inherited verification</p><h3>What becomes required?</h3></div><p>Every level includes the required checks from the levels below it.</p></header>
+          <div class="scope-checklist-levels" aria-label="Checklist level"><button type="button" data-checklist-level="1">XS</button><button type="button" data-checklist-level="2">S</button><button type="button" class="active" data-checklist-level="3">M</button><button type="button" data-checklist-level="4">L</button><button type="button" data-checklist-level="5">XL</button></div>
+          <div class="scope-checklist-grid" id="scopeChecklistGrid"><span data-min-level="1">Requirement compliance</span><span data-min-level="1">Change point</span><span data-min-level="1">Positive scenarios</span><span data-min-level="2">Negative scenarios</span><span data-min-level="2">Boundary values</span><span data-min-level="3">State transitions</span><span data-min-level="3">Action combinations</span><span data-min-level="3">Formula checks</span><span data-min-level="3">Data consistency</span><span data-min-level="3">Mechanic end-to-end</span><span data-min-level="4">System interactions</span><span data-min-level="4">Local regression</span><span data-min-level="4">Adjacent regression</span><span data-min-level="5">Cross-domain regression</span><span data-min-level="5">Extreme conditions</span><span data-min-level="5">Performance</span><span data-min-level="5">Cross-team involvement</span></div>
+          <footer><span><i></i>Required</span><span><i></i>Outside minimum</span><b id="scopeChecklistSummary">10 of 17 check groups required at M</b></footer>
+        </section>
+
+        <section class="scope-inputs" data-scope-screen="5"><p class="scope-kicker">The critical validation</p><h3>A consistent formula can still produce a consistently wrong scope.</h3><div class="scope-input-flow"><article><small>01 · Task</small><b>What actually changes?</b><p>Goal, requirements, dependencies and credible failure modes.</p></article><i>→</i><article><small>02 · Assigned</small><b>Impact + Complexity</b><p>Values proposed by the development process.</p></article><i>→</i><article class="scope-input-gate"><small>03 · QA gate</small><b>Validate the inputs</b><p>QA checks that the assigned values actually hold up.</p></article><i>→</i><article><small>04 · Scope</small><b>Use the matrix</b><p>Only validated inputs produce a defensible minimum.</p></article></div><div class="scope-input-contrast"><span><b>Correct inputs</b> → Comparable scope</span><span><b>Incorrect inputs</b> → Consistently wrong scope</span></div><aside><b>Before scoring:</b><span>Is the goal current?</span><span>Does the PR match the task?</span><span>Are dependencies visible?</span><span>Are both values justified?</span></aside></section>
+
+        <section class="scope-applicability" data-scope-screen="6"><header><p class="scope-kicker">Scope and workflow</p><h3>One framework does not fit every delivery path.</h3></header><div class="scope-workflow-switch"><button type="button" class="active" data-workflow="base">Base workflow</button><button type="button" data-workflow="hot">Hot workflow</button></div><div class="scope-workflow-view" id="scopeWorkflowView"><div><span>New functionality</span><span>Bug fixes</span><span>Refactoring</span><span>Technical changes</span><span>R&amp;D hypotheses</span></div><article><small>Base workflow</small><h4>Understand → Validate → Calculate → Test → Finalize</h4><p>The framework applies when the team can validate inputs and build a reasoned minimum scope.</p></article></div><footer><b>Explicit exclusion:</b> emergency and hotfix branches require a separate faster process.</footer></section>
+
+        <section class="scope-evidence" data-scope-screen="7">
+          <header><div><p class="scope-kicker">Production evidence library</p><h3>A decision needs more than PASS</h3></div><p>Select a source to see what question it answers.</p></header>
+          <div class="scope-evidence-layout"><nav aria-label="Evidence sources"><button type="button" class="active" data-evidence="blueprints"><span>◇</span><b>Blueprints</b><small>Logic & state</small></button><button type="button" data-evidence="logs"><span>≡</span><b>Logs</b><small>Sequence & context</small></button><button type="button" data-evidence="insights"><span>⌁</span><b>Unreal Insights</b><small>Time & performance</small></button><button type="button" data-evidence="stands"><span>⌂</span><b>Test stands</b><small>Controlled runs</small></button><button type="button" data-evidence="telemetry"><span>⌁</span><b>Telemetry</b><small>Behavior at scale</small></button><button type="button" data-evidence="diff"><span>±</span><b>Diff</b><small>What changed</small></button></nav><article id="scopeEvidenceDetail" aria-live="polite"><small>01 · Logic & state</small><h4>Blueprints show what the feature can do.</h4><p>Inspect execution paths, state ownership and dependencies before deciding which conditions and transitions need direct validation.</p><div><b>Question</b><span>Which paths, states and connected systems can this change reach?</span></div><footer>Understand the implementation → map test conditions</footer></article></div>
+        </section>
+
+        <section class="scope-pitfalls" data-scope-screen="8"><header><p class="scope-kicker">Common failure modes</p><h3>Most failures begin before testing.</h3></header><div class="scope-pitfall-layout"><nav><button type="button" class="active" data-pitfall="goal">Vague or outdated goal</button><button type="button" data-pitfall="pr">Uninformative PR</button><button type="button" data-pitfall="values">Wrong or missing values</button><button type="button" data-pitfall="context">Context hidden in DMs</button><button type="button" data-pitfall="branch">Stale branch</button><button type="button" data-pitfall="environment">One environment only</button></nav><article id="scopePitfallDetail"><small>Input failure · goal</small><h4>The team cannot agree on success.</h4><p>If the intended result is vague or no longer relevant, neither the matrix nor a detailed checklist can make the conclusion reliable.</p><div><b>Before testing continues</b><span>Restate the current goal, expected behavior and acceptance boundary in the task.</span></div></article></div></section>
+        <section class="scope-live-framework" data-scope-screen="9"><header><div><p class="scope-kicker">The actual framework</p><h3>Use the model, not a reconstruction.</h3></div><p>This is the working self-contained tool from the public repository. Change its inputs and copy the resulting qalab checklist.</p><a href="https://github.com/msgrigorovich/TestingScopeFramework/blob/main/framework.html" target="_blank" rel="noopener noreferrer">View source ↗</a></header><div class="scope-framework-frame"><iframe src="assets/demos/testing-scope-framework.html" title="Interactive Testing Scope Framework" loading="lazy"></iframe></div></section>
+        <section class="scope-artifact" data-scope-screen="10"><header><div><p class="scope-kicker">The decision artifact</p><h3>A level is not the deliverable.</h3></div><p>Another engineer must understand what is included, excluded and still uncertain.</p></header><div class="scope-artifact-layout"><article><small>Recommended level</small><strong id="scopeArtifactLevel">M</strong><p id="scopeArtifactInputs">Impact S · Complexity M</p><span>Expert override: none</span></article><div><nav><button type="button" class="active" data-artifact-tab="summary">Readable summary</button><button type="button" data-artifact-tab="markup">Jira markup</button></nav><pre id="scopeArtifactOutput">INCLUDED&#10;✓ Complete mechanic&#10;✓ Boundaries and state transitions&#10;✓ Formula and data consistency&#10;&#10;EXCLUDED&#10; – Adjacent-system regression&#10; – Performance validation&#10;&#10;EVIDENCE&#10;Automated runs · Logs · Baseline comparison</pre></div></div></section>
+        <section class="scope-calibration" data-scope-screen="11"><p class="scope-kicker">Calibration, not dogma</p><h3>The values may be calibrated.<br>The reasoning must remain shared.</h3><div><article><small>01</small><b>Start with 60 / 40</b><p>Impact is weighted higher because consequence and regression breadth take priority over implementation difficulty.</p></article><article><small>02</small><b>Validate historically</b><p>Compare recommendations with escaped defects, over-testing costs and real tasks from the product.</p></article><article><small>03</small><b>Change as a team</b><p>Weights may evolve, but they cannot vary invisibly from one engineer or task to another.</p></article></div><aside><b>The framework standardizes the reasoning – not the person.</b><p>It establishes a minimum guaranteed level while keeping expert distrust visible and discussable.</p></aside></section>
+        </div>
+      </div>
+      <nav class="scope-screen-controls" aria-label="Article navigation"><span><b id="scopeScreenNumber">01</b> / 12</span><div><i id="scopeScreenName">Question</i><button type="button" id="scopeScreenBack">← Back</button><button type="button" id="scopeScreenNext">Next →</button></div></nav>
+      <footer class="scope-footer"><span>QA strategy · Unreal Engine · production-informed</span><div><span>Concept developed in 2025</span><a href="https://github.com/msgrigorovich/TestingScopeFramework#----testing-scope-framework" target="_blank" rel="noreferrer">Repository ↗</a></div></footer>
+    </article>
+    <div class="scope-side-rail">
+      <button type="button" id="scopeTourStartRail">Tour</button>
+    </div>
+  </dialog>
+
   <dialog class="qa-case-modal" id="qaCaseModal" aria-labelledby="qaCaseTitle">
     <article class="qa-case-card">
       <header class="qa-case-header">
-        <div><p>QA case study · 02</p><h2 id="qaCaseTitle">Analytics-driven QA</h2></div>
+        <div><p>QA case study · 03</p><h2 id="qaCaseTitle">Analytics-driven QA</h2></div>
         <div class="qa-poster-guide" aria-label="Reading guide: question, method, evidence, decision">
           <span>Reading guide</span><b>Question</b><i></i><b>Method</b><i></i><b>Evidence</b><i></i><b>Decision</b>
         </div>
@@ -196,7 +334,7 @@
             <div><span>Start <b>4,293</b></span><i style="--qa-value: 100%"></i></div>
             <div><span>Complete <b>4,064</b></span><i style="--qa-value: 94.7%"></i></div>
             <div><span>Fail <b>3</b></span><i class="fail" style="--qa-value: 3%"></i></div>
-            <small>A failed ad event is an outcome signal—not automatically an ANR or crash.</small>
+            <small>A failed ad event is an outcome signal – not automatically an ANR or crash.</small>
           </div>
         </section>
 
@@ -270,7 +408,7 @@ ORDER BY created_at DESC;</code></pre>
             <p>Article conclusions</p>
             <ul>
               <li>Use telemetry to verify what the interface cannot expose.</li>
-              <li>Interpret counts against an expected result—not in isolation.</li>
+              <li>Interpret counts against an expected resul – not in isolation.</li>
               <li>Keep diagnostics read-only; perform recovery only through approved tooling.</li>
             </ul>
           </div>
@@ -285,13 +423,15 @@ ORDER BY created_at DESC;</code></pre>
 
   <dialog class="qalab-modal" id="qalabModal" aria-labelledby="qalabTitle">
     <article class="qalab-poster qalab-redesign">
-      <div class="qalab-ident" id="qalabIdent" hidden aria-label="qalab — quality assurance lab">
-        <div class="qalab-ident-mark" aria-hidden="true"><span>q</span><span>a</span><i></i><span>a</span><span>b</span></div>
+      <div class="qalab-ident" id="qalabIdent" hidden aria-label="qalab – quality assurance lab">
+        <i class="qalab-ident-cross l" aria-hidden="true"></i>
+        <i class="qalab-ident-cross r" aria-hidden="true"></i>
+        <div class="qalab-ident-orbits" aria-hidden="true"><i></i><i></i><i></i><b></b></div>
+        <div class="qalab-ident-mark" aria-hidden="true"><img src="/assets/images/qalab/qalab-ident.png" width="1031" height="399" alt=""></div>
         <p>quality assurance lab</p>
-        <small>symmetry in name · consistency in method</small>
       </div>
       <header class="qalab-header">
-        <div><p>QA case study · 01</p><h2 id="qalabTitle"><span class="qalab-mark">qalab</span><span class="qalab-title-expansion"> — <span class="qalab-mark">q</span>uality <span class="qalab-mark">a</span>ssurance <span class="qalab-mark">lab</span> for Preventive Regression Signaling</span></h2></div>
+        <div><p>QA case study · 01</p><h2 id="qalabTitle"><span class="qalab-mark">qalab</span><span class="qalab-title-expansion"> – <span class="qalab-mark">q</span>uality <span class="qalab-mark">a</span>ssurance <span class="qalab-mark">lab</span> for Preventive Regression Signaling</span></h2></div>
         <div class="qalab-guide" aria-label="Reading guide"><span>Mechanic</span><i></i><span>Automate</span><i></i><span>Measure</span><i></i><span>Decide</span></div>
         <div class="qalab-header-actions"><button type="button" id="qalabOpenRationaleCompact">Why chemistry?</button><button type="button" id="qalabOpenSimulationCompact">Simulation</button><button type="button" id="qalabTourStartCompact">Tour</button><button type="button" id="qalabClose" aria-label="Close qalab case study">×</button></div>
       </header>
@@ -301,10 +441,10 @@ ORDER BY created_at DESC;</code></pre>
           <div>
             <p class="qalab-kicker">Analytical Chemistry × Quality Assurance × Data</p>
             <h3>Functional tests vs. Behavioral tests</h3>
-            <p>Functional checks may produce the expected result, but that does not guarantee that behavioral checks will do the same. In other words, testing a feature cannot—and should not—end with a binary true/false or passed/failed result. What happens afterward is just as important.</p>
+            <p>Functional checks may produce the expected result, but that does not guarantee that behavioral checks will do the same. In other words, testing a feature canno – and should no – end with a binary true/false or passed/failed result. What happens afterward is just as important.</p>
           </div>
           <figure class="qalab-hero-visual">
-            <img src="/assets/images/qalab/laboratory-viewport.jpg" width="1920" height="1080" alt="Unreal Engine laboratory prototype with the player character at the reaction station">
+            <img src="/assets/images/qalab/laboratory-viewport.jpg" width="1920" height="1080" alt="Unreal Engine laboratory prototype with the player character at the reaction station" loading="lazy" decoding="async">
             <figcaption>Actual Unreal Engine prototype</figcaption>
           </figure>
         </section>
@@ -326,7 +466,7 @@ ORDER BY created_at DESC;</code></pre>
           </div>
         </section>
 
-        <div class="qalab-verdict" id="qalabVerdict"><b>Functional PASS</b><i>·</i><b class="is-warning">Behavioral WARNING</b><span>ReactionTime crept −2% → −6% over 5 days — every single day passed, only the trend crossed ±5%.</span></div>
+        <div class="qalab-verdict" id="qalabVerdict"><b>Functional PASS</b><i>·</i><b class="is-warning">Behavioral WARNING</b><span>ReactionTime crept −2% → −6% over 5 days – every single day passed, only the trend crossed ±5%.</span></div>
 
         <section class="qalab-evidence">
           <nav aria-label="qalab evidence layers">
@@ -358,13 +498,13 @@ ORDER BY created_at DESC;</code></pre>
       </div>
 
       <section class="qalab-rationale" id="qalabRationale" hidden aria-label="Why chemistry fits quality assurance">
-        <header><div><p>Why chemistry fits · 01—04</p><h3 id="qalabRationaleTitle">An experiment already behaves like a test case</h3></div><b id="qalabRationaleCount">01 / 04</b><button type="button" class="qalab-panel-close" id="qalabRationaleClose" aria-label="Close">×</button></header>
+        <header><div><p>Why chemistry fits · 01 – 04</p><h3 id="qalabRationaleTitle">An experiment already behaves like a test case</h3></div><b id="qalabRationaleCount">01 / 04</b><button type="button" class="qalab-panel-close" id="qalabRationaleClose" aria-label="Close">×</button></header>
         <nav aria-label="Chemistry rationale progress"><i class="active">01</i><span></span><i>02</i><span></span><i>03</i><span></span><i>04</i></nav>
         <div class="qalab-rationale-scenes">
           <article class="active" data-qalab-rationale-scene="0"><div class="qalab-test-story"><span><i>A+B</i><small>Arrange</small><b>Known inputs</b></span><em>→</em><span><i>50°</i><small>Control</small><b>Same conditions</b></span><em>→</em><span><i>⌁</i><small>Observe</small><b>Yield + time</b></span><em>→</em><span><i>✓</i><small>Assert</small><b>Expected range</b></span></div><p>A chemical experiment already follows the shape of a test case: arrange, control, observe and assert.</p></article>
           <article data-qalab-rationale-scene="1"><div class="qalab-method-cycle"><strong><i>↻</i><b>Trustworthy<br>evidence</b></strong><span style="--step:0"><i>01</i><b>Standardize</b></span><span style="--step:1"><i>02</i><b>Calibrate</b></span><span style="--step:2"><i>03</i><b>Repeat</b></span><span style="--step:3"><i>04</i><b>Measure</b></span><span style="--step:4"><i>05</i><b>Validate</b></span></div><p>Chemistry and QA earn trust in the same way: repeat a stable method, measure change and validate the evidence.</p></article>
           <article data-qalab-rationale-scene="2"><div class="qalab-shared-story"><span><i>UI</i><small>Player view</small><b>Interact in the world</b></span><em>→</em><strong><i>⚗</i><small>Shared object</small><b>Laboratory station</b></strong><em>←</em><span><i>▶</i><small>QA view</small><b>Run repeatable batches</b></span></div><p>The same believable station supports play and automation, so the test surface never becomes a separate fake system.</p></article>
-          <article data-qalab-rationale-scene="3"><div class="qalab-clarity-filter"><span><small>Leave behind</small><b>Σ formulas</b><b>AₓBᵧ nomenclature</b><b>k(T) kinetics</b></span><em><i>→</i><b>Keep the signal</b></em><strong><small>Show the player</small><b>Balance changes yield</b><b>Heat changes time</b><b>Overheat reduces quality</b></strong></div><p>The model keeps only readable cause and effect—enough structure for QA, without asking the visitor to become a chemist.</p></article>
+          <article data-qalab-rationale-scene="3"><div class="qalab-clarity-filter"><span><small>Leave behind</small><b>Σ formulas</b><b>AₓBᵧ nomenclature</b><b>k(T) kinetics</b></span><em><i>→</i><b>Keep the signal</b></em><strong><small>Show the player</small><b>Balance changes yield</b><b>Heat changes time</b><b>Overheat reduces quality</b></strong></div><p>The model keeps only readable cause and effec – enough structure for QA, without asking the visitor to become a chemist.</p></article>
         </div>
         <footer><span id="qalabRationaleCaption">Inputs → conditions → outputs → expected range</span><i><b id="qalabRationaleProgress"></b></i></footer>
       </section>
@@ -373,7 +513,7 @@ ORDER BY created_at DESC;</code></pre>
         <header><div><p>Guided simulation · fictional laboratory model</p><h3>A playable reaction, frame by frame</h3></div><b id="qalabSimState">01 · Configure</b><button type="button" class="qalab-panel-close" id="qalabSimulationClose" aria-label="Close">×</button></header>
         <div class="qalab-sim-objective"><span>Objective</span><strong>Yield ≥ 90%</strong><i>while</i><strong>Peak temperature &lt; 70°C</strong></div>
         <figure class="qalab-sim-world">
-          <img src="/assets/images/qalab/laboratory-viewport.jpg" width="1920" height="1080" alt="Monochrome Unreal Engine laboratory with a third-person character facing the reaction station">
+          <img src="/assets/images/qalab/laboratory-viewport.jpg" width="1920" height="1080" alt="Monochrome Unreal Engine laboratory with a third-person character facing the reaction station" loading="lazy" decoding="async">
           <figcaption>Actual Unreal Engine prototype · laboratory viewport</figcaption>
           <div class="qalab-world-station"><span>Shared gameplay station</span><i></i></div>
           <div class="qalab-world-reaction" aria-hidden="true"><div></div><b id="qalabSimProgress">0%</b><small>Running</small></div>
@@ -381,10 +521,10 @@ ORDER BY created_at DESC;</code></pre>
             <header><span>GUIDED DATA LAYER</span><b id="qalabWorldValidation">Awaiting input</b></header>
             <div><label>A <strong>50.0</strong><i style="--value:50%"></i></label><label>B <strong>50.0</strong><i style="--value:50%"></i></label><label>Temperature <strong id="qalabWorldTemp">20.0</strong><i id="qalabWorldTempBar" style="--value:0%"></i></label></div>
             <button type="button" tabindex="-1" id="qalabWorldAction">Configure experiment</button>
-            <p><span>Yield <b id="qalabWorldYield">—</b></span><span>Time <b id="qalabWorldTime">—</b></span><span>Peak <b id="qalabWorldPeak">—</b></span></p>
+            <p><span>Yield <b id="qalabWorldYield"> – </b></span><span>Time <b id="qalabWorldTime"> – </b></span><span>Peak <b id="qalabWorldPeak"> – </b></span></p>
           </div>
         </figure>
-        <div class="qalab-sim-controls"><article><span>Ratio A:B</span><b id="qalabSimRatio">1 : 1</b><small>Closer to balance → higher yield</small></article><article><span>Temperature</span><b id="qalabSimTemp">20°C</b><div class="qalab-temp-track"><i id="qalabSimTempFill"></i><em>70° safe limit</em></div></article><article><span>Predicted output</span><b id="qalabSimYield">—</b><small id="qalabSimTime">Waiting to run</small></article></div>
+        <div class="qalab-sim-controls"><article><span>Ratio A:B</span><b id="qalabSimRatio">1 : 1</b><small>Closer to balance → higher yield</small></article><article><span>Temperature</span><b id="qalabSimTemp">20°C</b><div class="qalab-temp-track"><i id="qalabSimTempFill"></i><em>70° safe limit</em></div></article><article><span>Predicted output</span><b id="qalabSimYield"> – </b><small id="qalabSimTime">Waiting to run</small></article></div>
         <div class="qalab-sim-timeline"><i class="active">Idle</i><span>Configure</span><i>Ready</i><span>Start</span><i>Running</i><span>Emit once</span><i>Completed</i></div>
         <footer><span><b>Learning model, not laboratory truth.</b> Coefficients are intentionally simple tuning data: balance improves Yield; heat reduces ReactionTime; heat above 70°C adds a Yield penalty.</span><button type="button" id="qalabSimReplay">↻ Replay</button></footer>
       </section>
@@ -524,10 +664,8 @@ ORDER BY created_at DESC;</code></pre>
 <canvas class="cursor-trail"></canvas>
 
 
-<script src="/assets/vendor/gsap.min.js?v=efc85c7eb1"></script>
-
-<script src="/assets/js/main.min.js?v=17efc11c58"></script>
-<script src="/assets/js/projects.min.js?v=ac9db78eab"></script>
+<script src="/assets/js/main.min.js?v=a7ba89ad43"></script>
+<script src="/assets/js/projects.min.js?v=ac29933573"></script>
 <script src="/assets/js/analytics.min.js?v=ef7214dff7"></script>
 
 </body>

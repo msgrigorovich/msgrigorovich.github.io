@@ -514,7 +514,9 @@ function setupSignatureInkInteraction() {
 
 setupSignatureInkInteraction();
 
-
+// gsap only powers this cursor-follow flourish; it is loaded in the background
+// (see loadGsapCursorEffects below) so the rest of this script never waits on it.
+function initCursorGsapEffects() {
 let mouseX = 0, mouseY = 0;
 let outlineX = 0, outlineY = 0;
 let mouseInitialized = false;
@@ -638,6 +640,16 @@ el.addEventListener('mouseenter', () => {
     });
   });
 });
+}
+
+function loadGsapCursorEffects() {
+  if (window.gsap) { initCursorGsapEffects(); return; }
+  const script = document.createElement('script');
+  script.src = '/assets/vendor/gsap.min.js';
+  script.onload = initCursorGsapEffects;
+  document.head.appendChild(script);
+}
+loadGsapCursorEffects();
 
 const canvas = document.querySelector('.cursor-trail');
 const ctx = canvas.getContext('2d');

@@ -372,8 +372,8 @@ const qaScenarioGuides = {
       ['16:13:31', 'LOAD', '145807…', 'v1.74'],
       ['16:13:28', 'SAVE', '145807…', 'v1.74'],
       ['16:13:27', 'RESOLVE', '145807…', 'v1.74'],
-      ['16:13:03', 'LOAD', '—', 'v1.23'],
-      ['16:12:52', 'LOAD', '—', 'v1.23']
+      ['16:13:03', 'LOAD', ' – ', 'v1.23'],
+      ['16:12:52', 'LOAD', ' – ', 'v1.23']
     ],
     result: 'The state changes from 1.23 to 1.74. The earlier verified state is a recovery candidate, but restoration requires approved and audited tooling.'
   }
@@ -440,6 +440,15 @@ function schedulePortraitWarmup() {
   else setTimeout(run, 1500);
 }
 
+// The qalab case study's photo is lazy-loaded (most visitors never open it), but visitors
+// who do explore QA case studies are likely to open it - so warm the HTTP cache for it
+// in the background once the page is idle, the same way portraits are warmed above.
+function scheduleQalabAssetWarmup() {
+  const run = () => preloadImage('/assets/images/qalab/laboratory-viewport.jpg');
+  if ('requestIdleCallback' in window) requestIdleCallback(run, { timeout: 2500 });
+  else setTimeout(run, 1500);
+}
+
 function selectPortrait(index) {
   const nextIndex = Math.max(0, Math.min(portraits.length - 1, index));
   const portrait = portraits[nextIndex];
@@ -456,6 +465,7 @@ function selectPortrait(index) {
     thumb.classList.toggle('active', thumbIndex === nextIndex);
     thumb.setAttribute('aria-pressed', thumbIndex === nextIndex ? 'true' : 'false');
   });
+  syncProjectsHash();
 }
 
 function updatePortraitLens(event) {
@@ -490,6 +500,7 @@ function openPortraitModal() {
   document.body.classList.add('portrait-modal-open');
   sharedCursorElements.forEach(element => portraitModal.appendChild(element));
   portraitModal.showModal();
+  syncProjectsHash();
   modalPointerInside = true;
   setPortraitMode('magnify');
   requestAnimationFrame(() => {
@@ -1056,6 +1067,7 @@ function closePortraitModal() {
   if (modalLensFrame) cancelAnimationFrame(modalLensFrame);
   modalLensFrame = 0;
   window.scrollTo(0, portraitModalScrollY);
+  syncProjectsHash();
 }
 
 portraitThumbs.forEach(thumb => {
@@ -1420,6 +1432,61 @@ const qaProjectCaption = document.getElementById('qaProjectCaption');
 const qaProjectYear = document.getElementById('qaProjectYear');
 const qaProjectArchiveNote = document.getElementById('qaProjectArchiveNote');
 const qaProjectIndex = document.getElementById('qaProjectIndex');
+const scopeModal = document.getElementById('scopeModal');
+const scopeClose = document.getElementById('scopeClose');
+const scopeAxisButtons = Array.from(document.querySelectorAll('[data-scope-axis] button'));
+const scopeLevelButtons = Array.from(document.querySelectorAll('[data-level]'));
+const scopeEvidenceButtons = Array.from(document.querySelectorAll('[data-evidence]'));
+const scopeResultLevel = document.getElementById('scopeResultLevel');
+const scopeResultTitle = document.getElementById('scopeResultTitle');
+const scopeResultText = document.getElementById('scopeResultText');
+const scopeResultMath = document.getElementById('scopeResultMath');
+const scopeLevelDetail = document.getElementById('scopeLevelDetail');
+const scopeEvidenceDetail = document.getElementById('scopeEvidenceDetail');
+const scopeTourStart = document.getElementById('scopeTourStart');
+const scopeTourStartRail = document.getElementById('scopeTourStartRail');
+const scopeTour = document.getElementById('scopeTour');
+const scopeTourExit = document.getElementById('scopeTourExit');
+const scopeTourBack = document.getElementById('scopeTourBack');
+const scopeTourNext = document.getElementById('scopeTourNext');
+const scopeTourSkip = document.getElementById('scopeTourSkip');
+const scopeTourStep = document.getElementById('scopeTourStep');
+const scopeTourProgress = document.getElementById('scopeTourProgress');
+const scopeTourFocus = document.getElementById('scopeTourFocus');
+const scopeTourPanel = document.getElementById('scopeTourPanel');
+const scopeTourTitle = document.getElementById('scopeTourTitle');
+const scopeTourText = document.getElementById('scopeTourText');
+const scopeScreens = Array.from(document.querySelectorAll('[data-scope-screen]'));
+const scopeScreenJumps = Array.from(document.querySelectorAll('[data-scope-jump]'));
+const scopeSideJumps = Array.from(document.querySelectorAll('[data-scope-side-jump]'));
+const scopeScreenBack = document.getElementById('scopeScreenBack');
+const scopeScreenNext = document.getElementById('scopeScreenNext');
+const scopeScreenNumber = document.getElementById('scopeScreenNumber');
+const scopeScreenName = document.getElementById('scopeScreenName');
+const scopeRiskButtons = Array.from(document.querySelectorAll('[data-risk-layer]'));
+const scopeRiskCaption = document.getElementById('scopeRiskCaption');
+const scopeUniverseMap = document.getElementById('scopeUniverseMap');
+const scopeUniverseButtons = Array.from(document.querySelectorAll('[data-universe-mode]'));
+const scopeUniverseCaption = document.getElementById('scopeUniverseCaption');
+const scopeContextButtons = Array.from(document.querySelectorAll('[data-context-parameter]'));
+const scopeContextDetail = document.getElementById('scopeContextDetail');
+const scopeContextHelpButtons = Array.from(document.querySelectorAll('.scope-context-help button'));
+const scopeBoundaryMap = document.getElementById('scopeBoundaryMap');
+const scopeBoundaryButtons = Array.from(document.querySelectorAll('[data-boundary-mode]'));
+const scopeBoundaryCaption = document.getElementById('scopeBoundaryCaption');
+const scopeChecklistButtons = Array.from(document.querySelectorAll('[data-checklist-level]'));
+const scopeChecklistItems = Array.from(document.querySelectorAll('[data-min-level]'));
+const scopeChecklistSummary = document.getElementById('scopeChecklistSummary');
+const scopeWorkflowButtons = Array.from(document.querySelectorAll('[data-workflow]'));
+const scopeWorkflowView = document.getElementById('scopeWorkflowView');
+const scopePitfallButtons = Array.from(document.querySelectorAll('[data-pitfall]'));
+const scopePitfallDetail = document.getElementById('scopePitfallDetail');
+const scopeArtifactButtons = Array.from(document.querySelectorAll('[data-artifact-tab]'));
+const scopeArtifactOutput = document.getElementById('scopeArtifactOutput');
+const scopeArtifactLevel = document.getElementById('scopeArtifactLevel');
+const scopeArtifactInputs = document.getElementById('scopeArtifactInputs');
+const scopeArtifactCard = document.querySelector('.scope-artifact-layout > article');
+const scopeFrameworkFrame = document.querySelector('.scope-framework-frame iframe');
 const qalabModal = document.getElementById('qalabModal');
 const qalabClose = document.getElementById('qalabClose');
 const qalabEvidencePanel = document.getElementById('qalabEvidencePanel');
@@ -1501,6 +1568,8 @@ let qaTourPositionFrame = 0;
 let qaTourMotionFrame = 0;
 let qaTourStartTimer = 0;
 let selectedQaProject = 'qalab';
+let scopeTourIndex = -1;
+let scopeScreenIndex = 0;
 let qalabRunTimers = [];
 let qalabTourIndex = -1;
 let qalabTourTimer = 0;
@@ -1528,9 +1597,9 @@ const qalabLayers = {
   },
   regression: {
     eyebrow: '03 · DECIDE', status: 'DRIFT FOUND', title: 'A green test is not the whole answer',
-    text: 'URegressionAnalyzer needs 5 runs to be conclusive. Every single day passed — only day five\'s trend crosses ±5%.',
+    text: 'URegressionAnalyzer needs 5 runs to be conclusive. Every single day passed – only day five\'s trend crosses ±5%.',
     note: 'Mean · median · std.dev · p95 · max · failure rate · versioned baseline · per-metric thresholds',
-    visual: '<div class="qalab-drift-week"><header><span>ReactionTime vs. baseline · Mon–Fri</span><strong>WARNING</strong></header><div class="qalab-drift-days"><p><b>Mon</b><i style="--score:25%;--delay:.05s"><em></em></i><strong>−2%</strong></p><p><b>Tue</b><i style="--score:37.5%;--delay:.1s"><em></em></i><strong>−3%</strong></p><p><b>Wed</b><i style="--score:50%;--delay:.15s"><em></em></i><strong>−4%</strong></p><p class="is-watch"><b>Thu</b><i style="--score:62.5%;--delay:.2s"><em></em></i><strong>−5%</strong></p><p class="is-drift"><b>Fri</b><i style="--score:75%;--delay:.25s"><em></em></i><strong>−6%</strong></p><p class="is-watch"><b>Limit</b><i style="--score:62.5%;--delay:.3s"><em></em></i><strong>±5%</strong></p></div></div>'
+    visual: '<div class="qalab-drift-week"><header><span>ReactionTime vs. baseline · Mon – Fri</span><strong>WARNING</strong></header><div class="qalab-drift-days"><p><b>Mon</b><i style="--score:25%;--delay:.05s"><em></em></i><strong>−2%</strong></p><p><b>Tue</b><i style="--score:37.5%;--delay:.1s"><em></em></i><strong>−3%</strong></p><p><b>Wed</b><i style="--score:50%;--delay:.15s"><em></em></i><strong>−4%</strong></p><p class="is-watch"><b>Thu</b><i style="--score:62.5%;--delay:.2s"><em></em></i><strong>−5%</strong></p><p class="is-drift"><b>Fri</b><i style="--score:75%;--delay:.25s"><em></em></i><strong>−6%</strong></p><p class="is-watch"><b>Limit</b><i style="--score:62.5%;--delay:.3s"><em></em></i><strong>±5%</strong></p></div></div>'
   }
 };
 
@@ -1539,16 +1608,16 @@ const qalabTourSteps = [
   { target: '.qalab-architecture', title: 'One mechanic, five testing views', text: 'Manual UI checks, automation, test stands, analytics tests and the Blueprint debug panel all exercise or observe the same production mechanic.', place: 'right-below' },
   { target: '.qalab-simulation', panel: 'simulation', title: 'Try it first', text: 'Goal: yield ≥ 90% while peak temperature stays under 70°C. Configure the reaction and run it yourself.', action: 'chemistry-intro', place: 'right-center' },
   { target: '.qalab-sim-controls article:nth-child(1)', panel: 'simulation', title: 'Balance the reagents', text: 'A closer to 1:1 ratio of A:B raises yield. Either at zero, and the reaction never starts.', action: 'chemistry-run', place: 'right-center' },
-  { target: '.qalab-sim-controls article:nth-child(2)', panel: 'simulation', title: 'Heat is a trade-off', text: 'More heat means faster results — until 70°C, where yield starts to drop.', action: 'chemistry-hot', place: 'right-center' },
+  { target: '.qalab-sim-controls article:nth-child(2)', panel: 'simulation', title: 'Heat is a trade-off', text: 'More heat means faster results – until 70°C, where yield starts to drop.', action: 'chemistry-hot', place: 'right-center' },
   { target: '.qalab-controlled-change', title: 'Create a reproducible comparison', text: 'Automation repeats the same controlled fixture against a versioned reference, so a later change can be measured rather than guessed.', action: 'layer-automation', place: 'right-center' },
   { target: '.qalab-run-console', title: 'Run the comparison', text: 'The analyzer compares current measurements with the reference and evaluates the configured threshold.', action: 'run', next: 'Run comparison', place: 'left-center' },
   { target: '.qalab-telemetry-table', title: 'Keep evidence from every run', text: 'Each run becomes a structured record. A sequence of records makes gradual change visible over time.', action: 'layer-telemetry', place: 'right-center' },
   { target: '.qalab-drift-week', title: 'Detect the trend, not just a failure', text: 'Every daily run may still pass. The behavioral warning appears only when the accumulated trend crosses the accepted range.', action: 'layer-regression', place: 'right-center' },
   { target: '.qalab-verdict', title: 'Turn evidence into a QA decision', text: 'Functional checks remain green, while behavioral evidence asks the team to investigate the change before it becomes a visible failure.', action: 'verdict', place: 'right-center' },
-  { target: '.qalab-rationale', panel: 'rationale', title: 'An experiment is a natural test case', text: 'Inputs, controlled conditions, outputs and an expected range — the same structure QA already uses to arrange and assert a test.', action: 'rationale-0', place: 'right-center' },
-  { target: '.qalab-rationale', panel: 'rationale', title: 'Same discipline, different field', text: 'Standardize, repeat, measure deviation, validate. That is what makes chemistry — and QA evidence — trustworthy.', action: 'rationale-1', place: 'right-center' },
+  { target: '.qalab-rationale', panel: 'rationale', title: 'An experiment is a natural test case', text: 'Inputs, controlled conditions, outputs and an expected range – he same structure QA already uses to arrange and assert a test.', action: 'rationale-0', place: 'right-center' },
+  { target: '.qalab-rationale', panel: 'rationale', title: 'Same discipline, different field', text: 'Standardize, repeat, measure deviation, validate. That is what makes chemistry – and QA evidence – rustworthy.', action: 'rationale-1', place: 'right-center' },
   { target: '.qalab-rationale', panel: 'rationale', title: 'One stand, two purposes', text: 'A lab stand fits the world and doubles as the automated test rig, so no fake developer-only device is needed.', action: 'rationale-2', place: 'right-center' },
-  { target: '.qalab-rationale', panel: 'rationale', title: 'Kept deliberately simple', text: 'No formulas or kinetics — just readable cause and effect. Anyone can follow it, and it still holds up as a test case.', action: 'rationale-3', next: 'Finish', place: 'right-center' }
+  { target: '.qalab-rationale', panel: 'rationale', title: 'Kept deliberately simple', text: 'No formulas or kinetics – just readable cause and effect. Anyone can follow it, and it still holds up as a test case.', action: 'rationale-3', next: 'Finish', place: 'right-center' }
 ];
 
 function qaTourWasCompleted() {
@@ -1838,7 +1907,7 @@ function endQaTour(completed = true) {
   if (qaTourPreviousFocus?.isConnected) qaTourPreviousFocus.focus();
 }
 
-function setProjectCategory(category) {
+function setProjectCategory(category, instant = false) {
   const showQa = category === 'qa';
   if (showQa === !qaProjectView.hidden) return;
   if (portraitModal.open) closePortraitModal();
@@ -1853,9 +1922,10 @@ function setProjectCategory(category) {
       button.classList.toggle('active', active);
       button.setAttribute('aria-pressed', active ? 'true' : 'false');
     });
+    syncProjectsHash();
   };
 
-  if (document.startViewTransition && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+  if (!instant && document.startViewTransition && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
     document.startViewTransition(updateCategory);
   } else {
     updateCategory();
@@ -1868,22 +1938,42 @@ function setProjectCategory(category) {
 function renderQaProject(project) {
   selectedQaProject = project;
   const isQalab = project === 'qalab';
-  qaProjectKicker.textContent = isQalab ? 'QA case study · Unreal Engine' : 'QA case study · ClickHouse';
+  const isScope = project === 'scope';
+  qaProjectKicker.textContent = isQalab ? 'QA case study · Unreal Engine' : isScope ? 'QA case study · Test strategy' : 'QA case study · ClickHouse';
   qaProjectNote.textContent = isQalab
     ? 'An analytical-chemistry mindset translated into data-driven QA: controlled conditions, repeatable validation, measurable evidence and preventive regression detection.'
-    : 'A practical SQL toolkit for validating product analytics in mobile games — from a single event to a production pattern.';
-  qaProjectRepository.href = isQalab ? 'https://github.com/msgrigorovich/qalab#qalab' : 'https://github.com/msgrigorovich/SQL#----qa-analyst';
-  qaProjectCaption.textContent = isQalab ? 'qalab · quality assurance lab' : 'Analytics-driven QA';
-  qaProjectYear.textContent = isQalab ? '2026' : '2024';
-  qaProjectArchiveNote.innerHTML = isQalab ? 'Unreal Engine · C++ · Blueprints<br>Automation & analytics, 2026' : 'ClickHouse · OLAP<br>Mobile game analytics, 2024';
+    : isScope ? 'A production-informed framework for turning change impact and implementation complexity into an explainable testing scope.'
+    : 'A practical SQL toolkit for validating product analytics in mobile games – from a single event to a production pattern.';
+  qaProjectRepository.href = isQalab
+    ? 'https://github.com/msgrigorovich/qalab#qalab'
+    : isScope
+      ? 'https://github.com/msgrigorovich/TestingScopeFramework#----testing-scope-framework'
+      : 'https://github.com/msgrigorovich/SQL#----qa-analyst';
+  qaProjectRepository.querySelector('span').textContent = 'View repository';
+  qaProjectCaption.textContent = isQalab ? 'qalab · quality assurance lab' : isScope ? 'Testing Scope Framework' : 'Analytics-driven QA';
+  qaProjectYear.textContent = isQalab ? '2026' : isScope ? '2025' : '2024';
+  qaProjectArchiveNote.innerHTML = isQalab ? 'Unreal Engine · C++ · Blueprints<br>Automation & analytics, 2026' : isScope ? 'Risk · complexity · evidence<br>QA test strategy, 2025' : 'ClickHouse · OLAP<br>Mobile game analytics, 2024';
   qaProjectIndex.innerHTML = isQalab
     ? '<p>Case contents</p><span><b>33</b> automated checks</span><span><b>03</b> QA evidence layers</span><span><b>01</b> shared gameplay API</span>'
+    : isScope ? '<p>Case contents</p><span><b>05</b> testing levels</span><span><b>06</b> evidence sources</span><span><b>01</b> decision framework</span>'
     : '<p>Case contents</p><span><b>04</b> diagnostic scenarios</span><span><b>03</b> evidence layers</span><span><b>01</b> read-only approach</span>';
   qaCaseOpen.classList.toggle('qalab-preview', isQalab);
-  qaCaseOpen.setAttribute('aria-label', isQalab ? 'Open qalab case study' : 'Open The Art of Quality case study');
+  qaCaseOpen.classList.toggle('scope-preview', isScope);
+  qaCaseOpen.setAttribute('aria-label', isQalab ? 'Open qalab case study' : isScope ? 'Open Testing Scope Framework case study' : 'Open Analytics-driven QA case study');
   qaCaseOpen.innerHTML = isQalab
     ? '<span class="qa-preview-heading"><small>Chemistry · Quality · Analytics</small><strong>One system.<br>Five testing views.</strong></span><span class="qalab-preview-directions" aria-hidden="true"><i>Manual</i><i>Automated<br>Tests</i><i>Test<br>Stands</i><i>Analytics<br>Tests</i><i>Blueprint<br>Debug</i></span><span class="qa-preview-open"><span>Open full</span><span>↗</span></span>'
+    : isScope ? '<span class="qa-preview-heading"><small>Risk · complexity · evidence</small><strong>Is it possible to<br>standardize QA in AAA?</strong></span><span class="scope-preview-model" aria-hidden="true"><span>IMPACT</span><b>+</b><span>COMPLEXITY</span></span><em class="scope-preview-question" aria-hidden="true">?</em><span class="scope-preview-scale" aria-hidden="true"><i>XS</i><i>S</i><i>M</i><i>L</i><i>XL</i></span><span class="qa-preview-open"><span>Open full</span><span>↗</span></span>'
     : '<span class="qa-preview-top"><b>analytics_qa.sql</b></span><span class="qa-preview-heading"><small>ClickHouse · read-only diagnostics</small><strong>From action<br>to evidence.</strong></span><span class="qa-preview-flow" aria-hidden="true"><i><b>01</b>Action</i><em>→</em><i><b>02</b>Event</i><em>→</em><i><b>03</b>Query</i><em>→</em><i><b>04</b>Decision</i></span><span class="qa-preview-chart" aria-hidden="true"><i style="--qa-bar: 88%"><b>Start</b></i><i style="--qa-bar: 78%"><b>Complete</b></i><i style="--qa-bar: 12%"><b>Fail</b></i></span><span class="qa-preview-open"><span>Open full</span><span>↗</span></span>';
+}
+
+function selectQaProject(project) {
+  qaProjectButtons.forEach(projectButton => {
+    const active = projectButton.dataset.qaProject === project;
+    projectButton.classList.toggle('active', active);
+    projectButton.setAttribute('aria-pressed', active ? 'true' : 'false');
+  });
+  renderQaProject(project);
+  syncProjectsHash();
 }
 
 function selectQalabLayer(key) {
@@ -1906,6 +1996,7 @@ function selectQalabLayer(key) {
   qalabEvidencePanel.classList.remove('is-changing');
   void qalabEvidencePanel.offsetWidth;
   qalabEvidencePanel.classList.add('is-changing');
+  syncProjectsHash();
 }
 
 function bindDropletMotion(controls, targetSelector = null) {
@@ -1939,8 +2030,9 @@ function bindDropletMotion(controls, targetSelector = null) {
 
 bindDropletMotion(qalabTestGroupLinks, '.qalab-test-group-icon');
 bindDropletMotion(qalabLayerButtons);
-bindDropletMotion([qaCaseClose, qalabClose]);
+bindDropletMotion([qaCaseClose, qalabClose, scopeClose, scopeTourStart, scopeTourStartRail]);
 bindDropletMotion(qaScenarioRunButtons);
+bindDropletMotion([...scopeAxisButtons, ...scopeLevelButtons, ...scopeEvidenceButtons, ...scopeSideJumps, ...scopeUniverseButtons, ...scopeChecklistButtons, ...scopeWorkflowButtons, ...scopePitfallButtons, ...scopeArtifactButtons]);
 bindDropletMotion([
   qaTourReplay,
   qaTourReplayRail,
@@ -2014,7 +2106,7 @@ function playQalabIdent() {
   qalabIdentTimer = setTimeout(() => {
     qalabIdent.hidden = true;
     qalabIdent.classList.remove('is-active');
-  }, reduceMotion ? 1400 : 2700);
+  }, reduceMotion ? 1800 : 4000);
 }
 
 function setQalabSimTimeline(index) {
@@ -2029,15 +2121,15 @@ function resetQalabSimulation() {
   qalabSimTemp.textContent = '20°C';
   qalabSimTempFill.style.width = '0%';
   qalabSimTempFill.style.background = '#72b581';
-  qalabSimYield.textContent = '—';
+  qalabSimYield.textContent = ' – ';
   qalabSimTime.textContent = 'Waiting to run';
   qalabWorldValidation.textContent = 'Awaiting input';
   qalabWorldTemp.textContent = '20.0';
   qalabWorldTempBar.style.setProperty('--value', '0%');
   qalabWorldAction.textContent = 'Configure experiment';
-  qalabWorldYield.textContent = '—';
-  qalabWorldTime.textContent = '—';
-  qalabWorldPeak.textContent = '—';
+  qalabWorldYield.textContent = ' – ';
+  qalabWorldTime.textContent = ' – ';
+  qalabWorldPeak.textContent = ' – ';
   qalabWorldReaction.style.setProperty('--reaction-progress', '0deg');
   setQalabSimTimeline(0);
 }
@@ -2345,6 +2437,7 @@ function startQalabTour(startIndex = 0, endIndex = qalabTourSteps.length - 1) {
   qalabRationale.hidden = true;
   qalabSimulation.hidden = true;
   showQalabTourStep(true);
+  syncProjectsHash();
 }
 
 function startQalabTourAtPanel(panel) {
@@ -2370,6 +2463,7 @@ function endQalabTour(completed = true) {
   qalabRationaleFocusGeometry = null;
   if (qalabArchitectureFlow) qalabArchitectureFlow.classList.remove('is-animating');
   if (completed) rememberQalabTourCompletion();
+  syncProjectsHash();
 }
 
 function runCurrentQalabTourStep() {
@@ -2417,17 +2511,18 @@ function unlockPageScroll() {
   }
 }
 
-function openQalabCaseStudy() {
+function openQalabCaseStudy(suppressAutoTour = false) {
   lockPageScroll();
   qalabModal.showModal();
   qaCursorElements.forEach(element => qalabModal.appendChild(element));
   selectQalabLayer('automation');
   qalabVerdict.classList.remove('is-active');
   playQalabIdent();
-  if (!qalabTourWasCompleted()) {
+  if (!suppressAutoTour && !qalabTourWasCompleted()) {
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    qalabTourTimer = window.setTimeout(() => startQalabTour(0), reduceMotion ? 1550 : 3000);
+    qalabTourTimer = window.setTimeout(() => startQalabTour(0), reduceMotion ? 1850 : 4100);
   }
+  syncProjectsHash();
 }
 
 function closeQalabCaseStudy() {
@@ -2438,13 +2533,270 @@ function closeQalabCaseStudy() {
   if (qalabModal.open) qalabModal.close();
 }
 
-function openQaCaseStudy() {
+const scopeLevels = {
+  1: { level:'XS', title:'Minimal Validation', text:'Confirm the local change at its point of application without exploring behavior outside it.', name:'Safety lock flag', description:'A local boolean blocks StartExperiment without changing the reaction model or its surrounding systems.', depth:'Surface-level confirmation of the requested behavior', breadth:'The specific change point only', boundary:'Alternative paths, states and dependencies are not checked.' },
+  2: { level:'S', title:'Basic Validation', text:'Check simple logic, obvious deviations and nearby scenarios that use the same behavior.', name:'Static temperature threshold', description:'A fixed maximum temperature rejects unsafe reactions while the exact boundary remains valid.', depth:'Basic logic, a negative scenario and obvious boundaries', breadth:'The change point and its immediate surroundings', boundary:'Complex states and transitions are not checked.' },
+  3: { level:'M', title:'Deep Validation', text:'Verify the complete mechanic as a system of calculations, states, transitions and dependencies.', name:'Ratio-dependent safe temperature', description:'The safe temperature now depends on the AmountA/AmountB ratio, creating combinations and a dynamic boundary.', depth:'Calculations, combinations, boundaries, states and data consistency', breadth:'The whole Reaction Experiment mechanic', boundary:'Testing does not expand beyond the mechanic.' },
+  4: { level:'L', title:'System Validation', text:'Verify the mechanic together with the adjacent systems that consume or communicate its result.', name:'Threshold failures reach regression analysis', description:'Test Stand results must carry the new failures into FailureRate without losing them in aggregate metrics.', depth:'Complete mechanic logic and connected data flow', breadth:'The mechanic and identified adjacent systems', boundary:'The whole product is outside the required scope.' },
+  5: { level:'XL', title:'Critical Validation', text:'Challenge the entire affected area with maximum distrust, including non-standard and cross-domain risks.', name:'Release-blocking threshold drift', description:'Regression, telemetry, anchor tests, interaction and sweep performance now share release-critical behavior.', depth:'Extreme, negative, recovery and non-functional scenarios', breadth:'Cross-system and cross-domain regression', boundary:'Practically none; the affected scope is challenged broadly.' }
+};
+
+let scopeImpactWeight = .6;
+let scopeComplexityWeight = .4;
+let scopeArtifactMode = 'summary';
+const scopeLevelColors = {
+  1:{background:'#82b79a',ink:'#171717'},
+  2:{background:'#b8d4a6',ink:'#171717'},
+  3:{background:'#eadb8d',ink:'#171717'},
+  4:{background:'#dfa06e',ink:'#171717'},
+  5:{background:'#ca6f5d',ink:'#ffffff'}
+};
+
+const scopeAxisCriteria = {
+  impact: {
+    1:'Isolated presentation or content change; no persistent state and negligible player consequence.',
+    2:'Localized effect within one feature; limited player exposure and straightforward recovery.',
+    3:'Meaningful effect on a complete feature and its nearest consumers or player experience.',
+    4:'Multiple connected systems, persisted state or broad player exposure can be affected.',
+    5:'Core experience, release integrity, critical data or a large part of the player base is exposed.'
+  },
+  complexity: {
+    1:'A known, isolated implementation with no branching behavior or new dependencies.',
+    2:'Localized logic with few states, familiar technology and clearly bounded dependencies.',
+    3:'Several rules, states or dependencies create multiple credible behavioral paths.',
+    4:'Cross-system flow, timing, asynchronous behavior or technical novelty increases uncertainty.',
+    5:'Architectural change, migration, concurrency or systemic uncertainty makes behavior difficult to contain.'
+  }
+};
+
+const scopeRiskLayers = {
+  change:{title:'Start at the change.',text:'Identify the rules, states and observable result that were intentionally modified.'},
+  systems:{title:'Follow every connection.',text:'Map the systems that consume, persist, trigger or present the changed behavior.'},
+  consequences:{title:'Reason about the blast radius.',text:'Ask what can reach the player, corrupt state, distort data or increase the cost of recovery.'}
+};
+
+const scopeContextParameters = {
+  depth:{title:'Depth defines vertical coverage.',text:'It determines how many rules, states, boundaries, combinations and failure paths must be investigated inside the changed functionality.'},
+  breadth:{title:'Breadth defines horizontal coverage.',text:'It determines which consumers, integrations, persisted states and neighboring systems belong to the justified regression boundary.'},
+  distrust:{title:'Distrust challenges the calculated minimum.',text:'Expert intuition can raise the scope when something feels insufficiently understood – but the concern must be stated, examined and discussed.'}
+};
+
+const scopeEvidence = {
+  blueprints:{n:'01',meta:'Logic & state',title:'Blueprints show what the feature can do.',text:'Inspect execution paths, state ownership and dependencies before deciding which conditions and transitions need direct validation.',question:'Which paths, states and connected systems can this change reach?',footer:'Understand the implementation → map test conditions'},
+  logs:{n:'02',meta:'Sequence & context',title:'Logs explain what happened in one run.',text:'Use structured messages to reconstruct the sequence, parameters and first point where actual behavior diverged from expectation.',question:'Where did the observed run first depart from the intended flow?',footer:'Reproduce → order events → isolate the divergence'},
+  insights:{n:'03',meta:'Time & performance',title:'Unreal Insights reveals cost hidden by a PASS.',text:'A function can remain correct while becoming slower, noisier or more expensive. A trace makes that behavioral change measurable.',question:'Did execution time, frame cost or resource behavior regress?',footer:'Capture a trace → compare markers → investigate cost'},
+  stands:{n:'04',meta:'Controlled runs',title:'Test stands make behavior repeatable.',text:'Fix inputs and environmental conditions, then run the same mechanic repeatedly so a result can be compared rather than merely observed.',question:'Does the same controlled setup continue to produce the expected range?',footer:'Control inputs → repeat → compare with baseline'},
+  telemetry:{n:'05',meta:'Behavior at scale',title:'Telemetry turns runs into a trend.',text:'Structured results expose drift that isolated functional passes cannot: rates, timing, distribution and changes across builds.',question:'Is behavior stable across repeated runs and versions?',footer:'Measure batches → observe trend → signal regression'},
+  diff:{n:'06',meta:'Change surface',title:'A diff narrows the investigation.',text:'Code, Blueprint and data changes help connect a new signal to the actual implementation surface without treating correlation as proof.',question:'What changed that could plausibly explain the new behavior?',footer:'Compare revisions → form a hypothesis → verify it'}
+};
+
+const scopePitfalls = {
+  goal:{meta:'Input failure · goal',title:'The team cannot agree on success.',text:'If the intended result is vague or no longer relevant, neither the matrix nor a detailed checklist can make the conclusion reliable.',action:'Restate the current goal, expected behavior and acceptance boundary in the task.'},
+  pr:{meta:'Input failure · change',title:'The implementation surface stays invisible.',text:'An uninformative Pull Request prevents QA from validating dependencies, affected paths and whether the assigned Impact still holds.',action:'Document the actual change, affected modules, risks and verification already performed.'},
+  values:{meta:'Input failure · score',title:'The formula formalizes the wrong assumption.',text:'Missing or unjustified Impact and Complexity values make every downstream recommendation consistently repeatable – and consistently wrong.',action:'Return to the task owner, challenge both values and record the reasoning.'},
+  context:{meta:'Input failure · knowledge',title:'The task is not the source of truth.',text:'When decisions live in private messages or stale threads, two engineers cannot receive identical input.',action:'Move relevant decisions, constraints and expected behavior into the task.'},
+  branch:{meta:'Execution failure · version',title:'Correct checks run against the wrong system.',text:'A stale or unreconciled branch invalidates part of the evidence and can force the same work to be repeated.',action:'Confirm target revision, rebase state and build provenance before testing.'},
+  environment:{meta:'Execution failure · coverage',title:'One configuration becomes the whole conclusion.',text:'A local or single-environment pass cannot represent distributed, networked or platform-specific behavior when those modes apply.',action:'Name the required environments explicitly and record which were actually covered.'}
+};
+
+const scopeTourSteps = [
+  {screen:0,target:'.scope-universe-map',title:'Begin with the real question',text:'A useful standard starts by asking how much evidence this particular change needs.'},
+  {screen:1,target:'.scope-context-parameters',title:'Replace the universal checklist',text:'The framework standardizes reasoning because fixed mandatory and optional lists cannot represent every feature and dependency.'},
+  {screen:2,target:'.scope-result',title:'Estimate a responsible minimum',text:'Impact carries 60% and implementation complexity 40%. The rounded-up result proposes where testing should begin.'},
+  {screen:3,target:'.scope-level-detail',title:'Translate a score into test design',text:'Each level changes depth, breadth and the explicit boundary of what is not required.'},
+  {screen:4,target:'#scopeChecklistSummary',title:'Nothing is dropped as scope grows',text:'Every level inherits every required check from the levels below it — raising the scope never silently removes earlier coverage.'},
+  {screen:5,target:'.scope-input-gate',title:'A correct formula still needs correct inputs',text:'If Impact or Complexity were never validated, the matrix produces a confident, consistently wrong scope.'},
+  {screen:6,target:'.scope-workflow-view article',title:'One workflow does not fit every path',text:'The base workflow assumes time to validate inputs and reason about scope — emergency and hotfix branches are explicitly excluded.'},
+  {screen:7,target:'#scopeEvidenceDetail',title:'Finish with observable evidence',text:'Blueprints, logs, traces, stands, telemetry and diffs answer different questions. Together they support the final human decision.'},
+  {screen:8,target:'#scopePitfallDetail',title:'Most failures begin before testing',text:'A vague goal, an uninformative PR or a stale branch can make even a correct formula produce an unreliable scope.'},
+  {screen:9,target:'.scope-live-framework header',title:'Use the model, not a reconstruction',text:'This is the actual public tool from the repository — change its inputs and copy a real checklist, not a mockup.'},
+  {screen:10,target:'#scopeArtifactOutput',title:'A level is not the deliverable',text:'Another engineer must be able to see what is included, excluded and still uncertain — not just a single letter.'},
+  {screen:11,target:'.scope-calibration aside',title:'Calibrate the weights, not the person',text:'The 60/40 split may be tuned against real history — but it changes as a team decision, visibly, not silently per engineer.'}
+];
+
+const scopeScreenNames = ['Question','Context','Assess','Scope','Checklist','Inputs','Workflow','Evidence','Pitfalls','Framework','Artifact','Calibrate'];
+
+function showScopeScreen(index) {
+  scopeScreenIndex = Math.max(0, Math.min(index, scopeScreens.length - 1));
+  scopeScreens.forEach(screen => screen.classList.toggle('active', Number(screen.dataset.scopeScreen) === scopeScreenIndex));
+  scopeScreenJumps.forEach(button => button.classList.toggle('active', Number(button.dataset.scopeJump) === scopeScreenIndex));
+  scopeSideJumps.forEach(button => button.classList.toggle('active', Number(button.dataset.scopeSideJump) === scopeScreenIndex));
+  scopeScreenNumber.textContent = String(scopeScreenIndex + 1).padStart(2,'0');
+  scopeScreenName.textContent = scopeScreenNames[scopeScreenIndex];
+  scopeScreenBack.disabled = scopeScreenIndex === 0;
+  scopeScreenNext.disabled = scopeScreenIndex === scopeScreens.length - 1;
+  syncProjectsHash();
+}
+
+function positionScopeTour() {
+  if (scopeTour.hidden || scopeTourIndex < 0) return;
+  const article = scopeModal.querySelector('.scope-article');
+  const step = scopeTourSteps[scopeTourIndex];
+  const target = scopeModal.querySelector(step.target);
+  if (!article || !target) return;
+  const root = article.getBoundingClientRect();
+  const rect = target.getBoundingClientRect();
+  const pad = 7;
+  const left = Math.max(8, rect.left - root.left - pad);
+  const top = Math.max(8, rect.top - root.top - pad);
+  const width = Math.min(root.width - left - 8, rect.width + pad * 2);
+  const height = Math.min(root.height - top - 8, rect.height + pad * 2);
+  Object.assign(scopeTourFocus.style, { left: `${left}px`, top: `${top}px`, width: `${width}px`, height: `${height}px` });
+
+  const panelWidth = scopeTourPanel.offsetWidth;
+  const panelHeight = scopeTourPanel.offsetHeight;
+  const gap = 14;
+  const margin = 10;
+  const clampX = value => Math.min(Math.max(margin, value), root.width - panelWidth - margin);
+  const clampY = value => Math.min(Math.max(margin, value), root.height - panelHeight - margin);
+  const candidates = {
+    'right-center': { left: left + width + gap, top: top + (height - panelHeight) / 2 },
+    'left-center': { left: left - panelWidth - gap, top: top + (height - panelHeight) / 2 },
+    'below-center': { left: left + (width - panelWidth) / 2, top: top + height + gap },
+    'above-center': { left: left + (width - panelWidth) / 2, top: top - panelHeight - gap }
+  };
+  const overlapArea = candidate => {
+    const x = clampX(candidate.left);
+    const y = clampY(candidate.top);
+    const overlapW = Math.min(x + panelWidth, left + width) - Math.max(x, left);
+    const overlapH = Math.min(y + panelHeight, top + height) - Math.max(y, top);
+    return Math.max(0, overlapW) * Math.max(0, overlapH);
+  };
+  const order = window.innerWidth < 720
+    ? ['below-center', 'above-center', 'right-center', 'left-center']
+    : ['right-center', 'left-center', 'below-center', 'above-center'];
+  const chosenName = order.find(name => overlapArea(candidates[name]) === 0)
+    || order.reduce((best, name) => overlapArea(candidates[name]) < overlapArea(candidates[best]) ? name : best, order[0]);
+  const chosen = candidates[chosenName];
+  scopeTourPanel.style.left = `${clampX(chosen.left)}px`;
+  scopeTourPanel.style.top = `${clampY(chosen.top)}px`;
+}
+
+function showScopeTourStep(index) {
+  scopeTourIndex = Math.max(0, Math.min(index, scopeTourSteps.length - 1));
+  const step = scopeTourSteps[scopeTourIndex];
+  showScopeScreen(step.screen);
+  scopeTourStep.textContent = `${String(scopeTourIndex + 1).padStart(2,'0')} / ${String(scopeTourSteps.length).padStart(2,'0')}`;
+  scopeTourProgress.style.width = `${(scopeTourIndex + 1) / scopeTourSteps.length * 100}%`;
+  scopeTourTitle.textContent = step.title;
+  scopeTourText.textContent = step.text;
+  scopeTourBack.disabled = scopeTourIndex === 0;
+  scopeTourNext.textContent = scopeTourIndex === scopeTourSteps.length - 1 ? 'Finish' : 'Next';
+  requestAnimationFrame(positionScopeTour);
+}
+
+function startScopeTour() { scopeTour.hidden = false; showScopeTourStep(0); }
+function endScopeTour() { scopeTour.hidden = true; scopeTourIndex = -1; }
+
+function renderScopeLevel(value, updateCalculator = false) {
+  const item = scopeLevels[value];
+  scopeLevelButtons.forEach(button => button.classList.toggle('active', Number(button.dataset.level) === value));
+  scopeLevelDetail.innerHTML = `<div><small>qalab example · level ${item.level}</small><h4>${item.name}</h4><p>${item.description}</p></div><ol><li><b>Depth</b><span>${item.depth}</span></li><li><b>Breadth</b><span>${item.breadth}</span></li><li><b>Boundary</b><span>${item.boundary}</span></li></ol>`;
+  if (updateCalculator) document.querySelector('.scope-levels').scrollIntoView({ behavior:'smooth', block:'center' });
+}
+
+function renderScopeArtifact(level, impact, complexity) {
+  if (!scopeArtifactOutput) return;
+  const item = scopeLevels[level];
+  const included = scopeChecklistItems.filter(check => Number(check.dataset.minLevel) <= level);
+  const introduced = scopeChecklistItems.filter(check => Number(check.dataset.minLevel) === level).map(check => check.textContent.trim());
+  const excluded = scopeChecklistItems.filter(check => Number(check.dataset.minLevel) > level).map(check => check.textContent.trim());
+  const excludedPreview = excluded.slice(0, 4);
+  const excludedRemainder = excluded.length - excludedPreview.length;
+  const color = scopeLevelColors[level];
+  scopeArtifactCard?.style.setProperty('--artifact-color', color.background);
+  scopeArtifactCard?.style.setProperty('--artifact-ink', color.ink);
+  scopeArtifactLevel.textContent = item.level;
+  scopeArtifactInputs.textContent = `Impact ${scopeLevels[impact].level} · Complexity ${scopeLevels[complexity].level}`;
+  scopeArtifactOutput.textContent = scopeArtifactMode === 'markup'
+    ? `h3. Testing scope: ${item.level} – ${item.title}\n* Impact: ${scopeLevels[impact].level}\n* Complexity: ${scopeLevels[complexity].level}\n* Required checks: ${included.length} of ${scopeChecklistItems.length}\n* Expert override: none\n\nh4. Added at this level\n${introduced.map(check => `* ${check}`).join('\n')}\n\nh4. Outside minimum\n${excludedPreview.length ? excludedPreview.map(check => `* ${check}`).join('\n') : '* Nothing identified'}${excludedRemainder > 0 ? `\n* …and ${excludedRemainder} more` : ''}`
+    : `LEVEL\n${item.level} – ${item.title}\nImpact ${scopeLevels[impact].level} · Complexity ${scopeLevels[complexity].level}\n${included.length} of ${scopeChecklistItems.length} check groups required\n\nADDED AT THIS LEVEL\n${introduced.map(check => `✓ ${check}`).join('\n')}\n\nOUTSIDE MINIMUM\n${excludedPreview.length ? excludedPreview.map(check => ` – ${check}`).join('\n') : ' – Nothing identified'}${excludedRemainder > 0 ? `\n – …and ${excludedRemainder} more` : ''}\n\nEVIDENCE\nAutomated runs · Logs · Baseline comparison`;
+}
+
+function syncScopeFramework(impact, complexity) {
+  scopeFrameworkFrame?.contentWindow?.postMessage({
+    type:'scope-state-sync',
+    impact:scopeLevels[impact].level,
+    complexity:scopeLevels[complexity].level,
+    impactWeight:scopeImpactWeight,
+    complexityWeight:scopeComplexityWeight
+  }, window.location.origin);
+}
+
+function setScopeAxisValue(axis, value) {
+  document.querySelectorAll(`[data-scope-axis="${axis}"] button`).forEach(button => {
+    button.classList.toggle('active', Number(button.dataset.value) === value);
+  });
+}
+
+function setScopeLevelEverywhere(value) {
+  setScopeAxisValue('impact', value);
+  setScopeAxisValue('complexity', value);
+  calculateScope();
+}
+
+function calculateScope({ syncFramework = true } = {}) {
+  const impact = Number(document.querySelector('[data-scope-axis="impact"] button.active').dataset.value);
+  const complexity = Number(document.querySelector('[data-scope-axis="complexity"] button.active').dataset.value);
+  const impactPart = impact * scopeImpactWeight;
+  const complexityPart = complexity * scopeComplexityWeight;
+  const rawScore = impactPart + complexityPart;
+  const score = Math.ceil(rawScore);
+  const item = scopeLevels[score];
+  scopeResultLevel.textContent = item.level;
+  scopeResultTitle.textContent = item.title;
+  scopeResultText.textContent = item.text;
+  scopeResultMath.textContent = `ceil(${impact} × ${scopeImpactWeight.toFixed(2)} + ${complexity} × ${scopeComplexityWeight.toFixed(2)}) = ${score}`;
+  document.querySelectorAll('.scope-matrix td').forEach(cell => {
+    cell.classList.remove('current');
+    cell.removeAttribute('tabindex');
+    cell.removeAttribute('data-calculation');
+    cell.removeAttribute('aria-label');
+  });
+  document.querySelectorAll('.scope-matrix tbody tr').forEach((row, complexityIndex) => {
+    row.querySelectorAll('td').forEach((cell, impactIndex) => {
+      const cellScore = Math.ceil((impactIndex + 1) * scopeImpactWeight + (complexityIndex + 1) * scopeComplexityWeight);
+      cell.textContent = scopeLevels[cellScore].level;
+      cell.dataset.matrixLevel = String(cellScore);
+      cell.style.setProperty('--heat', String((cellScore - 1) / 4));
+    });
+  });
+  const currentCell = document.querySelector(`.scope-matrix tbody tr:nth-child(${complexity}) td:nth-of-type(${impact})`);
+  if (currentCell) {
+    const impactLevel = scopeLevels[impact].level;
+    const complexityLevel = scopeLevels[complexity].level;
+    const calculation = `WHY THESE VALUES\nImpact ${impactLevel} = ${impact}\n${scopeAxisCriteria.impact[impact]}\n\nComplexity ${complexityLevel} = ${complexity}\n${scopeAxisCriteria.complexity[complexity]}\n\nCALCULATION\n${impact} × ${(scopeImpactWeight * 100).toFixed(0)}% = ${impactPart.toFixed(1)}\n${complexity} × ${(scopeComplexityWeight * 100).toFixed(0)}% = ${complexityPart.toFixed(1)}\nRaw score: ${rawScore.toFixed(1)}\nRounded up: ${score} → ${item.level}`;
+    currentCell.classList.add('current');
+    currentCell.tabIndex = 0;
+    currentCell.dataset.calculation = calculation;
+    currentCell.setAttribute('aria-label', `Calculated level ${item.level}. ${calculation.replaceAll('\n', '. ')}`);
+  }
+  renderScopeLevel(score);
+  renderScopeChecklist(score);
+  renderScopeArtifact(score, impact, complexity);
+  if (syncFramework) syncScopeFramework(impact, complexity);
+}
+
+function openScopeCaseStudy() {
+  lockPageScroll();
+  scopeModal.showModal();
+  qaCursorElements.forEach(element => scopeModal.appendChild(element));
+  showScopeScreen(0);
+  calculateScope();
+}
+
+function closeScopeCaseStudy() {
+  endScopeTour();
+  if (scopeModal.open) scopeModal.close();
+}
+
+function openQaCaseStudy(suppressAutoTour = false) {
   lockPageScroll();
   qaCaseModal.showModal();
   qaCursorElements.forEach(element => qaCaseModal.appendChild(element));
   qaCaseModal.querySelector('.qa-case-scroll').scrollTop = 0;
   selectQaScenario('events');
-  if (!qaTourWasCompleted()) {
+  if (!suppressAutoTour && !qaTourWasCompleted()) {
     qaTourStartTimer = window.setTimeout(() => {
       qaTourStartTimer = 0;
       startQaTour();
@@ -2506,6 +2858,7 @@ function selectQaScenario(key) {
   qaQueryCard.classList.remove('scenario-changing');
   void qaQueryCard.offsetWidth;
   qaQueryCard.classList.add('scenario-changing');
+  syncProjectsHash();
 }
 
 projectFilterButtons.forEach(button => {
@@ -2569,18 +2922,125 @@ document.addEventListener('keydown', event => {
 
 qaCaseOpen.addEventListener('click', () => {
   if (selectedQaProject === 'qalab') openQalabCaseStudy();
+  else if (selectedQaProject === 'scope') openScopeCaseStudy();
   else openQaCaseStudy();
 });
 qaProjectButtons.forEach(button => {
-  button.addEventListener('click', () => {
-    qaProjectButtons.forEach(projectButton => {
-      const active = projectButton === button;
-      projectButton.classList.toggle('active', active);
-      projectButton.setAttribute('aria-pressed', active ? 'true' : 'false');
-    });
-    renderQaProject(button.dataset.qaProject);
-  });
+  button.addEventListener('click', () => selectQaProject(button.dataset.qaProject));
 });
+scopeAxisButtons.forEach(button => button.addEventListener('click', () => {
+  button.closest('.scope-options').querySelectorAll('button').forEach(option => option.classList.toggle('active', option === button));
+  calculateScope();
+}));
+scopeLevelButtons.forEach(button => button.addEventListener('click', () => setScopeLevelEverywhere(Number(button.dataset.level))));
+scopeEvidenceButtons.forEach(button => button.addEventListener('click', () => {
+  const item = scopeEvidence[button.dataset.evidence];
+  scopeEvidenceButtons.forEach(option => option.classList.toggle('active', option === button));
+  scopeEvidenceDetail.innerHTML = `<small>${item.n} · ${item.meta}</small><h4>${item.title}</h4><p>${item.text}</p><div><b>Question</b><span>${item.question}</span></div><footer>${item.footer}</footer>`;
+}));
+scopeRiskButtons.forEach(button => button.addEventListener('click', () => {
+  const item = scopeRiskLayers[button.dataset.riskLayer];
+  scopeRiskButtons.forEach(option => option.classList.toggle('active', option === button));
+  scopeRiskCaption.innerHTML = `<b>${item.title}</b><span>${item.text}</span>`;
+}));
+scopeUniverseButtons.forEach(button => button.addEventListener('click', () => {
+  const framed = button.dataset.universeMode === 'framed';
+  scopeUniverseButtons.forEach(option => option.classList.toggle('active', option === button));
+  scopeUniverseMap.classList.toggle('is-framed', framed);
+  scopeUniverseMap.classList.toggle('is-unframed', !framed);
+  scopeUniverseMap.querySelector('[data-universe-path-a]').textContent = framed ? 'Shared assessment model' : 'Personal interpretation';
+  scopeUniverseMap.querySelector('[data-universe-path-b]').textContent = framed ? 'Shared assessment model' : 'Personal interpretation';
+  scopeUniverseMap.querySelector('[data-universe-result-a]').textContent = framed ? 'Comparable scope' : 'Scope A';
+  scopeUniverseMap.querySelector('[data-universe-result-b]').textContent = framed ? 'Comparable scope' : 'Scope B';
+  scopeUniverseCaption.innerHTML = framed
+    ? '<b>Different engineers. Comparable reasoning.</b><span>The framework does not remove judgment; it gives both engineers the same questions, language and minimum recommendation.</span>'
+    : '<b>Same task. Different reasoning.</b><span>Experience and individual interpretation can produce two valid-looking but materially different test scopes.</span>';
+}));
+scopeContextButtons.forEach(button => button.addEventListener('click', () => {
+  const item = scopeContextParameters[button.dataset.contextParameter];
+  scopeContextButtons.forEach(option => option.classList.toggle('active', option === button));
+  scopeContextDetail.innerHTML = `<b>${item.title}</b><p>${item.text}</p>`;
+  scopeContextDetail.style.animation = 'none';
+  void scopeContextDetail.offsetWidth;
+  scopeContextDetail.style.animation = '';
+  scopeBoundaryMap.classList.remove('focus-depth','focus-breadth','focus-distrust');
+  scopeBoundaryMap.classList.add('is-justified', `focus-${button.dataset.contextParameter}`);
+  scopeBoundaryMap.classList.remove('is-everything');
+  scopeBoundaryButtons.forEach(option => option.classList.toggle('active', option.dataset.boundaryMode === 'justified'));
+  scopeBoundaryCaption.innerHTML = `<b>${item.title}</b><span>${item.text}</span>`;
+}));
+scopeBoundaryButtons.forEach(button => button.addEventListener('click', () => {
+  const justified = button.dataset.boundaryMode === 'justified';
+  scopeBoundaryButtons.forEach(option => option.classList.toggle('active', option === button));
+  scopeBoundaryMap.classList.toggle('is-everything', !justified);
+  scopeBoundaryMap.classList.toggle('is-justified', justified);
+  if (!justified) {
+    scopeBoundaryMap.classList.remove('focus-depth','focus-breadth','focus-distrust');
+    scopeBoundaryCaption.innerHTML = '<b>Maximum coverage is not automatically maximum quality.</b><span>When every layer is treated as equally necessary, scope becomes expensive but the reasoning behind it remains invisible.</span>';
+  } else {
+    const selected = document.querySelector('[data-context-parameter].active')?.dataset.contextParameter || 'depth';
+    const item = scopeContextParameters[selected];
+    scopeBoundaryMap.classList.add(`focus-${selected}`);
+    scopeBoundaryCaption.innerHTML = `<b>${item.title}</b><span>${item.text}</span>`;
+  }
+}));
+function renderScopeChecklist(level) {
+  let required = 0;
+  scopeChecklistButtons.forEach(button => button.classList.toggle('active', Number(button.dataset.checklistLevel) === level));
+  scopeChecklistItems.forEach(item => {
+    const included = Number(item.dataset.minLevel) <= level;
+    item.classList.toggle('required', included);
+    if (included) required += 1;
+  });
+  scopeChecklistSummary.textContent = `${required} of ${scopeChecklistItems.length} check groups required at ${scopeLevels[level].level}`;
+}
+scopeChecklistButtons.forEach(button => button.addEventListener('click', () => setScopeLevelEverywhere(Number(button.dataset.checklistLevel))));
+scopeWorkflowButtons.forEach(button => button.addEventListener('click', () => {
+  const hot = button.dataset.workflow === 'hot';
+  scopeWorkflowButtons.forEach(option => option.classList.toggle('active', option === button));
+  scopeWorkflowView.innerHTML = hot
+    ? '<div><span>Urgent defect</span><span>Release blocker</span><span>Emergency branch</span><span>Time-critical recovery</span></div><article><small>Hot workflow</small><h4>Triage → Contain → Verify critical path → Release → Follow up</h4><p>This framework does not define the emergency process. The team needs a separate explicit workflow rather than silently lowering the Base Workflow.</p></article>'
+    : '<div><span>New functionality</span><span>Bug fixes</span><span>Refactoring</span><span>Technical changes</span><span>R&amp;D hypotheses</span></div><article><small>Base workflow</small><h4>Understand → Validate → Calculate → Test → Finalize</h4><p>The framework applies when the team can validate inputs and build a reasoned minimum scope.</p></article>';
+}));
+scopePitfallButtons.forEach(button => button.addEventListener('click', () => {
+  const item = scopePitfalls[button.dataset.pitfall];
+  scopePitfallButtons.forEach(option => option.classList.toggle('active', option === button));
+  scopePitfallDetail.innerHTML = `<small>${item.meta}</small><h4>${item.title}</h4><p>${item.text}</p><div><b>Before testing continues</b><span>${item.action}</span></div>`;
+}));
+scopeArtifactButtons.forEach(button => button.addEventListener('click', () => {
+  scopeArtifactMode = button.dataset.artifactTab;
+  scopeArtifactButtons.forEach(option => option.classList.toggle('active', option === button));
+  calculateScope();
+}));
+scopeFrameworkFrame?.addEventListener('load', () => calculateScope());
+window.addEventListener('message', event => {
+  if (event.origin !== window.location.origin || event.source !== scopeFrameworkFrame?.contentWindow) return;
+  if (event.data?.type !== 'scope-framework-change') return;
+  const impact = Object.keys(scopeLevels).find(key => scopeLevels[key].level === event.data.impact);
+  const complexity = Object.keys(scopeLevels).find(key => scopeLevels[key].level === event.data.complexity);
+  if (!impact || !complexity) return;
+  setScopeAxisValue('impact', Number(impact));
+  setScopeAxisValue('complexity', Number(complexity));
+  const impactWeight = Number(event.data.impactWeight);
+  const complexityWeight = Number(event.data.complexityWeight);
+  if (Number.isFinite(impactWeight) && Number.isFinite(complexityWeight) && impactWeight + complexityWeight > 0) {
+    const total = impactWeight + complexityWeight;
+    scopeImpactWeight = impactWeight / total;
+    scopeComplexityWeight = complexityWeight / total;
+  }
+  calculateScope({ syncFramework:false });
+});
+scopeScreenJumps.forEach(button => button.addEventListener('click', () => showScopeScreen(Number(button.dataset.scopeJump))));
+scopeSideJumps.forEach(button => button.addEventListener('click', () => showScopeScreen(Number(button.dataset.scopeSideJump))));
+scopeScreenBack.addEventListener('click', () => showScopeScreen(scopeScreenIndex - 1));
+scopeScreenNext.addEventListener('click', () => showScopeScreen(scopeScreenIndex + 1));
+scopeTourStart.addEventListener('click', startScopeTour);
+scopeTourStartRail.addEventListener('click', startScopeTour);
+scopeTourExit.addEventListener('click', endScopeTour);
+scopeTourSkip.addEventListener('click', endScopeTour);
+scopeTourBack.addEventListener('click', () => showScopeTourStep(scopeTourIndex - 1));
+scopeTourNext.addEventListener('click', () => scopeTourIndex === scopeTourSteps.length - 1 ? endScopeTour() : showScopeTourStep(scopeTourIndex + 1));
+window.addEventListener('resize', positionScopeTour);
 qalabLayerButtons.forEach(button => button.addEventListener('click', () => selectQalabLayer(button.dataset.qalabLayer)));
 qalabEvidenceVisual.addEventListener('click', event => {
   if (!event.target.closest('[data-qalab-run]')) return;
@@ -2627,6 +3087,7 @@ qalabModal.addEventListener('close', () => {
   unlockPageScroll();
   forgetQalabIdentShown();
   qaCursorElements.forEach(element => document.body.appendChild(element));
+  syncProjectsHash();
 });
 qaCaseClose.addEventListener('click', closeQaCaseStudy);
 let qaCaseBackdropPointerDown = false;
@@ -2643,8 +3104,110 @@ qaCaseModal.addEventListener('cancel', event => {
 qaCaseModal.addEventListener('close', () => {
   unlockPageScroll();
   qaCursorElements.forEach(element => document.body.appendChild(element));
+  syncProjectsHash();
+});
+scopeClose.addEventListener('click', closeScopeCaseStudy);
+let scopeBackdropPointerDown = false;
+scopeModal.addEventListener('pointerdown', event => { scopeBackdropPointerDown = event.target === scopeModal; });
+scopeModal.addEventListener('click', event => { if (event.target === scopeModal && scopeBackdropPointerDown) closeScopeCaseStudy(); });
+scopeModal.addEventListener('cancel', event => { event.preventDefault(); closeScopeCaseStudy(); });
+scopeModal.addEventListener('close', () => {
+  unlockPageScroll();
+  qaCursorElements.forEach(element => document.body.appendChild(element));
+  syncProjectsHash();
 });
 
+// --- Deep linking (shareable URLs for category / project / case tab) ---
+// #art[/<portrait-slug>[/full]]
+// #qa/<qalab|scope|sql>[/case[/<layer-or-screen-or-scenario>]]
+let applyingProjectsHash = false;
+const portraitSlugs = portraits.map(portrait => portrait.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, ''));
+const scopeScreenSlugs = scopeScreenNames.map(name => name.toLowerCase());
+const qaScenarioSlugs = {
+  events: 'events', ab: 'ab', adActivity: 'ad-activity', adOutcomes: 'ad-outcomes',
+  networkUser: 'network-user', networkAggregate: 'network-aggregate',
+  socialSaves: 'social-saves', stateAudit: 'state-audit'
+};
+const qaScenarioKeysBySlug = Object.fromEntries(Object.entries(qaScenarioSlugs).map(([key, slug]) => [slug, key]));
+
+function currentProjectsHash() {
+  if (!qaProjectView.hidden) {
+    const parts = ['qa', selectedQaProject];
+    if (selectedQaProject === 'qalab' && qalabModal.open) {
+      parts.push('case');
+      let subState = null;
+      if (!qalabTour.hidden) {
+        const step = qalabTourSteps[qalabTourIndex];
+        if (step?.panel === 'rationale' || step?.panel === 'simulation') subState = step.panel;
+      }
+      if (!subState) subState = qalabLayerButtons.find(button => button.classList.contains('active'))?.dataset.qalabLayer;
+      if (subState) parts.push(subState);
+    } else if (selectedQaProject === 'scope' && scopeModal.open) {
+      parts.push('case', scopeScreenSlugs[scopeScreenIndex] || scopeScreenSlugs[0]);
+    } else if (selectedQaProject === 'sql' && qaCaseModal.open) {
+      const activeScenario = qaScenarioButtons.find(button => button.classList.contains('active'))?.dataset.qaScenario || 'events';
+      parts.push('case', qaScenarioSlugs[activeScenario] || 'events');
+    }
+    return `#${parts.join('/')}`;
+  }
+  const parts = ['art'];
+  if (portraitModal.open) parts.push(portraitSlugs[activePortraitIndex], 'full');
+  else if (activePortraitIndex > 0) parts.push(portraitSlugs[activePortraitIndex]);
+  return `#${parts.join('/')}`;
+}
+
+function syncProjectsHash() {
+  if (applyingProjectsHash) return;
+  const hash = currentProjectsHash();
+  if (location.hash !== hash) history.replaceState(null, '', hash);
+}
+
+function applyProjectsHash(hash) {
+  const segments = (hash || '').replace(/^#/, '').split('/').filter(Boolean);
+  applyingProjectsHash = true;
+  try {
+    const [root, second, third, fourth] = segments;
+    if (root === 'qa') {
+      const project = ['qalab', 'scope', 'sql'].includes(second) ? second : 'qalab';
+      setProjectCategory('qa', true);
+      selectQaProject(project);
+      if (third === 'case') {
+        if (project === 'qalab') {
+          openQalabCaseStudy(Boolean(fourth));
+          if (fourth === 'rationale' || fourth === 'simulation') {
+            clearTimeout(qalabTourTimer);
+            const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            qalabTourTimer = window.setTimeout(() => startQalabTourAtPanel(fourth), reduceMotion ? 1850 : 4100);
+          } else if (fourth && qalabLayers[fourth]) {
+            selectQalabLayer(fourth);
+          }
+        } else if (project === 'scope') {
+          openScopeCaseStudy();
+          const screenIndex = fourth ? scopeScreenSlugs.indexOf(fourth) : 0;
+          if (screenIndex > 0) showScopeScreen(screenIndex);
+        } else {
+          openQaCaseStudy(Boolean(fourth));
+          const scenarioKey = fourth && qaScenarioKeysBySlug[fourth];
+          if (scenarioKey) selectQaScenario(scenarioKey);
+        }
+      }
+    } else {
+      setProjectCategory('art', true);
+      const portraitIndex = second ? portraitSlugs.indexOf(second) : 0;
+      if (portraitIndex >= 0) selectPortrait(portraitIndex);
+      if (third === 'full') openPortraitModal();
+    }
+  } finally {
+    applyingProjectsHash = false;
+  }
+  syncProjectsHash();
+}
+
+const initialProjectsHash = location.hash;
 setLensSize(lensSize);
 setLensZoom(lensZoom);
 selectPortrait(0);
+schedulePortraitWarmup();
+scheduleQalabAssetWarmup();
+applyProjectsHash(initialProjectsHash);
+window.addEventListener('hashchange', () => applyProjectsHash(location.hash));
