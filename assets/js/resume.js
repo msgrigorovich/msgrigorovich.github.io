@@ -130,11 +130,43 @@ const dominiProjectsWithOfficialPages = dominiSeriesProjects.map(project => ({
 
 const resumeExperience = [
   {
+    slug: 'strikerz-lead-qa',
+    period: 'Sep 2026 – Present',
+    eyebrow: 'Strikerz Inc. · Tbilisi',
+    title: 'Lead QA Engineer',
+    role: 'Core Gameplay Team · QA Leadership & Technical Ownership',
+    projects: [
+      { label: 'Strikerz Inc.', icon: 'S', image: '/assets/images/games/strikerz-logo.png', monochrome: true, url: 'https://www.strikerz.inc/' },
+      { label: 'UFL', icon: 'UFL', image: '/assets/images/games/ufl-logo.png', monochrome: true, url: 'https://uflgame.com/' }
+    ],
+    text: 'QA leadership for Core Gameplay, staying hands-on with test automation, telemetry, and technical quality practices.',
+    responsibilities: [
+      'QA process ownership for Core Gameplay: defining Quality Gates, standardizing bug triage, and improving the end-to-end testing lifecycle;',
+      'Organizing Root Cause Analysis for recurring gameplay issues and turning findings into repeatable QA practices;',
+      'Continued hands-on ownership of test automation, test stands, and bot-driven testing scenarios for Core Gameplay mechanics;',
+      'Development and maintenance of Core Gameplay telemetry and gameplay health metrics used in release and milestone decisions;',
+      'Coordinating task and resource distribution across the QA Core Gameplay team, including regular 1-1 and weekly syncs;',
+      'Managing the outsourced QA workflow: defining requirements, reviewing results, and refining the process;',
+      'Reporting on release, milestone, and playtest outcomes to align the team on risks, priorities, and product state;',
+      'Supporting team growth through mentoring, task delegation, and professional development planning.'
+    ],
+    achievementsLabel: 'Current focus',
+    achievements: [
+      'Building out Core Gameplay’s QA lifecycle with clearer Quality Gates and more standardized bug triage;',
+      'Expanding automated test coverage and bot-testing scenarios alongside test stands for Core Gameplay mechanics;',
+      'Growing Core Gameplay telemetry and health-metric tooling to support faster, data-informed release decisions;',
+      'Shaping QA team structure, mentoring, and professional growth paths within Core Gameplay.'
+    ],
+    chips: ['QA Leadership', 'Test Automation', 'Telemetry', 'Blueprint'],
+    skills: ['QA Leadership', 'Test Automation', 'Telemetry', 'Blueprint', 'Unreal Engine 5', 'Root Cause Analysis', 'Process Design', 'Team Mentoring']
+  },
+  {
     slug: 'strikerz-core-gameplay',
-    period: 'Jan 2025 – Present',
+    period: 'Jan 2025 – Sep 2026',
     eyebrow: 'Strikerz Inc. · Tbilisi',
     title: 'Senior QA Engineer',
     role: 'Core Gameplay Team · Quality & Systems Validation',
+    team: 'Core Gameplay Team',
     projects: [
       { label: 'Strikerz Inc.', icon: 'S', image: '/assets/images/games/strikerz-logo.png', monochrome: true, url: 'https://www.strikerz.inc/' },
       { label: 'UFL', icon: 'UFL', image: '/assets/images/games/ufl-logo.png', monochrome: true, url: 'https://uflgame.com/' }
@@ -167,6 +199,7 @@ const resumeExperience = [
     eyebrow: 'Strikerz Inc. · Tbilisi',
     title: 'Senior QA Engineer',
     role: 'Quality Control Team · Cross-Platform & Feature Validation',
+    team: 'Quality Control Team',
     projects: [
       { label: 'Strikerz Inc.', icon: 'S', image: '/assets/images/games/strikerz-logo.png', monochrome: true, url: 'https://www.strikerz.inc/' },
       { label: 'UFL', icon: 'UFL', image: '/assets/images/games/ufl-logo.png', monochrome: true, url: 'https://uflgame.com/' }
@@ -318,6 +351,128 @@ const resumeSections = {
   }
 };
 
+const resumeQaProjects = {
+  qalab: {
+    title: 'qalab',
+    meta: 'Automation · telemetry · Unreal Engine',
+    href: '/projects.html#qa/qalab/case'
+  },
+  scope: {
+    title: 'Testing Scope Framework',
+    meta: 'Test strategy · risk · documentation',
+    href: '/projects.html#qa/scope/case'
+  },
+  sql: {
+    title: 'Analytical-driven QA',
+    meta: 'SQL · ClickHouse · product evidence',
+    href: '/projects.html#qa/sql/case'
+  }
+};
+
+const resumeSkillGroups = [
+  {
+    id: 'data',
+    label: 'Data, Telemetry & Analytics',
+    skills: ['SQL', 'ClickHouse', 'JetBrains DataGrip', 'DBeaver', 'Tableau', 'JSON', 'Telemetry'],
+    projects: ['sql', 'qalab']
+  },
+  {
+    id: 'automation',
+    label: 'Test Automation & Engineering',
+    skills: ['Test Automation', 'Automated Testing', 'Python', 'C#', 'XML', 'Jenkins', 'TeamCity', 'GitLab'],
+    projects: ['qalab']
+  },
+  {
+    id: 'gameplay',
+    label: 'Game Engines & Gameplay Systems',
+    skills: ['Unreal Engine 5', 'Blueprint', 'Unity'],
+    projects: ['qalab', 'scope']
+  },
+  {
+    id: 'strategy',
+    label: 'Test Strategy & Quality Design',
+    skills: ['Test design', 'TestRail', 'Jira', 'Confluence', 'Scrum', 'Root Cause Analysis', 'Process Design'],
+    projects: ['scope', 'qalab', 'sql']
+  },
+  {
+    id: 'platforms',
+    label: 'Platforms & Release Ecosystems',
+    skills: ['Play Station 5', 'xBox Series X', 'xBox Series S', 'Console DevKits', 'Console TestKits', 'Xcode', 'Android Studio', 'Android', 'iOS', 'adb', 'TestFlight', 'App Store Connect', 'Google Play Console', 'amazon', 'Firebase', 'remote config', 'Charles Proxy'],
+    projects: []
+  },
+  {
+    id: 'delivery',
+    label: 'Leadership, Documentation & Collaboration',
+    skills: ['QA Leadership', 'Team Mentoring', 'Notion', 'Bookstack', 'Asana', 'Trello', 'Redmine', 'SVN', 'Waterfall'],
+    projects: []
+  }
+];
+
+const resumeSkillProjectOverrides = {
+  'Bachelor’s degree': ['qalab'],
+  'Analytical Chemistry': ['qalab'],
+  'Data analysis': ['qalab'],
+  'QA Leadership': ['scope'],
+  'Root Cause Analysis': ['qalab', 'sql'],
+  'Process Design': ['scope'],
+  'Play Station 5': ['scope'],
+  'xBox Series X': ['scope'],
+  'xBox Series S': ['scope'],
+  'Console DevKits': ['scope'],
+  'Console TestKits': ['scope'],
+  Xcode: ['sql'],
+  'Android Studio': ['sql'],
+  Android: ['sql'],
+  iOS: ['sql'],
+  adb: ['sql'],
+  TestFlight: ['sql'],
+  'App Store Connect': ['sql'],
+  'Google Play Console': ['sql'],
+  amazon: ['sql'],
+  Firebase: ['sql'],
+  'remote config': ['sql'],
+  'Charles Proxy': ['sql'],
+  Notion: ['scope'],
+  Bookstack: ['scope']
+};
+
+const resumeSkillMessages = {
+  'Bachelor’s degree': 'Even this can be useful for games – and very useful.',
+  'Analytical Chemistry': 'Even this can be useful for games – and very useful.',
+  'Data analysis': 'Even this can be useful for games – and very useful.'
+};
+
+function resumeSkillGroupFor(skill) {
+  return resumeSkillGroups.find(group => group.skills.includes(skill));
+}
+
+function resumeSkillProjects(skill) {
+  if (Object.hasOwn(resumeSkillProjectOverrides, skill)) return resumeSkillProjectOverrides[skill];
+  return resumeSkillGroupFor(skill)?.projects || [];
+}
+
+function resumeSkillChipMarkup(skill) {
+  const projectIds = resumeSkillProjects(skill);
+  if (!projectIds.length) return `<span class="resume-chip">${skill}</span>`;
+  return `<button class="resume-chip resume-skill-chip" type="button" data-resume-skill="${skill}" aria-haspopup="dialog" aria-expanded="false">${skill}</button>`;
+}
+
+function resumeGroupedSkillsMarkup(skills) {
+  const skillSet = new Set(skills);
+  const groups = resumeSkillGroups
+    .map(group => ({ ...group, visibleSkills: group.skills.filter(skill => skillSet.has(skill)) }))
+    .filter(group => group.visibleSkills.length);
+  const groupedSkills = new Set(groups.flatMap(group => group.visibleSkills));
+  const ungrouped = skills.filter(skill => !groupedSkills.has(skill));
+
+  return `<div class="resume-skill-groups">${groups.map((group, index) => `
+    <section class="resume-skill-group" data-skill-group="${group.id}">
+      <p><small>${String(index + 1).padStart(2, '0')}</small>${group.label}</p>
+      <div class="resume-chips">${group.visibleSkills.map(resumeSkillChipMarkup).join('')}</div>
+    </section>
+  `).join('')}${ungrouped.length ? `<section class="resume-skill-group"><p><small>${String(groups.length + 1).padStart(2, '0')}</small>Additional tools</p><div class="resume-chips">${ungrouped.map(resumeSkillChipMarkup).join('')}</div></section>` : ''}</div>`;
+}
+
 const resumeYearWheel = document.getElementById('resumeYearWheel');
 const resumeYearList = document.getElementById('resumeYearList');
 const resumeCard = document.getElementById('resumeCard');
@@ -334,6 +489,74 @@ let activeResumeTab = 'experience';
 const resumeProjectIndexes = new Map();
 let resumeModalScrollY = 0;
 let pickerAudioContext;
+let resumeSkillPopoverPinned = false;
+let resumeSkillPopoverTimer = 0;
+let resumeSkillPopoverHoverTimer = 0;
+let activeResumeSkillChip = null;
+const resumeSkillPopover = document.createElement('aside');
+resumeSkillPopover.className = 'resume-skill-popover';
+resumeSkillPopover.id = 'resumeSkillPopover';
+resumeSkillPopover.hidden = true;
+resumeSkillPopover.setAttribute('role', 'dialog');
+resumeSkillPopover.setAttribute('aria-label', 'Skill project examples');
+document.body.appendChild(resumeSkillPopover);
+
+function positionResumeSkillPopover(chip) {
+  if (!chip || resumeSkillPopover.hidden) return;
+  const rect = chip.getBoundingClientRect();
+  const margin = 12;
+  const popoverRect = resumeSkillPopover.getBoundingClientRect();
+  const left = Math.min(
+    Math.max(rect.left + rect.width / 2 - popoverRect.width / 2, margin),
+    window.innerWidth - popoverRect.width - margin
+  );
+  const below = rect.bottom + 10;
+  const top = below + popoverRect.height <= window.innerHeight - margin
+    ? below
+    : Math.max(margin, rect.top - popoverRect.height - 10);
+  resumeSkillPopover.style.left = `${left}px`;
+  resumeSkillPopover.style.top = `${top}px`;
+}
+
+function showResumeSkillPopover(chip) {
+  const skill = chip?.dataset.resumeSkill;
+  const projectIds = skill ? resumeSkillProjects(skill) : [];
+  if (!skill || !projectIds.length) return;
+  clearTimeout(resumeSkillPopoverHoverTimer);
+  clearTimeout(resumeSkillPopoverTimer);
+  if (activeResumeSkillChip && activeResumeSkillChip !== chip) {
+    activeResumeSkillChip.setAttribute('aria-expanded', 'false');
+  }
+  activeResumeSkillChip = chip;
+  resumeSkillPopoverPinned = false;
+  chip.setAttribute('aria-expanded', 'true');
+  resumeSkillPopover.innerHTML = `
+    <p>Applied in QA projects</p>
+    <h3>${skill}</h3>
+    <span>${resumeSkillMessages[skill] || 'See how this skill supports a real testing decision, workflow or evidence layer.'}</span>
+    <div>${projectIds.map(id => {
+      const project = resumeQaProjects[id];
+      return `<a href="${project.href}"><b>${project.title}</b><small>${project.meta}</small><i aria-hidden="true">↗</i></a>`;
+    }).join('')}</div>
+  `;
+  resumeSkillPopover.hidden = false;
+  requestAnimationFrame(() => positionResumeSkillPopover(chip));
+}
+
+function hideResumeSkillPopover(force = false) {
+  clearTimeout(resumeSkillPopoverHoverTimer);
+  clearTimeout(resumeSkillPopoverTimer);
+  if (resumeSkillPopoverPinned && !force) return;
+  activeResumeSkillChip?.setAttribute('aria-expanded', 'false');
+  activeResumeSkillChip = null;
+  resumeSkillPopoverPinned = false;
+  resumeSkillPopover.hidden = true;
+}
+
+function scheduleResumeSkillPopoverHide() {
+  clearTimeout(resumeSkillPopoverTimer);
+  resumeSkillPopoverTimer = window.setTimeout(() => hideResumeSkillPopover(), 120);
+}
 
 function playPickerFeedback() {
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
@@ -365,16 +588,22 @@ const resumeStoreIcons = {
   official: `<svg viewBox="0 0 18 18" role="img" aria-label="Official game page"><rect width="18" height="18" rx="4" fill="#f3a25f"/><path d="M6 12 12 6m-4 0h4v4" fill="none" stroke="#fff" stroke-width="1.55" stroke-linecap="round" stroke-linejoin="round"/></svg>`
 };
 
+function resumeRoleMarkup(item) {
+  if (!item.team) return item.role;
+  const rest = item.role.slice(item.team.length).replace(/^\s*·\s*/, '');
+  return `<span class="resume-team-badge">${item.team}</span>${rest ? ` ${rest}` : ''}`;
+}
+
 function resumeCardMarkup(item) {
   const hiddenSkillsCount = item.skills ? Math.max(item.skills.length - item.chips.length, 0) : 0;
 
   return `
     <p class="resume-eyebrow">${item.eyebrow}</p>
     <h1>${item.title}</h1>
-    <h2>${item.role}</h2>
+    <h2>${resumeRoleMarkup(item)}</h2>
     <p class="resume-description">${item.text}</p>
     <div class="resume-chips">
-      ${item.chips.map(chip => `<span class="resume-chip">${chip}</span>`).join('')}
+      ${item.chips.map(resumeSkillChipMarkup).join('')}
       ${hiddenSkillsCount ? `<button class="resume-chip resume-more-skills" type="button">+${hiddenSkillsCount} more</button>` : ''}
     </div>
     ${item.responsibilities ? '<button class="resume-see-more" type="button">See more <span aria-hidden="true">↗</span></button>' : ''}
@@ -382,16 +611,17 @@ function resumeCardMarkup(item) {
 }
 
 function resumeSkillsMarkup(item) {
-  return resumeCardMarkup({
-    eyebrow: `${item.period} · ${item.eyebrow}`,
-    title: 'Skills',
-    role: `${item.title} · ${item.role}`,
-    text: 'Skills explicitly reflected in this role’s responsibilities and achievements.',
-    chips: item.skills
-  });
+  return `
+    <p class="resume-eyebrow">${item.period} · ${item.eyebrow}</p>
+    <h1>Skills</h1>
+    <h2>${item.title} · ${resumeRoleMarkup(item)}</h2>
+    <p class="resume-description">Skills explicitly reflected in this role’s responsibilities and achievements.</p>
+    ${resumeGroupedSkillsMarkup(item.skills)}
+  `;
 }
 
 function renderActiveResumeCard() {
+  hideResumeSkillPopover(true);
   const item = resumeExperience[resumeYearIndex];
   resumeCard.innerHTML = activeResumeTab === 'skills'
     ? resumeSkillsMarkup(item)
@@ -497,7 +727,7 @@ function openResumeModal() {
       ${resumeDetailListMarkup(item.responsibilities)}
     </section>
     <section>
-      <h3>Achievements</h3>
+      <h3>${item.achievementsLabel || 'Achievements'}</h3>
       ${resumeDetailListMarkup(item.achievements)}
     </section>
   `;
@@ -574,8 +804,21 @@ function closeResumeSeriesPanelForYear(yearIndex) {
   }
 }
 
+function flashTeamBadgeIfCrossingTeams(previousIndex, nextIndex) {
+  if (previousIndex === nextIndex) return;
+  const previousItem = resumeExperience[previousIndex];
+  const nextItem = resumeExperience[nextIndex];
+  if (!previousItem?.team || !nextItem?.team) return;
+  const badge = resumeCard.querySelector('.resume-team-badge');
+  if (!badge) return;
+  badge.classList.remove('resume-team-badge-flash');
+  void badge.offsetWidth;
+  badge.classList.add('resume-team-badge-flash');
+}
+
 function selectResumeYear(index) {
   closeResumeModal();
+  const previousIndex = resumeYearIndex;
   const nextIndex = Math.max(0, Math.min(resumeExperience.length - 1, index));
   if (nextIndex !== resumeYearIndex) {
     closeResumeSeriesPanelForYear(resumeYearIndex);
@@ -584,6 +827,7 @@ function selectResumeYear(index) {
   renderResumeYears();
   renderActiveResumeCard();
   renderResumeProjects();
+  flashTeamBadgeIfCrossingTeams(previousIndex, nextIndex);
   syncResumeHash();
 }
 
@@ -714,6 +958,7 @@ function createHybridWheelHandler({
 
 function selectResumeYearDuringWheel(index) {
   closeResumeModal();
+  const previousIndex = resumeYearIndex;
   const nextIndex = Math.max(0, Math.min(resumeExperience.length - 1, index));
   const didChange = nextIndex !== resumeYearIndex;
   if (nextIndex !== resumeYearIndex) {
@@ -727,6 +972,7 @@ function selectResumeYearDuringWheel(index) {
   });
   renderActiveResumeCard();
   renderResumeProjects();
+  flashTeamBadgeIfCrossingTeams(previousIndex, nextIndex);
   if (didChange) playPickerFeedback();
 }
 
@@ -972,13 +1218,45 @@ setupTouchYearPicker();
 setupTouchProjectPicker();
 
 resumeTabs.forEach(tab => tab.addEventListener('click', () => selectResumeTab(tab.dataset.resumeTab)));
+resumeCard.addEventListener('pointerover', event => {
+  const chip = event.target.closest('[data-resume-skill]');
+  if (!chip || chip === activeResumeSkillChip) return;
+  clearTimeout(resumeSkillPopoverTimer);
+  clearTimeout(resumeSkillPopoverHoverTimer);
+  resumeSkillPopoverHoverTimer = window.setTimeout(() => showResumeSkillPopover(chip), 300);
+});
+resumeCard.addEventListener('pointerout', event => {
+  const chip = event.target.closest('[data-resume-skill]');
+  if (!chip || chip.contains(event.relatedTarget)) return;
+  clearTimeout(resumeSkillPopoverHoverTimer);
+  hideResumeSkillPopover(true);
+});
+resumeCard.addEventListener('focusin', event => {
+  const chip = event.target.closest('[data-resume-skill]');
+  if (chip) showResumeSkillPopover(chip);
+});
+resumeCard.addEventListener('focusout', event => {
+  if (resumeSkillPopoverPinned || resumeSkillPopover.contains(event.relatedTarget)) return;
+  scheduleResumeSkillPopoverHide();
+});
 resumeCard.addEventListener('click', event => {
+  const skillChip = event.target.closest('[data-resume-skill]');
+  if (skillChip) {
+    clearTimeout(resumeSkillPopoverHoverTimer);
+    if (resumeSkillPopover.hidden || activeResumeSkillChip !== skillChip) showResumeSkillPopover(skillChip);
+    return;
+  }
   if (event.target.closest('.resume-more-skills')) {
     selectResumeTab('skills');
     return;
   }
   if (event.target.closest('.resume-see-more')) openResumeModal();
 });
+document.addEventListener('keydown', event => {
+  if (event.key === 'Escape' && !resumeSkillPopover.hidden) hideResumeSkillPopover(true);
+});
+window.addEventListener('resize', () => positionResumeSkillPopover(activeResumeSkillChip));
+window.addEventListener('scroll', () => positionResumeSkillPopover(activeResumeSkillChip), true);
 resumeModalClose.addEventListener('click', closeResumeModal);
 resumeModal.addEventListener('click', event => {
   if (event.target === resumeModal) closeResumeModal();

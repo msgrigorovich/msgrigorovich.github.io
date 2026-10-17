@@ -2406,19 +2406,6 @@ function showQalabTourStep(initial = false) {
   }
 }
 
-function openQalabPanel(which) {
-  clearTimeout(qalabTourTimer);
-  qalabTour.hidden = true;
-  qalabTourIndex = -1;
-  const rationaleStep = which === 'rationale';
-  const simulationStep = which === 'simulation';
-  qalabRationale.hidden = !rationaleStep;
-  qalabSimulation.hidden = !simulationStep;
-  positionQalabOverlayPanels();
-  if (rationaleStep) { qalabRationale.classList.add('is-entering'); selectQalabRationale(0); }
-  if (simulationStep) { qalabSimulation.classList.add('is-entering'); resetQalabSimulation(); }
-}
-
 function closeQalabPanels() {
   if (!qalabTour.hidden) { endQalabTour(true); return; }
   qalabRationale.hidden = true;

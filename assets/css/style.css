@@ -553,6 +553,10 @@ body.contact-credit-open .cursor-trail {
   .contact-credit-modal::backdrop {
     animation-duration: 0.01ms;
   }
+
+  .resume-team-badge-flash {
+    animation: none;
+  }
 }
 
 /* qalab – QA case study 02 */
@@ -916,10 +920,6 @@ body.contact-credit-open .cursor-trail {
 .qalab-rationale-scenes > article.active { visibility:visible; opacity:1; transform:none; transition-delay:0s; }
 .qalab-rationale-scenes article > p { max-width:58rem; margin:0 auto; font-size:.78rem; line-height:1.55; text-align:center; color:rgba(17,17,17,.72); }
 
-@keyframes qalab-rationale-card { from { opacity:0; transform:translateY(.7rem) scale(.96); } to { opacity:1; transform:none; } }
-
-@keyframes qalab-principle-in { from { opacity:0; filter:blur(5px); } to { opacity:1; filter:none; } }
-
 .qalab-rationale > footer { display:grid; grid-template-columns:auto 1fr; gap:1rem; align-items:center; font:.75rem 'Source Code Pro',monospace; }
 .qalab-rationale > footer > i { height:.2rem; overflow:hidden; border-radius:99px; background:rgba(17,17,17,.12); }
 .qalab-rationale > footer b { display:block; width:25%; height:100%; border-radius:inherit; background:#7db58a; transition:width .6s ease; }
@@ -968,10 +968,6 @@ body.contact-credit-open .cursor-trail {
 .qalab-world-hud > p b { font-size:.53rem; }
 .qalab-simulation.is-hot .qalab-world-hud header b { color:#ef958a; }
 .qalab-simulation.is-hot .qalab-world-hud button { background:#d9776b; }
-
-@keyframes qalab-bubble { to { transform:translateY(-3.2rem) scale(.5); opacity:0; } }
-
-@keyframes qalab-chamber-particle { 50% { transform:translate(.7rem,-2rem) scale(.65); } }
 
 .qalab-sim-controls { display:grid; grid-template-columns:repeat(3,1fr); gap:.65rem; }
 .qalab-sim-controls article { display:grid; gap:.18rem; padding:.65rem; border:1px solid rgba(17,17,17,.13); border-radius:.55rem; }
@@ -1606,7 +1602,8 @@ html {
   position: absolute;
   z-index: 4;
   top: 50%;
-  right: calc(100% + 1rem);
+  right: auto;
+  left: calc(100% + 1rem);
   width: min(19rem, 34vw);
   max-height: 21rem;
   transform: translateY(-50%);
@@ -1823,6 +1820,47 @@ html {
   font-weight: 500;
 }
 
+.resume-team-badge {
+  display: inline-block;
+  margin-right: 0.5rem;
+  padding: 0.08rem 0.6rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.55);
+  color: #2c5a7c;
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  transform-origin: center;
+}
+
+.resume-team-badge-flash {
+  animation: resume-team-badge-flash 1s ease-in-out;
+}
+
+@keyframes resume-team-badge-flash {
+  0%,
+  100% {
+    background: rgba(255, 255, 255, 0.55);
+    box-shadow: 0 0 0 0 rgba(44, 90, 124, 0);
+    transform: scale(1);
+  }
+  25% {
+    background: #fff;
+    box-shadow: 0 0 0 0.5rem rgba(44, 90, 124, 0.3);
+    transform: scale(1.14);
+  }
+  50% {
+    background: rgba(255, 255, 255, 0.78);
+    box-shadow: 0 0 0 0.15rem rgba(44, 90, 124, 0.12);
+    transform: scale(1.02);
+  }
+  75% {
+    background: #fff;
+    box-shadow: 0 0 0 0.5rem rgba(44, 90, 124, 0.26);
+    transform: scale(1.12);
+  }
+}
+
 .resume-description {
   max-width: 40rem;
   font-size: 0.8rem;
@@ -1837,10 +1875,13 @@ html {
 }
 
 .resume-see-more {
-  display: inline-flex;
+  display: flex;
   align-items: center;
   gap: 0.45rem;
   margin-top: 1.35rem;
+  margin-right: max(1.5cm, calc(100% - 40rem + 1.5cm));
+  margin-left: auto;
+  width: max-content;
   border: 0;
   border-bottom: 1px solid #111;
   padding: 0.25rem 0;
@@ -1994,6 +2035,142 @@ body.resume-modal-open {
 
 .resume-chip {
   padding: 0.45rem 0.65rem;
+}
+
+.resume-skill-chip {
+  font-family: inherit;
+  cursor: pointer;
+  transition: border-color .18s ease, background-color .18s ease, color .18s ease, transform .18s ease;
+}
+
+.resume-skill-chip:hover,
+.resume-skill-chip:focus-visible,
+.resume-skill-chip[aria-expanded="true"] {
+  border-color: #2c5a7c;
+  background: rgba(255, 255, 255, .58);
+  color: #173d59;
+  transform: translateY(-1px);
+}
+
+.resume-skill-chip:focus-visible {
+  outline: 2px solid rgba(44, 90, 124, .28);
+  outline-offset: 2px;
+}
+
+.resume-skill-groups {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: .75rem 1rem;
+  margin-top: .9rem;
+}
+
+.resume-skill-group {
+  min-width: 0;
+  padding-top: .55rem;
+  border-top: 1px solid rgba(17, 17, 17, .14);
+}
+
+.resume-skill-group > p {
+  display: flex;
+  align-items: baseline;
+  gap: .45rem;
+  margin: 0;
+  font: 600 .58rem/1.35 'Source Code Pro', monospace;
+  letter-spacing: .035em;
+}
+
+.resume-skill-group > p small {
+  color: #2c5a7c;
+  font-size: .48rem;
+  opacity: .72;
+}
+
+.resume-skill-group .resume-chips {
+  gap: .35rem;
+  margin-top: .5rem;
+}
+
+.resume-skill-group .resume-chip {
+  padding: .34rem .52rem;
+  font-size: .62rem;
+}
+
+.resume-skill-popover {
+  position: fixed;
+  z-index: 120;
+  box-sizing: border-box;
+  width: min(20rem, calc(100vw - 1.5rem));
+  padding: .85rem;
+  border: 1px solid rgba(17, 17, 17, .2);
+  border-radius: .85rem;
+  background: rgba(247, 243, 233, .98);
+  color: #111;
+  box-shadow: 0 1rem 2.8rem rgba(32, 41, 48, .2);
+  backdrop-filter: blur(8px);
+  animation: resume-skill-popover-in .18s cubic-bezier(.22, 1, .36, 1) both;
+}
+
+.resume-skill-popover[hidden] { display: none; }
+
+@keyframes resume-skill-popover-in {
+  from { opacity: 0; transform: translateY(.25rem) scale(.99); }
+  to { opacity: 1; transform: none; }
+}
+
+.resume-skill-popover > p {
+  margin: 0 0 .25rem;
+  color: #2c5a7c;
+  font: 700 .5rem 'Source Code Pro', monospace;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+
+.resume-skill-popover h3 {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.resume-skill-popover > span {
+  display: block;
+  margin-top: .35rem;
+  font-size: .68rem;
+  line-height: 1.45;
+  opacity: .66;
+}
+
+.resume-skill-popover > div {
+  display: grid;
+  gap: .35rem;
+  margin-top: .7rem;
+}
+
+.resume-skill-popover a {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: .12rem .6rem;
+  align-items: center;
+  padding: .55rem .65rem;
+  border: 1px solid rgba(17, 17, 17, .13);
+  border-radius: .55rem;
+  background: rgba(255, 255, 255, .34);
+  color: #111;
+  text-decoration: none;
+  transition: border-color .18s ease, background-color .18s ease;
+}
+
+.resume-skill-popover a:hover,
+.resume-skill-popover a:focus-visible {
+  border-color: rgba(44, 90, 124, .52);
+  background: rgba(255, 255, 255, .72);
+}
+
+.resume-skill-popover a b { font-size: .68rem; }
+.resume-skill-popover a small { grid-column: 1; font-size: .55rem; opacity: .58; }
+.resume-skill-popover a i { grid-column: 2; grid-row: 1 / 3; font-style: normal; }
+
+@media (max-width: 760px) {
+  .resume-skill-groups { grid-template-columns: 1fr; gap: .55rem; }
+  .resume-skill-popover { padding: .75rem; }
 }
 
 .resume-more-skills {
