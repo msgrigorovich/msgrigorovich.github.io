@@ -5,7 +5,16 @@ import { fileURLToPath } from 'node:url';
 
 const root = new URL('../', import.meta.url);
 const rootPath = fileURLToPath(root);
-const pages = ['index.html', 'projects.html', 'resume.html', 'contact.html'];
+const pages = [
+  'index.html',
+  'projects.html',
+  'resume.html',
+  'contact.html',
+  'projects/index.html',
+  'projects/qalab/index.html',
+  'projects/testing-scope-framework/index.html',
+  'projects/analytical-driven-qa/index.html'
+];
 const scripts = [
   'assets/js/main.js',
   'assets/js/projects.js',

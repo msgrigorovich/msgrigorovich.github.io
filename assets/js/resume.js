@@ -355,17 +355,17 @@ const resumeQaProjects = {
   qalab: {
     title: 'qalab',
     meta: 'Automation · telemetry · Unreal Engine',
-    href: '/projects.html#qa/qalab/case'
+    href: '/projects/qalab/'
   },
   scope: {
     title: 'Testing Scope Framework',
     meta: 'Test strategy · risk · documentation',
-    href: '/projects.html#qa/scope/case'
+    href: '/projects/testing-scope-framework/'
   },
   sql: {
     title: 'Analytical-driven QA',
     meta: 'SQL · ClickHouse · product evidence',
-    href: '/projects.html#qa/sql/case'
+    href: '/projects/analytical-driven-qa/'
   }
 };
 

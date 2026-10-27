@@ -3110,6 +3110,14 @@ scopeModal.addEventListener('close', () => {
 let applyingProjectsHash = false;
 const portraitSlugs = portraits.map(portrait => portrait.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, ''));
 const scopeScreenSlugs = scopeScreenNames.map(name => name.toLowerCase());
+const qaPublicRoutes = {
+  qalab: { path: '/projects/qalab/', defaultSection: 'automation' },
+  scope: { path: '/projects/testing-scope-framework/', defaultSection: 'question' },
+  sql: { path: '/projects/analytical-driven-qa/', defaultSection: 'events' }
+};
+const qaProjectsByPublicPath = Object.fromEntries(
+  Object.entries(qaPublicRoutes).map(([project, route]) => [route.path.replace(/\/$/, ''), project])
+);
 const qaScenarioSlugs = {
   events: 'events', ab: 'ab', adActivity: 'ad-activity', adOutcomes: 'ad-outcomes',
   networkUser: 'network-user', networkAggregate: 'network-aggregate',
@@ -3143,24 +3151,47 @@ function currentProjectsHash() {
   return `#${parts.join('/')}`;
 }
 
-function syncProjectsHash() {
-  if (applyingProjectsHash) return;
-  const hash = currentProjectsHash();
-  if (location.hash !== hash) history.replaceState(null, '', hash);
+function currentProjectsUrl() {
+  if (!qaProjectView.hidden) {
+    const projectHasOpenCase = selectedQaProject === 'qalab'
+      ? qalabModal.open
+      : selectedQaProject === 'scope'
+        ? scopeModal.open
+        : qaCaseModal.open;
+    if (projectHasOpenCase) {
+      const route = qaPublicRoutes[selectedQaProject];
+      const legacyParts = currentProjectsHash().replace(/^#qa\/[^/]+\/case\/?/, '');
+      const section = legacyParts && legacyParts !== currentProjectsHash() ? legacyParts : route.defaultSection;
+      return `${route.path}#${section}`;
+    }
+  }
+  return `/projects${currentProjectsHash()}`;
 }
 
-function applyProjectsHash(hash) {
+function syncProjectsHash(replace = false) {
+  if (applyingProjectsHash) return;
+  const url = currentProjectsUrl();
+  const current = `${location.pathname}${location.search}${location.hash}`;
+  if (current === url) return;
+  history[replace ? 'replaceState' : 'pushState'](null, '', url);
+}
+
+function applyProjectsHash(hash, replace = true) {
   const segments = (hash || '').replace(/^#/, '').split('/').filter(Boolean);
   applyingProjectsHash = true;
   try {
     const [root, second, third, fourth] = segments;
     if (root === 'qa') {
       const project = ['qalab', 'scope', 'sql'].includes(second) ? second : 'qalab';
+      const wantsCase = third === 'case';
+      if (!wantsCase || project !== 'qalab') closeQalabCaseStudy();
+      if (!wantsCase || project !== 'scope') closeScopeCaseStudy();
+      if (!wantsCase || project !== 'sql') closeQaCaseStudy();
       setProjectCategory('qa', true);
       selectQaProject(project);
-      if (third === 'case') {
+      if (wantsCase) {
         if (project === 'qalab') {
-          openQalabCaseStudy(Boolean(fourth));
+          if (!qalabModal.open) openQalabCaseStudy(Boolean(fourth));
           if (fourth === 'rationale' || fourth === 'simulation') {
             clearTimeout(qalabTourTimer);
             const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -3169,16 +3200,19 @@ function applyProjectsHash(hash) {
             selectQalabLayer(fourth);
           }
         } else if (project === 'scope') {
-          openScopeCaseStudy();
+          if (!scopeModal.open) openScopeCaseStudy();
           const screenIndex = fourth ? scopeScreenSlugs.indexOf(fourth) : 0;
-          if (screenIndex > 0) showScopeScreen(screenIndex);
+          showScopeScreen(screenIndex >= 0 ? screenIndex : 0);
         } else {
-          openQaCaseStudy(Boolean(fourth));
+          if (!qaCaseModal.open) openQaCaseStudy(Boolean(fourth));
           const scenarioKey = fourth && qaScenarioKeysBySlug[fourth];
           if (scenarioKey) selectQaScenario(scenarioKey);
         }
       }
     } else {
+      closeQalabCaseStudy();
+      closeScopeCaseStudy();
+      closeQaCaseStudy();
       setProjectCategory('art', true);
       const portraitIndex = second ? portraitSlugs.indexOf(second) : 0;
       if (portraitIndex >= 0) selectPortrait(portraitIndex);
@@ -3187,14 +3221,42 @@ function applyProjectsHash(hash) {
   } finally {
     applyingProjectsHash = false;
   }
-  syncProjectsHash();
+  syncProjectsHash(replace);
+}
+
+function publicProjectRoute(pathname = location.pathname) {
+  const normalized = pathname.replace(/\/index\.html$/, '').replace(/\/$/, '') || '/';
+  const project = qaProjectsByPublicPath[normalized];
+  if (!project) return null;
+  const rawSection = location.hash.replace(/^#/, '');
+  const section = rawSection && !rawSection.startsWith('qa/')
+    ? rawSection
+    : qaPublicRoutes[project].defaultSection;
+  return { project, section };
+}
+
+function applyProjectsLocation(replace = true) {
+  const publicRoute = publicProjectRoute();
+  if (publicRoute) {
+    applyProjectsHash(`#qa/${publicRoute.project}/case/${publicRoute.section}`, replace);
+  } else {
+    applyProjectsHash(location.hash, replace);
+  }
 }
 
 const initialProjectsHash = location.hash;
+const initialPublicProjectRoute = publicProjectRoute();
+applyingProjectsHash = true;
 setLensSize(lensSize);
 setLensZoom(lensZoom);
 selectPortrait(0);
 schedulePortraitWarmup();
 scheduleQalabAssetWarmup();
-applyProjectsHash(initialProjectsHash);
-window.addEventListener('hashchange', () => applyProjectsHash(location.hash));
+applyingProjectsHash = false;
+if (initialPublicProjectRoute) {
+  applyProjectsHash(`#qa/${initialPublicProjectRoute.project}/case/${initialPublicProjectRoute.section}`, true);
+} else {
+  applyProjectsHash(initialProjectsHash, true);
+}
+window.addEventListener('popstate', () => applyProjectsLocation(true));
+window.addEventListener('hashchange', () => applyProjectsLocation(true));

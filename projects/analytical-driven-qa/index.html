@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Analytical-driven QA – From Action to Evidence | Diana Grigorovich</title>
+  <!-- project-sharing-meta:start -->
+  <meta name="description" content="A practical ClickHouse and SQL case study for validating product analytics, event sequences and behavioral evidence in mobile games.">
+  <link rel="canonical" href="https://dianagrigorovich.com/projects/analytical-driven-qa/">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Diana Grigorovich">
+  <meta property="og:title" content="Analytical-driven QA – From Action to Evidence | Diana Grigorovich">
+  <meta property="og:description" content="A practical ClickHouse and SQL case study for validating product analytics, event sequences and behavioral evidence in mobile games.">
+  <meta property="og:url" content="https://dianagrigorovich.com/projects/analytical-driven-qa/">
+  <meta property="og:image" content="https://dianagrigorovich.com/assets/images/og/analytical-driven-qa.jpg">
+  <meta property="og:image:secure_url" content="https://dianagrigorovich.com/assets/images/og/analytical-driven-qa.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Analytical-driven QA case study cover">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Analytical-driven QA – From Action to Evidence | Diana Grigorovich">
+  <meta name="twitter:description" content="A practical ClickHouse and SQL case study for validating product analytics, event sequences and behavioral evidence in mobile games.">
+  <meta name="twitter:image" content="https://dianagrigorovich.com/assets/images/og/analytical-driven-qa.jpg">
+  <!-- project-sharing-meta:end -->
+  <link rel="icon" href="/favicon.png" type="image/png">
+  <link rel="preload" as="image" href="/assets/images/portraits/albert-einstein-2015.webp" fetchpriority="high">
+  <link rel="stylesheet" href="/assets/css/style.min.css?v=982a67f5a5" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Source+Code+Pro&display=swap" rel="stylesheet">
+
+</head>
+<body class="projects-page">
+  <header>
+    <a href="/" class="logo">
+      <span class="dot"></span>
+      <strong>Diana Grigorovich</strong>
+    </a>
+    <nav class="top-nav">
+      <a href="resume">Resume</a>
+      <span class="divider"></span>
+      <a href="projects">Projects</a>
+      <span class="divider"></span>
+      <a href="contact">Contact</a>
+    </nav>
+  </header>
+
+  <main class="projects-main">
+    <div class="circle projects" aria-current="page">Projects</div>
+
+    <section class="portfolio-build" data-progress-mode="compact" aria-label="Portfolio build progress">
+      <div class="portfolio-build-row">
+        <span>Portfolio build</span>
+        <span class="progress-percentage">0.00%</span>
+      </div>
+      <div class="progress-bar-container" aria-hidden="true">
+        <div class="progress-bar-fill"></div>
+      </div>
+      <p class="portfolio-build-days"></p>
+    </section>
+
+    <section class="projects-gallery" aria-label="Portrait projects">
+      <div class="projects-intro">
+        <p class="projects-kicker">Selected work · 2015 – 2022</p>
+        <h1><span>The Art of</span><span>Grayness</span></h1>
+        <div class="projects-filters" aria-label="Project categories">
+          <button type="button" class="projects-filter active" data-project-filter="art" aria-pressed="true">Art</button>
+          <button type="button" class="projects-filter" data-project-filter="qa" aria-pressed="false">QA</button>
+          <button type="button" class="projects-filter" disabled>Games <span>In development</span></button>
+          <button type="button" class="projects-filter" disabled>Cinematic Arts <span>In development</span></button>
+        </div>
+        <p class="projects-note">The first things I ever made seriously were graphite portraits. This section begins there.</p>
+        <a class="qa-repository-link" href="https://github.com/msgrigorovich/Art#----art" target="_blank" rel="noreferrer">
+          <img src="/github_icon.png" width="512" height="512" alt="" class="qa-repository-icon"><span>View repository</span><span aria-hidden="true">↗</span>
+        </a>
+      </div>
+
+      <div class="portrait-stage">
+        <div class="portrait-paper" id="portraitViewer">
+          <img id="portraitMainImage" src="/assets/images/portraits/albert-einstein-2015.webp" width="1086" height="1448" alt="Graphite portrait of Albert Einstein" draggable="false" decoding="async" fetchpriority="high">
+          <div class="portrait-lens" id="portraitLens" aria-hidden="true"></div>
+          <button type="button" class="portrait-open" id="portraitOpen" aria-label="Open Albert Einstein portrait in full view">
+            <span>Open full</span><span aria-hidden="true">↗</span>
+          </button>
+        </div>
+        <div class="portrait-caption" aria-live="polite">
+          <h2 id="portraitTitle">Albert Einstein</h2>
+          <span id="portraitYear">2015</span>
+        </div>
+      </div>
+
+      <aside class="portrait-archive" aria-label="Portrait archive">
+        <p>Archive · 04</p>
+        <div class="portrait-thumbs">
+          <button type="button" class="portrait-thumb active" data-portrait-index="0" aria-label="Show Albert Einstein, 2015">
+            <img src="/assets/images/portraits/thumbs/albert-einstein-2015.webp" width="255" height="340" alt="" draggable="false" decoding="async"><span>01</span>
+          </button>
+          <button type="button" class="portrait-thumb" data-portrait-index="1" aria-label="Show Robert Pattinson, 2016">
+            <img src="/assets/images/portraits/thumbs/robert-pattinson-2016.webp" width="260" height="325" alt="" draggable="false" decoding="async"><span>02</span>
+          </button>
+          <button type="button" class="portrait-thumb" data-portrait-index="2" aria-label="Show Colton Haynes, 2018">
+            <img src="/assets/images/portraits/thumbs/colton-haynes-2018.webp" width="260" height="325" alt="" draggable="false" decoding="async"><span>03</span>
+          </button>
+          <button type="button" class="portrait-thumb" data-portrait-index="3" aria-label="Show Daria Ivanova, 2022">
+            <img src="/assets/images/portraits/thumbs/daria-ivanova-2022.webp" width="260" height="325" alt="" draggable="false" decoding="async"><span>04</span>
+          </button>
+        </div>
+        <p class="portrait-archive-note">Graphite on paper<br>Selected portraits, 2015 – 2022</p>
+        <div class="portrait-magnifier-settings">
+          <p>Magnifier</p>
+          <label>
+            <span>Size</span>
+            <input id="portraitLensSize" type="range" min="120" max="220" value="170" step="5">
+            <output id="portraitLensSizeValue">170</output>
+          </label>
+          <label>
+            <span>Zoom</span>
+            <input id="portraitLensZoom" type="range" min="1.8" max="4" value="2.85" step="0.05">
+            <output id="portraitLensZoomValue">2.85×</output>
+          </label>
+          <p class="portrait-magnifier-hint">Wheel · zoom<br>Click / tap · size +10%</p>
+        </div>
+      </aside>
+    </section>
+
+    <section class="qa-project-view" id="qaProjectView" aria-label="QA analytics case study" hidden>
+      <div class="qa-project-intro">
+        <p class="projects-kicker" id="qaProjectKicker">QA case study · Unreal Engine</p>
+        <h1><span>The Art of</span><span>Quality</span></h1>
+        <div class="projects-filters" aria-label="Project categories">
+          <button type="button" class="projects-filter" data-project-filter="art" aria-pressed="false">Art</button>
+          <button type="button" class="projects-filter active" data-project-filter="qa" aria-pressed="true">QA</button>
+          <button type="button" class="projects-filter" disabled>Games <span>In development</span></button>
+          <button type="button" class="projects-filter" disabled>Cinematic Arts <span>In development</span></button>
+        </div>
+        <p class="projects-note" id="qaProjectNote">An analytical-chemistry mindset translated into data-driven QA: controlled conditions, repeatable validation, measurable evidence and preventive regression detection.</p>
+        <a class="qa-repository-link" id="qaProjectRepository" href="https://github.com/msgrigorovich/qalab#qalab" target="_blank" rel="noreferrer">
+          <img src="/github_icon.png" width="512" height="512" alt="" class="qa-repository-icon"><span>View repository</span><span aria-hidden="true">↗</span>
+        </a>
+      </div>
+
+      <div class="qa-project-stage">
+        <button class="qa-preview-card qalab-preview" id="qaCaseOpen" type="button" aria-label="Open qalab case study">
+          <span class="qa-preview-heading"><small>Chemistry · Quality · Analytics</small><strong>One system.<br>Five testing views.</strong></span>
+          <span class="qalab-preview-directions" aria-hidden="true"><i>Manual</i><i>Automated<br>Tests</i><i>Test<br>Stands</i><i>Analytics<br>Tests</i><i>Blueprint<br>Debug</i></span>
+          <span class="qa-preview-open"><span>Open full</span><span>↗</span></span>
+        </button>
+        <div class="qa-project-caption"><h2 id="qaProjectCaption">qalab · quality assurance lab</h2><span id="qaProjectYear">2026</span></div>
+      </div>
+
+      <aside class="qa-project-archive" aria-label="QA project archive">
+        <p>Projects · 04</p>
+        <div class="qa-project-thumbs">
+          <button type="button" class="qa-project-thumb qalab-thumb active" data-qa-project="qalab" aria-label="Select qalab preview" aria-pressed="true">
+            <span class="qa-project-thumb-art qalab-thumb-cover" aria-hidden="true"></span><b>01</b>
+          </button>
+          <button type="button" class="qa-project-thumb scope-thumb" data-qa-project="scope" aria-label="Select Testing Scope Framework preview" aria-pressed="false">
+            <span class="qa-project-thumb-art scope-thumb-cover" aria-hidden="true"><i>IMPACT</i><i>+</i><i>COMPLEXITY</i><strong>XS – XL</strong></span><b>02</b>
+          </button>
+          <button type="button" class="qa-project-thumb" data-qa-project="sql" aria-label="Select Analytics-driven QA preview" aria-pressed="false">
+            <span class="qa-project-thumb-art"><i>SELECT</i><i>FROM</i><i>WHERE</i></span><b>03</b>
+          </button>
+          <button type="button" class="qa-project-thumb placeholder" aria-label="QA project 04, in development" aria-disabled="true">
+            <span class="qa-project-thumb-art"><i>DOMINI</i><i>GAMES</i><i>2022</i></span><b>04</b><span class="qa-project-coming">In development</span>
+          </button>
+        </div>
+        <p class="qa-project-archive-note" id="qaProjectArchiveNote">Unreal Engine · C++ · Blueprints<br>Automation &amp; analytics, 2026</p>
+        <div class="qa-project-index" id="qaProjectIndex" aria-label="QA case study contents">
+          <p>Case contents</p>
+          <span><b>33</b> automated checks</span>
+          <span><b>03</b> QA evidence layers</span>
+          <span><b>01</b> shared gameplay API</span>
+        </div>
+      </aside>
+    </section>
+  </main>
+
+  <dialog class="scope-modal" id="scopeModal" aria-labelledby="scopeTitle">
+    <article class="scope-article">
+      <header class="scope-header">
+        <div><p>QA case study · 02</p><h2 id="scopeTitle">Testing Scope Framework</h2></div>
+        <nav aria-label="Article map"><button type="button" data-scope-jump="0">Question</button><i></i><button type="button" data-scope-jump="2">Assess</button><i></i><button type="button" data-scope-jump="3">Scope</button><i></i><button type="button" data-scope-jump="9">Framework</button><i></i><button type="button" data-scope-jump="11">Decide</button></nav>
+        <div class="scope-header-actions"><button type="button" id="scopeTourStart">Tour</button><button type="button" id="scopeClose" aria-label="Close Testing Scope Framework">×</button></div>
+      </header>
+      <div class="scope-tour" id="scopeTour" hidden>
+        <button type="button" class="scope-tour-shade" id="scopeTourExit" aria-label="Exit guided reading"></button>
+        <div class="scope-tour-focus" id="scopeTourFocus"></div>
+        <section class="scope-tour-panel" id="scopeTourPanel" role="dialog" aria-modal="true" aria-labelledby="scopeTourTitle">
+          <div><span id="scopeTourStep">01 / 12</span><i><b id="scopeTourProgress"></b></i></div><p>Guided reading</p><h3 id="scopeTourTitle">Begin with the real question</h3><p id="scopeTourText">A useful standard starts by asking how much evidence this particular change needs.</p><footer><button type="button" id="scopeTourSkip">Exit</button><span><button type="button" id="scopeTourBack">Back</button><button type="button" id="scopeTourNext">Next</button></span></footer>
+        </section>
+      </div>
+
+      <div class="scope-content-shell">
+        <nav class="scope-section-tabs" aria-label="Case study sections">
+          <button type="button" class="active" data-scope-side-jump="0"><small>01</small><span>Question</span></button>
+          <button type="button" data-scope-side-jump="1"><small>02</small><span>Context</span></button>
+          <button type="button" data-scope-side-jump="2"><small>03</small><span>Assess</span></button>
+          <button type="button" data-scope-side-jump="3"><small>04</small><span>Scope</span></button>
+          <button type="button" data-scope-side-jump="4"><small>05</small><span>Checklist</span></button>
+          <button type="button" data-scope-side-jump="5"><small>06</small><span>Inputs</span></button>
+          <button type="button" data-scope-side-jump="6"><small>07</small><span>Workflow</span></button>
+          <button type="button" data-scope-side-jump="7"><small>08</small><span>Evidence</span></button>
+          <button type="button" data-scope-side-jump="8"><small>09</small><span>Pitfalls</span></button>
+          <button type="button" data-scope-side-jump="9"><small>10</small><span>Framework</span></button>
+          <button type="button" data-scope-side-jump="10"><small>11</small><span>Artifact</span></button>
+          <button type="button" data-scope-side-jump="11"><small>12</small><span>Calibrate</span></button>
+        </nav>
+        <div class="scope-scroll">
+        <section class="scope-hero active" data-scope-screen="0">
+          <p class="scope-kicker">Risk-based test design · production practice</p>
+          <h3>Can we expect two independent QA engineers to complete the same task with the same result?</h3>
+          <p>Imagine two identical parallel universes with one exception: the QA engineer assigned to the task. How can we shape the QA process for an AAA system with a complex Core Gameplay structure so that we can expect the same result in both universes?</p>
+          <p class="scope-hero-question">My experience in AAA suggests that the individual specialist has too much influence on the outcome. So what can we do about it?</p>
+          <figure class="scope-universe-map is-unframed" id="scopeUniverseMap" aria-label="Two QA engineers approach the same task in parallel scenarios">
+            <div class="scope-universe-toggle" aria-label="Comparison mode"><button type="button" class="active" data-universe-mode="unframed">Without framework</button><button type="button" data-universe-mode="framed">With framework</button></div>
+            <div class="scope-shared-task"><small>Identical input</small><b>Same change request</b></div>
+            <div class="scope-universe-branches" aria-hidden="true"><i></i><i></i></div>
+            <div class="scope-universes">
+              <article><small>Universe A</small><span>QA A</span><b data-universe-path-a>Personal interpretation</b><em data-universe-result-a>Scope A</em></article>
+              <article><small>Universe B</small><span>QA B</span><b data-universe-path-b>Personal interpretation</b><em data-universe-result-b>Scope B</em></article>
+            </div>
+            <figcaption id="scopeUniverseCaption"><b>Same task. Different reasoning.</b><span>Experience and individual interpretation can produce two valid-looking but materially different test scopes.</span></figcaption>
+            <div class="scope-universe-note">
+              <p>Individuality is valuable – until it leads to a poor outcome.</p>
+              <p>Individuality can create frameworks like this. It can also create the reasons such frameworks are needed.</p>
+              <p>When we talk about quality, we mean bringing the expected and actual results into alignment. We cannot accept a situation in which we do not know what to expect.</p>
+            </div>
+          </figure>
+        </section>
+
+        <section class="scope-origin" data-scope-screen="1">
+          <p class="scope-kicker">The original problem</p>
+          <div class="scope-context-copy">
+            <h2>A universal AAA checklist does not exist.</h2>
+            <p>A check is not inherently mandatory or optional.</p>
+            <p class="scope-context-warning">This makes it important not to settle for the apparently safest conclusion: <b>test everything.</b> In an AAA environment, deciding what does <em>not</em> need to be tested is the hardes – and perhaps the most importan – question.</p>
+            <p class="scope-context-intro">This framework builds that decision around three parameters:</p>
+            <div class="scope-context-parameters">
+              <button type="button" class="active" data-context-parameter="depth"><small>01</small><b>Testing depth</b><span>How thoroughly should the changed behavior itself be examined?</span></button>
+              <button type="button" data-context-parameter="breadth"><small>02</small><b>Testing breadth</b><span>How far should regression expand across connected systems?</span></button>
+              <button type="button" data-context-parameter="distrust"><small>03 · expert layer</small><b>Distrust in the logic</b><span>Where does an experienced QA engineer believe the calculated minimum is insufficient?</span></button>
+            </div>
+            <div class="scope-context-detail" id="scopeContextDetail"><b>Depth defines vertical coverage.</b><p>It determines how many rules, states, boundaries, combinations and failure paths must be investigated inside the changed functionality.</p></div>
+            <p class="scope-context-principle"><b>Distrust is the space for individuality and QA expertise.</b> It is always applied on top of the depth and breadth calculation – and it remains visible, explainable and open to discussion.</p>
+          </div>
+          <figure class="scope-boundary-map is-everything" id="scopeBoundaryMap" aria-label="Comparison between testing everything and a justified testing scope">
+            <div class="scope-boundary-toggle"><button type="button" class="active" data-boundary-mode="everything">Test everything</button><button type="button" data-boundary-mode="justified">Justified scope</button></div>
+            <div class="scope-boundary-rings" aria-hidden="true">
+              <span class="scope-boundary-ring ring-product"><b>Full product</b></span>
+              <span class="scope-boundary-ring ring-systems"><b>Connected systems</b></span>
+              <span class="scope-boundary-ring ring-feature"><b>Feature boundaries</b></span>
+              <span class="scope-boundary-ring ring-change"><b>Changed behavior</b></span>
+              <i class="scope-boundary-expert">Expert override</i>
+            </div>
+            <figcaption id="scopeBoundaryCaption"><b>Maximum coverage is not automatically maximum quality.</b><span>When every layer is treated as equally necessary, scope becomes expensive but the reasoning behind it remains invisible.</span></figcaption>
+            <p>The framework helps explain what does not need to be tested – and why.</p>
+          </figure>
+          <div class="scope-context-help" aria-label="Background notes">
+            <button type="button" aria-describedby="scopeOriginTip">?</button><span id="scopeOriginTip"><b>Where did the idea come from?</b>The initial question grew from my work at Strikerz on UFL, specifically within Core Gameplay QA.</span>
+            <button type="button" aria-describedby="scopeIndependenceTip">!</button><span id="scopeIndependenceTip"><b>Independent public work</b>The framework was substantially redesigned and discloses no internal data, processes or implementation details.</span>
+          </div>
+        </section>
+
+        <section class="scope-calculator" id="scopeCalculator" data-scope-screen="2">
+          <header><div><p class="scope-kicker">Interactive model</p><h3>Estimate the minimum test scope</h3></div><p>Choose what the change can affect and how difficult it is to implement safely.</p></header>
+          <div class="scope-axis-rationale"><article><span>01</span><div><b>Impact measures consequence.</b><p>Player exposure, affected systems, persistence, business risk and the cost of an unnoticed failure. It answers how far regression can travel.</p></div></article><article><span>02</span><div><b>Complexity measures uncertainty.</b><p>Rules, states, branches, dependencies, timing and technical novelty. It answers how many ways the implementation can behave unexpectedly.</p></div></article><p><b>Why 60 / 40?</b> Impact is weighted higher because testing scope should primarily protect the product from consequences. Complexity increases uncertainty, but difficult code with a tiny blast radius should not automatically receive release-wide regression.</p></div>
+          <div class="scope-calc-grid">
+            <fieldset data-scope-axis="impact"><legend><b>01</b> Impact</legend><p>How widely can a failure affect the product or player?</p><div class="scope-options" role="radiogroup" aria-label="Impact"><button type="button" data-value="1">XS</button><button type="button" class="active" data-value="2">S</button><button type="button" data-value="3">M</button><button type="button" data-value="4">L</button><button type="button" data-value="5">XL</button></div></fieldset>
+            <div class="scope-formula" aria-hidden="true"><span>Impact</span><b>60%</b><i>+</i><span>Complexity</span><b>40%</b></div>
+            <fieldset data-scope-axis="complexity"><legend><b>02</b> Complexity</legend><p>How many rules, states, dependencies or technical risks change?</p><div class="scope-options" role="radiogroup" aria-label="Complexity"><button type="button" data-value="1">XS</button><button type="button" data-value="2">S</button><button type="button" class="active" data-value="3">M</button><button type="button" data-value="4">L</button><button type="button" data-value="5">XL</button></div></fieldset>
+            <article class="scope-result" aria-live="polite"><small>Recommended minimum</small><strong id="scopeResultLevel">M</strong><div><b id="scopeResultTitle">Deep Validation</b><p id="scopeResultText">Verify the complete mechanic as a system of calculations, states, transitions and dependencies.</p></div><span id="scopeResultMath">ceil(2 × .6 + 3 × .4) = 3</span></article>
+          </div>
+          <div class="scope-matrix-wrap">
+            <div><b>Recommendation matrix</b><span>Rows: development complexity · Columns: impact</span></div>
+            <table class="scope-matrix" aria-label="Testing scope recommendation matrix"><thead><tr><th class="scope-matrix-axes"><span>Impact</span><span>Complexity</span></th><th>XS</th><th>S</th><th>M</th><th>L</th><th>XL</th></tr></thead><tbody><tr><th>XS</th><td style="--heat:0" data-matrix-level="1">XS</td><td style="--heat:.15" data-matrix-level="2">S</td><td style="--heat:.30" data-matrix-level="3">M</td><td style="--heat:.45" data-matrix-level="3">M</td><td style="--heat:.60" data-matrix-level="4">L</td></tr><tr><th>S</th><td style="--heat:.10" data-matrix-level="2">S</td><td style="--heat:.25" data-matrix-level="2">S</td><td style="--heat:.40" data-matrix-level="3">M</td><td style="--heat:.55" data-matrix-level="4">L</td><td style="--heat:.70" data-matrix-level="4">L</td></tr><tr><th>M</th><td style="--heat:.20" data-matrix-level="2">S</td><td style="--heat:.35" data-matrix-level="3">M</td><td style="--heat:.50" data-matrix-level="3">M</td><td style="--heat:.65" data-matrix-level="4">L</td><td style="--heat:.80" data-matrix-level="5">XL</td></tr><tr><th>L</th><td style="--heat:.30" data-matrix-level="3">M</td><td style="--heat:.45" data-matrix-level="3">M</td><td style="--heat:.60" data-matrix-level="4">L</td><td style="--heat:.75" data-matrix-level="4">L</td><td style="--heat:.90" data-matrix-level="5">XL</td></tr><tr><th>XL</th><td style="--heat:.40" data-matrix-level="3">M</td><td style="--heat:.55" data-matrix-level="4">L</td><td style="--heat:.70" data-matrix-level="4">L</td><td style="--heat:.85" data-matrix-level="5">XL</td><td style="--heat:1" data-matrix-level="5">XL</td></tr></tbody></table>
+          </div>
+          <footer><b>The ceiling is deliberate:</b> an intermediate score is rounded upward because uncertainty should not reduce the minimum recommendation. The matrix starts a review; QA can raise the result when evidence or context requires it.</footer>
+        </section>
+
+        <section class="scope-levels" data-scope-screen="3">
+          <header><p class="scope-kicker">One change · five possible scopes</p><h3>What the recommendation changes</h3></header>
+          <div class="scope-level-tabs" role="tablist" aria-label="Testing levels"><button type="button" data-level="1">XS</button><button type="button" data-level="2">S</button><button type="button" class="active" data-level="3">M</button><button type="button" data-level="4">L</button><button type="button" data-level="5">XL</button></div>
+          <article class="scope-level-detail" id="scopeLevelDetail"><div><small>qalab example · level M</small><h4>Ratio-dependent safe temperature</h4><p>The safe temperature now depends on the AmountA/AmountB ratio, creating combinations and a dynamic boundary.</p></div><ol><li><b>Depth</b><span>Calculations, combinations, boundaries, states and data consistency</span></li><li><b>Breadth</b><span>The whole Reaction Experiment mechanic</span></li><li><b>Boundary</b><span>Testing does not expand beyond the mechanic</span></li></ol></article>
+        </section>
+
+        <section class="scope-checklist" data-scope-screen="4">
+          <header><div><p class="scope-kicker">Inherited verification</p><h3>What becomes required?</h3></div><p>Every level includes the required checks from the levels below it.</p></header>
+          <div class="scope-checklist-levels" aria-label="Checklist level"><button type="button" data-checklist-level="1">XS</button><button type="button" data-checklist-level="2">S</button><button type="button" class="active" data-checklist-level="3">M</button><button type="button" data-checklist-level="4">L</button><button type="button" data-checklist-level="5">XL</button></div>
+          <div class="scope-checklist-grid" id="scopeChecklistGrid"><span data-min-level="1">Requirement compliance</span><span data-min-level="1">Change point</span><span data-min-level="1">Positive scenarios</span><span data-min-level="2">Negative scenarios</span><span data-min-level="2">Boundary values</span><span data-min-level="3">State transitions</span><span data-min-level="3">Action combinations</span><span data-min-level="3">Formula checks</span><span data-min-level="3">Data consistency</span><span data-min-level="3">Mechanic end-to-end</span><span data-min-level="4">System interactions</span><span data-min-level="4">Local regression</span><span data-min-level="4">Adjacent regression</span><span data-min-level="5">Cross-domain regression</span><span data-min-level="5">Extreme conditions</span><span data-min-level="5">Performance</span><span data-min-level="5">Cross-team involvement</span></div>
+          <footer><span><i></i>Required</span><span><i></i>Outside minimum</span><b id="scopeChecklistSummary">10 of 17 check groups required at M</b></footer>
+        </section>
+
+        <section class="scope-inputs" data-scope-screen="5"><p class="scope-kicker">The critical validation</p><h3>A consistent formula can still produce a consistently wrong scope.</h3><div class="scope-input-flow"><article><small>01 · Task</small><b>What actually changes?</b><p>Goal, requirements, dependencies and credible failure modes.</p></article><i>→</i><article><small>02 · Assigned</small><b>Impact + Complexity</b><p>Values proposed by the development process.</p></article><i>→</i><article class="scope-input-gate"><small>03 · QA gate</small><b>Validate the inputs</b><p>QA checks that the assigned values actually hold up.</p></article><i>→</i><article><small>04 · Scope</small><b>Use the matrix</b><p>Only validated inputs produce a defensible minimum.</p></article></div><div class="scope-input-contrast"><span><b>Correct inputs</b> → Comparable scope</span><span><b>Incorrect inputs</b> → Consistently wrong scope</span></div><aside><b>Before scoring:</b><span>Is the goal current?</span><span>Does the PR match the task?</span><span>Are dependencies visible?</span><span>Are both values justified?</span></aside></section>
+
+        <section class="scope-applicability" data-scope-screen="6"><header><p class="scope-kicker">Scope and workflow</p><h3>One framework does not fit every delivery path.</h3></header><div class="scope-workflow-switch"><button type="button" class="active" data-workflow="base">Base workflow</button><button type="button" data-workflow="hot">Hot workflow</button></div><div class="scope-workflow-view" id="scopeWorkflowView"><div><span>New functionality</span><span>Bug fixes</span><span>Refactoring</span><span>Technical changes</span><span>R&amp;D hypotheses</span></div><article><small>Base workflow</small><h4>Understand → Validate → Calculate → Test → Finalize</h4><p>The framework applies when the team can validate inputs and build a reasoned minimum scope.</p></article></div><footer><b>Explicit exclusion:</b> emergency and hotfix branches require a separate faster process.</footer></section>
+
+        <section class="scope-evidence" data-scope-screen="7">
+          <header><div><p class="scope-kicker">Production evidence library</p><h3>A decision needs more than PASS</h3></div><p>Select a source to see what question it answers.</p></header>
+          <div class="scope-evidence-layout"><nav aria-label="Evidence sources"><button type="button" class="active" data-evidence="blueprints"><span>◇</span><b>Blueprints</b><small>Logic & state</small></button><button type="button" data-evidence="logs"><span>≡</span><b>Logs</b><small>Sequence & context</small></button><button type="button" data-evidence="insights"><span>⌁</span><b>Unreal Insights</b><small>Time & performance</small></button><button type="button" data-evidence="stands"><span>⌂</span><b>Test stands</b><small>Controlled runs</small></button><button type="button" data-evidence="telemetry"><span>⌁</span><b>Telemetry</b><small>Behavior at scale</small></button><button type="button" data-evidence="diff"><span>±</span><b>Diff</b><small>What changed</small></button></nav><article id="scopeEvidenceDetail" aria-live="polite"><small>01 · Logic & state</small><h4>Blueprints show what the feature can do.</h4><p>Inspect execution paths, state ownership and dependencies before deciding which conditions and transitions need direct validation.</p><div><b>Question</b><span>Which paths, states and connected systems can this change reach?</span></div><footer>Understand the implementation → map test conditions</footer></article></div>
+        </section>
+
+        <section class="scope-pitfalls" data-scope-screen="8"><header><p class="scope-kicker">Common failure modes</p><h3>Most failures begin before testing.</h3></header><div class="scope-pitfall-layout"><nav><button type="button" class="active" data-pitfall="goal">Vague or outdated goal</button><button type="button" data-pitfall="pr">Uninformative PR</button><button type="button" data-pitfall="values">Wrong or missing values</button><button type="button" data-pitfall="context">Context hidden in DMs</button><button type="button" data-pitfall="branch">Stale branch</button><button type="button" data-pitfall="environment">One environment only</button></nav><article id="scopePitfallDetail"><small>Input failure · goal</small><h4>The team cannot agree on success.</h4><p>If the intended result is vague or no longer relevant, neither the matrix nor a detailed checklist can make the conclusion reliable.</p><div><b>Before testing continues</b><span>Restate the current goal, expected behavior and acceptance boundary in the task.</span></div></article></div></section>
+        <section class="scope-live-framework" data-scope-screen="9"><header><div><p class="scope-kicker">The actual framework</p><h3>Use the model, not a reconstruction.</h3></div><p>This is the working self-contained tool from the public repository. Change its inputs and copy the resulting qalab checklist.</p><a href="https://github.com/msgrigorovich/TestingScopeFramework/blob/main/framework.html" target="_blank" rel="noopener noreferrer">View source ↗</a></header><div class="scope-framework-frame"><iframe src="assets/demos/testing-scope-framework.html" title="Interactive Testing Scope Framework" loading="lazy"></iframe></div></section>
+        <section class="scope-artifact" data-scope-screen="10"><header><div><p class="scope-kicker">The decision artifact</p><h3>A level is not the deliverable.</h3></div><p>Another engineer must understand what is included, excluded and still uncertain.</p></header><div class="scope-artifact-layout"><article><small>Recommended level</small><strong id="scopeArtifactLevel">M</strong><p id="scopeArtifactInputs">Impact S · Complexity M</p><span>Expert override: none</span></article><div><nav><button type="button" class="active" data-artifact-tab="summary">Readable summary</button><button type="button" data-artifact-tab="markup">Jira markup</button></nav><pre id="scopeArtifactOutput">INCLUDED&#10;✓ Complete mechanic&#10;✓ Boundaries and state transitions&#10;✓ Formula and data consistency&#10;&#10;EXCLUDED&#10; – Adjacent-system regression&#10; – Performance validation&#10;&#10;EVIDENCE&#10;Automated runs · Logs · Baseline comparison</pre></div></div></section>
+        <section class="scope-calibration" data-scope-screen="11"><p class="scope-kicker">Calibration, not dogma</p><h3>The values may be calibrated.<br>The reasoning must remain shared.</h3><div><article><small>01</small><b>Start with 60 / 40</b><p>Impact is weighted higher because consequence and regression breadth take priority over implementation difficulty.</p></article><article><small>02</small><b>Validate historically</b><p>Compare recommendations with escaped defects, over-testing costs and real tasks from the product.</p></article><article><small>03</small><b>Change as a team</b><p>Weights may evolve, but they cannot vary invisibly from one engineer or task to another.</p></article></div><aside><b>The framework standardizes the reasoning – not the person.</b><p>It establishes a minimum guaranteed level while keeping expert distrust visible and discussable.</p></aside></section>
+        </div>
+      </div>
+      <nav class="scope-screen-controls" aria-label="Article navigation"><span><b id="scopeScreenNumber">01</b> / 12</span><div><i id="scopeScreenName">Question</i><button type="button" id="scopeScreenBack">← Back</button><button type="button" id="scopeScreenNext">Next →</button></div></nav>
+      <footer class="scope-footer"><span>QA strategy · Unreal Engine · production-informed</span><div><span>Concept developed in 2025</span><a href="https://github.com/msgrigorovich/TestingScopeFramework#----testing-scope-framework" target="_blank" rel="noreferrer">Repository ↗</a></div></footer>
+    </article>
+    <div class="scope-side-rail">
+      <button type="button" id="scopeTourStartRail">Tour</button>
+    </div>
+  </dialog>
+
+  <dialog class="qa-case-modal" id="qaCaseModal" aria-labelledby="qaCaseTitle">
+    <article class="qa-case-card">
+      <header class="qa-case-header">
+        <div><p>QA case study · 03</p><h2 id="qaCaseTitle">Analytics-driven QA</h2></div>
+        <div class="qa-poster-guide" aria-label="Reading guide: question, method, evidence, decision">
+          <span>Reading guide</span><b>Question</b><i></i><b>Method</b><i></i><b>Evidence</b><i></i><b>Decision</b>
+        </div>
+        <button class="qa-tour-replay" id="qaTourReplay" type="button">Tour</button>
+        <button type="button" id="qaCaseClose" aria-label="Close QA case study">×</button>
+      </header>
+      <div class="qa-tour-layer" id="qaTourLayer" hidden aria-live="polite">
+        <div class="qa-tour-blocker" aria-hidden="true"></div>
+        <div class="qa-tour-focus" id="qaTourFocus" aria-hidden="true"></div>
+        <section class="qa-tour-panel" id="qaTourPanel" role="dialog" aria-modal="true" aria-labelledby="qaTourTitle">
+          <div class="qa-tour-progress"><span id="qaTourStep">01 / 05</span><i><b id="qaTourProgress"></b></i></div>
+          <p>Guided reading</p>
+          <h3 id="qaTourTitle">Start with the question</h3>
+          <div id="qaTourText">The interface shows an outcome. The funnel and telemetry show the evidence behind it.</div>
+          <footer>
+            <button type="button" id="qaTourSkip">Skip tour</button>
+            <span>
+              <button type="button" id="qaTourBack">Back</button>
+              <button type="button" id="qaTourNext">Next</button>
+            </span>
+          </footer>
+        </section>
+      </div>
+      <div class="qa-case-scroll">
+        <section class="qa-case-hero">
+          <div>
+            <p class="qa-case-kicker">The question</p>
+            <h3>How do you test what the interface cannot show?</h3>
+            <p>In a mobile game, a tap can trigger analytics, experiment assignment, advertising callbacks and cloud-save transitions. The UI shows the outcome; ClickHouse shows the evidence.</p>
+          </div>
+          <div class="qa-case-chart" aria-label="Synthetic advertising funnel example">
+            <p><span>Synthetic funnel</span><span>7 days</span></p>
+            <div><span>Start <b>4,293</b></span><i style="--qa-value: 100%"></i></div>
+            <div><span>Complete <b>4,064</b></span><i style="--qa-value: 94.7%"></i></div>
+            <div><span>Fail <b>3</b></span><i class="fail" style="--qa-value: 3%"></i></div>
+            <small>A failed ad event is an outcome signal – not automatically an ANR or crash.</small>
+          </div>
+        </section>
+
+        <section class="qa-case-method">
+          <p class="qa-case-kicker">The method</p>
+          <div class="qa-case-flow">
+            <span><b>01</b><strong>Action</strong><small>Reproduce a controlled test step</small></span>
+            <i>→</i>
+            <span><b>02</b><strong>Event</strong><small>Locate the emitted telemetry</small></span>
+            <i>→</i>
+            <span><b>03</b><strong>Query</strong><small>Check sequence and parameters</small></span>
+            <i>→</i>
+            <span><b>04</b><strong>Decision</strong><small>Confirm, investigate or prioritize</small></span>
+          </div>
+        </section>
+
+        <section class="qa-case-evidence">
+          <article class="qa-query-card" aria-live="polite">
+            <header class="qa-query-header">
+              <div><p id="qaQueryEyebrow">01 · Event trail</p><h2 id="qaQueryTitle">Rebuild a user session</h2></div>
+              <span class="qa-query-status"><i></i> Read only</span>
+            </header>
+            <p class="qa-query-description" id="qaQueryDescription">Trace ordered analytics events and inspect experiment context without touching production state.</p>
+            <div class="qa-query-insight">
+              <p>How to read this</p>
+              <div id="qaQueryInsight">This baseline trace reconstructs the session. Device-owned install and session rows can leave product fields empty, so they are filtered before event order is assessed.</div>
+              <small><b>Context</b> ClickHouse · OLAP · columnar</small>
+            </div>
+            <pre class="qa-query-code"><code id="qaQueryCode">SELECT
+    created_at,
+    activity_kind,
+    event_name,
+    JSONExtractString(base_parameters, 'ab_group') AS ab_group
+FROM analytics.realtime_events
+WHERE user_id = {user_id:String}
+  AND toDate(created_at) = today()
+  AND activity_kind NOT IN ('install', 'session')
+ORDER BY created_at DESC;</code></pre>
+            <section class="qa-guided-result" id="qaGuidedResult" hidden aria-live="polite">
+              <header><span>Query result</span><b>Fictional data</b></header>
+              <div class="qa-guided-result-table" id="qaGuidedResultTable"></div>
+              <p id="qaGuidedResultNote">These anonymized example values come from the source article and do not represent company data.</p>
+            </section>
+            <div class="qa-query-output" id="qaQueryOutput"><span><b>Signal</b> ordered event trail</span><span><b>Use</b> reproduce & verify</span><span><b>Guard</b> synthetic identifiers</span></div>
+          </article>
+          <div class="qa-case-section-heading">
+            <div><p class="qa-case-kicker">The evidence</p><h3>Some of the QA questions</h3></div>
+            <p>Choose a scenario to update the explanation, query and interpretation.</p>
+          </div>
+          <div class="qa-scenario-list" aria-label="SQL test scenarios">
+            <div class="qa-scenario-item"><button type="button" class="qa-scenario active" data-qa-scenario="events" aria-pressed="true"><span>01</span><strong>Event trail</strong><small>Session evidence</small></button><button class="qa-scenario-run" type="button" data-qa-tour-scenario="events" aria-label="Run Event trail guided case" title="Run guided case">▶</button></div>
+            <div class="qa-scenario-item"><button type="button" class="qa-scenario" data-qa-scenario="ab" aria-pressed="false"><span>02</span><strong>A/B split</strong><small>Assignment health</small></button><button class="qa-scenario-run" type="button" data-qa-tour-scenario="ab" aria-label="Run A/B split guided case" title="Run guided case">▶</button></div>
+            <div class="qa-scenario-item"><button type="button" class="qa-scenario" data-qa-scenario="adActivity" aria-pressed="false"><span>03</span><strong>Ad activity</strong><small>Logging compliance</small></button><button class="qa-scenario-run" type="button" data-qa-tour-scenario="adActivity" aria-label="Run Ad activity guided case" title="Run guided case">▶</button></div>
+            <div class="qa-scenario-item"><button type="button" class="qa-scenario" data-qa-scenario="adOutcomes" aria-pressed="false"><span>04</span><strong>Ad outcomes</strong><small>Fail frequency</small></button><button class="qa-scenario-run" type="button" data-qa-tour-scenario="adOutcomes" aria-label="Run Ad outcomes guided case" title="Run guided case">▶</button></div>
+            <div class="qa-scenario-item"><button type="button" class="qa-scenario" data-qa-scenario="networkUser" aria-pressed="false"><span>05</span><strong>Network trace</strong><small>User evidence</small></button><button class="qa-scenario-run" type="button" data-qa-tour-scenario="networkUser" aria-label="Run Network trace guided case" title="Run guided case">▶</button></div>
+            <div class="qa-scenario-item"><button type="button" class="qa-scenario" data-qa-scenario="networkAggregate" aria-pressed="false"><span>06</span><strong>Network volume</strong><small>Aggregate activity</small></button><button class="qa-scenario-run" type="button" data-qa-tour-scenario="networkAggregate" aria-label="Run Network volume guided case" title="Run guided case">▶</button></div>
+            <div class="qa-scenario-item"><button type="button" class="qa-scenario" data-qa-scenario="socialSaves" aria-pressed="false"><span>07</span><strong>Social save</strong><small>Stable identity</small></button><button class="qa-scenario-run" type="button" data-qa-tour-scenario="socialSaves" aria-label="Run Social save guided case" title="Run guided case">▶</button></div>
+            <div class="qa-scenario-item"><button type="button" class="qa-scenario" data-qa-scenario="stateAudit" aria-pressed="false"><span>08</span><strong>State audit</strong><small>Recovery timeline</small></button><button class="qa-scenario-run" type="button" data-qa-tour-scenario="stateAudit" aria-label="Run State audit guided case" title="Run guided case">▶</button></div>
+          </div>
+        </section>
+
+        <section class="qa-case-takeaways">
+          <p class="qa-case-kicker">Conclusion · decision</p>
+          <article class="qa-decision-card" aria-live="polite">
+            <span id="qaDecisionNumber">01</span>
+            <h3 id="qaDecisionTitle">The event sequence is the evidence</h3>
+            <p id="qaDecisionConclusion">The logging contract is healthy when the emitted order and parameters match the controlled actions performed on the device.</p>
+            <div><b>Decision</b><p id="qaDecisionAction">Confirm the scenario, or investigate the first missing, duplicated or malformed event.</p></div>
+          </article>
+          <div class="qa-article-conclusions">
+            <p>Article conclusions</p>
+            <ul>
+              <li>Use telemetry to verify what the interface cannot expose.</li>
+              <li>Interpret counts against an expected resul – not in isolation.</li>
+              <li>Keep diagnostics read-only; perform recovery only through approved tooling.</li>
+            </ul>
+          </div>
+        </section>
+      </div>
+      <footer class="qa-case-footer"><span>ClickHouse · SQL · Product analytics</span><a href="https://github.com/msgrigorovich/SQL#----qa-analyst" target="_blank" rel="noreferrer">Source repository ↗</a></footer>
+    </article>
+    <div class="qa-case-side-rail" id="qaCaseSideRail">
+      <button type="button" id="qaTourReplayRail">Tour</button>
+    </div>
+  </dialog>
+
+  <dialog class="qalab-modal" id="qalabModal" aria-labelledby="qalabTitle">
+    <article class="qalab-poster qalab-redesign">
+      <div class="qalab-ident" id="qalabIdent" hidden aria-label="qalab – quality assurance lab">
+        <i class="qalab-ident-cross l" aria-hidden="true"></i>
+        <i class="qalab-ident-cross r" aria-hidden="true"></i>
+        <div class="qalab-ident-orbits" aria-hidden="true"><i></i><i></i><i></i><b></b></div>
+        <div class="qalab-ident-mark" aria-hidden="true"><img src="/assets/images/qalab/qalab-ident.png" width="1031" height="399" alt=""></div>
+        <p>quality assurance lab</p>
+      </div>
+      <header class="qalab-header">
+        <div><p>QA case study · 01</p><h2 id="qalabTitle"><span class="qalab-mark">qalab</span><span class="qalab-title-expansion"> – <span class="qalab-mark">q</span>uality <span class="qalab-mark">a</span>ssurance <span class="qalab-mark">lab</span> for Preventive Regression Signaling</span></h2></div>
+        <div class="qalab-guide" aria-label="Reading guide"><span>Mechanic</span><i></i><span>Automate</span><i></i><span>Measure</span><i></i><span>Decide</span></div>
+        <div class="qalab-header-actions"><button type="button" id="qalabOpenRationaleCompact">Why chemistry?</button><button type="button" id="qalabOpenSimulationCompact">Simulation</button><button type="button" id="qalabTourStartCompact">Tour</button><button type="button" id="qalabClose" aria-label="Close qalab case study">×</button></div>
+      </header>
+
+      <div class="qalab-body">
+        <section class="qalab-hero">
+          <div>
+            <p class="qalab-kicker">Analytical Chemistry × Quality Assurance × Data</p>
+            <h3>Functional tests vs. Behavioral tests</h3>
+            <p>Functional checks may produce the expected result, but that does not guarantee that behavioral checks will do the same. In other words, testing a feature canno – and should no – end with a binary true/false or passed/failed result. What happens afterward is just as important.</p>
+          </div>
+          <figure class="qalab-hero-visual">
+            <img src="/assets/images/qalab/laboratory-viewport.jpg" width="1920" height="1080" alt="Unreal Engine laboratory prototype with the player character at the reaction station" loading="lazy" decoding="async">
+            <figcaption>Actual Unreal Engine prototype</figcaption>
+          </figure>
+        </section>
+
+        <section class="qalab-architecture">
+          <div class="qalab-architecture-intro">
+            <p class="qalab-kicker">One core mechanic</p>
+            <strong>Five testing views</strong>
+          </div>
+          <div class="qalab-architecture-flow">
+            <div class="qalab-testing-views">
+              <span>Manual testing via UI</span>
+              <span>Automated tests</span>
+              <span>Test stands</span>
+              <span>Analytics tests</span>
+              <span>Blueprint debug panel</span>
+            </div>
+            <small>The same production mechanic is exercised through five complementary testing views.</small>
+          </div>
+        </section>
+
+        <div class="qalab-verdict" id="qalabVerdict"><b>Functional PASS</b><i>·</i><b class="is-warning">Behavioral WARNING</b><span>ReactionTime crept −2% → −6% over 5 days – every single day passed, only the trend crossed ±5%.</span></div>
+
+        <section class="qalab-evidence">
+          <nav aria-label="qalab evidence layers">
+            <button type="button" class="active" data-qalab-layer="automation" aria-pressed="true"><span>01</span>Automation</button>
+            <button type="button" data-qalab-layer="telemetry" aria-pressed="false"><span>02</span>Telemetry</button>
+            <button type="button" data-qalab-layer="regression" aria-pressed="false"><span>03</span>Regression</button>
+          </nav>
+          <article class="qalab-evidence-panel" id="qalabEvidencePanel" aria-live="polite">
+            <header><p id="qalabEvidenceEyebrow">01 · VALIDATE</p><b id="qalabEvidenceStatus">33 / 33 PASS</b></header>
+            <h3 id="qalabEvidenceTitle">Functional gameplay automation</h3>
+            <p id="qalabEvidenceText">Domain rules, state transitions, interaction range, parameter sweeps, exports and regression logic are exercised through Unreal Automation Framework.</p>
+            <div class="qalab-evidence-visual" id="qalabEvidenceVisual"><div class="qalab-run-stage"><div class="qalab-controlled-change"><header><span>Controlled fixture</span><b>day 5 of 5</b></header><div><article><small>Versioned baseline</small><strong>12.42 s</strong><span>ReactionTime mean</span></article><i>→</i><article><small>Friday's batch</small><strong>11.67 s</strong><span>ReactionTime mean</span></article></div></div><div class="qalab-run-console"><div class="qalab-output" aria-live="polite"><header><span>Regression analyzer</span><b data-qalab-output-state>Ready</b></header><div data-qalab-output-lines><p><i>›</i> Waiting for baseline and current batch.</p></div></div><button type="button" class="qalab-run-button" data-qalab-run aria-label="Run regression comparison" title="Run comparison"><span>▶</span><b>Compare batches</b></button></div></div></div>
+            <nav class="qalab-test-groups" id="qalabTestGroups" aria-label="Automation test group documentation">
+              <p>Explore every test in the GitHub repository using the links below.</p>
+              <a href="https://github.com/msgrigorovich/qalab/blob/main/Docs/TestStrategy.md#experiment-domain--qalabgameplayexperiment" target="_blank" rel="noreferrer"><i class="qalab-test-group-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M9 3h6M10 3v6l-5 9a2 2 0 0 0 2 3h10a2 2 0 0 0 2-3l-5-9V3M7.5 16h9"/></svg></i><span class="qalab-test-group-copy"><b>Experiment</b><small>Domain model</small></span><em>↗</em></a>
+              <a href="https://github.com/msgrigorovich/qalab/blob/main/Docs/TestStrategy.md#interaction--qalabgameplayinteraction" target="_blank" rel="noreferrer"><i class="qalab-test-group-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m7 3 10 9-5 1 3 6-2 1-3-6-3 4V3Z"/></svg></i><span class="qalab-test-group-copy"><b>Interaction</b><small>Player range</small></span><em>↗</em></a>
+              <a href="https://github.com/msgrigorovich/qalab/blob/main/Docs/TestStrategy.md#test-stand--qalabgameplayteststand" target="_blank" rel="noreferrer"><i class="qalab-test-group-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 5h14v14H5zM9 9h6M9 12h6M9 15h3"/></svg></i><span class="qalab-test-group-copy"><b>Test Stand</b><small>Sweeps and runs</small></span><em>↗</em></a>
+              <a href="https://github.com/msgrigorovich/qalab/blob/main/Docs/TestStrategy.md#telemetry--qalabgameplaytelemetry" target="_blank" rel="noreferrer"><i class="qalab-test-group-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 18V9M9 18V5M14 18v-7M19 18V3M3 18h18"/></svg></i><span class="qalab-test-group-copy"><b>Telemetry</b><small>CSV and JSON</small></span><em>↗</em></a>
+              <a href="https://github.com/msgrigorovich/qalab/blob/main/Docs/TestStrategy.md#regression--qalabgameplayregression" target="_blank" rel="noreferrer"><i class="qalab-test-group-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m4 7 5 4 4-3 7 7M16 15h4v-4"/></svg></i><span class="qalab-test-group-copy"><b>Regression</b><small>Drift analysis</small></span><em>↗</em></a>
+            </nav>
+            <small id="qalabEvidenceNote">29 simple tests + 1 parameterized test with 4 cases · Editor-only qalabTests module</small>
+          </article>
+        </section>
+
+        <section class="qalab-conclusion">
+          <p class="qalab-kicker">The connection</p>
+          <div><b>Standardize</b><i>→</i><b>Validate</b><i>→</i><b>Analyze</b></div>
+        </section>
+      </div>
+
+      <section class="qalab-rationale" id="qalabRationale" hidden aria-label="Why chemistry fits quality assurance">
+        <header><div><p>Why chemistry fits · 01 – 04</p><h3 id="qalabRationaleTitle">An experiment already behaves like a test case</h3></div><b id="qalabRationaleCount">01 / 04</b><button type="button" class="qalab-panel-close" id="qalabRationaleClose" aria-label="Close">×</button></header>
+        <nav aria-label="Chemistry rationale progress"><i class="active">01</i><span></span><i>02</i><span></span><i>03</i><span></span><i>04</i></nav>
+        <div class="qalab-rationale-scenes">
+          <article class="active" data-qalab-rationale-scene="0"><div class="qalab-test-story"><span><i>A+B</i><small>Arrange</small><b>Known inputs</b></span><em>→</em><span><i>50°</i><small>Control</small><b>Same conditions</b></span><em>→</em><span><i>⌁</i><small>Observe</small><b>Yield + time</b></span><em>→</em><span><i>✓</i><small>Assert</small><b>Expected range</b></span></div><p>A chemical experiment already follows the shape of a test case: arrange, control, observe and assert.</p></article>
+          <article data-qalab-rationale-scene="1"><div class="qalab-method-cycle"><strong><i>↻</i><b>Trustworthy<br>evidence</b></strong><span style="--step:0"><i>01</i><b>Standardize</b></span><span style="--step:1"><i>02</i><b>Calibrate</b></span><span style="--step:2"><i>03</i><b>Repeat</b></span><span style="--step:3"><i>04</i><b>Measure</b></span><span style="--step:4"><i>05</i><b>Validate</b></span></div><p>Chemistry and QA earn trust in the same way: repeat a stable method, measure change and validate the evidence.</p></article>
+          <article data-qalab-rationale-scene="2"><div class="qalab-shared-story"><span><i>UI</i><small>Player view</small><b>Interact in the world</b></span><em>→</em><strong><i>⚗</i><small>Shared object</small><b>Laboratory station</b></strong><em>←</em><span><i>▶</i><small>QA view</small><b>Run repeatable batches</b></span></div><p>The same believable station supports play and automation, so the test surface never becomes a separate fake system.</p></article>
+          <article data-qalab-rationale-scene="3"><div class="qalab-clarity-filter"><span><small>Leave behind</small><b>Σ formulas</b><b>AₓBᵧ nomenclature</b><b>k(T) kinetics</b></span><em><i>→</i><b>Keep the signal</b></em><strong><small>Show the player</small><b>Balance changes yield</b><b>Heat changes time</b><b>Overheat reduces quality</b></strong></div><p>The model keeps only readable cause and effec – enough structure for QA, without asking the visitor to become a chemist.</p></article>
+        </div>
+        <footer><span id="qalabRationaleCaption">Inputs → conditions → outputs → expected range</span><i><b id="qalabRationaleProgress"></b></i></footer>
+      </section>
+
+      <section class="qalab-simulation" id="qalabSimulation" hidden aria-label="Guided animated chemistry simulation">
+        <header><div><p>Guided simulation · fictional laboratory model</p><h3>A playable reaction, frame by frame</h3></div><b id="qalabSimState">01 · Configure</b><button type="button" class="qalab-panel-close" id="qalabSimulationClose" aria-label="Close">×</button></header>
+        <div class="qalab-sim-objective"><span>Objective</span><strong>Yield ≥ 90%</strong><i>while</i><strong>Peak temperature &lt; 70°C</strong></div>
+        <figure class="qalab-sim-world">
+          <img src="/assets/images/qalab/laboratory-viewport.jpg" width="1920" height="1080" alt="Monochrome Unreal Engine laboratory with a third-person character facing the reaction station" loading="lazy" decoding="async">
+          <figcaption>Actual Unreal Engine prototype · laboratory viewport</figcaption>
+          <div class="qalab-world-station"><span>Shared gameplay station</span><i></i></div>
+          <div class="qalab-world-reaction" aria-hidden="true"><div></div><b id="qalabSimProgress">0%</b><small>Running</small></div>
+          <div class="qalab-world-hud">
+            <header><span>GUIDED DATA LAYER</span><b id="qalabWorldValidation">Awaiting input</b></header>
+            <div><label>A <strong>50.0</strong><i style="--value:50%"></i></label><label>B <strong>50.0</strong><i style="--value:50%"></i></label><label>Temperature <strong id="qalabWorldTemp">20.0</strong><i id="qalabWorldTempBar" style="--value:0%"></i></label></div>
+            <button type="button" tabindex="-1" id="qalabWorldAction">Configure experiment</button>
+            <p><span>Yield <b id="qalabWorldYield"> – </b></span><span>Time <b id="qalabWorldTime"> – </b></span><span>Peak <b id="qalabWorldPeak"> – </b></span></p>
+          </div>
+        </figure>
+        <div class="qalab-sim-controls"><article><span>Ratio A:B</span><b id="qalabSimRatio">1 : 1</b><small>Closer to balance → higher yield</small></article><article><span>Temperature</span><b id="qalabSimTemp">20°C</b><div class="qalab-temp-track"><i id="qalabSimTempFill"></i><em>70° safe limit</em></div></article><article><span>Predicted output</span><b id="qalabSimYield"> – </b><small id="qalabSimTime">Waiting to run</small></article></div>
+        <div class="qalab-sim-timeline"><i class="active">Idle</i><span>Configure</span><i>Ready</i><span>Start</span><i>Running</i><span>Emit once</span><i>Completed</i></div>
+        <footer><span><b>Learning model, not laboratory truth.</b> Coefficients are intentionally simple tuning data: balance improves Yield; heat reduces ReactionTime; heat above 70°C adds a Yield penalty.</span><button type="button" id="qalabSimReplay">↻ Replay</button></footer>
+      </section>
+
+      <div class="qalab-tour" id="qalabTour" hidden><div class="qalab-tour-shade"></div><div class="qalab-tour-focus" id="qalabTourFocus"></div><aside class="qalab-tour-panel" id="qalabTourPanel"><header><span id="qalabTourStep">01 / 14</span><i><b id="qalabTourProgress"></b></i></header><p>Guided reading</p><h3 id="qalabTourTitle">Start with the QA problem</h3><div id="qalabTourText">A functional pass confirms an outcome, but it does not prove that behavior stayed unchanged.</div><footer><button type="button" id="qalabTourExit">Exit</button><div><button type="button" id="qalabTourBack">Back</button><button type="button" id="qalabTourNext">Next</button></div></footer></aside></div>
+      <footer class="qalab-footer"><span>Unreal Engine 5.8.2 · C++ · Blueprints · Automation · Analytics</span><div><a href="https://github.com/msgrigorovich/qalab#qalab" target="_blank" rel="noreferrer">Repository ↗</a><a href="https://www.youtube.com/watch?v=nrnqqqrfimI" target="_blank" rel="noreferrer">58 sec demo ↗</a></div></footer>
+    </article>
+    <div class="qalab-side-rail" id="qalabSideRail">
+      <button type="button" id="qalabOpenRationale">Why chemistry?</button>
+      <button type="button" id="qalabOpenSimulation">Simulation</button>
+      <button type="button" id="qalabTourStart">Tour</button>
+    </div>
+  </dialog>
+
+  <dialog class="portrait-modal" id="portraitModal" aria-labelledby="portraitModalTitle">
+    <div class="portrait-modal-card">
+      <header>
+        <div><p>Graphite portrait</p><h2 id="portraitModalTitle">Albert Einstein</h2></div>
+        <button type="button" id="portraitModalClose" aria-label="Close full view">×</button>
+      </header>
+      <div class="portrait-modal-workspace">
+        <aside class="portrait-modal-tools">
+          <div class="portrait-mode-tabs" role="tablist" aria-label="Portrait interaction mode">
+            <button type="button" class="active" data-portrait-mode="magnify" role="tab" aria-selected="true">Magnify</button>
+            <button type="button" data-portrait-mode="draw" role="tab" aria-selected="false">Draw</button>
+          </div>
+          <section class="portrait-tool-panel active" data-portrait-panel="magnify">
+            <p>Move over the paper to inspect the graphite structure.</p>
+            <div class="portrait-magnifier-settings portrait-modal-magnifier-settings">
+              <label>
+                <span>Size</span>
+                <input id="portraitModalLensSize" type="range" min="120" max="220" value="170" step="5">
+                <output id="portraitModalLensSizeValue">170</output>
+              </label>
+              <label>
+                <span>Zoom</span>
+                <input id="portraitModalLensZoom" type="range" min="1.8" max="4" value="2.85" step="0.05">
+                <output id="portraitModalLensZoomValue">2.85×</output>
+              </label>
+              <p class="portrait-magnifier-hint">Wheel · zoom<br>Click / tap · size +10%</p>
+            </div>
+          </section>
+          <section class="portrait-tool-panel" data-portrait-panel="draw">
+            <p>Graphite palette</p>
+            <div class="portrait-draw-picker">
+              <div class="graphite-palette" aria-label="Graphite tone">
+                <button type="button" data-graphite="6H" data-tone="0.20" aria-label="6H graphite"><i></i><span>6H</span></button>
+                <button type="button" data-graphite="2H" data-tone="0.32" aria-label="2H graphite"><i></i><span>2H</span></button>
+                <button type="button" data-graphite="H" data-tone="0.42" aria-label="H graphite"><i></i><span>H</span></button>
+                <button type="button" data-graphite="F" data-tone="0.50" aria-label="F graphite"><i></i><span>F</span></button>
+                <button type="button" data-graphite="HB" data-tone="0.58" aria-label="HB graphite"><i></i><span>HB</span></button>
+                <button type="button" data-graphite="2B" data-tone="0.72" aria-label="2B graphite"><i></i><span>2B</span></button>
+                <button type="button" data-graphite="6B" data-tone="0.90" aria-label="6B graphite"><i></i><span>6B</span></button>
+                <button type="button" class="graphite-none selected" data-graphite="None" data-tone="none" aria-label="Blend without graphite"><i></i><span aria-hidden="true">∅</span></button>
+              </div>
+              <div class="portrait-draw-tools" aria-label="Drawing tool">
+                <button type="button" class="active" data-draw-tool="finger" aria-label="Graphite blending finger" aria-pressed="true">
+                  <svg viewBox="0 0 32 42" aria-hidden="true"><path d="M16 3C8 3 4 10 4 20c0 8 4 15 10 19M16 8c-5 0-8 5-8 12 0 7 3 12 8 17M16 3c8 0 12 7 12 17 0 9-4 16-10 20M16 8c5 0 8 5 8 12 0 7-3 13-7 17M16 13c-3 0-4 3-4 7 0 6 2 10 5 13M16 13c3 0 4 3 4 7 0 5-1 9-4 12"/></svg>
+                </button>
+                <button type="button" data-draw-tool="pencil" aria-label="Graphite pencil" aria-pressed="false">
+                  <svg viewBox="0 0 40 40" aria-hidden="true"><path class="pencil-body" d="M8 30 28 10l4 4-20 20-7 2Z"/><path class="pencil-tip" d="m5 36 3-6 4 4Z"/><path class="pencil-mark" d="M6 23c5-4 9 2 14-2s8 0 12-4"/></svg>
+                </button>
+                <button type="button" data-draw-tool="eraser" aria-label="Eraser" aria-pressed="false">
+                  <svg viewBox="0 0 40 40" aria-hidden="true"><path class="eraser-body" d="m8 27 15-17 10 9-15 17H9l-4-4Z"/><path d="m18 36 15-17M8 27l10 9"/></svg>
+                </button>
+                <div class="portrait-draw-actions">
+                  <button type="button" id="portraitDrawUndo">Undo</button>
+                  <button type="button" id="portraitDrawClear">Clear</button>
+                </div>
+              </div>
+            </div>
+          </section>
+          <div class="portrait-modal-summary">
+            <p>About this work</p>
+            <div id="portraitModalSummary">What I love most about this portrait is the carefully rendered texture of Albert's moustache and sweater.</div>
+            <div class="portrait-detail-focus" id="portraitDetailFocus" aria-label="Highlighted portrait details"></div>
+          </div>
+        </aside>
+        <div class="portrait-modal-image" id="portraitModalStage">
+          <div class="portrait-modal-paper" id="portraitModalPaper">
+            <img id="portraitModalImage" src="/assets/images/portraits/albert-einstein-2015.webp" width="1086" height="1448" alt="Graphite portrait of Albert Einstein" decoding="async">
+            <canvas id="portraitDrawCanvas" aria-label="Drawing layer"></canvas>
+            <div class="portrait-highlight-overlay" id="portraitHighlightOverlay" aria-hidden="true"></div>
+            <canvas class="portrait-modal-lens" id="portraitModalLens" aria-hidden="true"></canvas>
+          </div>
+        </div>
+      </div>
+      <div class="portrait-modal-meta">
+        <span>Original artwork · graphite on paper</span>
+        <span id="portraitModalYear">2015</span>
+      </div>
+    </div>
+  </dialog>
+
+  <footer>
+    <div class="footer-grid">
+      <div>
+        <p><strong>Email</strong><br />
+            <a href="mailto:me@dianagrigorovich.com">me@dianagrigorovich.com</a>
+        </p>
+      </div>
+      <div class="social">
+        <p><strong>Follow Me</strong></p>
+        <div class="icons">
+          <a href="https://www.linkedin.com/in/diana-grigorovich/" target="_blank">
+            <img src="/linkedin_icon.png" width="512" height="512" alt="LinkedIn" class="social-icon">
+          </a>
+          <a href="https://github.com/msgrigorovich" target="_blank">
+            <img src="/github_icon.png" width="512" height="512" alt="GitHub" class="social-icon github-icon">
+          </a>
+        </div>
+      </div>
+      <div class="copy">
+        © 2026 By Diana Grigorovich
+      </div>
+    </div>
+  </footer>
+
+<div class="cursor-dot"></div>
+<div class="cursor-outline">
+  <div class="cursor-outline-inner"></div>
+</div>
+<div class="portrait-smudge-cursor" id="portraitSmudgeCursor" aria-hidden="true">
+  <svg viewBox="0 0 48 58" focusable="false">
+    <path class="fingerprint-cursor-path" id="portraitFingerprintPath"></path>
+    <g class="pencil-cursor-art">
+      <path class="pencil-cursor-mark" d="M5 48c9-7 15 3 24-4 6-4 9-2 14-7" />
+      <path class="pencil-cursor-body" d="M11 40 35 10l6 5-25 29-9 3Z" />
+      <path class="pencil-cursor-tip" d="m7 47 4-7 5 4Z" />
+    </g>
+    <g class="eraser-cursor-art">
+      <path class="eraser-cursor-body" d="m8 39 20-27 12 9-20 27H10l-6-5Z" />
+      <path class="eraser-cursor-edge" d="m20 48 20-27M8 39l12 9" />
+    </g>
+  </svg>
+</div>
+<canvas class="cursor-trail"></canvas>
+
+
+<script src="/assets/js/main.min.js?v=a7ba89ad43"></script>
+<script src="/assets/js/projects.min.js?v=1238d82a56"></script>
+<script src="/assets/js/analytics.min.js?v=ef7214dff7"></script>
+
+</body>
+</html>

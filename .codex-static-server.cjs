@@ -8,7 +8,11 @@ const types = { '.html':'text/html; charset=utf-8', '.css':'text/css; charset=ut
 http.createServer((request, response) => {
   const pathname = decodeURIComponent(new URL(request.url, 'http://127.0.0.1').pathname);
   const requested = pathname === '/' ? '/index.html' : pathname;
-  const file = path.resolve(root, `.${requested}`);
+  let file = path.resolve(root, `.${requested}`);
+  if (!path.extname(file)) {
+    if (fs.existsSync(file) && fs.statSync(file).isDirectory()) file = path.join(file, 'index.html');
+    else if (fs.existsSync(`${file}.html`)) file = `${file}.html`;
+  }
   if (!file.startsWith(root + path.sep)) {
     response.writeHead(403).end('Forbidden');
     return;
