@@ -134,64 +134,57 @@ const resumeExperience = [
     period: 'Sep 2026 – Present',
     eyebrow: 'Strikerz Inc. · Tbilisi',
     title: 'Lead QA Engineer',
-    role: 'Core Gameplay Team · QA Leadership & Technical Ownership',
+    role: 'Core Gameplay Team · Technical QA Leadership',
     projects: [
       { label: 'Strikerz Inc.', icon: 'S', image: '/assets/images/games/strikerz-logo.png', monochrome: true, url: 'https://www.strikerz.inc/' },
       { label: 'UFL', icon: 'UFL', image: '/assets/images/games/ufl-logo.png', monochrome: true, url: 'https://uflgame.com/' }
     ],
-    text: 'QA leadership for Core Gameplay, staying hands-on with test automation, telemetry, and technical quality practices.',
+    text: 'Leading Core Gameplay QA initiatives while maintaining a hands-on focus on test automation, gameplay telemetry, and systematic quality improvement.',
     responsibilities: [
-      'QA process ownership for Core Gameplay: defining Quality Gates, standardizing bug triage, and improving the end-to-end testing lifecycle;',
-      'Organizing Root Cause Analysis for recurring gameplay issues and turning findings into repeatable QA practices;',
-      'Continued hands-on ownership of test automation, test stands, and bot-driven testing scenarios for Core Gameplay mechanics;',
-      'Development and maintenance of Core Gameplay telemetry and gameplay health metrics used in release and milestone decisions;',
-      'Coordinating task and resource distribution across the QA Core Gameplay team, including regular 1-1 and weekly syncs;',
-      'Managing the outsourced QA workflow: defining requirements, reviewing results, and refining the process;',
-      'Reporting on release, milestone, and playtest outcomes to align the team on risks, priorities, and product state;',
-      'Supporting team growth through mentoring, task delegation, and professional development planning.'
+      'Coordinate QA priorities, testing activities, and technical initiatives within a five-person Core Gameplay QA team;',
+      'Define risk-based validation strategies and regression coverage for Core Gameplay features;',
+      'Continue developing automated validation approaches and telemetry-based quality monitoring;',
+      'Organize regular knowledge-sharing sessions to encourage technical collaboration and professional development.'
     ],
-    achievementsLabel: 'Current focus',
+    achievementsLabel: 'Achievements & initiatives',
     achievements: [
-      'Building out Core Gameplay’s QA lifecycle with clearer Quality Gates and more standardized bug triage;',
-      'Expanding automated test coverage and bot-testing scenarios alongside test stands for Core Gameplay mechanics;',
-      'Growing Core Gameplay telemetry and health-metric tooling to support faster, data-informed release decisions;',
-      'Shaping QA team structure, mentoring, and professional growth paths within Core Gameplay.'
+      '<strong>Testing Scope Framework.</strong> Designed a risk-based testing framework to standardize QA scope decisions based on feature Impact and Complexity. The framework introduces five testing levels (XS–XL), defining testing depth, coverage breadth, and regression requirements. It is currently being introduced into team processes;',
+      '<strong>QA Scope Generator.</strong> Developed a supporting tool that translates impact and complexity assessments into structured testing recommendations, making the framework easier to apply consistently;',
+      '<strong>Technical Knowledge Sharing.</strong> Established recurring peer-led knowledge-sharing sessions within the Core Gameplay QA team, enabling engineers to exchange expertise, investigation methods, and testing practices;',
+      '<strong>Project:</strong> <a href="/projects/testing-scope-framework/#question">Testing Scope Framework</a>;',
+      '<strong>Focus areas:</strong> Risk-Based Testing · QA Strategy · Test Automation · Gameplay Systems · Technical Leadership.'
     ],
-    chips: ['QA Leadership', 'Test Automation', 'Telemetry', 'Blueprint'],
-    skills: ['QA Leadership', 'Test Automation', 'Telemetry', 'Blueprint', 'Unreal Engine 5', 'Root Cause Analysis', 'Process Design', 'Team Mentoring']
+    chips: ['Risk-Based Testing', 'QA Strategy', 'Test Automation', 'Technical Leadership'],
+    skills: ['QA Leadership', 'QA Strategy', 'Risk-Based Testing', 'Test Automation', 'Telemetry', 'Blueprint', 'Unreal Engine 5', 'Process Design', 'Team Mentoring']
   },
   {
     slug: 'strikerz-core-gameplay',
-    period: 'Jan 2025 – Sep 2026',
+    period: 'Jan 2025 – Oct 2026',
     eyebrow: 'Strikerz Inc. · Tbilisi',
     title: 'Senior QA Engineer',
-    role: 'Core Gameplay Team · Quality & Systems Validation',
+    role: 'Core Gameplay Team · Test Automation & Data-Driven Validation',
     team: 'Core Gameplay Team',
     projects: [
       { label: 'Strikerz Inc.', icon: 'S', image: '/assets/images/games/strikerz-logo.png', monochrome: true, url: 'https://www.strikerz.inc/' },
       { label: 'UFL', icon: 'UFL', image: '/assets/images/games/ufl-logo.png', monochrome: true, url: 'https://uflgame.com/' }
     ],
-    text: 'Systemic validation of Core Gameplay mechanics with a focus on movement, interaction, and consistency across features.',
+    text: 'Focused on systematic gameplay validation through Unreal Engine 5, test automation, telemetry analysis, and cross-disciplinary engineering collaboration.',
     responsibilities: [
-      'Constant improvement and validation of Core Gameplay mechanics, ensuring integrity across multiple systems;',
-      'Acceptance testing of cross-team features at the intersection with Core Gameplay mechanics;',
-      'Data-driven gameplay analysis using telemetry (ClickHouse, SQL) to validate Core Gameplay behavior at scale and identify systemic issues beyond subjective playtesting;',
-      'Functional validation of locomotion system, including animation blending, state transitions, and edge-case movement scenarios in Core Gameplay;',
-      'Design and development of test automation systems for Core Gameplay mechanics to improve validation consistency and reduce regression risk;',
-      'Cross-disciplinary collaboration with teams such as:',
-      { text: 'Motion Team;', type: 'subitem' },
-      { text: 'AI Team;', type: 'subitem' },
-      { text: 'Telemetry & Data Quality Team*;', type: 'subitem' },
-      'Creation of QA documentation and structured bug reporting focused on reproducibility and gameplay impact.'
+      'Validate Core Gameplay systems and cross-system interactions using Unreal Engine 5 and Blueprints;',
+      'Design and maintain automated test stands and bot-driven testing scenarios;',
+      'Investigate gameplay behavior and systemic issues through telemetry, SQL, and ClickHouse;',
+      'Collaborate with Motion, AI, and Telemetry & Data Quality teams on complex technical investigations;',
+      'Perform acceptance and regression testing of gameplay mechanics and cross-team features.'
     ],
     achievements: [
-      'Rapid onboarding into the Core Gameplay team, independently mastering Unreal Engine 5 and Blueprint-based testing in a high-pressure post-release environment;',
-      'Implemented a cross-team, data-driven QA analysis process between Core Gameplay and Telemetry & Data Quality teams, enabling deeper gameplay validation based on metrics and numbers rather than subjective opinions;',
-      'Designed and implemented test automation systems for Core Gameplay mechanics, improving test coverage and reducing long-term maintenance risks.',
-      { text: '*Telemetry & Data Quality Team - a team that deals with orders for the implementation of analytical events, and also takes direct part in working with the results of their analysis.', type: 'footnote' }
+      '<strong>Early Warning System.</strong> Designed and implemented a regularly used telemetry-driven system to detect gameplay deviations from established baselines, support quality-gate decisions, and significantly reduce regression and feature acceptance effort;',
+      '<strong>Automated Gameplay Validation.</strong> Developed approximately 15 automated test stands covering 5–7 Core Gameplay mechanics, enabling repeatable validation and ongoing regression monitoring;',
+      '<strong>Data-Driven QA Integration.</strong> Established a cross-team analytical approach between Core Gameplay QA and Telemetry & Data Quality teams, enabling quantitative investigation of gameplay behavior beyond subjective playtesting;',
+      '<strong>Project:</strong> <a href="/projects/qalab/#automation">Early Warning System – production QA initiative</a>;',
+      '<strong>Technical stack:</strong> Unreal Engine 5 · Blueprints · SQL · ClickHouse · Gameplay Telemetry · Test Automation · Data Validation · Test Design.'
     ],
-    chips: ['Unreal Engine 5', 'Test Automation', 'Blueprint'],
-    skills: ['Unreal Engine 5', 'Test Automation', 'Blueprint']
+    chips: ['Unreal Engine 5', 'Test Automation', 'Telemetry', 'SQL'],
+    skills: ['Unreal Engine 5', 'Test Automation', 'Blueprint', 'Telemetry', 'SQL', 'ClickHouse', 'Data Validation', 'Test Design']
   },
   {
     slug: 'strikerz-quality-control',
@@ -647,7 +640,7 @@ function renderResumeProjects() {
       <div class="resume-project-list" style="--project-index: ${selectedIndex}; --project-group-shift: ${selectedIndex > 0 ? 1 : 0}">
         ${projects.map((project, index) => {
           const icon = project.markup || (project.image
-            ? `<img class="resume-project-image${project.monochrome ? ' monochrome' : ''}${project.contained ? ' contained' : ''}${project.cover ? ' cover' : ''}${project.logo ? ' company-logo' : ''}" src="${project.image}" alt="" draggable="false">`
+            ? `<img class="resume-project-image${project.monochrome ? ' monochrome' : ''}${project.contained ? ' contained' : ''}${project.cover ? ' cover' : ''}${project.logo ? ' company-logo' : ''}" src="${project.image}" alt="" draggable="false" loading="lazy" decoding="async" fetchpriority="low">`
             : `<span class="resume-project-icon">${project.icon}</span>`);
           const store = project.store ? `<span class="resume-project-store" aria-hidden="true">${resumeStoreIcons[project.store]}</span>` : '';
           const tooltip = project.tooltip || project.label;
@@ -1229,6 +1222,14 @@ resumeCard.addEventListener('pointerout', event => {
   const chip = event.target.closest('[data-resume-skill]');
   if (!chip || chip.contains(event.relatedTarget)) return;
   clearTimeout(resumeSkillPopoverHoverTimer);
+  if (resumeSkillPopover.contains(event.relatedTarget)) return;
+  scheduleResumeSkillPopoverHide();
+});
+resumeSkillPopover.addEventListener('pointerenter', () => {
+  clearTimeout(resumeSkillPopoverTimer);
+});
+resumeSkillPopover.addEventListener('pointerleave', event => {
+  if (activeResumeSkillChip?.contains(event.relatedTarget)) return;
   hideResumeSkillPopover(true);
 });
 resumeCard.addEventListener('focusin', event => {

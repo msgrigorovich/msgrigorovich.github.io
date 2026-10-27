@@ -428,27 +428,6 @@ function warmPortrait(index, includeHighlights = false) {
   return Promise.all(sources.map(preloadImage));
 }
 
-function schedulePortraitWarmup() {
-  const run = async () => {
-    await warmPortrait(0, true);
-    for (let index = 1; index < portraits.length; index += 1) {
-      await warmPortrait(index, true);
-      await new Promise(resolve => setTimeout(resolve, 500));
-    }
-  };
-  if ('requestIdleCallback' in window) requestIdleCallback(run, { timeout: 2500 });
-  else setTimeout(run, 1500);
-}
-
-// The qalab case study's photo is lazy-loaded (most visitors never open it), but visitors
-// who do explore QA case studies are likely to open it - so warm the HTTP cache for it
-// in the background once the page is idle, the same way portraits are warmed above.
-function scheduleQalabAssetWarmup() {
-  const run = () => preloadImage('/assets/images/qalab/laboratory-viewport.jpg');
-  if ('requestIdleCallback' in window) requestIdleCallback(run, { timeout: 2500 });
-  else setTimeout(run, 1500);
-}
-
 function selectPortrait(index) {
   const nextIndex = Math.max(0, Math.min(portraits.length - 1, index));
   const portrait = portraits[nextIndex];
@@ -1078,8 +1057,6 @@ portraitThumbs.forEach(thumb => {
   thumb.addEventListener('touchstart', warm, { once: true, passive: true });
   thumb.addEventListener('click', () => selectPortrait(index));
 });
-
-window.addEventListener('load', schedulePortraitWarmup, { once: true });
 
 portraitViewer.addEventListener('mousemove', updatePortraitLens);
 portraitViewer.addEventListener('mouseleave', () => {
@@ -3250,8 +3227,6 @@ applyingProjectsHash = true;
 setLensSize(lensSize);
 setLensZoom(lensZoom);
 selectPortrait(0);
-schedulePortraitWarmup();
-scheduleQalabAssetWarmup();
 applyingProjectsHash = false;
 if (initialPublicProjectRoute) {
   applyProjectsHash(`#qa/${initialPublicProjectRoute.project}/case/${initialPublicProjectRoute.section}`, true);
