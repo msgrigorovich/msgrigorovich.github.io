@@ -38,7 +38,7 @@ function typeEffect() {
       typingTimer = setTimeout(typeEffect, 50);
     } else {
       typingForward = true;
-      if (currentTypingText === HELLO_TEXT && helloIterations === 2) {
+      if (currentTypingText === HELLO_TEXT && helloIterations === 5) {
         currentTypingText = QUALITY_TEXT;
       } else if (currentTypingText === QUALITY_TEXT) {
         currentTypingText = HABIT_TEXT;
