@@ -36,7 +36,11 @@ stored with `is_me = 1` and excluded by the queries. `?me=0` clears the flag.
 
 ## Reading the data
 
-Ready-made queries live in `queries.sql`. Run them in the Cloudflare dashboard
+Saved reports live in the database as views (`views.sql`). In the dashboard console run
+e.g. `SELECT * FROM report_funnel;`. Re-apply after editing:
+`npx wrangler d1 execute portfolio-telemetry --remote --file=views.sql`.
+
+Ready-made queries also live in `queries.sql`. Run them in the Cloudflare dashboard
 (D1 → portfolio-telemetry → Console) or with:
 
 ```sh
