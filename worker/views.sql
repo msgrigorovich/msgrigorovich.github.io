@@ -9,7 +9,8 @@
 DROP VIEW IF EXISTS report_recent;
 CREATE VIEW report_recent AS
 SELECT datetime(started_at / 1000, 'unixepoch') AS time_utc,
-       entry_screen AS screen, referrer, source, country, city, device, browser, is_me
+       entry_screen AS screen, referrer, source, country, city, device, browser,
+       zoom AS zoom_pct, dpr, is_me
 FROM pageviews
 ORDER BY started_at DESC
 LIMIT 50;
@@ -50,6 +51,28 @@ WHERE is_me = 0 AND day >= date('now', '-30 days')
 GROUP BY country, device, lang
 ORDER BY visitors DESC
 LIMIT 50;
+
+-- Mobile vs desktop and, for desktop Chromium browsers, page zoom.
+-- zoom_pct is empty for Firefox/Safari and mobiles; dpr = OS display scale × page zoom.
+DROP VIEW IF EXISTS report_devices;
+CREATE VIEW report_devices AS
+SELECT device, browser, zoom AS zoom_pct, dpr,
+       COUNT(DISTINCT visitor) AS visitors,
+       COUNT(*) AS page_loads
+FROM pageviews
+WHERE is_me = 0 AND day >= date('now', '-30 days')
+GROUP BY device, browser, zoom, dpr
+ORDER BY visitors DESC;
+
+-- Zoom changed during a visit: which screens made people zoom in or out.
+DROP VIEW IF EXISTS report_zoom_changes;
+CREATE VIEW report_zoom_changes AS
+SELECT e.screen, e.value AS new_zoom_pct, json_extract(e.props, '$.dpr') AS dpr,
+       COUNT(DISTINCT p.visitor) AS visitors
+FROM events e JOIN pageviews p USING (page_id)
+WHERE e.type = 'zoom_change' AND p.is_me = 0 AND p.day >= date('now', '-30 days')
+GROUP BY e.screen, e.value, dpr
+ORDER BY visitors DESC;
 
 -- Every screen: reach and holding time. avg_scroll_pct only where there was something to scroll.
 DROP VIEW IF EXISTS report_screens;

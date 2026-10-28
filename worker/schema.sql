@@ -27,7 +27,11 @@ CREATE TABLE IF NOT EXISTS pageviews (
   os TEXT,
   lang TEXT,
   viewport INTEGER,                -- viewport width rounded to 100px
-  is_me INTEGER NOT NULL DEFAULT 0
+  is_me INTEGER NOT NULL DEFAULT 0,
+  touch INTEGER,                   -- 1 = touch screen
+  pointer TEXT,                    -- fine (mouse) | coarse (finger)
+  dpr REAL,                        -- devicePixelRatio = OS display scale × page zoom
+  zoom INTEGER                     -- page zoom %, desktop Chromium browsers only
 );
 CREATE INDEX IF NOT EXISTS pageviews_day ON pageviews (day);
 CREATE INDEX IF NOT EXISTS pageviews_visitor ON pageviews (visitor, started_at);
@@ -36,6 +40,7 @@ CREATE INDEX IF NOT EXISTS pageviews_visitor ON pageviews (visitor, started_at);
 --   screen_view  a new screen (path + hash) became current; target = previous screen
 --   screen_time  active time on a screen; value = active ms, props = visible_ms, scroll %
 --   click        kind = internal | external | mailto | download | button | field | other
+--   zoom_change  page zoom changed during the visit; value = new zoom %, props = dpr
 --   copy, form_submit, form_result, demo_change, js_error
 CREATE TABLE IF NOT EXISTS events (
   id INTEGER PRIMARY KEY AUTOINCREMENT,

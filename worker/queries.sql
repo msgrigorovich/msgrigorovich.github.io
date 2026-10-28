@@ -176,3 +176,23 @@ WHERE p.is_me = 0 AND p.day >= date('now', '-30 days')
   AND (e.type = 'demo_change' OR json_extract(e.props, '$.frame') IS NOT NULL)
 GROUP BY e.type, e.label, impact, complexity
 ORDER BY times DESC;
+
+
+-- 12. Mobile vs desktop and, for desktop Chromium browsers, page zoom.
+--     zoom is empty for Firefox/Safari and mobiles; dpr = OS display scale × page zoom.
+SELECT device, browser, zoom AS zoom_pct, dpr,
+       COUNT(DISTINCT visitor) AS visitors,
+       COUNT(*) AS page_loads
+FROM pageviews
+WHERE is_me = 0 AND day >= date('now', '-30 days')
+GROUP BY device, browser, zoom, dpr
+ORDER BY visitors DESC;
+
+
+-- 13. Zoom changed during a visit: which screens made people zoom in or out.
+SELECT e.screen, e.value AS new_zoom_pct, json_extract(e.props, '$.dpr') AS dpr,
+       COUNT(DISTINCT p.visitor) AS visitors
+FROM events e JOIN pageviews p USING (page_id)
+WHERE e.type = 'zoom_change' AND p.is_me = 0 AND p.day >= date('now', '-30 days')
+GROUP BY e.screen, e.value, dpr
+ORDER BY visitors DESC;

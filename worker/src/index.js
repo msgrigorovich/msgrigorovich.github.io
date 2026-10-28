@@ -13,6 +13,7 @@ const EVENT_TYPES = new Set([
   'form_submit',
   'form_result',
   'demo_change',
+  'zoom_change',
   'js_error'
 ]);
 const BOT_PATTERN = /bot|crawl|spider|slurp|preview|headless|lighthouse|pagespeed|facebookexternalhit|embedly|curl|wget|python|httpclient|java\//i;
@@ -42,11 +43,15 @@ const cleanProps = value => {
   return Object.keys(props).length ? JSON.stringify(props) : null;
 };
 
-const deviceOf = ua => {
+const deviceOf = (ua, touch) => {
   if (/iPad|Tablet|Android(?!.*Mobile)/i.test(ua)) return 'tablet';
   if (/Mobi|iPhone|Android/i.test(ua)) return 'mobile';
+  // iPadOS Safari reports a Mac user agent; only the touch screen gives it away.
+  if (/Macintosh/.test(ua) && touch === 1) return 'tablet';
   return 'desktop';
 };
+
+const ratio = value => (typeof value === 'number' && value > 0 && value <= 10 ? Math.round(value * 100) / 100 : null);
 
 const browserOf = ua => {
   if (/Edg\//.test(ua)) return 'Edge';
@@ -145,8 +150,8 @@ export default {
     await env.DB.batch([
       env.DB.prepare(`INSERT OR IGNORE INTO pageviews
         (page_id, visitor, day, started_at, path, entry_screen, referrer, source, medium, campaign,
-         nav_type, country, city, device, browser, os, lang, viewport, is_me)
-        VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14, ?15, ?16, ?17, ?18, ?19)`).bind(
+         nav_type, country, city, device, browser, os, lang, viewport, is_me, touch, pointer, dpr, zoom)
+        VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14, ?15, ?16, ?17, ?18, ?19, ?20, ?21, ?22, ?23)`).bind(
         pageId,
         visitor,
         day,
@@ -160,12 +165,16 @@ export default {
         text(ctx.nav, 16),
         text(cf.country, 2),
         text(cf.city, 80),
-        deviceOf(ua),
+        deviceOf(ua, ctx.touch),
         browserOf(ua),
         osOf(ua),
         text(ctx.lang, 8),
         integer(ctx.vw, 10000),
-        body.me === 1 ? 1 : 0
+        body.me === 1 ? 1 : 0,
+        ctx.touch === 1 ? 1 : ctx.touch === 0 ? 0 : null,
+        ctx.pointer === 'fine' || ctx.pointer === 'coarse' ? ctx.pointer : null,
+        ratio(ctx.dpr),
+        integer(ctx.zoom, 1000)
       ),
       env.DB.prepare(`INSERT OR IGNORE INTO events
         (page_id, seq, ts, type, screen, kind, target, label, value, props)

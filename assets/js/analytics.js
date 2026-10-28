@@ -48,6 +48,21 @@
     }
   };
 
+  // There is no page-zoom API. In desktop Chromium browsers outerWidth ignores zoom while
+  // innerWidth shrinks with it, so their ratio gives the zoom; snap it to the browser's steps.
+  // Firefox and Safari scale both widths, so for them zoom stays null and only dpr is reported.
+  const ZOOM_STEPS = [25, 33, 50, 67, 75, 80, 90, 100, 110, 125, 150, 175, 200, 250, 300, 400, 500];
+  const isDesktopChromium = Boolean(navigator.userAgentData?.brands?.some(brand => brand.brand === 'Chromium'))
+    && !navigator.userAgentData.mobile;
+  const zoomOf = () => {
+    if (!isDesktopChromium || !window.outerWidth || !window.innerWidth) return null;
+    const raw = window.outerWidth / window.innerWidth * 100;
+    const step = ZOOM_STEPS.reduce((best, value) => (Math.abs(value - raw) < Math.abs(best - raw) ? value : best));
+    // Docked DevTools or side panels distort the ratio; drop readings far from any step.
+    return Math.abs(step - raw) / step <= 0.06 ? step : null;
+  };
+  const dprOf = () => Math.round((window.devicePixelRatio || 1) * 100) / 100;
+
   const pageId = crypto.randomUUID
     ? crypto.randomUUID()
     : Array.from(crypto.getRandomValues(new Uint8Array(16)), byte => byte.toString(16).padStart(2, '0')).join('');
@@ -60,7 +75,11 @@
     campaign: clean(params.get('utm_campaign'), 60) || null,
     nav: performance.getEntriesByType?.('navigation')?.[0]?.type || null,
     lang: (navigator.language || '').slice(0, 8),
-    vw: Math.round(window.innerWidth / 100) * 100
+    vw: Math.round(window.innerWidth / 100) * 100,
+    touch: navigator.maxTouchPoints > 0 ? 1 : 0,
+    pointer: window.matchMedia('(pointer: coarse)').matches ? 'coarse' : 'fine',
+    dpr: dprOf(),
+    zoom: zoomOf()
   };
 
   // --- Queue & transport ---
@@ -267,6 +286,22 @@
   document.addEventListener('analytics:event', event => {
     const { type, kind, value } = event.detail || {};
     if (type === 'form_result') track(type, { kind, value });
+  });
+
+  // Zoom changes fire resize; report only when the zoom level itself changed.
+  let lastZoom = ctx.zoom;
+  let lastDpr = ctx.dpr;
+  let zoomTimer = 0;
+  window.addEventListener('resize', () => {
+    clearTimeout(zoomTimer);
+    zoomTimer = window.setTimeout(() => {
+      const zoom = zoomOf();
+      const dpr = dprOf();
+      if (zoom === lastZoom && dpr === lastDpr) return;
+      lastZoom = zoom;
+      lastDpr = dpr;
+      track('zoom_change', { value: zoom, props: { dpr } });
+    }, 500);
   });
 
   let errorCount = 0;
