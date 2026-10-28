@@ -13,6 +13,35 @@ let skipIntroAnimations = false;
 let typingActive = false;
 let typingTimer = null;
 let signatureInkEnabled = false;
+let projectsHeroPreload = null;
+
+function preloadProjectsHero() {
+  if (projectsHeroPreload || document.body.classList.contains('projects-page')) return;
+  projectsHeroPreload = new Image();
+  projectsHeroPreload.decoding = 'async';
+  projectsHeroPreload.fetchPriority = 'high';
+  projectsHeroPreload.src = '/assets/images/portraits/albert-einstein-2015.webp';
+}
+
+function pointsToProjects(link) {
+  if (!link?.href) return false;
+  try {
+    const url = new URL(link.href, location.href);
+    return url.origin === location.origin && /^\/projects(?:\.html|\/|$)/.test(url.pathname);
+  } catch {
+    return false;
+  }
+}
+
+document.addEventListener('pointerover', event => {
+  if (pointsToProjects(event.target.closest('a'))) preloadProjectsHero();
+});
+document.addEventListener('focusin', event => {
+  if (pointsToProjects(event.target.closest('a'))) preloadProjectsHero();
+});
+document.addEventListener('touchstart', event => {
+  if (pointsToProjects(event.target.closest('a'))) preloadProjectsHero();
+}, { passive: true });
 
 function typeEffect() {
   if (!el || !typingActive) return;
