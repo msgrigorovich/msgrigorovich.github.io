@@ -4198,7 +4198,7 @@ footer {
 
 .scope-screen-controls { margin:0 .55rem .45rem; padding:.35rem .65rem; border:1px solid rgba(17,17,17,.14); border-radius:.7rem; background:rgba(247,243,233,.94); }.scope-screen-controls button { height:1.8rem; }.scope-footer { border-top:1px solid rgba(17,17,17,.13); background:#f7f3e9; }
 
-@media (max-width: 760px) {
+@media (max-width: 820px) {
   .scope-article { width:100%; height:100dvh; margin:0; border-radius:0; }
   .scope-tour-panel { width:min(19rem,calc(100% - 1.2rem)); padding:.75rem; }
   .scope-tour-panel h3 { font-size:1.05rem; line-height:1.2; }
@@ -4353,7 +4353,7 @@ footer {
 .scope-artifact-layout > div { display:grid; grid-template-rows:auto minmax(0,1fr); }
 .scope-artifact-layout pre { box-sizing:border-box; min-height:0; overflow:hidden; }
 
-@media (max-width:760px) {
+@media (max-width:820px) {
   .scope-level-tabs,
   .scope-checklist-levels { width:100%; gap:.2rem; margin:.5rem auto; padding:.22rem; border-radius:.62rem; }
   .scope-level-tabs button,
@@ -9007,4 +9007,517 @@ body.contact-inking .cursor-outline {
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
+}
+
+/* Mobile reading mode: preserve the visual language while allowing content to
+   grow vertically and keeping every interactive control comfortably tappable. */
+@media (max-width: 820px) {
+  html,
+  body {
+    width: 100%;
+    min-height: 100%;
+    overflow-x: clip;
+  }
+
+  header {
+    width: 100%;
+  }
+
+  .top-nav a,
+  .projects-filter,
+  .resume-tab,
+  .resume-chip,
+  .qa-project-thumb,
+  .portrait-thumb {
+    min-height: 2.75rem;
+  }
+
+  footer {
+    width: 100%;
+    padding-inline: 1.25rem;
+  }
+
+  .footer-grid,
+  .footer-grid > * {
+    min-width: 0;
+  }
+
+  .footer-grid a {
+    overflow-wrap: anywhere;
+  }
+
+  .home-page > main {
+    width: 100%;
+    padding: 2rem 1.25rem 2.5rem;
+  }
+
+  .home-page .about {
+    width: min(100%, 32rem);
+    margin-inline: auto;
+  }
+
+  .home-page .about p,
+  .home-page .about-quote {
+    font-size: .9rem;
+    line-height: 1.65;
+  }
+
+  .home-page .buttons {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .resume-page,
+  .projects-page,
+  .contact-page {
+    min-height: 100dvh;
+  }
+
+  .resume-main,
+  .projects-page .projects-main,
+  .contact-page main.contact-main {
+    width: 100%;
+    min-width: 0;
+    overflow: visible;
+  }
+
+  .resume-explorer {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    min-height: 0;
+  }
+
+  .resume-year-wheel {
+    width: min(100%, 22rem);
+    height: 11rem;
+    margin-inline: auto;
+    padding-block: 3.75rem;
+  }
+
+  .resume-card {
+    text-align: center;
+  }
+
+  .resume-explorer,
+  .resume-card,
+  .resume-card > *,
+  .resume-project-rail,
+  .resume-project-window {
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  .resume-explorer,
+  .resume-card,
+  .resume-project-rail {
+    width: calc(100vw - 2rem);
+    max-width: calc(100vw - 2rem);
+    margin-inline: auto;
+  }
+
+  .resume-card {
+    padding-inline: .1rem;
+  }
+
+  .resume-card h1 {
+    max-width: 100%;
+    font-size: clamp(1.9rem, 9vw, 2.35rem);
+    line-height: 1.02;
+    white-space: normal;
+    overflow-wrap: normal;
+    word-break: normal;
+  }
+
+  .resume-card h2,
+  .resume-description {
+    width: 100%;
+    max-width: 100%;
+    padding-inline: .2rem;
+    overflow-wrap: anywhere;
+  }
+
+  .resume-team-badge {
+    margin-bottom: .35rem;
+  }
+
+  .resume-chips {
+    max-width: 100%;
+    padding-inline: .1rem;
+  }
+
+  .resume-chip {
+    display: inline-flex;
+    align-items: center;
+    padding: .55rem .75rem;
+    font-size: .68rem;
+  }
+
+  .resume-see-more {
+    min-height: 2.75rem;
+    margin: 1rem auto 0;
+    padding-inline: .25rem;
+  }
+
+  .resume-project-rail {
+    margin-top: .25rem;
+  }
+
+  .resume-project-window,
+  .resume-project-rail.scrollable .resume-project-window {
+    width: 100%;
+    height: auto;
+    margin-left: 0;
+    padding: .75rem 0;
+    overflow-x: auto;
+    mask-image: none;
+    scrollbar-width: none;
+  }
+
+  .resume-project-window::-webkit-scrollbar {
+    display: none;
+  }
+
+  .resume-project-list,
+  .resume-project-rail.scrollable .resume-project-list {
+    flex-direction: row;
+    justify-content: center;
+    transform: none;
+  }
+
+  .resume-tabs {
+    position: static;
+    display: flex;
+    width: min(100%, 22rem);
+    margin: 1.5rem auto 0;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .resume-modal-header h2,
+  .resume-modal-role {
+    overflow-wrap: anywhere;
+  }
+
+  .resume-modal-content li {
+    font-size: .84rem;
+    line-height: 1.6;
+  }
+
+  .resume-skill-popover {
+    max-height: min(31rem, calc(100dvh - 1.5rem));
+    overflow-y: auto;
+  }
+
+  .projects-page .projects-main {
+    padding-inline: 1rem;
+  }
+
+  .projects-gallery,
+  .qa-project-view,
+  .projects-intro,
+  .qa-project-intro,
+  .portrait-stage,
+  .qa-project-stage,
+  .portrait-archive,
+  .qa-project-archive {
+    min-width: 0;
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .projects-gallery,
+  .qa-project-view {
+    width: calc(100vw - 1.5rem);
+    max-width: calc(100vw - 1.5rem);
+    margin-inline: auto;
+  }
+
+  .projects-intro h1,
+  .qa-project-intro h1 {
+    font-size: clamp(2.55rem, 13vw, 3.35rem);
+  }
+
+  .projects-intro h1 span,
+  .qa-project-intro h1 span {
+    white-space: normal;
+  }
+
+  .projects-note,
+  .qa-project-intro .projects-note {
+    max-width: 34rem;
+    font-size: .8rem;
+    line-height: 1.65;
+    overflow-wrap: anywhere;
+  }
+
+  .projects-filters {
+    gap: .5rem;
+  }
+
+  .projects-filter {
+    display: inline-flex;
+    align-items: center;
+    padding: .55rem .85rem;
+  }
+
+  .portrait-paper,
+  .qa-preview-card {
+    width: min(100%, 28rem);
+  }
+
+  .portrait-thumbs,
+  .qa-project-thumbs {
+    gap: .5rem;
+  }
+
+  .portrait-thumb,
+  .qa-project-thumb {
+    min-width: 0;
+  }
+
+  .qa-repository-link {
+    min-height: 2.75rem;
+    padding-block: .45rem;
+  }
+
+  .contact-page main.contact-main {
+    min-height: 0;
+    padding: 7rem 1rem 2rem;
+  }
+
+  .contact-composition,
+  .contact-card,
+  .contact-credits,
+  .contact-card > header,
+  .contact-card > form {
+    min-width: 0;
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .contact-composition,
+  .contact-card {
+    width: calc(100vw - 1.5rem);
+    max-width: calc(100vw - 1.5rem);
+    margin-inline: auto;
+  }
+
+  .contact-composition {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1.5rem;
+    margin-inline: 0;
+    transform: none;
+  }
+
+  .contact-card {
+    order: 1;
+  }
+
+  .contact-credits {
+    order: 2;
+  }
+
+  .contact-credits-window {
+    height: min(25rem, 60dvh);
+  }
+
+  .contact-card-heading {
+    grid-template-columns: minmax(0, 1fr);
+    padding: 1.25rem 1.15rem 1rem;
+  }
+
+  .contact-card-heading h1 {
+    max-width: 100%;
+    font-size: clamp(1.85rem, 8.8vw, 2.35rem);
+    line-height: 1.02;
+    white-space: normal;
+    overflow-wrap: normal;
+  }
+
+  .contact-card-heading > span {
+    padding-top: .75rem;
+    font-size: .78rem;
+    line-height: 1.6;
+  }
+
+  .contact-field {
+    min-width: 0;
+    padding-inline: 1.15rem;
+  }
+
+  .contact-page .contact-form input,
+  .contact-page .contact-form textarea {
+    min-width: 0;
+    font-size: 1rem;
+  }
+
+  .contact-form-finish {
+    align-items: center;
+    flex-wrap: wrap;
+    padding: 1rem 1.15rem 1.1rem;
+  }
+
+  .contact-page .contact-form button {
+    min-height: 3rem;
+  }
+
+  .contact-signoff {
+    min-width: 0;
+    justify-content: center;
+  }
+
+  .contact-signature {
+    width: min(52vw, 11rem);
+    transform: none;
+  }
+
+  .qa-case-card {
+    width: 100vw;
+    height: 100dvh;
+    margin: 0;
+    border-radius: 0;
+  }
+
+  .qa-case-scroll {
+    display: block;
+    padding: .75rem;
+    overflow-x: hidden;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .qa-case-hero,
+  .qa-case-method,
+  .qa-case-evidence,
+  .qa-case-takeaways {
+    min-height: 0;
+    margin-bottom: .75rem;
+    padding: 1rem;
+    overflow: visible;
+  }
+
+  .qa-case-hero h3,
+  .qa-case-section-heading h3 {
+    font-size: clamp(1.85rem, 9vw, 2.5rem);
+    line-height: 1.02;
+  }
+
+  .scope-scroll > section.active {
+    overflow-x: hidden;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .scope-scroll > section.active > * {
+    min-width: 0;
+  }
+
+  .scope-level-detail,
+  .scope-workflow-view,
+  .scope-evidence-layout,
+  .scope-pitfall-layout,
+  .scope-artifact-layout {
+    height: auto;
+    min-height: 0;
+  }
+
+  .scope-checklist-grid span {
+    height: auto;
+    min-height: 2.25rem;
+    font-size: .55rem;
+    line-height: 1.3;
+  }
+
+  .scope-section-tabs {
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .scope-section-tabs::-webkit-scrollbar {
+    display: none;
+  }
+
+  .scope-screen-controls button,
+  .scope-level-tabs button,
+  .scope-checklist-levels button,
+  .scope-workflow-switch button {
+    min-height: 2.75rem;
+  }
+
+  #qalabModal .qalab-body {
+    padding: .75rem;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  #qalabModal .qalab-testing-views span,
+  #qalabModal .qalab-evidence > nav button,
+  #qalabModal .qalab-test-groups a {
+    min-height: 2.75rem;
+  }
+}
+
+@media (max-width: 480px) {
+  header {
+    padding-inline: .85rem;
+  }
+
+  .top-nav {
+    width: 100%;
+    gap: .45rem;
+    justify-content: space-between;
+  }
+
+  .top-nav a {
+    display: inline-flex;
+    align-items: center;
+    padding-inline: .35rem;
+    font-size: .87rem;
+  }
+
+  .top-nav .divider {
+    flex: 0 0 auto;
+  }
+
+  .projects-page .projects-main,
+  .contact-page main.contact-main {
+    padding-inline: .75rem;
+  }
+
+  .portrait-thumbs,
+  .qa-project-thumbs {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .contact-form-finish {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .contact-page .contact-form button {
+    width: 100%;
+  }
+
+  .contact-signoff {
+    order: -1;
+  }
+
+  .scope-content-shell {
+    margin: .2rem;
+  }
+
+  .scope-section-tabs {
+    display: flex;
+    gap: .25rem;
+    padding: .35rem;
+  }
+
+  .scope-section-tabs button {
+    flex: 0 0 2.4rem;
+    min-height: 2.4rem;
+  }
+
+  .scope-checklist-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
