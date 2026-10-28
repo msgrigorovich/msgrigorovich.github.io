@@ -827,6 +827,10 @@ window.addEventListener('DOMContentLoaded', animateProgressBar);
 document.addEventListener('DOMContentLoaded', () => {
   const form = document.getElementById('contactForm');
   const successMessage = document.getElementById('formSuccess');
+  // Picked up by analytics.js; carries only the outcome, never the message.
+  const reportFormResult = (kind, value) => {
+    document.dispatchEvent(new CustomEvent('analytics:event', { detail: { type: 'form_result', kind, value } }));
+  };
 
   if (form) {
     form.addEventListener('submit', async (e) => {
@@ -844,6 +848,7 @@ document.addEventListener('DOMContentLoaded', () => {
           body: JSON.stringify(data)
         });
 
+        reportFormResult(response.ok ? 'success' : 'error', response.status);
         if (response.ok) {
           form.reset();
           successMessage.style.display = 'block';
@@ -854,6 +859,7 @@ document.addEventListener('DOMContentLoaded', () => {
           alert('Something went wrong. Please try again later.');
         }
       } catch (error) {
+        reportFormResult('network_error');
         alert('Error: ' + error.message);
       }
     });

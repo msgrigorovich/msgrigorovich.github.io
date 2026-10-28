@@ -21,6 +21,7 @@ Static portfolio hosted with GitHub Pages.
 │   └── images/
 │       ├── branding/       # Site-only branding assets
 │       └── games/          # Company and game artwork
+├── worker/                 # Cloudflare Worker + D1 for privacy-first telemetry
 ├── CNAME                   # Custom domain configuration
 └── favicon.png
 ```

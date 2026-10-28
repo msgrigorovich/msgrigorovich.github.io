@@ -2583,6 +2583,8 @@ const scopeScreenNames = ['Question','Context','Assess','Scope','Checklist','Inp
 function showScopeScreen(index) {
   scopeScreenIndex = Math.max(0, Math.min(index, scopeScreens.length - 1));
   scopeScreens.forEach(screen => screen.classList.toggle('active', Number(screen.dataset.scopeScreen) === scopeScreenIndex));
+  const activeScreen = scopeScreens.find(screen => Number(screen.dataset.scopeScreen) === scopeScreenIndex);
+  if (activeScreen) activeScreen.scrollTop = 0;
   scopeScreenJumps.forEach(button => button.classList.toggle('active', Number(button.dataset.scopeJump) === scopeScreenIndex));
   scopeSideJumps.forEach(button => button.classList.toggle('active', Number(button.dataset.scopeSideJump) === scopeScreenIndex));
   scopeScreenNumber.textContent = String(scopeScreenIndex + 1).padStart(2,'0');
@@ -2646,7 +2648,13 @@ function showScopeTourStep(index) {
   scopeTourText.textContent = step.text;
   scopeTourBack.disabled = scopeTourIndex === 0;
   scopeTourNext.textContent = scopeTourIndex === scopeTourSteps.length - 1 ? 'Finish' : 'Next';
-  requestAnimationFrame(positionScopeTour);
+  requestAnimationFrame(() => {
+    const target = scopeModal.querySelector(step.target);
+    if (window.matchMedia('(max-width: 820px)').matches && target) {
+      target.scrollIntoView({ block: 'center', inline: 'nearest' });
+    }
+    requestAnimationFrame(positionScopeTour);
+  });
 }
 
 function startScopeTour() { scopeTour.hidden = false; showScopeTourStep(0); }

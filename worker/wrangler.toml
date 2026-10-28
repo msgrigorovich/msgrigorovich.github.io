@@ -1,0 +1,17 @@
+name = "portfolio-telemetry"
+main = "src/index.js"
+compatibility_date = "2025-09-01"
+workers_dev = true
+preview_urls = false
+
+# Workers Logs stay disabled on purpose: request logs would contain visitor IPs.
+[observability]
+enabled = false
+
+[vars]
+ALLOWED_ORIGINS = "https://dianagrigorovich.com,https://www.dianagrigorovich.com"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "portfolio-telemetry"
+database_id = "73c6f7e8-269a-4969-b326-6a2ffd0d44c4"
