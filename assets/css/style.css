@@ -9811,7 +9811,7 @@ body.contact-inking .cursor-outline {
   }
 
   #scopeModal .scope-framework-frame {
-    height: max(34rem, 68dvh);
+    height: var(--scope-frame-height, max(34rem, 68dvh));
     margin-top: .75rem;
     overflow: hidden;
   }
@@ -9922,4 +9922,77 @@ body.contact-inking .cursor-outline {
   #scopeModal .scope-screen-controls button {
     flex: 1 1 0;
   }
+}
+
+/* Phones and touch tablets: no guided tours and no portrait magnifier.
+   Keep this media query in sync with isMobileLayout() in projects.js. */
+.portrait-mode-tabs .portrait-mode-mobile { display: none; }
+
+@media (max-width: 820px), (hover: none) and (pointer: coarse) {
+  #qaTourReplay,
+  #qaTourReplayRail,
+  #scopeTourStart,
+  #scopeTourStartRail,
+  #qalabTourStart,
+  #qalabModal .qalab-header-actions #qalabTourStartCompact,
+  .qa-scenario-run,
+  .qa-tour-layer,
+  .scope-tour,
+  .qalab-tour {
+    display: none !important;
+  }
+
+  /* Without the tour, these open the rationale and simulation panels directly. */
+  #qalabModal .qalab-header-actions #qalabOpenRationaleCompact,
+  #qalabModal .qalab-header-actions #qalabOpenSimulationCompact {
+    display: inline-grid;
+    place-items: center;
+    width: auto;
+    padding: 0 .6rem;
+  }
+
+  .portrait-mode-tabs .portrait-mode-desktop,
+  .portrait-tool-panel[data-portrait-panel="magnify"],
+  .portrait-lens,
+  #portraitModalLens {
+    display: none !important;
+  }
+
+  .portrait-mode-tabs .portrait-mode-mobile { display: inline; }
+
+  .portrait-modal-image.magnify-mode .portrait-modal-paper {
+    touch-action: auto;
+    cursor: auto;
+  }
+}
+
+/* Mobile case studies: no blank band above the footers, tighter panel footers. */
+@media (max-width: 820px) {
+  #qalabModal .qalab-footer,
+  #scopeModal .scope-footer,
+  #qaCaseModal .qa-case-footer {
+    margin-top: 0;
+  }
+
+  #qalabModal .qalab-rationale > footer,
+  #qalabModal .qalab-simulation > footer {
+    padding: .6rem .75rem;
+  }
+
+  #qaCaseModal .qa-case-evidence .qa-case-section-heading {
+    margin-top: 1.75rem;
+  }
+
+  #scopeModal .scope-footer > div > span {
+    display: none;
+  }
+
+  #scopeModal .scope-footer a {
+    white-space: nowrap;
+  }
+}
+
+/* The lab screenshot must not show through the translucent card border (HUD text slivers). */
+.qa-preview-card.qalab-preview {
+  background-clip: padding-box;
 }

@@ -131,7 +131,10 @@ let pendingModalLensPoint = null;
 let portraitModalScrollY = 0;
 let activeHighlightFigure = null;
 
-const isMobilePortraitModal = () => window.matchMedia('(max-width: 820px), (hover: none) and (pointer: coarse)').matches;
+// Phones and touch tablets. Guided tours and the magnifier are desktop-only there;
+// style.css hides their controls with the same media query.
+const isMobileLayout = () => window.matchMedia('(max-width: 820px), (hover: none) and (pointer: coarse)').matches;
+const isMobilePortraitModal = isMobileLayout;
 
 const qaScenarios = {
   events: {
@@ -603,7 +606,7 @@ function portraitModalWorkspaceMode(mode) {
 }
 
 function syncPortraitCursorMode() {
-  document.body.classList.toggle('portrait-inspecting', modalPointerInside && portraitMode === 'magnify');
+  document.body.classList.toggle('portrait-inspecting', modalPointerInside && portraitMode === 'magnify' && !isMobileLayout());
   document.body.classList.toggle('portrait-drawing', portraitModal.open && portraitMode === 'draw');
 }
 
@@ -978,27 +981,15 @@ function saveDrawingState() {
 }
 
 function updateModalLens(event) {
-  if (portraitMode !== 'magnify') return;
-  if (isMobilePortraitModal() && activeHighlightFigure) {
-    activeHighlightFigure.classList.remove('active');
-    activeHighlightFigure = null;
-    hidePortraitHighlight();
-  }
+  if (portraitMode !== 'magnify' || isMobileLayout()) return;
   const paperRect = portraitModalPaper.getBoundingClientRect();
   const imageRect = portraitModalImage.getBoundingClientRect();
-  const pointerX = event.clientX - paperRect.left;
-  const pointerY = event.clientY - paperRect.top;
+  const x = event.clientX - paperRect.left;
+  const y = event.clientY - paperRect.top;
   const imageX = event.clientX - imageRect.left;
   const imageY = event.clientY - imageRect.top;
   const lensDiameter = portraitModalLens.offsetWidth;
   const modalZoom = lensZoom;
-  const mobileOffset = isMobilePortraitModal();
-  const x = mobileOffset
-    ? clamp(pointerX - lensDiameter * 0.48, lensDiameter / 2, paperRect.width - lensDiameter / 2)
-    : pointerX;
-  const y = mobileOffset
-    ? clamp(pointerY - lensDiameter * 0.72, lensDiameter / 2, paperRect.height - lensDiameter / 2)
-    : pointerY;
   portraitModalLens.classList.add('visible');
   portraitModalLens.style.left = `${x}px`;
   portraitModalLens.style.top = `${y}px`;
@@ -1189,13 +1180,6 @@ portraitModalPaper.addEventListener('pointermove', event => {
   }
 });
 
-portraitModalPaper.addEventListener('pointerdown', event => {
-  if (portraitMode !== 'magnify' || !isMobilePortraitModal()) return;
-  event.preventDefault();
-  modalPointerInside = true;
-  updateModalLens(event);
-});
-
 portraitDrawCanvas.addEventListener('pointermove', event => {
   if (portraitMode !== 'draw') return;
   const leftButtonHeld = (event.buttons & 1) === 1;
@@ -1356,11 +1340,7 @@ portraitViewer.addEventListener('click', event => {
 });
 
 portraitModalPaper.addEventListener('click', event => {
-  if (portraitMode !== 'magnify') return;
-  if (isMobilePortraitModal()) {
-    updateModalLens(event);
-    return;
-  }
+  if (portraitMode !== 'magnify' || isMobileLayout()) return;
   const maximumSize = Number(portraitLensSize.max);
   const minimumSize = Number(portraitLensSize.min);
   setLensSize(lensSize >= maximumSize ? minimumSize : lensSize * 1.1);
@@ -1591,8 +1571,8 @@ const qalabTourSteps = [
   { target: '.qalab-telemetry-table', title: 'Keep evidence from every run', text: 'Each run becomes a structured record. A sequence of records makes gradual change visible over time.', action: 'layer-telemetry', place: 'right-center' },
   { target: '.qalab-drift-week', title: 'Detect the trend, not just a failure', text: 'Every daily run may still pass. The behavioral warning appears only when the accumulated trend crosses the accepted range.', action: 'layer-regression', place: 'right-center' },
   { target: '.qalab-verdict', title: 'Turn evidence into a QA decision', text: 'Functional checks remain green, while behavioral evidence asks the team to investigate the change before it becomes a visible failure.', action: 'verdict', place: 'right-center' },
-  { target: '.qalab-rationale', panel: 'rationale', title: 'An experiment is a natural test case', text: 'Inputs, controlled conditions, outputs and an expected range – he same structure QA already uses to arrange and assert a test.', action: 'rationale-0', place: 'right-center' },
-  { target: '.qalab-rationale', panel: 'rationale', title: 'Same discipline, different field', text: 'Standardize, repeat, measure deviation, validate. That is what makes chemistry – and QA evidence – rustworthy.', action: 'rationale-1', place: 'right-center' },
+  { target: '.qalab-rationale', panel: 'rationale', title: 'An experiment is a natural test case', text: 'Inputs, controlled conditions, outputs and an expected range – the same structure QA already uses to arrange and assert a test.', action: 'rationale-0', place: 'right-center' },
+  { target: '.qalab-rationale', panel: 'rationale', title: 'Same discipline, different field', text: 'Standardize, repeat, measure deviation, validate. That is what makes chemistry – and QA evidence – trustworthy.', action: 'rationale-1', place: 'right-center' },
   { target: '.qalab-rationale', panel: 'rationale', title: 'One stand, two purposes', text: 'A lab stand fits the world and doubles as the automated test rig, so no fake developer-only device is needed.', action: 'rationale-2', place: 'right-center' },
   { target: '.qalab-rationale', panel: 'rationale', title: 'Kept deliberately simple', text: 'No formulas or kinetics – just readable cause and effect. Anyone can follow it, and it still holds up as a test case.', action: 'rationale-3', next: 'Finish', place: 'right-center' }
 ];
@@ -1850,12 +1830,14 @@ function beginQaTour(steps, mode, { initial = true } = {}) {
 }
 
 function startQaTour() {
+  if (isMobileLayout()) return;
   qaTourScenarioKey = null;
   setQaGuidedResultVisible(false);
   beginQaTour(qaOverviewTourSteps, 'overview');
 }
 
 function startQaScenarioTour(key, continueFromOverview = false) {
+  if (isMobileLayout()) return;
   const steps = buildQaScenarioTour(key);
   if (!steps.length) return;
   qaTourScenarioKey = key;
@@ -2388,10 +2370,12 @@ function closeQalabPanels() {
   qalabRationale.hidden = true;
   qalabSimulation.hidden = true;
   clearQalabSimulation();
+  syncProjectsHash();
 }
 
 function startQalabTour(startIndex = 0, endIndex = qalabTourSteps.length - 1) {
   clearTimeout(qalabTourTimer);
+  if (isMobileLayout()) return;
   qalabRationaleFocusGeometry = null;
   selectQalabLayer('automation');
   qalabTourStartIndex = startIndex;
@@ -2404,7 +2388,28 @@ function startQalabTour(startIndex = 0, endIndex = qalabTourSteps.length - 1) {
   syncProjectsHash();
 }
 
+// Without a tour on mobile, the rationale and simulation panels open on their own.
+function openQalabPanel(panel) {
+  clearTimeout(qalabTourTimer);
+  const scrollContainer = getQalabScrollContainer();
+  if (scrollContainer) scrollContainer.scrollTop = 0;
+  qalabRationale.hidden = panel !== 'rationale';
+  qalabSimulation.hidden = panel !== 'simulation';
+  positionQalabOverlayPanels();
+  if (panel === 'rationale') {
+    clearQalabSimulation();
+    selectQalabRationale(0);
+  } else {
+    playQalabSimulation('safe');
+  }
+  syncProjectsHash();
+}
+
 function startQalabTourAtPanel(panel) {
+  if (isMobileLayout()) {
+    openQalabPanel(panel);
+    return;
+  }
   const startIndex = qalabTourSteps.findIndex(step => step.panel === panel);
   if (startIndex < 0) {
     startQalabTour(0);
@@ -2657,7 +2662,11 @@ function showScopeTourStep(index) {
   });
 }
 
-function startScopeTour() { scopeTour.hidden = false; showScopeTourStep(0); }
+function startScopeTour() {
+  if (isMobileLayout()) return;
+  scopeTour.hidden = false;
+  showScopeTourStep(0);
+}
 function endScopeTour() { scopeTour.hidden = true; scopeTourIndex = -1; }
 
 function renderScopeLevel(value, updateCalculator = false) {
@@ -2850,6 +2859,11 @@ qaScenarioButtons.forEach(button => {
   button.addEventListener('click', () => {
     setQaGuidedResultVisible(false);
     selectQaScenario(button.dataset.qaScenario);
+    // On a phone the query card is a screen or two above the scenario list.
+    if (isMobileLayout()) {
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      qaQueryCard.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' });
+    }
   });
 });
 
@@ -2984,7 +2998,23 @@ scopeArtifactButtons.forEach(button => button.addEventListener('click', () => {
   scopeArtifactButtons.forEach(option => option.classList.toggle('active', option === button));
   calculateScope();
 }));
-scopeFrameworkFrame?.addEventListener('load', () => calculateScope());
+// On phones the demo frame grows to its content height, so the case study keeps a single
+// scroll instead of a scrolling iframe nested inside the scrolling article.
+function fitScopeFrameworkFrame() {
+  const app = scopeFrameworkFrame?.contentDocument?.querySelector('.app');
+  if (!app) return;
+  const holder = scopeFrameworkFrame.parentElement;
+  if (isMobileLayout()) holder.style.setProperty('--scope-frame-height', `${Math.ceil(app.scrollHeight)}px`);
+  else holder.style.removeProperty('--scope-frame-height');
+}
+scopeFrameworkFrame?.addEventListener('load', () => {
+  calculateScope();
+  const app = scopeFrameworkFrame.contentDocument?.querySelector('.app');
+  const FrameResizeObserver = scopeFrameworkFrame.contentWindow?.ResizeObserver;
+  if (app && FrameResizeObserver) new FrameResizeObserver(fitScopeFrameworkFrame).observe(app);
+  fitScopeFrameworkFrame();
+});
+window.addEventListener('resize', fitScopeFrameworkFrame);
 window.addEventListener('message', event => {
   if (event.origin !== window.location.origin || event.source !== scopeFrameworkFrame?.contentWindow) return;
   if (event.data?.type !== 'scope-framework-change') return;
@@ -3119,6 +3149,10 @@ function currentProjectsHash() {
       if (!qalabTour.hidden) {
         const step = qalabTourSteps[qalabTourIndex];
         if (step?.panel === 'rationale' || step?.panel === 'simulation') subState = step.panel;
+      } else if (!qalabRationale.hidden) {
+        subState = 'rationale';
+      } else if (!qalabSimulation.hidden) {
+        subState = 'simulation';
       }
       if (!subState) subState = qalabLayerButtons.find(button => button.classList.contains('active'))?.dataset.qalabLayer;
       if (subState) parts.push(subState);
