@@ -1866,7 +1866,7 @@ function endQaTour(completed = true) {
   if (qaTourPreviousFocus?.isConnected) qaTourPreviousFocus.focus();
 }
 
-function setProjectCategory(category, instant = false) {
+function setProjectCategory(category) {
   const showQa = category === 'qa';
   if (showQa === !qaProjectView.hidden) return;
   if (portraitModal.open) closePortraitModal();
@@ -1884,14 +1884,12 @@ function setProjectCategory(category, instant = false) {
     syncProjectsHash();
   };
 
-  if (!instant && document.startViewTransition && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    document.startViewTransition(updateCategory);
-  } else {
-    updateCategory();
-    incomingView.classList.remove('category-arriving');
-    void incomingView.offsetWidth;
-    incomingView.classList.add('category-arriving');
-  }
+  // A plain CSS entrance instead of the View Transitions API: its page snapshots
+  // made the whole page jump sideways for a moment in some browsers.
+  updateCategory();
+  incomingView.classList.remove('category-arriving');
+  void incomingView.offsetWidth;
+  incomingView.classList.add('category-arriving');
 }
 
 function renderQaProject(project) {
@@ -3206,7 +3204,7 @@ function applyProjectsHash(hash, replace = true) {
       if (!wantsCase || project !== 'qalab') closeQalabCaseStudy();
       if (!wantsCase || project !== 'scope') closeScopeCaseStudy();
       if (!wantsCase || project !== 'sql') closeQaCaseStudy();
-      setProjectCategory('qa', true);
+      setProjectCategory('qa');
       selectQaProject(project);
       if (wantsCase) {
         if (project === 'qalab') {
@@ -3232,7 +3230,7 @@ function applyProjectsHash(hash, replace = true) {
       closeQalabCaseStudy();
       closeScopeCaseStudy();
       closeQaCaseStudy();
-      setProjectCategory('art', true);
+      setProjectCategory('art');
       const portraitIndex = second ? portraitSlugs.indexOf(second) : 0;
       if (portraitIndex >= 0) selectPortrait(portraitIndex);
       if (third === 'full') openPortraitModal();

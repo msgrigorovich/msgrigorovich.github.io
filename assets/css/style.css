@@ -3285,28 +3285,6 @@ footer {
   opacity: 1;
 }
 
-.projects-gallery,
-.qa-project-view {
-  view-transition-name: projects-category;
-}
-
-::view-transition-group(projects-category) {
-  animation-duration: 0.62s;
-  animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-::view-transition-old(projects-category) {
-  animation: projects-category-out 0.32s ease both;
-}
-
-::view-transition-new(projects-category) {
-  animation: projects-category-in 0.62s cubic-bezier(0.22, 1, 0.36, 1) both;
-}
-
-@keyframes projects-category-out {
-  to { opacity: 0; filter: blur(6px); transform: translateY(-0.65rem) scale(0.985); }
-}
-
 @keyframes projects-category-in {
   from { opacity: 0; filter: blur(8px); transform: translateY(1rem) scale(0.985); }
   to { opacity: 1; filter: blur(0); transform: translateY(0) scale(1); }
@@ -9989,6 +9967,48 @@ body.contact-inking .cursor-outline {
 
   #scopeModal .scope-footer a {
     white-space: nowrap;
+  }
+
+  /* Evidence and pitfalls: rows follow the content, so the option list never runs under the detail card. */
+  #scopeModal .scope-evidence-layout,
+  #scopeModal .scope-pitfall-layout {
+    grid-template-rows: auto auto;
+  }
+
+  #scopeModal .scope-evidence-layout article,
+  #scopeModal .scope-pitfall-layout article {
+    height: auto;
+  }
+
+  #scopeModal .scope-evidence-layout nav {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: .35rem;
+  }
+
+  #scopeModal .scope-evidence-layout nav button {
+    min-height: 0;
+    padding: .45rem .25rem;
+  }
+
+  #scopeModal .scope-evidence-layout nav button > span {
+    width: 1.6rem;
+    height: 1.6rem;
+    font-size: .75rem;
+  }
+
+  #scopeModal .scope-evidence-layout nav button b {
+    font-size: .62rem;
+  }
+
+  #scopeModal .scope-pitfall-layout nav {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: .3rem;
+  }
+
+  #scopeModal .scope-pitfall-layout nav button {
+    min-height: 2.4rem;
+    padding: .3rem .4rem;
+    font-size: .6rem;
   }
 }
 
